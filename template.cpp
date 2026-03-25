@@ -2,7 +2,49 @@
 #pragma GCC optimize("O3")
 #pragma GCC optimize("unroll-loops")
 using namespace std;
-#include<bits/stdc++.h>
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <string>
+#include <cstring>
+#include <vector>
+#include <list>
+#include <queue>
+#include <stack>
+#include <deque>
+#include <set>
+#include <map>
+#include <unordered_set>
+#include <unordered_map>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
+#include <climits>
+#include <cassert>
+#include <functional>
+#include <iterator>
+#include <utility>
+#include <complex>
+#include <bitset>
+#include <chrono>
+#include <random>
+#include <limits>
+#include <optional>
+#include <variant>
+#include <any>
+
+#include <array>
+#include <bit>
+#include <compare>
+#include <concepts>
+#include <format>
+#include <numbers>
+#include <ranges>
+#include <span>
+#include <string_view>
+#include <tuple>
+#include <type_traits>
+#include <version>
 using uint=unsigned;
 using ll=long long;
 using ull=unsigned long long;
