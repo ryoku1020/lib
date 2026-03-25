@@ -34,7 +34,7 @@ struct persistent_lazysegtree{
         pool[pool[x].r].val=Tag::Apply(pool[pool[x].r].val,pool[x].lazy);
         pool[x].lazy=Tag::id();
     }
-    persistent_lazysegtree(){}
+    persistent_lazysegtree():ptr(1),N(0),LOG(0){}
     int build(int n){
         LOG=1;
         while((1<<LOG)<n)LOG++;
