@@ -9,13 +9,15 @@ struct fps:vc<mint>{
     using vc<mint>::operator[];
     using poly=fps<mint>;
     poly& operator+=(const poly& g){
-        if(g.size()>this->size())this->resize(g.size());
-        for(int i=0;i<(int)g.size();i++)(*this)[i]+=g[i];
+        int n=g.size();
+        if(n>(int)this->size())this->resize(n);
+        for(int i=0;i<n;i++)(*this)[i]+=g[i];
         return *this;
     }
     poly& operator-=(const poly& g){
-        if(g.size()>this->size())this->resize(g.size());
-        for(int i=0;i<(int)g.size();i++)(*this)[i]-=g[i];
+        int n=g.size();
+        if(n>(int)this->size())this->resize(n);
+        for(int i=0;i<n;i++)(*this)[i]-=g[i];
         return *this;
     }
     poly& operator*=(const poly& g){
