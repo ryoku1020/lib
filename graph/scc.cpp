@@ -2,6 +2,7 @@
 #include"base.cpp"
 template<class G>
 vvc<int>scc(const G& g){
+    assert(G::directed()==true);
     int n=g.size();
     vc<int>ord,v1(n),v2(n);
     auto dfs=[&](auto&dfs,int u)->void{

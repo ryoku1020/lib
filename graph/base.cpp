@@ -7,7 +7,7 @@ struct Unweighted{
 };
 template<bool is_directed,class T=Unweighted>
 struct static_graph{
-    static bool directed(){return is_directed;}
+    constexpr static bool directed(){return is_directed;}
     struct edge{
         int from,to,id;
         [[no_unique_address]] T cost;
@@ -86,6 +86,14 @@ struct static_graph{
         return span<const edge>(inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]);
     }
     int size()const{return n;}
+    template<class F>vvc<F>adj()const{
+        vvc<F>res(n,vc<F>(n));
+        for(auto&e:all_edges()){
+            res[e.from][e.to]=e.cost;
+            if(directed()==false)res[e.to][e.from]=e.cost;
+        }
+        return res;
+    }
 };
 template<class T,class Graph>
 pair<vc<int>,T>shortest_path(const Graph&g,int s,int t){
