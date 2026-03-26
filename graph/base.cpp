@@ -1,94 +1,88 @@
 #pragma 
 #include"../template.cpp"
-template<bool is_directed,bool use_inv,class T=int>
+struct Unweighted{
+    Unweighted()=default;
+    Unweighted(int){}
+    operator int()const{return 1;}
+};
+template<bool is_directed,class T=Unweighted>
 struct static_graph{
+    static bool directed(){return is_directed;}
     struct edge{
         int from,to,id;
-        T cost;
+        [[no_unique_address]] T cost;
     };
-    int n,built=0;
-    vc<int>csr_start;
-    vc<edge>csr_edge;
-    [[no_unique_address]]conditional_t<use_inv,vc<int>,int>inv_start;
-    [[no_unique_address]]conditional_t<use_inv,vc<edge>,int>inv_edge;
-    vector<tuple<int,int,T,int>>tmp_edge;
-    vc<edge>all_edges;
-    int m;
-    static_graph(int n):n(n),csr_start(n+1),m(-1){if constexpr(use_inv)inv_start.assign(n+1,0);}
-    static_graph(int n,int m):n(n),csr_start(n+1),m(m){
-        if constexpr(use_inv)inv_start.assign(n+1,0);
-        tmp_edge.reserve(m);
-        if(m==0)build();
-    }
-    int added=0;
+    int n,m,added=0;
+    mutable bool csr_built=false,inv_built=false;
+    vc<edge>_all_edges;
+    mutable vc<int>csr_start;
+    mutable vc<edge>csr_edge;
+    mutable vc<int>inv_start;
+    mutable vc<edge>inv_edge;
+    static_graph(int n):n(n),m(-1),csr_start(n+1){}
+    static_graph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
     void add_edge(int a,int b,T cost=1){
         assert(0<=a&&a<n&&0<=b&&b<n);
-        tmp_edge.push_back({a,b,cost,added});
-        if((++added)==m)build();
+        int id=(int)_all_edges.size();
+        _all_edges.push_back({a,b,id,cost});
+        csr_built=inv_built=false;
+        if(++added==m)build();
     }
-    void build(){
-        if(built)return;
-        built=1;
-        all_edges.resize(added); 
-        for(auto&[a,b,w,id]:tmp_edge){
-            all_edges[id]={a,b,id,w};
-            csr_start[a+1]++;
-            if constexpr(use_inv)inv_start[b+1]++;
-            if constexpr(!is_directed){
-                csr_start[b+1]++;
-                if constexpr(use_inv)inv_start[a+1]++;
-            }
+    void build()const{
+        if(csr_built)return;
+        csr_built=true;
+        csr_start.assign(n+1,0);
+        for(auto&e:_all_edges){
+            csr_start[e.from+1]++;
+            if constexpr(!is_directed)csr_start[e.to+1]++;
         }
-        rep(i,n){
-            csr_start[i+1]+=csr_start[i];
-            if constexpr(use_inv)inv_start[i+1]+=inv_start[i];
-        }
+        rep(i,n)csr_start[i+1]+=csr_start[i];
         csr_edge.resize(csr_start[n]);
-        vc<int>now_s=csr_start;
-        if constexpr(use_inv){
-            inv_edge.resize(inv_start[n]);
-            vc<int>now_i=inv_start;
-            for(auto&[a,b,w,id]:tmp_edge){
-                csr_edge[now_s[a]++]={a,b,id,w};
-                inv_edge[now_i[b]++]={b,a,id,w};
-                if constexpr(!is_directed){
-                    csr_edge[now_s[b]++]={b,a,id,w};
-                    inv_edge[now_i[a]++]={a,b,id,w};
-                }
-            }
-        }else{
-            for(auto&[a,b,w,id]:tmp_edge){
-                csr_edge[now_s[a]++]={a,b,id,w};
-                if constexpr(!is_directed)csr_edge[now_s[b]++]={b,a,id,w};
-            }
+        vc<int>now=csr_start;
+        for(auto&e:_all_edges){
+            csr_edge[now[e.from]++]=e;
+            if constexpr(!is_directed)csr_edge[now[e.to]++]={e.to,e.from,e.id,e.cost};
         }
-        tmp_edge.clear();
     }
+    void build_inv()const{
+        if(inv_built)return;
+        inv_built=true;
+        inv_start.assign(n+1,0);
+        for(auto&e:_all_edges){
+            inv_start[e.to+1]++;
+            if constexpr(!is_directed)inv_start[e.from+1]++;
+        }
+        rep(i,n)inv_start[i+1]+=inv_start[i];
+        inv_edge.resize(inv_start[n]);
+        vc<int>now=inv_start;
+        for(auto&e:_all_edges){
+            inv_edge[now[e.to]++]={e.to,e.from,e.id,e.cost};
+            if constexpr(!is_directed)inv_edge[now[e.from]++]=e;
+        }
+    }
+    const vc<edge>&all_edges()const{return _all_edges;}
+    int edge_size()const{return (int)_all_edges.size();}
     edge get_edge(int id)const{
-        assert(built&&0<=id&&id<int(all_edges.size()));
-        return all_edges[id];
+        assert(0<=id&&id<edge_size());
+        return _all_edges[id];
     }
-    int deg(int u)const{assert(built);return csr_start[u+1]-csr_start[u];}
-    int in_deg(int u)const{
-        static_assert(use_inv);
-        assert(built);return inv_start[u+1]-inv_start[u];
-    }
+    int out_deg(int u)const{assert(0<=u&&u<n);build();return csr_start[u+1]-csr_start[u];}
+    int in_deg(int u)const{assert(0<=u&&u<n);build_inv();return inv_start[u+1]-inv_start[u];}
+    int deg(int u)const{return out_deg(u);}
     auto operator[](int u){
-        assert(built);
+        assert(0<=u&&u<n);build();
         return span<edge>(csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]);
     }
     auto operator[](int u)const{
-        assert(built);
+        assert(0<=u&&u<n);build();
         return span<const edge>(csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]);
     }
     auto inv(int u){
-        static_assert(use_inv);
-        assert(built);
+        assert(0<=u&&u<n);build_inv();
         return span<edge>(inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]);
     }
     auto inv(int u)const{
-        static_assert(use_inv);
-        assert(built);
+        assert(0<=u&&u<n);build_inv();
         return span<const edge>(inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]);
     }
     int size()const{return n;}
