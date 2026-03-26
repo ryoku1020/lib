@@ -69,21 +69,30 @@ struct static_graph{
     int out_deg(int u)const{assert(0<=u&&u<n);build();return csr_start[u+1]-csr_start[u];}
     int in_deg(int u)const{assert(0<=u&&u<n);build_inv();return inv_start[u+1]-inv_start[u];}
     int deg(int u)const{return out_deg(u);}
+    template<class E>
+    struct span {
+        E* l; E* r;
+        E* begin() const { return l; }
+        E* end() const { return r; }
+        int size() const { return r - l; }
+        E& operator[](int i) { return l[i]; }
+        const E& operator[](int i) const { return l[i]; }
+    };
     auto operator[](int u){
         assert(0<=u&&u<n);build();
-        return std::span<edge>(csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]);
+        return span<edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
     }
     auto operator[](int u)const{
         assert(0<=u&&u<n);build();
-        return std::span<const edge>(csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]);
+        return span<const edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
     }
     auto inv(int u){
         assert(0<=u&&u<n);build_inv();
-        return std::span<edge>(inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]);
+        return span<edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
     }
     auto inv(int u)const{
         assert(0<=u&&u<n);build_inv();
-        return std::span<const edge>(inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]);
+        return span<const edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
     }
     int size()const{return n;}
     template<class F>vvc<F>adj()const{
