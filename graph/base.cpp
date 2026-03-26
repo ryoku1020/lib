@@ -12,6 +12,7 @@ struct static_graph{
         int from,to,id;
         [[no_unique_address]] T cost;
     };
+private:
     int n,m,added=0;
     mutable bool csr_built=false,inv_built=false;
     vc<edge>_all_edges;
@@ -19,6 +20,7 @@ struct static_graph{
     mutable vc<edge>csr_edge;
     mutable vc<int>inv_start;
     mutable vc<edge>inv_edge;
+public:
     static_graph(int n):n(n),m(-1),csr_start(n+1){}
     static_graph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
     void add_edge(int a,int b,T cost=1){
