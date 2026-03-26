@@ -12,19 +12,6 @@ using mint = s_mint<998244353>;
 struct Tag {
     using lazy_type = pair<mint, mint>; // a, b
     static lazy_type Merge(lazy_type parent, lazy_type child) {
-        // applying child then parent => a_p(a_c x + b_c) + b_p
-        // = (a_p * a_c) x + a_p * b_c + b_p
-        // But Tag::Merge signature in lazy_seg.cpp:
-        // `lazy[k] = Tag::Merge(lazy[k], x);`
-        // where x is the new tag.
-        // Wait, if lazy[k] was applied before, and x is the NEW tag,
-        // then the function applied is x(lazy[k](v)).
-        // So a_new(a_old x + b_old) + b_new = a_new a_old x + a_new b_old + b_new.
-        // Wait, let's trace `all_apply(k, x)`: `node[k] = Tag::Apply(node[k], x); lazy[k] = Tag::Merge(lazy[k], x);`
-        // x is the *newer* operation. So we apply x after lazy[k].
-        // (a_x, b_x) o (a_l, b_l) = a_x(a_l * v + b_l) + b_x = a_x a_l * v + a_x b_l + b_x
-        // Thus first is child.first * parent.first, second is child.first * parent.second + child.second
-        // Here parent = lazy[k], child = x.
         return {child.first * parent.first, child.first * parent.second + child.second};
     }
     static lazy_type id() {
