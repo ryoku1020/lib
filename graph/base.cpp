@@ -150,7 +150,6 @@ pair<vc<int>,vc<int>>cycle_detection(const Graph&g){
                         }
                         reverse(all(res));reverse(all(res2));
                         res.pb(e.id);
-                        dbg(res,res2);
                         return {res2,res};
                     }
                 }
