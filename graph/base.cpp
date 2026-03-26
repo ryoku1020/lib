@@ -1,4 +1,4 @@
-#pragma 
+#pragma once
 #include"../template.cpp"
 struct Unweighted{
     Unweighted()=default;
@@ -93,6 +93,16 @@ struct static_graph{
             if(directed()==false)res[e.to][e.from]=e.cost;
         }
         return res;
+    }
+    void clear(){
+        added=0;
+        csr_built=false;
+        inv_built=false;
+        _all_edges.clear();_all_edges.shrink_to_fit();
+        csr_start.assign(n+1,0);csr_start.shrink_to_fit();
+        csr_edge.clear();csr_edge.shrink_to_fit();
+        inv_start.clear();inv_start.shrink_to_fit();
+        inv_edge.clear();inv_edge.shrink_to_fit();
     }
 };
 template<class T,class Graph>
