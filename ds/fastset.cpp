@@ -10,7 +10,7 @@ struct fastset{
     int N;
     int size;
     //fastset for val in [0,n) 
-    fastset(){}
+    fastset():n(0),N(0),size(0){}
     fastset(int n_):size(0){
         n=n_;
         N=B;
