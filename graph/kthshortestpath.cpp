@@ -5,7 +5,7 @@ struct leftist_heap{
     leftist_heap*l,*r;
     int s;
     T val;
-    int edge;
+    int edge; 
     leftist_heap():l(nullptr),r(nullptr),s(0),edge(-1){}
     static leftist_heap*new_node(){
         return new leftist_heap();
