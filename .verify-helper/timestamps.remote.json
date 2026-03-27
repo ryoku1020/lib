@@ -1,14 +1,1 @@
-{
-"test/ds/bit.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/ds/lazy_segtree.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/ds/segtree.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/ds/sparse_table.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/ds/uf.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/graph/scc.test.cpp": "2026-03-28 03:04:50 +0900",
-"test/math/convolution.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/math/two_sat.test.cpp": "2026-03-28 03:04:50 +0900",
-"test/string/number_of_substrings.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/string/suffixarray.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/tree/hld.test.cpp": "2026-03-27 09:54:26 +0000",
-"test/tree/hld_jump.test.cpp": "2026-03-27 09:54:26 +0000"
-}
+{}
