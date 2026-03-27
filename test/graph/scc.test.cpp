@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "../../graph/scc.cpp"
+#include "../../graph/scc.hpp"
 
 using namespace std;
 
@@ -12,28 +12,21 @@ int main() {
     cin.tie(nullptr);
 
     int N, M;
-    cin >> N >> M;
-    static_graph<true, int> g(N);
+    if (!(cin >> N >> M)) return 0;
+
+    StronglyConnectedComponents sc(N);
     for (int i = 0; i < M; i++) {
         int u, v;
         cin >> u >> v;
-        g.add_edge(u, v);
+        sc.add(u, v);
     }
 
-    auto comp_id = scc(g);
+    auto res = sc.do_scc();
 
-    int k = 0;
-    for (int id : comp_id) k = max(k, id + 1);
-
-    vector<vector<int>> comps(k);
-    for (int i = 0; i < N; i++) {
-        comps[comp_id[i]].push_back(i);
-    }
-
-    cout << k << "\n";
-    for (int i = 0; i < k; i++) {
-        cout << comps[i].size();
-        for (int v : comps[i]) {
+    cout << res.size() << "\n";
+    for (int i = 0; i < (int)res.size(); i++) {
+        cout << res[i].size();
+        for (int v : res[i]) {
             cout << " " << v;
         }
         cout << "\n";

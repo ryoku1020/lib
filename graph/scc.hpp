@@ -1,8 +1,8 @@
 #pragma once
 #include "CSR.hpp"
 struct StronglyConnectedComponents{
-    CSRgraph g,inv;
     int n;
+    CSRgraph g,inv;
     StronglyConnectedComponents(int n):n(n),g(n),inv(n){}
     void add(int a,int b){
         assert(0<=a&&a<n&&0<=b&&b<n);

@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/number_of_substrings"
 
-#include "../../string/lcpsuf.cpp"
+#include "../../string/lcpsuf.hpp"
 #include <iostream>
 #include <string>
 

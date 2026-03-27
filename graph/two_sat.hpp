@@ -1,8 +1,8 @@
 #pragma once
 #include "scc.hpp"
 struct TwoSatisfiability{
-    StronglyConnectedComponents sc;
     int n;
+    StronglyConnectedComponents sc;
     TwoSatisfiability(int n):n(n),sc(n*2),ans(n){}
     //a=fa or b=fb という条件を追加
     void add_clause(int a,bool fa,int b,bool fb){
@@ -29,9 +29,10 @@ struct TwoSatisfiability{
         return ans;
     }
     void work(){
-        auto res=scc(g);
-        vc<int>Id(n*2);
-        rep(i,n*2)Id[i]=res[i];
+        auto res=sc.do_scc();
+        vc<int> scc_id(n*2);
+        rep(i,res.size())for(auto&x:res[i])scc_id[x]=i;
+        auto Id = scc_id;
         rep(i,n)if(Id[i*2]==Id[i*2+1]){
             can=0;
             return;

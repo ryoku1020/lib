@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/unionfind"
 
 #include <iostream>
-#include "../../ds/uf.cpp"
+#include "../../ds/uf.hpp"
 
 using namespace std;
 
@@ -12,7 +12,7 @@ int main() {
     int n, q;
     cin >> n >> q;
 
-    dsu uf(n);
+    DisjointSetUnion uf(n);
 
     for (int i = 0; i < q; i++) {
         int t, u, v;

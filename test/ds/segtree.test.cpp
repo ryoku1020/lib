@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include "../../ds/seg.cpp"
+#include "../../ds/seg.hpp"
 #include "../../math/s_mint.cpp"
 
 using namespace std;
@@ -29,7 +29,7 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    segtree<Info> seg(N);
+    Segtree<Info> seg(N);
     for (int i = 0; i < N; i++) {
         long long a, b;
         cin >> a >> b;

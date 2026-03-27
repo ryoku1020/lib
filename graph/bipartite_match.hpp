@@ -1,11 +1,11 @@
 #pragma once
-#include "../template.hpp";
+#include "../template.hpp"
 struct BipartiteMatching{
     vc<int>pm,qm;
     int l,r;
     vvc<int>g;
     vc<int>dist;
-    BipartiteMatching(int l,int r):l(l),r(r),pm(l,-1),qm(r,-1),g(l),dist(l){}
+    BipartiteMatching(int l,int r):pm(l,-1),qm(r,-1),l(l),r(r),g(l),dist(l){}
     void add_edge(int a,int b){
         assert(0<=a&&a<l);
         assert(0<=b&&b<r);
