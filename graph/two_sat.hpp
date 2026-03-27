@@ -21,10 +21,17 @@ struct TwoSatisfiability{
     }
     vc<int>ans;
     bool can=false;
+    bool satisfiable(){
+        work();
+        return can;
+    }
+    vc<int> answer(){
+        return ans;
+    }
     void work(){
-        auto res=sc.do_scc();
+        auto res=scc(g);
         vc<int>Id(n*2);
-        rep(i,res.size())for(auto&x:res[i])Id[x]=i;
+        rep(i,n*2)Id[i]=res[i];
         rep(i,n)if(Id[i*2]==Id[i*2+1]){
             can=0;
             return;
