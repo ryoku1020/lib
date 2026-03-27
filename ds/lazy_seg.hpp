@@ -16,11 +16,13 @@ struct LazySegmentTree{
             return Info::e();
         }
     }
+    int N;
     int n;
     int lg;
     vc<value_type>node;
     vc<lazy_type>lazy;
-    void build(int N){
+    void build(int N_){
+        N=N_;
         lg=0;
         while((1<<lg)<N)lg++;
         n=1<<lg;
