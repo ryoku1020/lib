@@ -1,27 +1,34 @@
 #pragma once
 #include"scc.cpp"
 struct two_sat{
-    scc sc;
+    static_graph<true, int> g;
     int n;
-    two_sat(int n):n(n),sc(n*2),ans(n){}
+    two_sat(int n):g(n*2),n(n),ans(n){}
     //a=fa or b=fb という条件を追加
     void add_clause(int a,bool fa,int b,bool fb){
-        sc.add(a*2+(!fa),b*2+fb);
-        sc.add(b*2+(!fb),a*2+fa);
+        g.add_edge(a*2+(!fa),b*2+fb);
+        g.add_edge(b*2+(!fb),a*2+fa);
     }
     void if_then(int a,bool fa,int b,bool fb){
-        sc.add(a*2+fa,b*2+fb);
-        sc.add(b*2+(!fb), a*2+(!fa));
+        g.add_edge(a*2+fa,b*2+fb);
+        g.add_edge(b*2+(!fb), a*2+(!fa));
     }
     void set_value(int a,bool fa){
-        sc.add(a*2+(!fa),a*2+fa);
+        g.add_edge(a*2+(!fa),a*2+fa);
     }
     vc<int>ans;
     bool can=false;
+    bool satisfiable(){
+        work();
+        return can;
+    }
+    vc<int> answer(){
+        return ans;
+    }
     void work(){
-        auto res=sc.do_scc();
+        auto res=scc(g);
         vc<int>Id(n*2);
-        rep(i,res.size())for(auto&x:res[i])Id[x]=i;
+        rep(i,n*2)Id[i]=res[i];
         rep(i,n)if(Id[i*2]==Id[i*2+1]){
             can=0;
             return;

@@ -2,7 +2,7 @@
 #include"../template.cpp"
 template<class X>
 struct sparse_table{
-    using V=X::value_type;
+    using V=typename X::value_type;
     int lg;
     int n;
     vvc<V>table;

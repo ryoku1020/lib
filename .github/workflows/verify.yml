@@ -3,30 +3,34 @@ name: verify
 on:
   push:
     branches:
-    - main
+      - master
+      - main
   pull_request:
 
 jobs:
-  verify:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
 
     - name: Install dependencies
-      run: pip3 install online-judge-verify-helper setuptools==69.5.1
+      run: |
+        python -m pip install --upgrade pip
+        pip install online-judge-verify-helper setuptools==69.5.1
 
     - name: Run tests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        YOSUPO_JUDGE_CPLUSPLUS_COMPILER: "g++"
+        YOSUPO_JUDGE_CXX: g++
+        YOSUPO_JUDGE_CPLUSPLUS_COMPILER: g++
       run: oj-verify all
