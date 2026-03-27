@@ -8,6 +8,7 @@ struct Unweighted{
 template<bool is_directed,class T=Unweighted>
 struct static_graph{
     constexpr static bool directed(){return is_directed;}
+    using inverse_type=static_graph<is_directed^1,T>;
     struct edge{
         int from,to,id;
         [[no_unique_address]] T cost;
@@ -103,6 +104,22 @@ struct static_graph{
         csr_edge.clear();csr_edge.shrink_to_fit();
         inv_start.clear();inv_start.shrink_to_fit();
         inv_edge.clear();inv_edge.shrink_to_fit();
+    }
+    static_graph to_simple()const{
+        static_graph res(n);
+        vc<pair<int,int>>es;
+        es.reserve(_all_edges.size());
+        for(auto&e:_all_edges){
+            if(e.from==e.to)continue;
+            int u=e.from,v=e.to;
+            if constexpr(!is_directed)if(u>v)std::swap(u,v);
+            es.push_back({u,v});
+        }
+        std::sort(es.begin(),es.end());
+        es.erase(std::unique(es.begin(),es.end()),es.end());
+        for(auto&p:es)res.add_edge(p.first,p.second);
+        res.build();
+        return res;
     }
 };
 template<class T,class Graph>
