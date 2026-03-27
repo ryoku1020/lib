@@ -2,10 +2,10 @@
 #include "../template.hpp"
 #include "../graph/CSR.hpp"
 struct HeavyLightDecomposition{
-    CSRgraph gfirst,g;
     int n;
+    CSRgraph gfirst,g;
     vc<int>in,out,head,size,par,depth,ord;
-    HeavyLightDecomposition(int n):n(n),gfirst(n),g(n),head(n,0),size(n,1),in(n),out(n),par(n,-1),depth(n){}
+    HeavyLightDecomposition(int n):n(n),gfirst(n),g(n),in(n),out(n),head(n,0),size(n,1),par(n,-1),depth(n){}
     void add_edge(int a,int b){
         gfirst.add_edge(a,b);
         gfirst.add_edge(b,a);

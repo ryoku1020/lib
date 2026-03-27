@@ -3,14 +3,14 @@
 #include <iostream>
 #include <vector>
 #include "../../ds/seg.hpp"
-#include "../../math/s_mint.cpp"
+#include "../../math/s_mint.hpp"
 
 using namespace std;
 
-using mint = s_mint<998244353>;
+using mint = StaticModInt<998244353>;
 
 struct Info {
-    using value_type = pair<mint, mint>; // a, b for ax+b
+    using value_type = std::pair<mint, mint>; // a, b for ax+b
     static value_type op(value_type a, value_type b) {
         // b(a(x)) = b.a * a.a * x + b.a * a.b + b.b
         return {b.first * a.first, b.first * a.second + b.second};
@@ -29,7 +29,7 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    Segtree<Info> seg(N);
+    SegmentTree<Info> seg(N);
     for (int i = 0; i < N; i++) {
         long long a, b;
         cin >> a >> b;
