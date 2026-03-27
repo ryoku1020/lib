@@ -5,14 +5,20 @@ struct Unweighted{
     Unweighted(int){}
     operator int()const{return 1;}
 };
+template<class T=Unweighted>
+struct edge{
+    int from,to,id;
+    [[no_unique_address]] T cost;
+    #ifdef LOCAL
+    friend ostream&operator<<(ostream&os,const edge&e){
+        return os<<"{from:"<<e.from<<",to:"<<e.to<<",id:"<<e.id<<",cost:"<<e.cost<<"}";
+    }
+    #endif
+};
 template<bool is_directed,class T=Unweighted>
 struct static_graph{
     constexpr static bool directed(){return is_directed;}
-    using inverse_type=static_graph<is_directed^1,T>;
-    struct edge{
-        int from,to,id;
-        [[no_unique_address]] T cost;
-    };
+using edge=edge<T>;
 private:
     int n,m,added=0;
     mutable bool csr_built=false,inv_built=false;
@@ -24,9 +30,9 @@ private:
 public:
     static_graph(int n):n(n),m(-1),csr_start(n+1){}
     static_graph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
-    void add_edge(int a,int b,T cost=1){
+    void add_edge(int a,int b,T cost=1,int id=-1){
         assert(0<=a&&a<n&&0<=b&&b<n);
-        int id=(int)_all_edges.size();
+        if(id==-1)id=(int)_all_edges.size();
         _all_edges.push_back({a,b,id,cost});
         csr_built=inv_built=false;
         if(++added==m)build();
@@ -116,20 +122,31 @@ public:
         inv_start.clear();inv_start.shrink_to_fit();
         inv_edge.clear();inv_edge.shrink_to_fit();
     }
-    static_graph to_simple()const{
-        static_graph res(n);
-        vc<pair<int,int>>es;
-        es.reserve(_all_edges.size());
+    template<class F>
+    void sort(int i,F f){
+        assert(0<=i&&i<n);
+        build();
+        sort(csr_edge.begin()+csr_start[i],csr_edge.begin()+csr_start[i+1],f);
+    }
+    template<class F>
+    void sort_inv(int i,F f){
+        assert(0<=i&&i<n);
+        build_inv();
+        sort(inv_edge.begin()+inv_start[i],inv_edge.begin()+inv_start[i+1],f);
+    }
+    template<class F>
+    static_graph<is_directed,T>extract(F f)const{
+        static_graph<is_directed,T>res(n);
+        for(auto&e:_all_edges)if(f(e))res.add_edge(e.from,e.to,e.cost,e.id);
+        return res;
+    }
+    template<class F>
+    static_graph<1,T>reorder(F f)const{
+        static_graph<1,T>res(n);
         for(auto&e:_all_edges){
-            if(e.from==e.to)continue;
-            int u=e.from,v=e.to;
-            if constexpr(!is_directed)if(u>v)std::swap(u,v);
-            es.push_back({u,v});
+            if(f(e))res.add_edge(e.from,e.to,e.cost,e.id);
+            else res.add_edge(e.to,e.from,e.cost,e.id);
         }
-        std::sort(es.begin(),es.end());
-        es.erase(std::unique(es.begin(),es.end()),es.end());
-        for(auto&p:es)res.add_edge(p.first,p.second);
-        res.build();
         return res;
     }
 };
