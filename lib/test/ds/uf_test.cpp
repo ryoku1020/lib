@@ -1,4 +1,4 @@
-#include "ds/uf.cpp"
+#include "ds/uf.hpp"
 #include <cassert>
 #include <iostream>
 #include <vector>
@@ -83,7 +83,7 @@ struct NaiveExtraDSU {
 int add_op(int a, int b) { return a + b; }
 
 void random_test(int n, int q) {
-    dsu uf(n);
+    DisjointSetUnion uf(n);
     NaiveDSU naive(n);
 
     std::mt19937 rng(42);
@@ -108,7 +108,7 @@ void random_test(int n, int q) {
 }
 
 void random_test_extra(int n, int q) {
-    extra_dsu<int, add_op> uf(n, 1);
+    ExtraDisjointSetUnion<int, add_op> uf(n, 1);
     NaiveExtraDSU<int, add_op> naive(n, 1);
 
     std::mt19937 rng(43);
@@ -146,9 +146,9 @@ int main() {
 
     const int N2 = 1000;
     const int Q2 = 100000; // 1000 * 100000 = 1e8
-    std::cout << "Running random tests for extra_dsu (N=" << N2 << ", Q=" << Q2 << ")..." << std::endl;
+    std::cout << "Running random tests for ExtraDisjointSetUnion (N=" << N2 << ", Q=" << Q2 << ")..." << std::endl;
     random_test_extra(N2, Q2);
-    std::cout << "extra_dsu random tests passed!" << std::endl;
+    std::cout << "ExtraDisjointSetUnion random tests passed!" << std::endl;
 
     std::cout << "All tests passed!" << std::endl;
     return 0;
