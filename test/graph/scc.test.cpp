@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "../../graph/scc.cpp"
+#include "../../graph/scc.hpp"
 
 using namespace std;
 
@@ -20,7 +20,7 @@ int main() {
         g.add_edge(u, v);
     }
 
-    auto comp_id = scc(g);
+    auto comp_id = StronglyConnectedComponents(g);
 
     int k = 0;
     for (int id : comp_id) k = max(k, id + 1);

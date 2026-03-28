@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/jump_on_tree"
 
-#include "../../tree/HLD.cpp"
+#include "../../tree/HLD.hpp"
 #include <iostream>
 
 using namespace std;
@@ -11,11 +11,11 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    HLD hld(N);
+    HeavyLightDecomposition hld(N);
     for (int i = 0; i < N - 1; i++) {
         int u, v;
         cin >> u >> v;
-        hld.ae(u, v);
+        hld.add_edge(u, v);
     }
     hld.build();
 

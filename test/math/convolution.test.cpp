@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include "../../math/conv.cpp"
+#include "../../math/conv.hpp"
 
 using namespace std;
 using namespace atcoder;
