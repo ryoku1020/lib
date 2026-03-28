@@ -1,6 +1,6 @@
 ---
 title: Segtree (セグメント木)
-documentation_of: ./seg.cpp
+documentation_of: ./seg.hpp
 ---
 
 # Segtree (セグメント木)

@@ -1,6 +1,6 @@
 ---
 title: BIT (Binary Indexed Tree / Fenwick Tree)
-documentation_of: ./BIT.cpp
+documentation_of: ./BIT.hpp
 ---
 
 # BIT (Binary Indexed Tree / Fenwick Tree)

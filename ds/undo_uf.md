@@ -1,6 +1,6 @@
 ---
 title: Undo UnionFind (Rollback付きUnion-Find)
-documentation_of: ./undo_uf.cpp
+documentation_of: ./undo_uf.hpp
 ---
 
 # Undo UnionFind (Rollback付きUnion-Find)
