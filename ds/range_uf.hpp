@@ -1,29 +1,6 @@
 #pragma once
-#include "template.hpp"
-struct DisjointSetUnion{
-    mint ans;
-    vc<mint>w;
-    vc<int>par;
-    DisjointSetUnion(int n):par(n,-1),w(n),ans(0){}
-    void set(int i,mint x){w[i]=x;}
-    int root(int x){
-        if(par[x]<0)return x;
-        return par[x]=root(par[x]);
-    }
-    int same(int a,int b){
-        return root(a)==root(b);
-    }
-    int merge(int a,int b){
-        a=root(a),b=root(b);
-        if(a==b)return 0;
-        if(-par[a]<-par[b])swap(a,b);
-        par[a]+=par[b];
-        par[b]=a;
-        ans+=w[a]*w[b];
-        w[a]+=w[b];
-        return 1;
-    }
-};
+#include"../template.hpp"
+#include"uf.hpp"
 struct SuperDisjointSetUnion{
     int n;
     int lg;

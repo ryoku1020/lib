@@ -1,5 +1,5 @@
 #pragma once
-#include "template.hpp"
+#include "../template.hpp"
 struct UndoableUnionFind {
     std::vector<int>par;
     std::stack<std::pair<int, int>>history;

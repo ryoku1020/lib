@@ -1,5 +1,5 @@
 #pragma once
-#include"../template.cpp"
+#include"../template.hpp"
 struct Unweighted{
     Unweighted()=default;
     Unweighted(int){}

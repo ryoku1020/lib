@@ -1,5 +1,5 @@
 #pragma once
-#include"base.cpp"
+#include"base.hpp"
 template<class G,class F>
 void enumerate_clique(const G&g,F f){
     static_assert(G::directed()==false);
