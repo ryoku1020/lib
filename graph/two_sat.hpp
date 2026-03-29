@@ -1,23 +1,24 @@
 #pragma once
 #include "scc.hpp"
+#include "base.hpp"
 struct TwoSatisfiability{
-    StronglyConnectedComponents sc;
+    static_graph<1>g;
     int n;
-    TwoSatisfiability(int n):n(n),sc(n*2),ans(n){}
+    TwoSatisfiability(int n):n(n),g(n*2),ans(n){}
     //a=fa or b=fb という条件を追加
     void add_clause(int a,bool fa,int b,bool fb){
         assert(0<=a&&a<n&&0<=b&&b<n);
-        sc.add(a*2+(!fa),b*2+fb);
-        sc.add(b*2+(!fb),a*2+fa);
+        g.add_edge(a*2+(!fa),b*2+fb);
+        g.add_edge(b*2+(!fb),a*2+fa);
     }
     void if_then(int a,bool fa,int b,bool fb){
         assert(0<=a&&a<n&&0<=b&&b<n);
-        sc.add(a*2+fa,b*2+fb);
-        sc.add(b*2+(!fb), a*2+(!fa));
+        g.add_edge(a*2+fa,b*2+fb);
+        g.add_edge(b*2+(!fb), a*2+(!fa));
     }
     void set_value(int a,bool fa){
         assert(0<=a&&a<n);
-        sc.add(a*2+(!fa),a*2+fa);
+        g.add_edge(a*2+(!fa),a*2+fa);
     }
     vc<int>ans;
     bool can=false;
