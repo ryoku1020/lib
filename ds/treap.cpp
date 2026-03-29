@@ -1,6 +1,6 @@
 #pragma once
 #include"noninfo.cpp"
-template<class Info=Noninfo,class Tag=Nontag>
+template<class Info=Noninfo,class Tag=Nontag<Info>>
 struct treap{
     using value_type=Info::value_type;
     using lazy_type=Tag::lazy_type;
