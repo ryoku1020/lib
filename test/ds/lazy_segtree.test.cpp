@@ -2,25 +2,12 @@
 
 #include <iostream>
 #include <vector>
-#include "../../ds/lazy_seg.cpp"
-#include "../../math/s_mint.cpp"
+#include "../../ds/lazy_seg.hpp"
+#include "../../math/s_mint.hpp"
 
 using namespace std;
 
-using mint = s_mint<998244353>;
-
-struct Tag {
-    using lazy_type = pair<mint, mint>; // a, b
-    static lazy_type Merge(lazy_type parent, lazy_type child) {
-        return {child.first * parent.first, child.first * parent.second + child.second};
-    }
-    static lazy_type id() {
-        return {1, 0};
-    }
-    static pair<mint, mint> Apply(pair<mint, mint> node, lazy_type tag) {
-        return {node.first * tag.first + node.second * tag.second, node.second};
-    }
-};
+using mint = StaticModInt<998244353>;
 
 struct Info {
     using value_type = pair<mint, mint>; // sum, len
@@ -35,6 +22,20 @@ struct Info {
     }
 };
 
+struct Tag {
+    using lazy_type = pair<mint, mint>; // a, b
+    static lazy_type Merge(lazy_type parent, lazy_type child) {
+        return {child.first * parent.first, child.first * parent.second + child.second};
+    }
+    static lazy_type id() {
+        return {1, 0};
+    }
+    static Info::value_type Apply(Info::value_type node, lazy_type lazy_type) {
+        return {node.first * lazy_type.first + node.second * lazy_type.second, node.second};
+    }
+};
+
+
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
@@ -48,7 +49,7 @@ int main() {
         A[i] = {x, 1};
     }
 
-    lazy_segtree<Info, Tag> seg(N, A);
+    LazySegmentTree<Info, Tag> seg(N, A);
 
     for (int i = 0; i < Q; i++) {
         int type;

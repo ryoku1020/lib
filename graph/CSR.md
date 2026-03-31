@@ -1,6 +1,6 @@
 ---
 title: CSR Graph (Compressed Sparse Row 形式のグラフ)
-documentation_of: ./CSR.cpp
+documentation_of: ./CSR.hpp
 ---
 
 # CSR Graph (Compressed Sparse Row 形式のグラフ)

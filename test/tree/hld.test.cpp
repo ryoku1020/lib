@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/lca"
 
-#include "../../tree/HLD.cpp"
+#include "../../tree/HLD.hpp"
 #include <iostream>
 
 using namespace std;
@@ -11,11 +11,11 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    HLD hld(N);
+    HeavyLightDecomposition hld(N);
     for (int i = 1; i < N; i++) {
         int p;
         cin >> p;
-        hld.ae(i, p);
+        hld.add_edge(i, p);
     }
     hld.build();
 

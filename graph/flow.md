@@ -1,6 +1,6 @@
 ---
 title: Max Flow (最大流 / Dinic 法)
-documentation_of: ./flow.cpp
+documentation_of: ./flow.hpp
 ---
 
 # Max Flow (最大流 / Dinic 法)

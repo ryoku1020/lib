@@ -1,6 +1,6 @@
 ---
 title: Lazy Segtree (遅延セグメント木)
-documentation_of: ./lazy_seg.cpp
+documentation_of: ./lazy_seg.hpp
 ---
 
 # Lazy Segtree (遅延セグメント木)

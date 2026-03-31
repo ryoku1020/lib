@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include "../../graph/two_sat.cpp"
+#include "../../graph/two_sat.hpp"
 
 using namespace std;
 
@@ -14,7 +14,7 @@ int main() {
     int n, m;
     cin >> p >> cnf >> n >> m;
 
-    two_sat ts(n);
+    TwoSatisfiability ts(n);
     for (int i = 0; i < m; i++) {
         int u, v, w;
         cin >> u >> v >> w;

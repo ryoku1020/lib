@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "../../ds/sparse_table.cpp"
+#include "../../ds/sparse_table.hpp"
 
 using namespace std;
 
@@ -23,7 +23,7 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    sparse_table<Info> st(N);
+    SparseTable<Info> st(N);
     for (int i = 0; i < N; i++) {
         long long a;
         cin >> a;

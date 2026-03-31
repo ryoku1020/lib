@@ -2,12 +2,12 @@
 
 #include <iostream>
 #include <vector>
-#include "../../ds/seg.cpp"
-#include "../../math/s_mint.cpp"
+#include "../../ds/seg.hpp"
+#include "../../math/StaticModInt.hpp"
 
 using namespace std;
 
-using mint = s_mint<998244353>;
+using mint = StaticModInt<998244353>;
 
 struct Info {
     using value_type = pair<mint, mint>; // a, b for ax+b
@@ -29,11 +29,11 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    segtree<Info> seg(N);
+    SegmentTree<Info> seg(N);
     for (int i = 0; i < N; i++) {
         long long a, b;
         cin >> a >> b;
-        seg.set(i, {a, b});
+        seg.update(i, {a, b});
     }
 
     for (int i = 0; i < Q; i++) {
@@ -43,7 +43,7 @@ int main() {
             int p;
             long long c, d;
             cin >> p >> c >> d;
-            seg.set(p, {c, d});
+            seg.update(p, {c, d});
         } else {
             int l, r;
             long long x;
