@@ -214,7 +214,7 @@ template<class T=ll>
 constexpr T POW(T a,T b){
     return b==0?1:POW(a,b-1)*a;
 }
-constexpr int ten(ll a){
+constexpr ll ten(ll a){
     return POW<ll>(10,a);
 }
 template<class T>
