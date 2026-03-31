@@ -55,12 +55,14 @@ using i128=__int128;
 template<class T>using vc=vector<T>;
 template<class T>using vvc=vc<vc<T>>;
 template<class T>using vvvc=vvc<vc<T>>;
-using vi=vc<int>;
-using vvi=vc<vi>;
-using vvvi=vc<vvi>;
-using vl=vc<ll>;
-using vvl=vc<vl>;
-using vvvl=vc<vvl>;
+#define vec(d,T,n,...) vec_##d(T,n,__VA_ARGS__)
+#define vec_1(T,n,a) vector<T> n(a)
+#define vec_2(T,n,a,b) vector<vector<T>> n(a,vector<T>(b))
+#define vec_3(T,n,a,b,c) vector<vector<vector<T>>> n(a,vector<vector<T>>(b,vector<T>(c)))
+#define vec_4(T,n,a,b,c,d) vector<vector<vector<vector<T>>>> n(a,vector<vector<vector<T>>>(b,vector<vector<T>>(c,vector<T>(d))))
+#define vec_5(T,n,a,b,c,d,e) vector<vector<vector<vector<vector<T>>>>> n(a,vector<vector<vector<vector<T>>>>(b,vector<vector<vector<T>>>(c,vector<vector<T>>(d,vector<T>(e)))))
+#define vec_6(T,n,a,b,c,d,e,f) vector<vector<vector<vector<vector<vector<T>>>>>> n(a,vector<vector<vector<vector<vector<T>>>>>(b,vector<vector<vector<vector<T>>>>(c,vector<vector<vector<T>>>(d,vector<vector<T>>(e,vector<T>(f))))))
+#define vec_7(T,n,a,b,c,d,e,f,g) vector<vector<vector<vector<vector<vector<vector<T>>>>>>> n(a,vector<vector<vector<vector<vector<vector<T>>>>>>(b,vector<vector<vector<vector<vector<T>>>>>(c,vector<vector<vector<vector<T>>>>(d,vector<vector<vector<T>>>(e,vector<vector<T>>(f,vector<T>(g)))))))
 template<class T>using smpq=priority_queue<T,vector<T>,greater<T>>;
 template<class T>using bipq=priority_queue<T>;
 #define rep(i,n) for(ll i=0;i<(ll)(n);i++)
@@ -173,8 +175,8 @@ template<class T>
 T min(vc<T>&a){
     return *min_element(all(a));
 }
-vvi readgraph(int n,int m,int off = -1){
-    vvi g(n);
+vvc<int>readgraph(int n,int m,int off = -1){
+    vvc<int> g(n);
     rep(i, m){
         int u,v;
         cin>>u>>v;
@@ -184,7 +186,7 @@ vvi readgraph(int n,int m,int off = -1){
     }
     return g;
 }
-vvi readtree(int n,int off=-1){
+vvc<int> readtree(int n,int off=-1){
     return readgraph(n,n-1,off);
 }
 template<class T,class L=ll>
