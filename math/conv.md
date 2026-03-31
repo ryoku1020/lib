@@ -1,6 +1,6 @@
 ---
 title: Convolution (畳み込み)
-documentation_of: ./conv.cpp
+documentation_of: ./conv.hpp
 ---
 
 # Convolution (畳み込み)

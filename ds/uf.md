@@ -1,6 +1,6 @@
 ---
 title: UnionFind (dsu / extra_dsu)
-documentation_of: ./uf.cpp
+documentation_of: ./uf.hpp
 ---
 
 # UnionFind (dsu / extra_dsu)

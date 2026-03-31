@@ -1,6 +1,6 @@
 ---
 title: Mod Math (組み合わせ・モジュロ演算・平方根)
-documentation_of: ./mod.cpp
+documentation_of: ./mod.hpp
 ---
 
 # Mod Math (組み合わせ・モジュロ演算・平方根)

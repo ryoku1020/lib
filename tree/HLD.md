@@ -1,6 +1,6 @@
 ---
 title: Heavy-Light Decomposition (HL分解)
-documentation_of: ./HLD.cpp
+documentation_of: ./HLD.hpp
 ---
 
 # Heavy-Light Decomposition (HL分解)

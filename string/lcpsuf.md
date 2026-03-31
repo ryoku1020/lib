@@ -1,6 +1,6 @@
 ---
 title: Suffix Array & LCP Array (接尾辞配列と最長共通接頭辞)
-documentation_of: ./lcpsuf.cpp
+documentation_of: ./lcpsuf.hpp
 ---
 
 # Suffix Array & LCP Array (接尾辞配列と最長共通接頭辞)
