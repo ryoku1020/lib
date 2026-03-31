@@ -147,7 +147,7 @@ void No(){
 }
 template<class T=ll>
 T isqrt(T x){
-    ll F=sqrtl(x);
+    T F=sqrtl(x);
     while((F+1)*(F+1)<=x)F++;
     while(F*F>x)F--;
     return F;
