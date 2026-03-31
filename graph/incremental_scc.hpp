@@ -1,10 +1,10 @@
 #pragma once
-#include"base.cpp"
-#include"scc.cpp"
-#include"../ds/uf.cpp"
+#include"base.hpp"
+#include"scc.hpp"
+#include"../ds/uf.hpp"
 struct incremental_scc{
     int n;
-    dsu dsu1;
+    DisjointSetUnion dsu1;
     vc<int>id;
     vc<int>used;
     incremental_scc(int n=0):n(n),dsu1(n),id(n),used(n){}

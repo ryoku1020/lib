@@ -1,9 +1,10 @@
 #pragma once
 #include "scc.hpp"
+#include "base.hpp"
 struct TwoSatisfiability{
-    StronglyConnectedComponents sc;
+    static_graph<1>g;
     int n;
-    TwoSatisfiability(int n):n(n),sc(n*2),ans(n){}
+    TwoSatisfiability(int n):n(n),g(n*2),ans(n){}
     //a=fa or b=fb という条件を追加
     void add_clause(int a,bool fa,int b,bool fb){
         assert(0<=a&&a<n&&0<=b&&b<n);
