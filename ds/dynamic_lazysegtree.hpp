@@ -98,7 +98,7 @@ struct DynamicLazySegmentTree{
             sztype mid=(sl+sr)>>1;
             dfs(dfs,sl,mid,pool[root].l,depth-1);
             dfs(dfs,mid,sr,pool[root].r,depth-1);
-            pool[root].val = Info::op(pool[pool[root].l].val, pool[pool[root].r].val);
+            pool[root].val=Info::op(pool[pool[root].l].val,pool[pool[root].r].val);
         };
         return dfs(dfs,0,N,root,LOG);
     }
