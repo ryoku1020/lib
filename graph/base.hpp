@@ -79,13 +79,13 @@ public:
     int in_deg(int u)const{assert(0<=u&&u<n);build_inv();return inv_start[u+1]-inv_start[u];}
     int deg(int u)const{return out_deg(u);}
     template<class E>
-    struct span {
-        E* l; E* r;
-        E* begin() const { return l; }
-        E* end() const { return r; }
-        int size() const { return r - l; }
-        E& operator[](int i) { return l[i]; }
-        const E& operator[](int i) const { return l[i]; }
+    struct span{
+        E*l; E* r;
+        E*begin()const{return l;}
+        E*end()const{return r;}
+        int size()const{return r-l;}
+        E&operator[](int i){return l[i];}
+        const E&operator[](int i)const{return l[i];}
     };
     auto operator[](int u){
         assert(0<=u&&u<n);build();
