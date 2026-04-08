@@ -2,12 +2,16 @@
 #include "../template.hpp"
 template<class X>
 struct SparseTable{
-    using V=X::value_type;
+    using V=typename X::value_type;
     int lg;
     int n;
     vvc<V>table;
     SparseTable(int N){
         lg=0;
+        if(N==0){
+            n=0;
+            return;
+        }
         while((1<<lg)<=N)lg++;
         lg--;
         n=N;

@@ -18,15 +18,15 @@ struct edge{
 template<bool is_directed,class T=Unweighted>
 struct static_graph{
     constexpr static bool directed(){return is_directed;}
-using edge=edge<T>;
+using edge_type=edge<T>;
 private:
     int n,m,added=0;
     mutable bool csr_built=false,inv_built=false;
-    vc<edge>_all_edges;
+    vc<edge_type>_all_edges;
     mutable vc<int>csr_start;
-    mutable vc<edge>csr_edge;
+    mutable vc<edge_type>csr_edge;
     mutable vc<int>inv_start;
-    mutable vc<edge>inv_edge;
+    mutable vc<edge_type>inv_edge;
 public:
     static_graph(int n):n(n),m(-1),csr_start(n+1){}
     static_graph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
@@ -69,9 +69,9 @@ public:
             if constexpr(!is_directed)inv_edge[now[e.from]++]=e;
         }
     }
-    const vc<edge>&all_edges()const{return _all_edges;}
+    const vc<edge_type>&all_edges()const{return _all_edges;}
     int edge_size()const{return (int)_all_edges.size();}
-    edge get_edge(int id)const{
+    edge_type get_edge(int id)const{
         assert(0<=id&&id<edge_size());
         return _all_edges[id];
     }
@@ -89,19 +89,19 @@ public:
     };
     auto operator[](int u){
         assert(0<=u&&u<n);build();
-        return span<edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
+        return span<edge_type>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
     }
     auto operator[](int u)const{
         assert(0<=u&&u<n);build();
-        return span<const edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
+        return span<const edge_type>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
     }
     auto inv(int u){
         assert(0<=u&&u<n);build_inv();
-        return span<edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
+        return span<edge_type>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
     }
     auto inv(int u)const{
         assert(0<=u&&u<n);build_inv();
-        return span<const edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
+        return span<const edge_type>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
     }
     int size()const{return n;}
     template<class F>vvc<F>adj()const{

@@ -26,6 +26,10 @@ struct SegmentTree{
     SegmentTree(int n=0){
         N=1;
         lg=0;
+        if(n==0){
+            node.clear();
+            return;
+        }
         while(N<n)N*=2,++lg;
         node.resize(N*2,Info::leaf());
         DREP(i,N-1,1)update(i);
@@ -34,6 +38,10 @@ struct SegmentTree{
     SegmentTree(int n,F f){
         N=1;
         lg=0;
+        if(n==0){
+            node.clear();
+            return;
+        }
         while(N<n)N*=2,++lg;
         node.resize(N*2,Info::e());
         for(int i=N;i<N+n;i++){

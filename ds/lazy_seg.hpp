@@ -24,6 +24,10 @@ struct LazySegmentTree{
     void build(int N_){
         N=N_;
         lg=0;
+        if(N_==0){
+            n=0;
+            return;
+        }
         while((1<<lg)<N)lg++;
         n=1<<lg;
         node=vc<value_type>(n*2,Info::e());

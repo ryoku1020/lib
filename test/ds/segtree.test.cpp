@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "../../ds/seg.hpp"
-#include "../../math/StaticModInt.hpp"
+#include "../../math/s_mint.hpp"
 
 using namespace std;
 
@@ -33,7 +33,7 @@ int main() {
     for (int i = 0; i < N; i++) {
         long long a, b;
         cin >> a >> b;
-        seg.update(i, {a, b});
+        seg.set(i, {a, b});
     }
 
     for (int i = 0; i < Q; i++) {
@@ -43,7 +43,7 @@ int main() {
             int p;
             long long c, d;
             cin >> p >> c >> d;
-            seg.update(p, {c, d});
+            seg.set(p, {c, d});
         } else {
             int l, r;
             long long x;

@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_add_range_sum"
 
 #include <iostream>
-#include "../../ds/BinaryIndexedTree.hpp"
+#include "../../ds/BIT.hpp"
 
 using namespace std;
 
