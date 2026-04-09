@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/lca"
 
-#include "../../tree/HLD.hpp"
+#include "../../tree/base.hpp"
 #include <iostream>
 
 using namespace std;
@@ -11,7 +11,8 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    HeavyLightDecomposition hld(N);
+    static_graph<1> g(N);
+    Tree hld(N, g);
     for (int i = 1; i < N; i++) {
         int p;
         cin >> p;
