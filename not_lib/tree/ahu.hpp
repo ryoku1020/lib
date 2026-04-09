@@ -2,6 +2,17 @@
 #include"../../graph/base.hpp"
 #include"../../tree/base.hpp"
 #include"../../string/lcpsuf.hpp"
+/*
+木の深さが深い順から順に処理することを考える。
+木の深さが同じ頂点集合に対して、0,1,2,... の id を適当に割り当てよう。
+ただし、id が等しい ↔︎ 部分木が同型　が成立するようにし、決定的に割り当てられるものとする。
+葉に対しては自明である。 深さ k+1 が done として、 k に対して割り当てることを考える。
+深さが k となる頂点 v に対して、その子の id を sorted に連結したものを id をつける際の順序として用いることができることに注意する。（子は全て深さ k+1 なので）
+結局次ができれば良い。
+1. 子を sort する。
+2. sorted 列の sort 順を得る。
+1. はバケットソートでできる。2. は SA-IS でできる。どちらも O(|max_id|) で抑えられること、また、O(|max_id|) は深さ k+1 の頂点の個数で抑えられることに注意すれば、全体で線形時間である。
+*/
 string ahu(const Tree&tree_,int root){
     static_graph<1>g(tree_.size());
     Tree tree(tree_.size(),g);

@@ -1,5 +1,6 @@
 #pragma once
 #include "template.hpp"
+#include<filesystem>
 //https://judge.yosupo.jp/submission/296458
 
 static constexpr int BUF_SIZE = 1 << 17;

@@ -51,7 +51,8 @@ struct wavlet_matrix{
     void set(int i,T x){
         val[i]=x;
     }
-    void build(){
+
+    void build(auto&F=[](int,vc<T>){}){
         bv.resize(depth);
         drep(i,depth){
             vc<int>w(n);rep(j,n)w[j]=val[j]>>i&1;
@@ -63,6 +64,7 @@ struct wavlet_matrix{
             start[i]=l.size();
             val=move(l);
             for(auto&x:r)val.pb(x);
+            F(i,val);
         }
         last=val;
     }
@@ -86,7 +88,7 @@ struct wavlet_matrix{
         }
         return now;
     }
-    //# of i \in[l,r] and val[i]<=k
+    //# of i \in[l,r) and val[i]<=k
     int count_lower(int l,int r,T k){
         int ans=0;
         drep(i,depth){
@@ -108,5 +110,27 @@ struct wavlet_matrix{
     }
     int count(int l,int r,T x){
         return count_lower(l,r,x)-count_lower(l,r,x-1);
+    }
+    //[l,r) で val[i]<=k となる i についての sum を得る　
+    template<class Info,class Y>
+    Info::value_type sum(int l,int r,T k,Y&func){
+        typename Info::value_type res=Info::e();
+        drep(i,depth){
+            auto&target=bv[i];
+            int l0=target.rank0(l);
+            int r0=target.rank0(r);
+            int al=start[i];
+            int l1=l-l0;
+            int r1=r-r0;
+            if(k>>i&1){
+                res=Info::op(res,func(i,l0,r0));
+                l=al+l1;
+                r=al+r1;
+            }else{
+                l=l0,r=r0;
+            }
+        }
+        res=Info::op(res,func(0,l,r));
+        return res;
     }
 };

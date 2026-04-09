@@ -227,19 +227,16 @@ struct Compress{
         v.push_back(x);
     }
     void work(){
+        if(!worked)return;
         worked=1;
         sort(all(v));
         v.erase(unique(all(v)),v.end());
     }
     int find(T x){
-        assert(worked);
+        work();
         auto itr=lower_bound(all(v),x);
         if((*itr)==x)return itr-v.begin();
         return -1;
-    }
-    int size(){
-        assert(worked);
-        return v.size();
     }
 };
 int tbit(int32_t x){return x==0?-1:31-__builtin_clz((uint32_t)x);}

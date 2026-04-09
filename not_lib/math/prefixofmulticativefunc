@@ -1,0 +1,57 @@
+-記法の定義
+F:= 乗法的関数 (gcd(a,b)=1 -> F(ab)=F(a)F(b))
+Q_N:={n| ある k に対して floor(Q_N / k)= n}
+F_prime(N)= \sum_{p \in prime && p <= N} F(p)
+S(x,N):= \sum_{x 以下の素数によって篩われていない整数 n<=N } F(n)
+G を完全乗法性を満たし、かつ、p \in prime なる p で F(p)=G(p) を満たす任意の関数。(これが存在することは要請される）
+gpf(N):= max p s.t. p\in prime | N%p==0 
+-目標
+F(1)+...+F(N) を求めること。
+
+-ステップ 1 
+n \in Q_N に対して F_prime(n) を求めたい。
+F_prime(n)= S(sqrt(n),n) であるから S(sqrt(N),n) を求めることにしよう。
+S(0,n) := \sum_{i=1}^x G(i) とする。
+さて、S(x,n) を S(x-1,n) で表したい。
+(i) x not in prime -> S(x,n)=S(x-1,n)
+(ii) x^2>=n の時、1x,2x,...,(x-1)x はすでに篩われていることに注意すると、S(x,n)=S(x-1,n) である。
+
+(iii) x^2<n の時、新しく篩われる mx となる m は次を満たす。
+- m \in {x-1 以下の素数で振るわれなかった数} \ {x-1 以下の素数}
+S(x,n)=S(x-1,n)-(S(x-1,floor(n/x))-S(x-1,x-1))*G(x) (floor(n/x) は mx<=n の条件から、G(x) をかけている部分は G の完全乗法性から)
+この遷移式は次のように inplace にできる
+(Q_N は
+for x in [1,sqrt(N)]:
+	if is_prime[x]:
+		for n in sorted_rev(Q_N):
+			if x*x > n : break;
+			S[n]-=(S[n/x]-S[x-1])*G(x)
+
+これで F_prime(n) がもとまった。 計算量について考えよう。
+-1<=x<=N^{1/4} の時
+素数定理と |Q_N|=O(\sqrt(N)) より O(N^{3/4} / log N)
+
+-N^{1/4}<=x<=N^{1/2} の時
+n \in Q_N -> ある k に対して n=floor(N/k) であることから x*x>n を考えると、
+x*x>floor(N/k) -> k<N/x^2 だから 1~N/x^2 まで k が走査されると考えて、素数定理より
+sum x \in N^{1/4} to N^{1/2} N/x^2 /log N= O(N^{3/4} / logN)
+
+done:
+
+-ステップ 2 
+Fを求めよう。
+black-algorithm を用いる。
+次のような根付き木を考える。
+- N 頂点で 1 が根
+- 頂点 v の親は v/gpf(v)
+葉でない頂点が O(N^{1-ε}) で抑えられることが知られている。実際は定数倍がとても良い。
+(N=10^11 で 8.8*10^8 とか N=10^10 で 10^6 * hoge とか)
+葉でない頂点のみに訪れれば、計算量はある程度抑えられる。dfs して、子の sum を得られればいい感じの計算量になる。(root = 1 に注意)
+さて、上のような性質を考えると、頂点 v の子としてありうるものは sorted な素数列を p として、次のようになる。(gpv(v)=p_l)
+v*p_l,v*p_{l+1},...,v*{p_r} (ただし、p_{r+1}*v>N) 
+乗法性に注意すると、得るべき sum は 
+f(vp_l)+f(vp_{l+1})...+f(v*p_r)
+=f(vp_l)+f(v)(f(p_l)+...+f(p_r))
+=f(vp_l)+f(v)(F_prime(N/v)-F_prime(p_l)) (p_{r+1}*v>N と,p_l * v <= N に注意せよ)
+より O(1) で全てを終えることができた。子に進むべきかの判断は容易に行える。
+
