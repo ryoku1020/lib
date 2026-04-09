@@ -1,6 +1,7 @@
 #pragma once
 #include "../template.hpp"
 vc<int>sf_array(vc<int>s,bool first=true){
+    auto smin=min(s);for(auto&x:s)x-=smin;
     enum Type{
         S,
         L,
