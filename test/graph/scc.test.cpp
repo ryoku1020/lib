@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include "../../graph/scc.hpp"
+#include "../../graph/base.hpp"
 
 using namespace std;
 
@@ -13,14 +14,14 @@ int main() {
 
     int N, M;
     cin >> N >> M;
-    static_graph<true, int> g(N);
+    static_graph<1, int> g(N);
     for (int i = 0; i < M; i++) {
         int u, v;
         cin >> u >> v;
         g.add_edge(u, v);
     }
 
-    auto comp_id = StronglyConnectedComponents(g);
+    auto comp_id = scc(g);
 
     int k = 0;
     for (int id : comp_id) k = max(k, id + 1);

@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_add_range_sum"
 
 #include <iostream>
-#include "../../ds/BinaryIndexedTree.hpp"
+#include "../../ds/BIT.hpp"
 
 using namespace std;
 
@@ -15,7 +15,7 @@ int main() {
     for (int i = 0; i < N; i++) {
         cin >> a[i];
     }
-    BinaryIndexedTree<long long> tbit(a);
+    BIT<long long> tbit(a);
 
     for (int i = 0; i < Q; i++) {
         int t;
