@@ -4,7 +4,7 @@ template<class X>
 struct SlidingWindowAggregation{
     using value_type=X::value_type;
     vc<value_type>left,right;
-    vc<value_type> left_data,right_data;
+    vc<value_type>left_data,right_data;
     SlidingWindowAggregation(){
         left_data.push_back(X::e());
         right_data.push_back(X::e());

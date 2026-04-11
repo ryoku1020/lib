@@ -5,6 +5,7 @@ F_prime(N)= \sum_{p \in prime && p <= N} F(p)
 S(x,N):= \sum_{x 以下の素数によって篩われていない整数 n<=N } F(n)
 G を完全乗法性を満たし、かつ、p \in prime なる p で F(p)=G(p) を満たす任意の関数。(これが存在することは要請される）
 gpf(N):= max p s.t. p\in prime | N%p==0 
+
 -目標
 F(1)+...+F(N) を求めること。
 
@@ -20,7 +21,6 @@ S(0,n) := \sum_{i=1}^x G(i) とする。
 - m \in {x-1 以下の素数で振るわれなかった数} \ {x-1 以下の素数}
 S(x,n)=S(x-1,n)-(S(x-1,floor(n/x))-S(x-1,x-1))*G(x) (floor(n/x) は mx<=n の条件から、G(x) をかけている部分は G の完全乗法性から)
 この遷移式は次のように inplace にできる
-(Q_N は
 for x in [1,sqrt(N)]:
 	if is_prime[x]:
 		for n in sorted_rev(Q_N):
