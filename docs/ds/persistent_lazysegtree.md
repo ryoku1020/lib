@@ -1,25 +1,15 @@
 ---
-title: Persistent_lazysegtree
+title: persistent_lazysegtree
 documentation_of: ../../ds/persistent_lazysegtree.hpp
 ---
 
-# Persistent_lazysegtree
-
 ## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+persistent_lazysegtree のデータ構造またはアルゴリズムの実装を提供します。
+必要に応じて区間は半開区間 `[l, r)` や 0-indexed で管理されます。
 
 ## 使い方
+ソースコード内のメソッドやクラスを参照してください。
 
-```cpp
-#include "ds/persistent_lazysegtree.hpp"
-
-// 使用例
-```
-
-## メソッド
-
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+## 計算量
+- 時間計算量: クエリあたり $\mathcal{O}(\log N)$ または $\mathcal{O}(1)$ など標準的な計算量に準拠
+- 空間計算量: $\mathcal{O}(N)$
