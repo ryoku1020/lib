@@ -1,6 +1,5 @@
 #pragma once
 #pragma GCC optimize("O3")
-#pragma GCC optimize("unroll-loops")
 using namespace std;
 #include <iostream>
 #include <iomanip>
@@ -212,7 +211,13 @@ vc<T> &operator*=(vc<T>&a,F b){
 }
 template<class T=ll>
 constexpr T POW(T a,T b){
-    return b==0?1:POW(a,b-1)*a;
+    T res=1;
+    while(b){
+        if(b&1)res*=a;
+        a*=a;
+        b/=2;
+    }
+    return res;
 }
 constexpr ll ten(ll a){
     return POW<ll>(10,a);
@@ -227,7 +232,7 @@ struct Compress{
         v.push_back(x);
     }
     void work(){
-        if(!worked)return;
+        if(worked)return;
         worked=1;
         sort(all(v));
         v.erase(unique(all(v)),v.end());
@@ -237,6 +242,14 @@ struct Compress{
         auto itr=lower_bound(all(v),x);
         if((*itr)==x)return itr-v.begin();
         return -1;
+    }
+    int find_next(T x){
+        work();
+        return lower_bound(all(v),x)-v.begin();
+    }
+    int find_prev(T x){
+        work();
+        return lower_bound(all(v),x)-v.begin()-1;
     }
 };
 int tbit(int32_t x){return x==0?-1:31-__builtin_clz((uint32_t)x);}

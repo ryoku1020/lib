@@ -5,6 +5,7 @@ struct Noninfo{
     static value_type op(value_type a,value_type b){return {};}
     static value_type e(){return {};}
     static value_type leaf(){return {};}
+    static value_type get2(auto a){return {};}
 };
 template<class Info>
 struct Nontag{

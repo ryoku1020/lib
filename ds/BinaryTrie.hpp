@@ -1,25 +1,48 @@
 #pragma once
 #include"../template.hpp"
+template<class T,int depth>
 struct BinaryTrie{
     struct Node{
         Node*l,*r;
-        int size;
+        T size;
         Node():l(nullptr),r(nullptr),size(0){}
     };
-    int all_size;
+    T all_size;
     T offset;
     Node*root;
     BinaryTrie(){
         root=new Node();
+        all_size=0;
+        offset=0;
+    }
+    T count(T val){
+        assert(val>=0);
+        val^=offset;
+        auto dfs=[&](auto&dfs,Node*now,T l,T r,int target)->T{
+            if(r-l==1){
+                return now->size;
+            }
+            T mid=(l+r)>>1;
+            if((val<mid)){
+                if(now->l==0)return 0;
+                return dfs(dfs,now->l,l,mid,target-1);
+            }else{
+                if(now->r==0)return 0;
+                return dfs(dfs,now->r,mid,r,target-1);
+            }
+        };
+        return dfs(dfs,root,0,T(1)<<depth,depth-1);
     }
     void insert(T val,int x=1){
         assert(val>=0);
+        val^=offset;
         auto dfs=[&](auto&dfs,Node*now,T l,T r,int target)->void{
             if(r-l==1){
                 now->size+=x;
+                return;
             }
             T mid=(l+r)>>1;
-            if((val<mid)^(offset>>target&1)){
+            if((val<mid)){
                 if(now->l==0)now->l=new Node();
                 dfs(dfs,now->l,l,mid,target-1);
             }else{
@@ -38,16 +61,17 @@ struct BinaryTrie{
         assert(all_size);
         auto dfs=[&](auto&dfs,Node*now,T l,T r,int target)->T{
             if(r-l==1){
-                return l;
+                return l^offset;
             }
             T mid=(l+r)>>1;
-            if(!(offset>>target&1)&&now->l&&now->l->size){
-                return dfs(dfs,now->l,l,mid,target-1);
+            if(!(offset>>target&1)){
+                if(now->l&&now->l->size)return dfs(dfs,now->l,l,mid,target-1);
+                else return dfs(dfs,now->r,mid,r,target-1);
             }else{
-                return dfs(dfs,now->r,mid,r,target-1);
+                if(now->r&&now->r->size)return dfs(dfs,now->r,mid,r,target-1);
+                else return dfs(dfs,now->l,l,mid,target-1);
             }
         };
-        dfs(dfs,root,0,T(1)<<depth,depth-1);
+        return dfs(dfs,root,0,T(1)<<depth,depth-1);
     }
-    
 };

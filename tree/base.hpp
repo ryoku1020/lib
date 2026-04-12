@@ -3,12 +3,11 @@
 #include"../graph/base.hpp" 
 struct Tree{
     using Graph=static_graph<1>;
-    Graph&g;
-    static_assert(Graph::directed()==true);
+    mutable Graph g;
     mutable bool built_hld=false;
     int n;
     mutable vc<int>in,out,head,size_,par,depth,ord;
-    Tree(int n,Graph&g):n(n),g(g){}
+    Tree(int n):n(n),g(n,2*(n-1)){}
     void add_edge(int a,int b){
         assert(0<=a&&a<n&&0<=b&&b<n);
         g.add_edge(a,b);
