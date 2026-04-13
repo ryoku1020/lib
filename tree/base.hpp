@@ -2,19 +2,20 @@
 #include"../template.hpp"
 #include"../graph/base.hpp" 
 struct Tree{
-    using Graph=static_graph<1>;
+    using Graph=static_graph<true>;
     Graph&g;
     static_assert(Graph::directed()==true);
     mutable bool built_hld=false;
     int n;
     mutable vc<int>in,out,head,size_,par,depth,ord;
-    Tree(int n,Graph&g):n(n),g(g){}
+    Tree(int n,Graph&g):g(g),n(n){}
     void add_edge(int a,int b){
         assert(0<=a&&a<n&&0<=b&&b<n);
         g.add_edge(a,b);
         g.add_edge(b,a);
     }
-    bool is_to_par(auto&e)const{
+    template<class E>
+    bool is_to_par(const E&e)const{
         return par[e.from]==e.to;
     }
     int size()const{

@@ -52,18 +52,18 @@ struct LazySegmentTree{
         DREP(i,n-1,1)update(i);
     }
     void all_apply(int k,lazy_type x){
-        assert(0<=k&&k<N*2);
+        assert(0<=k&&k<n*2);
         node[k]=Tag::Apply(node[k],x);
         if(k<n)lazy[k]=Tag::Merge(lazy[k],x);
     }
     void push(int k){
-        assert(0<=k&&k<N*2);
+        assert(0<=k&&k<n*2);
         all_apply(k*2,lazy[k]);
         all_apply(k*2+1,lazy[k]);
         lazy[k]=Tag::id();
     }
     void update(int i){
-        assert(0<=i&&i<N*2);
+        assert(0<=i&&i<n*2);
         node[i]=Info::op(node[i*2],node[i*2+1]);
     }
     void set(int i,value_type x){

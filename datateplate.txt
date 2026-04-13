@@ -1,0 +1,23 @@
+struct Info{
+    using value_type=hoge;
+    static value_type op(value_type a,value_type b){
+
+    }
+    static value_type e(){
+    }
+    static value_type leaf(){
+
+    }
+};
+struct Tag{
+    using value_type=Info::value_type;
+    using lazy_type=hoge;
+    static value_type Apply(value_type a,lazy_type b){
+
+    }
+    static lazy_type Merge(lazy_type a,lazy_type b){
+    }
+    static lazy_type id(){
+
+    }
+};
