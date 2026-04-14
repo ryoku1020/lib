@@ -168,6 +168,9 @@ struct FormalPowerSeries:vc<mint>{
         }
         return poly(deg);
     }
+    void extend(int n){
+        if(this->size()<n)this->resize(n);
+    }
     poly shrink(){
         auto res=(*this);
         while(res.size()&&res.back()==0)res.pop_back();
