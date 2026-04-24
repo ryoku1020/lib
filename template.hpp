@@ -68,7 +68,6 @@ template<class T>using bipq=priority_queue<T>;
 #define REP(i,j,n) for(ll i=(j);i<(ll)(n);i++)
 #define DREP(i,n,m) for(ll i=(n);i>=(m);i--)
 #define drep(i,n) for(ll i=((n)-1);i>=0;i--)
-#define all(x) x.begin(),x.end()
 #define rall(x) x.rbegin(),x.rend()
 #define mp make_pair
 #define pb push_back
@@ -77,6 +76,7 @@ template<class T>using bipq=priority_queue<T>;
 #define is insert
 #define bg begin()
 #define ed end()
+#define all(x) x.begin(),x.end()
 void scan(int&a) { cin >> a; }
 void scan(ll&a) { cin >> a; }
 void scan(string&a) { cin >> a; }
@@ -222,36 +222,6 @@ constexpr T POW(T a,T b){
 constexpr ll ten(ll a){
     return POW<ll>(10,a);
 }
-template<class T>
-struct Compress{    
-    vc<T>v;
-    bool worked;
-    Compress(){worked=0;}
-    Compress(int n){v.reserve(n);worked=0;}
-    void push(T x){
-        v.push_back(x);
-    }
-    void work(){
-        if(worked)return;
-        worked=1;
-        sort(all(v));
-        v.erase(unique(all(v)),v.end());
-    }
-    int find(T x){
-        work();
-        auto itr=lower_bound(all(v),x);
-        if((*itr)==x)return itr-v.begin();
-        return -1;
-    }
-    int find_next(T x){
-        work();
-        return lower_bound(all(v),x)-v.begin();
-    }
-    int find_prev(T x){
-        work();
-        return lower_bound(all(v),x)-v.begin()-1;
-    }
-};
 int tbit(int32_t x){return x==0?-1:31-__builtin_clz((uint32_t)x);}
 int lbit(int32_t x){return x==0?-1:__builtin_ctz((uint32_t)x);}
 int tbit(uint32_t x){return x==0?-1:31-__builtin_clz(x);}

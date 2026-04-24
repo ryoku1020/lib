@@ -1,5 +1,6 @@
 #pragma once
 #include"../template.hpp"
+#include<type_traits>
 struct Unweighted{
     Unweighted()=default;
     Unweighted(int){}
@@ -15,10 +16,13 @@ struct edge{
     }
     #endif
 };
+template<class T,class=void>struct is_edge:false_type{};
+template<class T>struct is_edge<T,void_t<decltype(declval<T>().from),decltype(declval<T>().to),decltype(declval<T>().id),decltype(declval<T>().cost)>>:true_type{};
 template<bool is_directed,class T=Unweighted>
 struct static_graph{
     constexpr static bool directed(){return is_directed;}
-using edge=edge<T>;
+    using edge=conditional_t<is_edge<T>::value,T,::edge<T>>;
+    using cost_t=decltype(declval<edge>().cost);
 private:
     int n,m,added=0;
     mutable bool csr_built=false,inv_built=false;
@@ -30,7 +34,13 @@ private:
 public:
     static_graph(int n):n(n),m(-1),csr_start(n+1){}
     static_graph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
-    void add_edge(int a,int b,T cost=1,int id=-1){
+    void add_edge(const edge&e){
+        assert(0<=e.from&&e.from<n&&0<=e.to&&e.to<n);
+        _all_edges.push_back(e);
+        csr_built=inv_built=false;
+        if(++added==m)build();
+    }
+    void add_edge(int a,int b,cost_t cost=1,int id=-1){
         assert(0<=a&&a<n&&0<=b&&b<n);
         if(id==-1)id=(int)_all_edges.size();
         _all_edges.push_back({a,b,id,cost});
@@ -55,18 +65,21 @@ public:
     }
     void build_inv()const{
         if(inv_built)return;
+        if constexpr(!is_directed){
+            build();
+            inv_built=true;
+            return;
+        }
         inv_built=true;
         inv_start.assign(n+1,0);
         for(auto&e:_all_edges){
             inv_start[e.to+1]++;
-            if constexpr(!is_directed)inv_start[e.from+1]++;
         }
         rep(i,n)inv_start[i+1]+=inv_start[i];
         inv_edge.resize(inv_start[n]);
         vc<int>now=inv_start;
         for(auto&e:_all_edges){
             inv_edge[now[e.to]++]={e.to,e.from,e.id,e.cost};
-            if constexpr(!is_directed)inv_edge[now[e.from]++]=e;
         }
     }
     const vc<edge>&all_edges()const{return _all_edges;}
@@ -76,7 +89,12 @@ public:
         return _all_edges[id];
     }
     int out_deg(int u)const{assert(0<=u&&u<n);build();return csr_start[u+1]-csr_start[u];}
-    int in_deg(int u)const{assert(0<=u&&u<n);build_inv();return inv_start[u+1]-inv_start[u];}
+    int in_deg(int u)const{
+        assert(0<=u&&u<n);
+        if constexpr(!is_directed)return out_deg(u);
+        build_inv();
+        return inv_start[u+1]-inv_start[u];
+    }
     int deg(int u)const{return out_deg(u);}
     template<class E>
     struct span{
@@ -96,11 +114,15 @@ public:
         return span<const edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
     }
     auto inv(int u){
-        assert(0<=u&&u<n);build_inv();
+        assert(0<=u&&u<n);
+        if constexpr(!is_directed)return (*this)[u];
+        build_inv();
         return span<edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
     }
     auto inv(int u)const{
-        assert(0<=u&&u<n);build_inv();
+        assert(0<=u&&u<n);
+        if constexpr(!is_directed)return (*this)[u];
+        build_inv();
         return span<const edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
     }
     int size()const{return n;}
@@ -131,21 +153,26 @@ public:
     template<class F>
     void sort_inv(int i,F f){
         assert(0<=i&&i<n);
+        if constexpr(!is_directed){
+            build();
+            sort(csr_edge.begin()+csr_start[i],csr_edge.begin()+csr_start[i+1],f);
+            return;
+        }
         build_inv();
         sort(inv_edge.begin()+inv_start[i],inv_edge.begin()+inv_start[i+1],f);
     }
     template<class F>
     static_graph<is_directed,T>extract(F f)const{
         static_graph<is_directed,T>res(n);
-        for(auto&e:_all_edges)if(f(e))res.add_edge(e.from,e.to,e.cost,e.id);
+        for(auto&e:_all_edges)if(f(e))res.add_edge(e);
         return res;
     }
     template<class F>
     static_graph<1,T>reorder(F f)const{
         static_graph<1,T>res(n);
         for(auto&e:_all_edges){
-            if(f(e))res.add_edge(e.from,e.to,e.cost,e.id);
-            else res.add_edge(e.to,e.from,e.cost,e.id);
+            if(f(e))res.add_edge(e);
+            else res.add_edge({e.to,e.from,e.id,e.cost});
         }
         return res;
     }

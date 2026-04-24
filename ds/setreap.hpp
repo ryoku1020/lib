@@ -178,4 +178,4 @@ struct setreap{
     }
 };
 template<class T>
-mt19937 setreap<T>::mt(random_device{}()); // ここで1回だけシード値を設定して実体化
+mt19937 setreap<T>::mt(random_device{}()); 

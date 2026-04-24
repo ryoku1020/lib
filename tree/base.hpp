@@ -44,33 +44,61 @@ struct Tree{
         size_.resize(n,1);
         par.resize(n);
         depth.resize(n);
+        ord.clear();
         ord.reserve(n);
+        par[root]=-1;
+        head[root]=root;
         int T=0;
         auto dfs=[&](auto&dfs,int u,int v,int d)->void{
             depth[u]=d++;
-            for(auto&e:g[u]){
-                if(e.to==v)continue;
+            auto s=g[u];
+            int heavy=-1,par_id=-1;
+            rep(i,s.size()){
+                auto&e=s[i];
+                if(e.to==v){
+                    par_id=i;
+                    continue;
+                }
                 par[e.to]=u;
                 dfs(dfs,e.to,u,d);
                 size_[u]+=size_[e.to];
+                if(heavy==-1||size_[s[heavy].to]<size_[e.to])heavy=i;
             }
-            REP(i,1,g[u].size())if(size_[g[u][i].to]>size_[g[u][0].to])swap(g[u][i],g[u][0]);
-            rep(i,g[u].size()-1){
-                if(g[u][i].to==par[u])swap(g[u][i],g[u][g[u].size()-1]);
+            if(heavy!=-1&&heavy!=0){
+                swap(s[heavy],s[0]);
+                if(par_id==0)par_id=heavy;
+                else if(par_id==heavy)par_id=0;
+            }
+            if(par_id!=-1&&par_id+1!=s.size()){
+                swap(s[par_id],s[s.size()-1]);
             }
         };dfs(dfs,root,-1,0);
         {auto dfs=[&](auto&dfs,int u)->void{
             in[u]=T++;
             ord.push_back(u);
-            for(auto&e:g[u])if(e.to!=par[u])dfs(dfs,e.to);
+            auto s=g[u];
+            bool first=true;
+            for(auto&e:s)if(e.to!=par[u]){
+                head[e.to]=first?head[u]:e.to;
+                first=false;
+                dfs(dfs,e.to);
+            }
             out[u]=T;
         };dfs(dfs,root);}
-        {auto dfs=[&](auto&dfs,int u)->void{
-            if(g[u].size()<=1)return;
-            head[g[u][0].to]=head[u];
-            REP(i,1,g[u].size())if(g[u][i].to!=par[u])head[g[u][i].to]=g[u][i].to;
-            for(auto&e:g[u])if(e.to!=par[u])dfs(dfs,e.to);
-        };dfs(dfs,root);}
+    }
+    auto heavy_edge(int u)const{
+        build();
+        auto s=g[u];
+        int sz=s.size(),ce=(u==ord[0]?sz:sz-1);
+        if(ce<=0)return span<const Graph::edge>{s.l,s.l};
+        return span<const Graph::edge>{s.l,s.l+1};
+    }
+    auto light_edges(int u)const{
+        build();
+        auto s=g[u];
+        int sz=s.size(),ce=(u==ord[0]?sz:sz-1);
+        if(ce<=1)return span<const Graph::edge>{s.l,s.l};
+        return span<const Graph::edge>{s.l+1,s.l+ce};
     }
     int lca(int a,int b)const{
         build();

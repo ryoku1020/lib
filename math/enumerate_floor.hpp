@@ -1,5 +1,6 @@
 #pragma  once
 #include"../template.hpp"
+
 vc<ll>floors(ll n){
     assert(n>=0);
     if(n==0)return {};
