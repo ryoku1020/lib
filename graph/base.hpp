@@ -18,6 +18,7 @@ struct edge{
 };
 template<class T,class=void>struct is_edge:false_type{};
 template<class T>struct is_edge<T,void_t<decltype(declval<T>().from),decltype(declval<T>().to),decltype(declval<T>().id),decltype(declval<T>().cost)>>:true_type{};
+struct empty_storage{};
 template<bool is_directed,class T=Unweighted>
 struct static_graph{
     constexpr static bool directed(){return is_directed;}
@@ -25,26 +26,29 @@ struct static_graph{
     using cost_t=decltype(declval<edge>().cost);
 private:
     int n,m,added=0;
-    mutable bool csr_built=false,inv_built=false;
+    mutable bool csr_built=false;
+    [[no_unique_address]] mutable conditional_t<is_directed,bool,empty_storage> inv_built{};
     vc<edge>_all_edges;
     mutable vc<int>csr_start;
     mutable vc<edge>csr_edge;
-    mutable vc<int>inv_start;
-    mutable vc<edge>inv_edge;
+    [[no_unique_address]] mutable conditional_t<is_directed,vc<int>,empty_storage>inv_start;
+    [[no_unique_address]] mutable conditional_t<is_directed,vc<edge>,empty_storage>inv_edge;
 public:
     static_graph(int n):n(n),m(-1),csr_start(n+1){}
     static_graph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
     void add_edge(const edge&e){
         assert(0<=e.from&&e.from<n&&0<=e.to&&e.to<n);
         _all_edges.push_back(e);
-        csr_built=inv_built=false;
+        csr_built=false;
+        if constexpr(is_directed)inv_built=false;
         if(++added==m)build();
     }
     void add_edge(int a,int b,cost_t cost=1,int id=-1){
         assert(0<=a&&a<n&&0<=b&&b<n);
         if(id==-1)id=(int)_all_edges.size();
         _all_edges.push_back({a,b,id,cost});
-        csr_built=inv_built=false;
+        csr_built=false;
+        if constexpr(is_directed)inv_built=false;
         if(++added==m)build();
     }
     void build()const{
@@ -52,34 +56,34 @@ public:
         csr_built=true;
         csr_start.assign(n+1,0);
         for(auto&e:_all_edges){
-            csr_start[e.from+1]++;
-            if constexpr(!is_directed)csr_start[e.to+1]++;
+            csr_start[e.from]++;
+            if constexpr(!is_directed)csr_start[e.to]++;
         }
         rep(i,n)csr_start[i+1]+=csr_start[i];
         csr_edge.resize(csr_start[n]);
-        vc<int>now=csr_start;
-        for(auto&e:_all_edges){
-            csr_edge[now[e.from]++]=e;
-            if constexpr(!is_directed)csr_edge[now[e.to]++]={e.to,e.from,e.id,e.cost};
+        for(auto it=_all_edges.rbegin();it!=_all_edges.rend();++it){
+            auto&e=*it;
+            csr_edge[--csr_start[e.from]]=e;
+            if constexpr(!is_directed)csr_edge[--csr_start[e.to]]={e.to,e.from,e.id,e.cost};
         }
     }
     void build_inv()const{
-        if(inv_built)return;
         if constexpr(!is_directed){
             build();
-            inv_built=true;
             return;
-        }
-        inv_built=true;
-        inv_start.assign(n+1,0);
-        for(auto&e:_all_edges){
-            inv_start[e.to+1]++;
-        }
-        rep(i,n)inv_start[i+1]+=inv_start[i];
-        inv_edge.resize(inv_start[n]);
-        vc<int>now=inv_start;
-        for(auto&e:_all_edges){
-            inv_edge[now[e.to]++]={e.to,e.from,e.id,e.cost};
+        }else{
+            if(inv_built)return;
+            inv_built=true;
+            inv_start.assign(n+1,0);
+            for(auto&e:_all_edges){
+                inv_start[e.to]++;
+            }
+            rep(i,n)inv_start[i+1]+=inv_start[i];
+            inv_edge.resize(inv_start[n]);
+            for(auto it=_all_edges.rbegin();it!=_all_edges.rend();++it){
+                auto&e=*it;
+                inv_edge[--inv_start[e.to]]={e.to,e.from,e.id,e.cost};
+            }
         }
     }
     const vc<edge>&all_edges()const{return _all_edges;}
@@ -91,9 +95,12 @@ public:
     int out_deg(int u)const{assert(0<=u&&u<n);build();return csr_start[u+1]-csr_start[u];}
     int in_deg(int u)const{
         assert(0<=u&&u<n);
-        if constexpr(!is_directed)return out_deg(u);
-        build_inv();
-        return inv_start[u+1]-inv_start[u];
+        if constexpr(!is_directed){
+            return out_deg(u);
+        }else{
+            build_inv();
+            return inv_start[u+1]-inv_start[u];
+        }
     }
     int deg(int u)const{return out_deg(u);}
     template<class E>
@@ -115,15 +122,21 @@ public:
     }
     auto inv(int u){
         assert(0<=u&&u<n);
-        if constexpr(!is_directed)return (*this)[u];
-        build_inv();
-        return span<edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
+        if constexpr(!is_directed){
+            return (*this)[u];
+        }else{
+            build_inv();
+            return span<edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
+        }
     }
     auto inv(int u)const{
         assert(0<=u&&u<n);
-        if constexpr(!is_directed)return (*this)[u];
-        build_inv();
-        return span<const edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
+        if constexpr(!is_directed){
+            return (*this)[u];
+        }else{
+            build_inv();
+            return span<const edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
+        }
     }
     int size()const{return n;}
     template<class F>vvc<F>adj()const{
@@ -137,12 +150,14 @@ public:
     void clear(){
         added=0;
         csr_built=false;
-        inv_built=false;
+        if constexpr(is_directed)inv_built=false;
         _all_edges.clear();_all_edges.shrink_to_fit();
         csr_start.assign(n+1,0);csr_start.shrink_to_fit();
         csr_edge.clear();csr_edge.shrink_to_fit();
-        inv_start.clear();inv_start.shrink_to_fit();
-        inv_edge.clear();inv_edge.shrink_to_fit();
+        if constexpr(is_directed){
+            inv_start.clear();inv_start.shrink_to_fit();
+            inv_edge.clear();inv_edge.shrink_to_fit();
+        }
     }
     template<class F>
     void sort(int i,F f){
