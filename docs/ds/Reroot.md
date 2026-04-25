@@ -1,25 +1,41 @@
 ---
-title: Reroot
+title: Redp (Rerooting DP)
 documentation_of: ../../ds/Reroot.hpp
 ---
 
-# Reroot
+# Redp (Rerooting DP)
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+全方位木 DP のテンプレートです。
 
-## 使い方
+## 要件
 
 ```cpp
-#include "ds/Reroot.hpp"
-
-// 使用例
+struct Reroot{
+    using V=...;
+    using E=...;
+    static E merge(E a,E b);
+    static V put_vertex(E a,int v);
+    static E put_edge(V a,int e);
+    static E id();
+};
 ```
 
-## メソッド
+## 型
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+### `Redp<Reroot>`
+
+## 主なメソッド
+
+### `Redp(int n)`
+### `void add_edge(int a, int b, int idx, int xdi)`
+### `vc<V> calc()`
+
+`calc()` は各頂点を根とした答えを返します。
+
+## 使用例
+
+```cpp
+Redp<Reroot> dp(n);
+dp.add_edge(u,v,idx_uv,idx_vu);
+auto ans=dp.calc();
+```

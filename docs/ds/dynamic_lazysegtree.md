@@ -1,25 +1,26 @@
 ---
-title: Dynamic_lazysegtree
+title: DynamicLazySegmentTree
 documentation_of: ../../ds/dynamic_lazysegtree.hpp
 ---
 
-# Dynamic_lazysegtree
+# DynamicLazySegmentTree
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+動的遅延セグメント木です。
+巨大座標範囲を暗黙木で扱います。
 
-## 使い方
+## コンストラクタ
 
-```cpp
-#include "ds/dynamic_lazysegtree.hpp"
+### `DynamicLazySegmentTree(sztype n)`
 
-// 使用例
-```
+長さ `n` の領域を作ります。
 
-## メソッド
+## 主なメソッド
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+### `void seg.set(sztype i, value_type x)`
+### `value_type seg.prod(sztype l, sztype r)`
+### `void seg.apply(sztype l, sztype r, lazy_type x)`
+
+## 注意
+
+- `Info::bylen` と `Info::leaf` が必要です。
+- node pool の上限があります。

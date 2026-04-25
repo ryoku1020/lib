@@ -1,71 +1,90 @@
 ---
-title: UnionFind (dsu / extra_dsu)
+title: Disjoint Set Union
 documentation_of: ../../ds/uf.hpp
 ---
 
-# UnionFind (dsu / extra_dsu)
+# Disjoint Set Union
 
-素集合データ構造 (Union-Find / Disjoint Set Union) です。経路圧縮とサイズによるマージを用いており、要素の併合と連結判定をならし $O(\alpha(N))$ で行います。
-また、各連結成分ごとにモノイドを載せることができる `extra_dsu` も提供しています。
+Union-Find です。
+通常版 `DisjointSetUnion` と、成分ごとにデータを持てる `ExtraDisjointSetUnion` があります。
 
-## `dsu` (通常のUnion-Find)
+## `DisjointSetUnion`
 
-要素を連結成分にまとめ、それぞれの属するグループを管理します。
+### コンストラクタ
 
-### 使い方
+#### `DisjointSetUnion(int n)`
 
-```cpp
-#include "ds/uf.cpp"
+要素数 `n` で初期化します。
 
-// 頂点数 N で初期化
-dsu uf(N);
+## メソッド
 
-// 頂点 x と y を併合
-uf.merge(x, y);
+### `int uf.root(int x)`
+### `int uf.leader(int x)`
 
-// 頂点 x と y が同じ連結成分か判定
-bool b = uf.same(x, y);
+`x` が属する成分の代表元を返します。
 
-// 頂点 x が属する連結成分のサイズ
-int s = uf.size(x);
-```
+### `bool uf.same(int x, int y)`
 
-### 計算量・メソッド
-- `dsu(int n)`: 要素数 $n$ で初期化。$O(n)$
-- `bool merge(int x, int y)`: 頂点 $x, y$ の属する成分を併合します。すでに同じ成分に属していた場合は `false`、新たに併合した場合は `true` を返します。ならし $O(\alpha(N))$
-- `bool same(int x, int y)`: 頂点 $x, y$ が同じ成分に属しているか判定します。ならし $O(\alpha(N))$
-- `int root(int x)` (または `leader(int x)`): 頂点 $x$ の属する成分の代表元を返します。ならし $O(\alpha(N))$
-- `int size(int x)`: 頂点 $x$ の属する成分の頂点数を返します。ならし $O(\alpha(N))$
-- 制約: 頂点のインデックスは全て $0 \le x, y < n$ の閉区間（配列のインデックス）です。
+`x` と `y` が同じ成分に属するか判定します。
 
-## `extra_dsu` (データ付きUnion-Find)
+### `bool uf.merge(int x, int y)`
 
-連結成分の併合時に、成分ごとに持たせたデータを二項演算 `op` でマージします。
+`x` と `y` の成分を併合します。
+すでに同じ成分なら `false`、新しく併合したら `true` を返します。
 
-### 使い方
+### `int uf.size(int x)`
+
+`x` が属する成分サイズを返します。
+
+## 使用例
 
 ```cpp
-#include "ds/uf.cpp"
+#include "ds/uf.hpp"
 
-// 頂点成分に持たせるデータ型と併合演算を定義
-long long op(long long a, long long b) { return a + b; }
-
-// 頂点数 N, 初期値 0 で初期化
-extra_dsu<long long, op> uf(N, 0);
-
-// 初期値の代入 (代表元を介してアクセス)
-uf[0] = 10;
-uf[1] = 20;
-
-// 頂点を併合。演算 op によってデータも併合される (この例では和が取られる)
-uf.merge(0, 1);
-
-// 併合後の成分のデータにアクセス
-long long sum = uf[0]; // 30
+DisjointSetUnion uf(n);
+uf.merge(a,b);
+if(uf.same(u,v)){
+    // same component
+}
 ```
 
-### 計算量・メソッド
-通常の `dsu` に加えて以下の機能が追加されています。
-- `extra_dsu(int n, T e)`: 要素数 $n$、初期値 `e` で初期化します。$O(n)$
-- `T& operator[](int i)`: 頂点 $i$ が属する連結成分のデータへの参照を返します。代入も可能です。ならし $O(\alpha(N))$
-- `merge(int x, int y)` 時に、`data[x_root] = op(data[y_root], data[x_root])` となるようにデータが併合されます（サイズが大きかった方の代表元が新たな代表元となります）。ならし $O(\alpha(N))$
+## `ExtraDisjointSetUnion<T, op>`
+
+各連結成分にデータを載せる Union-Find です。
+成分併合時に `data[x]=op(data[y],data[x])` の形でマージされます。
+
+### コンストラクタ
+
+#### `ExtraDisjointSetUnion<T,op>(int n, T e)`
+
+各成分データを初期値 `e` で初期化します。
+
+### 追加機能
+
+#### `T& uf[i]`
+
+`i` が属する成分データへの参照を返します。
+
+## 使用例
+
+```cpp
+long long add_op(long long a,long long b){
+    return a+b;
+}
+
+ExtraDisjointSetUnion<long long,add_op> uf(n,0);
+uf[0]=10;
+uf[1]=20;
+uf.merge(0,1);
+auto sum=uf[0];
+```
+
+## 計算量
+
+- `root`, `leader`, `same`, `merge`, `size`, `operator[]`
+  ならし `O(alpha(n))`
+
+## 注意
+
+- 頂点番号は 0-indexed です。
+- `ExtraDisjointSetUnion` で `operator[]` を使うときは、その時点の代表元にアクセスされます。

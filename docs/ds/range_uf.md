@@ -1,25 +1,38 @@
 ---
-title: Range_uf
+title: SuperDisjointSetUnion
 documentation_of: ../../ds/range_uf.hpp
 ---
 
-# Range_uf
+# SuperDisjointSetUnion
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+長さ `L` の区間どうしをまとめて同一視するための Union-Find 拡張です。
 
-## 使い方
+## コンストラクタ
 
-```cpp
-#include "ds/range_uf.hpp"
+### `SuperDisjointSetUnion(int n)`
 
-// 使用例
-```
+長さ `n` の列に対して初期化します。
 
 ## メソッド
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+### `int uf.root(int x)`
+
+位置 `x` の代表元を返します。
+
+### `void uf.merge(int l, int r, int L)`
+
+区間 `[l,l+L)` と `[r,r+L)` を対応位置ごとに同一視します。
+
+## 使用例
+
+```cpp
+SuperDisjointSetUnion uf(n);
+uf.merge(l,r,len);
+if(uf.root(x)==uf.root(y)){
+    // same
+}
+```
+
+## 注意
+
+- [ds/super_dsu.hpp](/Users/ryoku_/Desktop/cp/lib/ds/super_dsu.hpp) と同内容の実装です。

@@ -5,21 +5,28 @@ documentation_of: ../../ds/compress.hpp
 
 # Compress
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+座標圧縮ユーティリティです。
 
-## 使い方
+このページが参照している `ds/compress.hpp` はワークツリー上では見当たりませんが、利用箇所からは次のような API を想定していることが分かります。
+
+## 想定される API
+
+- `push(x)`
+- `work()`
+- `find(x)`
+- `size()`
+- `v`
+  復元用の元値配列
+
+## 利用イメージ
 
 ```cpp
-#include "ds/compress.hpp"
-
-// 使用例
+Compress<long long> cp;
+cp.push(x);
+cp.push(y);
+cp.work();
+int id=cp.find(x);
+auto orig=cp.v[id];
 ```
 
-## メソッド
-
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+定義ファイルが追加されたら、このページも実装に合わせて詰める想定です。

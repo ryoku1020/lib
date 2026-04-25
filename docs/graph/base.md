@@ -1,77 +1,162 @@
 ---
-title: Static Graph (静的グラフのベースクラス)
+title: static_graph
 documentation_of: ../../graph/base.hpp
 ---
 
-# Static Graph (静的グラフのベースクラス)
+# static_graph
 
-競技プログラミング向けの汎用グラフ表現クラスです。
-CSR (Compressed Sparse Row) 形式をベースにしており、有向・無向グラフ、重み付き・重みなしグラフをサポートします。
-グラフアルゴリズム (最短経路や閉路検出) のベースとして使用されます。
+CSR 形式をベースにしたグラフ構造です。
+有向・無向、重み付き・重みなしの両方を扱えます。
 
-## 使い方
+## 型
+
+### `Unweighted`
+
+重みなしグラフ用のダミー重み型です。
+
+### `edge<T>`
+
+辺は次のメンバを持ちます。
+
+- `from`
+- `to`
+- `id`
+- `cost`
+
+## クラス
+
+### `static_graph<is_directed, T>`
+
+- `is_directed=true`
+  有向グラフ
+- `is_directed=false`
+  無向グラフ
+- `T`
+  辺重み型です。省略時は `Unweighted`
+
+## コンストラクタ
+
+### `static_graph(int n)`
+
+頂点数 `n` のグラフを作ります。
+
+### `static_graph(int n, int m)`
+
+頂点数 `n`、辺数 `m` を想定して reserve 付きで作ります。
+追加辺数がちょうど `m` に達すると内部で `build()` が走ります。
+
+## メソッド
+
+### `void g.add_edge(int a, int b, cost_t cost = 1, int id = -1)`
+
+辺を追加します。
+`id==-1` なら追加順の id が自動で振られます。
+
+- 制約: `0<=a,b<n`
+- 計算量: amortized `O(1)`
+
+### `void g.add_edge(const edge& e)`
+
+辺オブジェクトを直接追加します。
+
+### `void g.build() const`
+
+隣接リストの CSR 構築を行います。
+通常は `g[u]` を呼んだとき自動で行われます。
+
+- 計算量: `O(n+m)`
+
+### `void g.build_inv() const`
+
+有向グラフで逆辺 CSR を構築します。
+通常は `inv(u)` を呼んだとき自動で行われます。
+
+- 計算量: `O(n+m)`
+
+### `auto g[u]`
+
+頂点 `u` から出る辺の列を返します。
+
+```cpp
+for(auto&e:g[u]){
+    int to=e.to;
+}
+```
+
+### `auto g.inv(u)`
+
+頂点 `u` に入る辺の列を返します。
+無向グラフでは `g[u]` と同じです。
+
+### `const vc<edge>& g.all_edges() const`
+
+追加した元辺列を返します。
+
+### `int g.edge_size() const`
+
+元辺数を返します。
+
+### `edge g.get_edge(int id) const`
+
+id 番目の元辺を返します。
+
+### `int g.out_deg(int u) const`
+### `int g.in_deg(int u) const`
+### `int g.deg(int u) const`
+
+出次数、入次数、次数を返します。
+
+### `int g.size() const`
+
+頂点数を返します。
+
+### `vvc<F> g.adj() const`
+
+隣接行列風の 2 次元配列を返します。
+
+### `void g.clear()`
+
+保持している辺と CSR を消します。
+
+### `void g.sort(int i, F f)`
+### `void g.sort_inv(int i, F f)`
+
+頂点 `i` の隣接辺を比較関数 `f` でソートします。
+
+### `auto g.extract(F f) const`
+
+元辺のうち `f(e)` を満たすものだけを抜き出したグラフを返します。
+
+### `auto g.reorder(F f) const`
+
+各辺 `e` について、`f(e)` が偽なら向きを反転した有向グラフを返します。
+
+## 使用例 1: 重みなし有向グラフ
 
 ```cpp
 #include "graph/base.hpp"
 
-// 頂点数 N の重みなし有向グラフ
-static_graph<true, Unweighted> g(N);
+static_graph<1> g(n);
+g.add_edge(u,v);
+g.add_edge(v,w);
 
-// 頂点数 N の重み付き無向グラフ (重みの型は long long)
-static_graph<false, long long> wg(N);
-
-// 辺の追加
-g.add_edge(u, v);
-wg.add_edge(u, v, cost);
-
-// 頂点 u の隣接リストの走査
-// operator[] は内部で自動的に build() を呼び出します
-for (auto& e : wg[u]) {
-    int to = e.to;
-    long long cost = e.cost;
-    int id = e.id; // 追加された順の 0-indexed な ID
-}
-
-// 逆辺の走査 (有向グラフの場合)
-for (auto& e : g.inv(v)) {
-    // v へ向かってくる辺
+for(auto&e:g[u]){
+    // e.to
 }
 ```
 
-## メソッド
+## 使用例 2: 重み付き無向グラフ
 
-### `static_graph(int n)`
-頂点数 $n$ のグラフを初期化します。
-- 計算量: $O(N)$
+```cpp
+static_graph<0,long long> g(n);
+g.add_edge(u,v,cost);
 
-### `void add_edge(int a, int b, T cost = 1)`
-頂点 $a$ から $b$ への辺 (重み `cost`) を追加します。
-無向グラフの場合は、逆方向の辺も内部で自動的に処理されます。
-- 制約: $0 \le a, b < n$
-- 計算量: $O(1)$ amortized
+for(auto&e:g[u]){
+    long long c=e.cost;
+}
+```
 
-### `void build() const` / `void build_inv() const`
-内部の CSR 配列を構築します。通常は `operator[]` や `inv()` を呼び出した際に自動的に実行されるため、明示的に呼ぶ必要はありません。
-- 計算量: $O(N + M)$
+## 注意
 
-### `auto operator[](int u)`
-頂点 $u$ から出る辺のリストへのイテレータブルな View (span) を返します。
-- 制約: $0 \le u < n$
-- 計算量: 構築済みなら $O(1)$
-
-### `int out_deg(int u) const` / `int in_deg(int u) const`
-頂点 $u$ の出次数 / 入次数を返します。
-- 計算量: $O(1)$ (構築完了後)
-
-## 付属アルゴリズム
-
-### `pair<vector<int>, T> shortest_path(const Graph& g, int s, int t)`
-Dijkstra法を用いて、頂点 $s$ から $t$ への最短経路を求めます。
-戻り値は `(パスの頂点列, 最短距離)` のペアです。到達不可能な場合は空のリストと型の最大値を返します。
-- 制約: 辺の重みは非負であること。
-- 計算量: $O((N + M) \log M)$
-
-### `pair<vector<int>, vector<int>> cycle_detection(const Graph& g)`
-グラフ内の閉路を一つ検出します。
-戻り値は `(閉路を構成する頂点列, 閉路を構成する辺のID列)` のペアです。閉路が存在しない場合は空のリストを返します。
-- 計算量: $O(N + M)$
+- 頂点番号は 0-indexed です。
+- 無向グラフでは内部 CSR 上には両向きの辺が入りますが、`all_edges()` は元に追加した辺だけを返します。

@@ -1,42 +1,50 @@
 ---
-title: Max Flow (最大流 / Dinic 法)
+title: flow
 documentation_of: ../../graph/flow.hpp
 ---
 
-# Max Flow (最大流 / Dinic 法)
+# flow
 
-Dinic法による最大流問題のソルバーです。
-グラフネットワークにおいて、ソースからシンクへ流せる最大流量を求めます。
+Dinic 法による最大流です。
 
-## 使い方
+## コンストラクタ
 
-```cpp
-#include "graph/flow.cpp"
+### `flow<T>(int n)`
 
-// 頂点数 N、容量の型が int の場合
-flow<int> mf(N);
-
-// 頂点 u から v へ、容量 cap の有向辺を追加
-mf.ae(u, v, cap);
-
-// ソース s からシンク t への最大流を計算して返す
-int max_flow = mf.work(s, t);
-```
+頂点数 `n` のフローネットワークを作ります。
 
 ## メソッド
 
-### `flow(int n)`
-頂点数 $n$ のフローネットワークを構築します。
-- 計算量: $O(n)$
+### `void mf.add_edge(int a, int b, T cap)`
 
-### `void ae(int a, int b, T cap)`
-頂点 $a$ から 頂点 $b$ へ向かう、容量 `cap` の有向辺を追加します。逆辺（残余グラフ上の辺）の容量は $0$ で初期化されます。無向辺の場合は、双方から `ae` を呼ぶか、追加の処理を記述してください。
-- 制約: $0 \le a < n, 0 \le b < n$, `cap` $\ge 0$
-- 計算量: $O(1)$ ならし
+有向辺 `a->b` を容量 `cap` で追加します。
+逆辺は容量 0 で自動追加されます。
 
-### `T work(int s, int t)`
-頂点 $s$ を始点 (ソース)、頂点 $t$ を終点 (シンク) として Dinic 法による最大流を計算し、流れた流量の合計を返します。
-内部では、残余グラフ上のレベルグラフ構築 (BFS) と、増加パスの探索 (DFS) を繰り返します。
-- 制約: $0 \le s < n, 0 \le t < n$, $s \neq t$
-- 計算量: 辺数を $E$、頂点数を $V$ として、最悪 $O(V^2 E)$。
-ただし、単位容量のネットワーク（二部マッチングなど）では $O(E \sqrt{V})$ となります。
+- 制約: `0<=a,b<n`
+- 計算量: amortized `O(1)`
+
+### `T mf.work(int s, int t)`
+
+`s` から `t` への最大流を返します。
+
+- 制約: `0<=s,t<n`
+- 計算量: 一般には Dinic 法の計算量
+
+## 使用例
+
+```cpp
+#include "graph/flow.hpp"
+
+flow<long long> mf(n);
+mf.add_edge(s,a,3);
+mf.add_edge(a,t,2);
+mf.add_edge(s,b,4);
+mf.add_edge(b,t,5);
+
+auto ans=mf.work(s,t);
+```
+
+## 注意
+
+- 現在の実装名は `ae` ではなく `add_edge` です。
+- `work` を複数回呼ぶと前回の残余グラフ状態を引き継ぐので、通常は 1 回だけ呼ぶ想定です。

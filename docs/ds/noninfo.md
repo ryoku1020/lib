@@ -1,25 +1,22 @@
 ---
-title: Noninfo
-documentation_of: ../../ds/noninfo.cpp
+title: Noninfo / Nontag
+documentation_of: ../../ds/noninfo.hpp
 ---
 
-# Noninfo
+# Noninfo / Nontag
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+値を持たないデータ構造テンプレート用のダミー `Info` / `Tag` です。
 
-## 使い方
+## `Noninfo`
 
-```cpp
-#include "ds/noninfo.cpp"
+`value_type = monostate` で、`op`, `e`, `leaf` を何もしない形で定義しています。
 
-// 使用例
-```
+## `Nontag<Info>`
 
-## メソッド
+遅延作用が不要なときのダミー `Tag` です。
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+## 用途
+
+- 汎用 treap
+- 汎用 segment tree
+- 値を持たないが構造だけ使いたいテンプレート

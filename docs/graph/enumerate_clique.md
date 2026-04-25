@@ -1,25 +1,29 @@
 ---
-title: Enumerate_clique
+title: enumerate_clique
 documentation_of: ../../graph/enumerate_clique.hpp
 ---
 
-# Enumerate_clique
+# enumerate_clique
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+無向グラフ中のクリークを列挙します。
 
-## 使い方
+## 関数
+
+### `void enumerate_clique(const G& g, F f)`
+
+各クリーク `vc<int>` に対して `f(clique)` を呼びます。
+
+## 使用例
 
 ```cpp
 #include "graph/enumerate_clique.hpp"
 
-// 使用例
+enumerate_clique(g,[&](const vector<int>& cl){
+    // use clique
+});
 ```
 
-## メソッド
+## 注意
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+- 無向グラフ前提です。
+- 全クリーク列挙なので、密グラフでは指数的に増えます。

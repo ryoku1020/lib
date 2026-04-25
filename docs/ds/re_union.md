@@ -1,25 +1,33 @@
 ---
-title: Re_union
+title: RectangleUnion
 documentation_of: ../../ds/re_union.hpp
 ---
 
-# Re_union
+# RectangleUnion
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+軸平行長方形の和集合面積を求めるスイープライン補助です。
 
-## 使い方
+## 型
 
-```cpp
-#include "ds/re_union.hpp"
+### `RectangleUnion<T>`
 
-// 使用例
-```
+座標型を `T` にします。
 
 ## メソッド
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+### `void ru.reserve(int n)`
+### `void ru.add_rectangle(T l, T r, T d, T u)`
+
+長方形 `[l,r) x [d,u)` を追加します。
+
+### `template<class T2> T2 ru.calc()`
+
+和集合面積を返します。
+
+## 使用例
+
+```cpp
+RectangleUnion<long long> ru;
+ru.add_rectangle(l,r,d,u);
+auto area=ru.calc<long long>();
+```

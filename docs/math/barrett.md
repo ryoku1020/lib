@@ -5,21 +5,33 @@ documentation_of: ../../math/barrett.hpp
 
 # Barrett
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+Barrett reduction による高速 mod 乗算補助です。
+`DynamicModInt` の内部で使われています。
 
-## 使い方
+## 型
+
+### `Barrett`
+
+## メソッド
+
+### `void b.set(int mod)`
+
+法 `mod` を設定します。
+
+### `unsigned b.reduce(uint64_t x)`
+
+`x mod mod` を高速に返します。
+
+## 使用例
 
 ```cpp
 #include "math/barrett.hpp"
 
-// 使用例
+Barrett b;
+b.set(1000000007);
+auto r=b.reduce(1234567890123ULL);
 ```
 
-## メソッド
+## 注意
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+- 単独で使うより `DynamicModInt` の内部利用が主用途です。

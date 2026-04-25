@@ -1,25 +1,32 @@
 ---
-title: Famous
+title: famous helpers
 documentation_of: ../../ds/famous.hpp
 ---
 
-# Famous
+# famous helpers
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+汎用データ構造に載せるための代表的な `Info` たちです。
 
-## 使い方
+## 含まれるもの
+
+- `Min<Value_type, inf>`
+- `Max<Value_type, neg_inf>`
+- `Sum<Value_type>`
+- `Prod<Value_type>`
+- `Merger<Infos...>`
+- `Affine<Value_type>`
+- `Reversed<Info>`
+
+## 用途
+
+- `SegmentTree`
+- `LazySegmentTree`
+- `SparseTable`
+- `DynamicSegmentTree`
+
+## 例
 
 ```cpp
-#include "ds/famous.hpp"
-
-// 使用例
+using Info=Min<long long,(long long)4e18>;
+SegmentTree<Info> seg(n);
 ```
-
-## メソッド
-
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$

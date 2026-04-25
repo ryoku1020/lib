@@ -222,6 +222,7 @@ constexpr T POW(T a,T b){
 constexpr ll ten(ll a){
     return POW<ll>(10,a);
 }
+template<typename T>constexpr T inf=numeric_limits<T>::max()/2-1;
 int tbit(int32_t x){return x==0?-1:31-__builtin_clz((uint32_t)x);}
 int lbit(int32_t x){return x==0?-1:__builtin_ctz((uint32_t)x);}
 int tbit(uint32_t x){return x==0?-1:31-__builtin_clz(x);}

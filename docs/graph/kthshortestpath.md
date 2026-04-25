@@ -1,25 +1,29 @@
 ---
-title: Kthshortestpath
+title: kthshortestpath
 documentation_of: ../../graph/kthshortestpath.cpp
 ---
 
-# Kthshortestpath
+# kthshortestpath
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+`s` から `t` への k-shortest paths の長さを先頭から `k` 個返します。
+Eppstein 系の発想で leftist heap を使っています。
 
-## 使い方
+## 関数
+
+### `vc<T> kthshortestpath(G g, int s, int t, int k)`
+
+長さを小さい順に `k` 個返します。
+存在しないぶんは `-1` で埋まります。
+
+## 使用例
 
 ```cpp
 #include "graph/kthshortestpath.cpp"
 
-// 使用例
+auto ds=kthshortestpath<long long>(g,s,t,k);
 ```
 
-## メソッド
+## 注意
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+- `g.inv(v)` が使えるグラフを仮定しています。
+- ヘッダではなく `.cpp` に実装されています。

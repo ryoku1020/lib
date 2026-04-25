@@ -1,25 +1,39 @@
 ---
-title: Persisitent_uf
+title: PersistentUnionFind
 documentation_of: ../../ds/persisitent_uf.hpp
 ---
 
-# Persisitent_uf
+# PersistentUnionFind
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+永続 Union-Find です。
+各マージ後のバージョンを根ポインタで保持できます。
 
-## 使い方
+## 型
 
-```cpp
-#include "ds/persisitent_uf.hpp"
+### `PersistentUnionFind<B>`
 
-// 使用例
-```
+内部で `PersistentArray<int,B>` を使います。
 
 ## メソッド
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+### `node uf.build(int n)`
+
+初期バージョンを返します。
+
+### `int uf.root(int x, node root)`
+### `int uf.same(int a, int b, node root)`
+
+指定バージョンでの root / same 判定です。
+
+### `node uf.merge(int a, int b, node root)`
+
+指定バージョンにマージした新しいバージョンを返します。
+
+## 使用例
+
+```cpp
+PersistentUnionFind<2> uf;
+auto r0=uf.build(n);
+auto r1=uf.merge(0,1,r0);
+bool b=uf.same(0,1,r1);
+```

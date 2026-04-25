@@ -1,25 +1,40 @@
 ---
-title: Persistent_lazysegtree
+title: PersistentLazySegmentTree
 documentation_of: ../../ds/persistent_lazysegtree.hpp
 ---
 
-# Persistent_lazysegtree
+# PersistentLazySegmentTree
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+永続遅延セグメント木です。
+更新ごとに新しい root index を返し、過去バージョンを保持します。
 
-## 使い方
+## コンストラクタ
 
-```cpp
-#include "ds/persistent_lazysegtree.hpp"
+### `PersistentLazySegmentTree()`
 
-// 使用例
-```
+## 主なメソッド
 
-## メソッド
+### `int seg.build(int n)`
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+初期 root を返します。
+
+### `int seg.set(int i, value_type x, int root)`
+
+1 点変更した新 root を返します。
+
+### `value_type seg.prod(int l, int r, int root)`
+
+指定バージョンでの区間積です。
+
+### `int seg.apply(int l, int r, lazy_type x, int root)`
+
+区間作用後の新 root を返します。
+
+### `int seg.replace(int l, int r, int r1, int r2)`
+
+`r1` の `[l,r)` を `r2` の同区間で置き換えた新 root を返します。
+
+## 注意
+
+- `Info::bylen` を要求します。
+- 大きい固定 node pool を使っています。

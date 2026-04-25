@@ -30,7 +30,7 @@ struct flow{
         }
     }
     bool find=1;
-    int dfs(int u,T min_cap,int t){
+    T dfs(int u,T min_cap,int t){
         if(u==t){
             find=1;
             return min_cap;
@@ -50,12 +50,15 @@ struct flow{
         return 0;
     }
     T work(int s,int t){
+        ans=0;
         while(find){
             find=0;
             level.assign(n,1e9);
             itr.assign(n,0);
             bfs(s);
-            while(dfs(s,numeric_limits<T>::max(),t)){}
+            while(T pushed=dfs(s,numeric_limits<T>::max(),t)){
+                ans+=pushed;
+            }
         }
         return ans;
     }

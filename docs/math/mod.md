@@ -1,67 +1,95 @@
 ---
-title: Mod Math (組み合わせ・モジュロ演算・平方根)
+title: Mod Math
 documentation_of: ../../math/mod.hpp
 ---
 
-# Mod Math (組み合わせ・モジュロ演算・平方根)
+# Mod Math
 
-モジュロ上での二項係数・順列・重複組合せの計算、およびモジュロ演算に対する一次方程式の解法・平方根の計算を提供するライブラリです。
-内部で動的 mod の構造体 (`d_mint.cpp`) を利用しています。
+組み合わせ計算、合同方程式、mod 平方根をまとめた補助ライブラリです。
 
-## 使い方
+## `Binom<mint>`
+
+`mint` 型上で階乗・逆階乗を持ち、`C / P / H` を計算します。
+
+### 要件
+
+- `mint` が四則演算と逆元計算に対応していること
+
+### `void Binom<mint>::build(int n)`
+
+`0!` から `n!` までと、その逆元を前計算します。
+
+- 計算量: `O(n)`
+
+### `mint Binom<mint>::C(int a, int b)`
+
+`aCb` を返します。
+条件を満たさないときは `0` を返します。
+
+### `mint Binom<mint>::P(int a, int b)`
+
+`aPb` を返します。
+
+### `mint Binom<mint>::H(int a, int b)`
+
+重複組合せ `aHb` を返します。
+
+## 使用例
 
 ```cpp
-#include "math/mod.cpp"
+#include "math/mod.hpp"
+#include "math/d_mint.hpp"
 
-// 組み合わせ計算 (Mint型に依存)
-using mint = d_mint<998244353>;
+using mint=DynamicModInt<0>;
+mint::set_mod(998244353);
 
-// 前計算として N までの階乗と逆元を用意
-Binom<mint>::build(N);
-
-// aCb (組み合わせ)
-mint c = Binom<mint>::C(a, b);
-
-// aPb (順列)
-mint p = Binom<mint>::P(a, b);
-
-// aHb (重複組合せ)
-mint h = Binom<mint>::H(a, b);
-
-// モジュロ 1次方程式 ax ≡ b (mod m) の解 (x, m') を求める
-auto [x, m_prime] = mod_solve(a, b, m);
-
-// モジュロ平方根 x^2 ≡ a (mod p) となる x を求める (存在しなければ -1)
-int64_t sq = mod_sqrt(a, p);
+Binom<mint>::build(1000000);
+auto c=Binom<mint>::C(n,k);
+auto p=Binom<mint>::P(n,k);
+auto h=Binom<mint>::H(n,k);
 ```
 
-## メソッド
+## `pair<T,T> inv(T x, T m)`
 
-### `Binom<mint>::build(int n)`
-階乗 `fact` と 逆元階乗 `invfact` をサイズ $n+1$ まで前計算します。
-- 計算量: 初回呼び出し時に $O(N)$。すでに十分なサイズが計算されている場合は $O(1)$。
+`x` の `mod m` における逆元に関する情報を返します。
+返り値は `{a,m'}` で、`a*x ≡ 1 (mod m')` に対応します。
+内部では拡張 Euclid を使っています。
 
-### `Binom<mint>::C(int a, int b)`
-二項係数 $\binom{a}{b}$ を返します。
-- 制約: $a \ge b \ge 0$。条件を満たさない場合は $0$ を返します。
-- 計算量: $O(1)$ (テーブルが足りない場合は自動的に $O(a)$ かけて拡張されます)
+## `pair<T,T> mod_solve(T a, T b, T m)`
 
-### `Binom<mint>::P(int a, int b)`
-順列 $P(a, b) = \frac{a!}{(a-b)!}$ を返します。
-- 制約: $a \ge b \ge 0$。条件を満たさない場合は $0$ を返します。
-- 計算量: $O(1)$
+合同方程式
 
-### `Binom<mint>::H(int a, int b)`
-重複組合せ $H(a, b) = \binom{a+b-1}{b}$ を返します。
-- 計算量: $O(1)$
+`a*x ≡ b (mod m)`
 
-### `std::pair<T, T> mod_solve(T a, T b, T m)`
-一次合同式 $ax \equiv b \pmod m$ を解きます。
-解が存在する場合は、最小の非負の解 $x$ と、新しいモジュロ $m'$ (すなわち、解は $x + k m'$ と表される) のペアを返します。
-解が存在しない場合は `{-1, -1}` を返します。
-- 計算量: 拡張ユークリッドの互除法による $O(\log m)$
+を解きます。
 
-### `int64_t mod_sqrt(const int64_t &a, const int64_t &p)`
-Tonelli-Shanks法により、二次合同式 $x^2 \equiv a \pmod p$ となる $x$ を求めます。素数 $p$ が与えられたとして計算します。
-- 制約: $0 \le a < p$、$p$ は素数。
-- 計算量: $p-1$ が $2$ で割り切れる回数を $e$ として、最悪 $O(e^2)$。平均的には $O(\log p)$。
+解が存在するとき `{x,m'}` を返し、すべての解は `x + k*m'` と表せます。
+存在しないときは `{-1,-1}` を返します。
+
+- 計算量: `O(log m)`
+
+## `int64_t mod_sqrt(int64_t a, int64_t p)`
+
+`x^2 ≡ a (mod p)` を満たす `x` を 1 つ返します。
+存在しないときは `-1` を返します。
+
+- 制約: `0<=a<p`, `p` は素数
+
+## 使用例
+
+```cpp
+auto [x,mod2]=mod_solve(a,b,m);
+if(x!=-1){
+    // x + k*mod2 が解
+}
+
+long long r=mod_sqrt(a,p);
+if(r!=-1){
+    // r^2 ≡ a (mod p)
+}
+```
+
+## 注意
+
+- `Binom<mint>::C` は必要なら内部テーブルを自動拡張します。
+- `mod_sqrt` は Tonelli-Shanks 法です。

@@ -1,25 +1,31 @@
 ---
-title: Incremental_scc
+title: incremental_scc
 documentation_of: ../../graph/incremental_scc.hpp
 ---
 
-# Incremental_scc
+# incremental_scc
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+有向辺を時系列に追加していったときの SCC マージをオフラインで処理する補助構造です。
+かなり特殊用途寄りです。
 
-## 使い方
+## コンストラクタ
 
-```cpp
-#include "graph/incremental_scc.hpp"
+### `incremental_scc(int n = 0)`
 
-// 使用例
-```
+頂点数 `n` で初期化します。
 
 ## メソッド
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+### `void inc.push(int a, int b)`
+
+時刻順に辺 `a->b` を追加します。
+
+### `vc<graph::edge> inc.work()`
+
+内部処理を行い、マージ情報を返します。
+返る `edge` の `id` にはそのマージが起きた時刻 index が入ります。
+
+## 注意
+
+- 一般用途の SCC ではなく、増加列に対する特殊なオフライン処理です。
+- 詳しい利用側はこのリポジトリ内の実利用コードに合わせて読むのが安全です。

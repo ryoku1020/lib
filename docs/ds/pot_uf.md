@@ -1,25 +1,49 @@
 ---
-title: Pot_uf
+title: PotentializedUnionFind
 documentation_of: ../../ds/pot_uf.hpp
 ---
 
-# Pot_uf
+# PotentializedUnionFind
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+重み付き Union-Find です。
+各頂点のポテンシャル差を管理します。
 
-## 使い方
+## 要件
 
 ```cpp
-#include "ds/pot_uf.hpp"
-
-// 使用例
+struct X{
+    using value_type=...;
+    static value_type op(value_type a,value_type b);
+    static value_type inv(value_type a);
+    static value_type e();
+};
 ```
+
+## コンストラクタ
+
+### `PotentializedUnionFind<X>(int n)`
 
 ## メソッド
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+### `int uf.root(int x)`
+### `int uf.same(int x, int y)`
+
+### `value_type uf.diff(int x, int y)`
+
+同一成分内での差 `val[x]^{-1} * val[y]` を返します。
+
+### `int uf.merge(int x, int y, value_type W)`
+
+`val[x] = val[y] * W` となるように併合します。
+
+- 整合して新規併合: `1`
+- 既存条件と矛盾なし: `0`
+- 矛盾: `-1`
+
+## 使用例
+
+```cpp
+PotentializedUnionFind<X> uf(n);
+uf.merge(x,y,w);
+auto d=uf.diff(x,y);
+```

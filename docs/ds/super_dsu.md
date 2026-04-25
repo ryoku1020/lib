@@ -1,25 +1,16 @@
 ---
-title: Super_dsu
+title: SuperDisjointSetUnion
 documentation_of: ../../ds/super_dsu.hpp
 ---
 
-# Super_dsu
+# SuperDisjointSetUnion
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+区間どうしの同一視を高速に処理する Union-Find 拡張です。
+[docs/ds/range_uf.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/range_uf.md) と同内容です。
 
-## 使い方
+## 主なメソッド
 
-```cpp
-#include "ds/super_dsu.hpp"
+### `int uf.root(int x)`
+### `void uf.merge(int l, int r, int L)`
 
-// 使用例
-```
-
-## メソッド
-
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+`[l,l+L)` と `[r,r+L)` を対応位置ごとに併合します。

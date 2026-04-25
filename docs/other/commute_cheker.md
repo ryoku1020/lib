@@ -1,25 +1,15 @@
 ---
-title: Commute_cheker
+title: commute_cheker
 documentation_of: ../../other/commute_cheker.hpp
 ---
 
-# Commute_cheker
+# commute_cheker
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+対応する [other/commute_cheker.hpp](/Users/ryoku_/Desktop/cp/lib/other/commute_cheker.hpp) は現在空ファイルです。
 
-## 使い方
+## 状態
 
-```cpp
-#include "other/commute_cheker.hpp"
+- 実装はまだ入っていません
+- そのため公開 API もありません
 
-// 使用例
-```
-
-## メソッド
-
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+将来実装が追加されたら、このページもそれに合わせて更新する想定です。

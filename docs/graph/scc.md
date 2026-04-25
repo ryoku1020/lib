@@ -1,25 +1,49 @@
 ---
-title: Scc
+title: scc
 documentation_of: ../../graph/scc.hpp
 ---
 
-# Scc
+# scc
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+有向グラフの強連結成分分解を行います。
+返り値は各頂点がどの成分に属するかを表す配列です。
 
-## 使い方
+## 関数
+
+### `vc<int> scc(const G& g)`
+
+有向グラフ `g` を強連結成分分解し、各頂点の成分 id を返します。
+
+- 制約: `G::directed()==true`
+- 計算量: `O(n+m)`
+
+## 戻り値
+
+- `res[v]`
+  頂点 `v` が属する強連結成分 id
+
+## 使用例
 
 ```cpp
+#include "graph/base.hpp"
 #include "graph/scc.hpp"
 
-// 使用例
+static_graph<1> g(n);
+for(auto [u,v]:edges)g.add_edge(u,v);
+
+auto comp=scc(g);
 ```
 
-## メソッド
+成分ごとに頂点を集めるときは次のようにします。
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+```cpp
+int k=0;
+for(int x:comp)k=max(k,x+1);
+vector<vector<int>> groups(k);
+for(int v=0;v<n;v++)groups[comp[v]].push_back(v);
+```
+
+## 注意
+
+- `g.inv(u)` を使うので、逆辺を取得できる有向グラフを渡す必要があります。
+- id の番号自体には意味を持たせない方が安全です。必要なら DAG を作ってから自分で扱います。

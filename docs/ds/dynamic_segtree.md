@@ -1,25 +1,36 @@
 ---
-title: Dynamic_segtree
+title: DynamicSegmentTree
 documentation_of: ../../ds/dynamic_segtree.hpp
 ---
 
-# Dynamic_segtree
+# DynamicSegmentTree
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+動的セグメント木です。
+未生成ノードを省略しながら巨大範囲を扱います。
 
-## 使い方
+## 型
 
-```cpp
-#include "ds/dynamic_segtree.hpp"
+### `DynamicSegmentTree<Info, sztype, is_persistent>`
 
-// 使用例
-```
+- `is_persistent=true`
+  永続版
+- `is_persistent=false`
+  破壊的更新版
 
-## メソッド
+## 主なメソッド
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+### `Node* seg.build()`
+
+初期 root を返します。
+
+### `Node* seg.set(Node* root, sztype i, value_type x)`
+
+1 点変更後の root を返します。
+
+### `value_type seg.prod(Node* root, int l, int r)`
+
+区間積を返します。
+
+## 注意
+
+- `Info::get2(depth)` が必要です。

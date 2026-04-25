@@ -1,25 +1,32 @@
 ---
-title: Enumerate_triangle
+title: enumerate_triangle
 documentation_of: ../../graph/enumerate_triangle.hpp
 ---
 
-# Enumerate_triangle
+# enumerate_triangle
 
-## 概要
-ここに概要を記述します。
-（例: 0-indexed で管理し、区間は半開区間 `[l, r)` で指定します。）
+無向グラフ中の三角形を列挙します。
 
-## 使い方
+## 関数
+
+### `void enumerate_triangle(const G<0,T>& g, F f)`
+
+各三角形 `(a,b,c)` に対して `f(a,b,c)` を呼びます。
+
+- 計算量: 典型的には `O(m sqrt(m))` 系
+
+## 使用例
 
 ```cpp
 #include "graph/enumerate_triangle.hpp"
 
-// 使用例
+long long cnt=0;
+enumerate_triangle(g,[&](int a,int b,int c){
+    cnt++;
+});
 ```
 
-## メソッド
+## 注意
 
-### `メソッド名`
-ここにメソッドの説明を記述します。
-- 制約:
-- 計算量: $O()$
+- 無向グラフを前提としています。
+- 同じ三角形は 1 回ずつ列挙されます。
