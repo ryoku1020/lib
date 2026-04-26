@@ -29,6 +29,7 @@ struct Binom{
     static mint H(int a,int b){
         return C(a+b-1,b);
     }  
+    
 };
 template<class T>
 pair<T,T> inv(T x,T m){

@@ -12,7 +12,6 @@ struct flow{
     T ans=0;
     flow(int n):n(n),g(n){}
     void add_edge(int a,int b,T cap){
-        assert(0<=a&&a<n&&0<=b&&b<n);
         g[a].push_back({b,(int)g[b].size(),cap});
         g[b].push_back({a,(int)g[a].size()-1,0});
     }

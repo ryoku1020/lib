@@ -1,5 +1,4 @@
 #pragma once
-#pragma GCC optimize("O3")
 using namespace std;
 #include <iostream>
 #include <iomanip>
