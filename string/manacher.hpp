@@ -2,6 +2,8 @@
 #include"../template.hpp"
 template<class String>
 vc<int>Manacher(String&s){
+    assert(s.size()<=numeric_limits<int>::max()/2);
+    if(s.empty())return {};
     if(s.size()==1)return {1};
     vc<int>S;
     rep(i,(int)s.size()){

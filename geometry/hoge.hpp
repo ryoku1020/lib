@@ -40,6 +40,7 @@ struct Point{
 };
 template<class point>
 pair<vc<point>,vc<point>>ConvexHull(vc<point> points){
+    assert(points.size()<=numeric_limits<int>::max());
 
     points.erase(unique(all(points)),points.end());
     if(points.size()<=2)return {points,points};

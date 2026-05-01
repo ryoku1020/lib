@@ -25,10 +25,13 @@ struct Redp{
     vvc<pair<int,int>>g;
     Redp(int n):g(n),dp(n),ans(n){}
     void add_edge(int a,int b,int idx,int xdi){
+        assert(0<=a&&a<(int)g.size());
+        assert(0<=b&&b<(int)g.size());
         g[a].push_back({b,idx});
         g[b].push_back({a,xdi});
     }
     vc<V>calc(){
+        if(g.empty())return {};
         auto dfs=[&](auto&dfs,int u,int v)->void{
             E tmp=Reroot::id();
             for(auto&[x,idx]:g[u]){

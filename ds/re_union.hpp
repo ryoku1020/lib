@@ -1,6 +1,6 @@
 #pragma once
 #include "../template.hpp"
-#include "lazy_seg.hpp"
+#include "lazy-segtree.hpp"
 
 //T > 長方形の max T2> ans の max
 template<class T>
@@ -56,15 +56,15 @@ struct RectangleUnion{
         }
         sort(all(iord));
         vc<pair<int,T>>w(x.size()-1);rep(i,x.size()-1)w[i]={0,x.v[i+1]-x.v[i]};
-        LazySegmentTree<M,MM>SegmentTree(x.size()-1,w);
+        LazySegtree<M,MM>segtree(x.size()-1,w);
         T pre=get<2>(iord[0]);
         T2 ans=0;
         for(auto&[ypos,i,diff]:iord){
-            auto res=SegmentTree.all_prod();
+            auto res=segtree.all_prod();
             T W=x.v.back()-x.v[0];
             if(res.first==0)W-=res.second;
             ans+=T2(W)*(-pre+ypos);
-            SegmentTree.apply(xl[i],xr[i],diff);
+            segtree.apply(xl[i],xr[i],diff);
             pre=ypos;
         }
         return ans;

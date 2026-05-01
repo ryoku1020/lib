@@ -8,9 +8,10 @@ struct DoublePriorityQueue{
         void remove(T x){rq.push(x);}
         void pop(){
             modify();
+            assert(!q.empty());
             q.pop();
         }
-        T top(){modify();return q.top();}
+        T top(){modify();assert(!q.empty());return q.top();}
         void modify(){
             while(q.size()&&rq.size()&&q.top()==rq.top()){
                 rq.pop(),q.pop();
@@ -26,9 +27,10 @@ struct DoublePriorityQueue{
         void remove(T x){rq.push(x);}
         void pop(){
             modify();
+            assert(!q.empty());
             q.pop();
         }
-        T top(){modify();return q.top();}
+        T top(){modify();assert(!q.empty());return q.top();}
         void modify(){
             while(q.size()&&rq.size()&&q.top()==rq.top()){
                 rq.pop(),q.pop();
@@ -42,16 +44,20 @@ struct DoublePriorityQueue{
         right.push(x);
     }
     T front(){
+        assert(size());
         return left.top();
     }
     T back(){
+        assert(size());
         return right.top();
     }
     T pop_front(){
+        assert(size());
         auto res=left.top();left.pop();right.remove(res);
         return res;
     }
     T pop_back(){
+        assert(size());
         auto res=right.top();right.pop();left.remove(res);
         return res;
     }

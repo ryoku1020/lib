@@ -71,11 +71,13 @@ struct treap{
     int pool_ptr;
     Node*root;
     treap(int max_nodes){
+        assert(max_nodes>0);
         pool=(Node*)malloc(sizeof(Node)*max_nodes);
         pool_ptr=0;
         root=NULL;
     }
     Node*new_node(){
+        assert(pool);
         Node*res=&pool[pool_ptr++];
         res->lc=res->rc=0;
         res->val=res->sum=res->rev_sum=Info::e();
@@ -126,16 +128,22 @@ struct treap{
         }
     }
     Node*insert(Node*x,int k,value_type v){
+        int sz=x?x->size:0;
+        assert(0<=k&&k<=sz);
         auto sp=split(x,k);
         auto ins=new_node();ins->val=v;ins->sum=ins->rev_sum=v;
         return merge(sp.first,merge(ins,sp.second));
     }
     Node*erase(Node*x,int k){
+        assert(x);
+        assert(0<=k&&k<x->size);
         auto s1=split(x,k);
         auto s2=split(s1.second,1);
         return merge(s1.first,s2.second);
     }
     Node*apply(Node*x,lazy_type v,int l,int r){
+        int sz=x?x->size:0;
+        assert(0<=l&&l<=r&&r<=sz);
         if(l==r)return x;
         auto s1=split(x,l);
         auto s2=split(s1.second,r-l);
@@ -147,6 +155,8 @@ struct treap{
         return merge(s1.first,merge(s2.first,s2.second));
     }
     pair<Node*,value_type>prod(Node*x,int l,int r){
+        int sz=x?x->size:0;
+        assert(0<=l&&l<=r&&r<=sz);
         if(l==r)return {x,Info::e()};
         auto s1=split(x,l);
         auto s2=split(s1.second,r-l);
@@ -154,6 +164,8 @@ struct treap{
         return {merge(s1.first,merge(s2.first,s2.second)),res};
     }
     Node*reverse(Node*x,int l,int r){
+        int sz=x?x->size:0;
+        assert(0<=l&&l<=r&&r<=sz);
         if(l==r)return x;
         auto s1=split(x,l);
         auto s2=split(s1.second,r-l);

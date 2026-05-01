@@ -2,6 +2,8 @@
 #include"z-algorithm.hpp"
 #include"../template.hpp"
 vc<array<int,3>>RunEnumerate(string s){
+    assert(s.size()<=numeric_limits<int>::max());
+    if(s.empty())return {};
     unordered_map<ll,int>ma;
     int K=random_device{}();
     rep(i,2){

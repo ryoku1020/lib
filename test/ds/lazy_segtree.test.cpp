@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <vector>
-#include "../../ds/lazy_seg.hpp"
-#include "../../math/s_mint.hpp"
+#include "../../ds/lazy-segtree.hpp"
+#include "../../math/static-mod-int.hpp"
 
 using namespace std;
 
@@ -51,7 +51,7 @@ int main() {
         A[i] = {x, 1};
     }
 
-    LazySegmentTree<Info, Tag> seg(N, A);
+    LazySegtree<Info, Tag> seg(N, A);
 
     for (int i = 0; i < Q; i++) {
         int type;

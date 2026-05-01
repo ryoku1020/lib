@@ -38,7 +38,7 @@ documentation_of: ../../math/mod.hpp
 
 ```cpp
 #include "math/mod.hpp"
-#include "math/d_mint.hpp"
+#include "math/dynamic-mod-int.hpp"
 
 using mint=DynamicModInt<0>;
 mint::set_mod(998244353);

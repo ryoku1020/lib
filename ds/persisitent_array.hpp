@@ -14,6 +14,7 @@ struct PersistentArray{
     int b_;
     int n_;
     Node*build(int n,T x){
+        assert(n>=0);
         n_=n;
         Node*root=new Node();
         int b=1;
@@ -38,6 +39,8 @@ struct PersistentArray{
         return root;
     }
     Node*change(int pos,T x,Node*root){
+        assert(root);
+        assert(0<=pos&&pos<n_);
         int b=b_;
         auto dfs=[&](auto&dfs,int l,int r,Node*now,int b)->Node*{
             if(b==1){
@@ -52,6 +55,8 @@ struct PersistentArray{
         return dfs(dfs,0,n_,root,b);
     }
     T get(int pos,Node*root){
+        assert(root);
+        assert(0<=pos&&pos<n_);
         int b=b_;
         auto dfs=[&](auto&dfs,int l,int r,Node*now,int b)->T{
             if(r-l==1){

@@ -9,6 +9,7 @@ struct wavlet_matrix{
     vc<bit_vector>bv;
     wavlet_matrix(int n=0):val(n),n(n),start(depth){}
     void set(int i,T x){
+        assert(0<=i&&i<n);
         val[i]=x;
     }
 
@@ -27,6 +28,8 @@ struct wavlet_matrix{
         }
     }
     T kth_smallest(int l,int r,T k){
+        assert(0<=l&&l<=r&&r<=n);
+        assert(0<=k&&k<r-l);
         T now=0;
         drep(i,depth){
             auto&target=bv[i];
@@ -48,6 +51,7 @@ struct wavlet_matrix{
     }
     //# of i \in[l,r) and val[i]<=k
     int count_lower(int l,int r,T k){
+        assert(0<=l&&l<=r&&r<=n);
         int ans=0;
         drep(i,depth){
             auto&target=bv[i];
@@ -67,6 +71,7 @@ struct wavlet_matrix{
         return ans+r-l;
     }
     int count(int l,int r,T x){
+        assert(0<=l&&l<=r&&r<=n);
         return count_lower(l,r,x)-count_lower(l,r,x-1);
     }
 };

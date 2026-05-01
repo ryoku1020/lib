@@ -1,6 +1,6 @@
 #pragma once
 #include "../template.hpp"
-#include "d_mint.hpp"
+#include "dynamic-mod-int.hpp"
 template<class mint>
 struct Binom{
     inline static vector<mint>fact={1},invfact={1};

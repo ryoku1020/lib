@@ -2,6 +2,7 @@
 #include"../template.hpp"
 template<class F1,class F2>
 void internal_centroid_decomposition13(vvc<int>&g,vc<int>&is_virtual,vc<int>&is_alive,vc<int>&size,int root,vvc<int>&send,vc<int>&col,F1&Callnonvirtual,F2&Callvirtual){
+    assert(0<=root&&root<(int)g.size());
     vc<int>alives;
     int non_virtual=0;
     auto dfs_first=[&](auto&dfs_first,int u,int v)->void{
@@ -80,6 +81,7 @@ void internal_centroid_decomposition13(vvc<int>&g,vc<int>&is_virtual,vc<int>&is_
 template<class F1,class F2>
 void centroid_decomposition13(vvc<int>&g,F1&Callnonvirtual,F2&Callvirutal){
     int n=g.size();
+    if(n==0)return;
     vc<int>is_virtual(n);
     vc<int>is_alive(n,1);
     vc<int>size(n);
@@ -91,6 +93,7 @@ void centroid_decomposition13(vvc<int>&g,F1&Callnonvirtual,F2&Callvirutal){
 template<class Tree,class F1,class F2>
 void centroid_decomposition13(Tree&g,F1&Callnonvirtual,F2&Callvirutal){
     int n=g.size();
+    if(n==0)return;
     vvc<int>G(n);rep(i,n)for(auto&x:g[i]){
         G[i].pb(x.to);
     }

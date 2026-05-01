@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include "../../graph/two_sat.hpp"
+#include "../../graph/two-sat.hpp"
 
 using namespace std;
 

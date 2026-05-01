@@ -12,6 +12,7 @@ struct FastSet{
     //FastSet for val in [0,n)
     FastSet():n(0),N(0),size(0){}
     FastSet(int n_):size(0){
+        assert(n_>=0);
         n=n_;
         N=B;
         vc<u64>raw(1);
@@ -31,6 +32,7 @@ struct FastSet{
         return res;
     }
     int insert(int x){
+        assert(0<=x&&x<n);
         auto xdig=dig(x);
         int idx=0;
         rep(i,(int)val.size()-1){
@@ -43,6 +45,7 @@ struct FastSet{
         return res;
     }
     int erase(int x){
+        assert(0<=x&&x<n);
         auto xdig=dig(x);
         vc<int>Ihis(val.size());
         int idx=0;

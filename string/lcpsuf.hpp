@@ -1,6 +1,8 @@
 #pragma once
 #include "../template.hpp"
 vc<int>sf_array(vc<int>s,bool first=true){
+    assert(s.size()<=numeric_limits<int>::max());
+    if(s.empty())return {};
     auto smin=min(s);for(auto&x:s)x-=smin;
     enum Type{
         S,
@@ -130,6 +132,8 @@ vc<int>sf_array(vc<int>s,bool first=true){
 }
 
 vc<int>sf_array(string s){
+    assert(s.size()<=numeric_limits<int>::max());
+    if(s.empty())return {};
     char c=CHAR_MAX;
     for(auto&x:s)chmin(c,x);
     vc<int>S(s.size());
@@ -137,6 +141,8 @@ vc<int>sf_array(string s){
     return sf_array(S);
 }
 vc<int>lcp_array(vc<int>s){
+    assert(s.size()<=numeric_limits<int>::max());
+    if(s.empty())return {};
     auto sf=sf_array(s);
     sf.insert(sf.begin(),s.size());
     vc<int>rank(s.size()+1);
@@ -157,6 +163,8 @@ vc<int>lcp_array(vc<int>s){
     return LCP;
 }
 vc<int>lcp_array(string s){
+    assert(s.size()<=numeric_limits<int>::max());
+    if(s.empty())return {};
     char c=CHAR_MAX;
     for(auto&x:s)chmin(c,x);
     vc<int>S(s.size());

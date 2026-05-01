@@ -34,7 +34,7 @@ modint 上の畳み込みを返します。
 
 ```cpp
 #include "math/conv.hpp"
-#include "math/s_mint.hpp"
+#include "math/static-mod-int.hpp"
 
 using mint=StaticModInt<998244353>;
 

@@ -37,12 +37,12 @@ title: Library Docs Index
 - 木: [docs/tree/base.md](/Users/ryoku_/Desktop/cp/lib/docs/tree/base.md), [docs/tree/dsu-on-tree.md](/Users/ryoku_/Desktop/cp/lib/docs/tree/dsu-on-tree.md), [docs/tree/centroid.md](/Users/ryoku_/Desktop/cp/lib/docs/tree/centroid.md)
 - 文字列: [docs/string/lcpsuf.md](/Users/ryoku_/Desktop/cp/lib/docs/string/lcpsuf.md), [docs/string/z-algorithm.md](/Users/ryoku_/Desktop/cp/lib/docs/string/z-algorithm.md), [docs/string/aho-corasick.md](/Users/ryoku_/Desktop/cp/lib/docs/string/aho-corasick.md)
 - 数学: [docs/math/mod.md](/Users/ryoku_/Desktop/cp/lib/docs/math/mod.md), [docs/math/conv.md](/Users/ryoku_/Desktop/cp/lib/docs/math/conv.md), [docs/math/frac.md](/Users/ryoku_/Desktop/cp/lib/docs/math/frac.md)
-- データ構造: [docs/ds/BIT.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/BIT.md), [docs/ds/seg.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/seg.md), [docs/ds/lazy_seg.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/lazy_seg.md)
+- データ構造: [docs/ds/BIT.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/BIT.md), [docs/ds/segtree.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/segtree.md), [docs/ds/lazy-segtree.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/lazy-segtree.md)
 - グラフ: [docs/graph/base.md](/Users/ryoku_/Desktop/cp/lib/docs/graph/base.md), [docs/graph/flow.md](/Users/ryoku_/Desktop/cp/lib/docs/graph/flow.md), [docs/graph/min-cost-flow.md](/Users/ryoku_/Desktop/cp/lib/docs/graph/min-cost-flow.md)
 
 ## 今回追加した主なページ
 
 - tree: centroid decomposition / countour_add / DSU on Tree
 - string: Z algorithm / Manacher / Aho-Corasick / EerTree / Run Enumerate
-- math: Frac / kth_root / prime_counting / enumerate_floor / GoldenSearch
+- math: Frac / kth-root / prime-counting / enumerate-floor / GoldenSearch
 - graph: MinCostFlow

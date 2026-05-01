@@ -6,6 +6,7 @@ struct SuperDisjointSetUnion{
     int lg;
     vc<DisjointSetUnion>ds;
     SuperDisjointSetUnion(int n):n(n){
+        assert(n>=0);
         lg=1;
         while((1<<lg)<=n)lg++;
         ds=vc<DisjointSetUnion>(lg,1);
@@ -14,12 +15,17 @@ struct SuperDisjointSetUnion{
         }
     }
     int root(int x){
+        assert(0<=x&&x<n);
         return ds[0].root(x);
     }
     void merge(int l,int r,int L){
+        assert(0<=l&&l<=n);
+        assert(0<=r&&r<=n);
+        assert(L>=0);
         if(l==r)return;
         if(l>r)swap(l,r);
         if(L==0)return;
+        assert(l+L<=n&&r+L<=n);
         auto dfs=[&](auto&dfs,int depth,int tl,int tr,int sl,int sr)->void{
             if(ds[depth].same(tl,sl))return;
             ds[depth].merge(tl,sl);

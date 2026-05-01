@@ -60,6 +60,7 @@ struct EerTree{
         S.resize(s.size());
         rep(i,s.size()){
             S[i]=s[i]-CHRMIN;
+            assert(0<=S[i]&&S[i]<sigma);
         }
 
         new_node();

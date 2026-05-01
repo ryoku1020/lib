@@ -93,7 +93,7 @@ using FPS=FormalPowerSeries<mint>;
 
 ```cpp
 #include "math/fps.hpp"
-#include "math/s_mint.hpp"
+#include "math/static-mod-int.hpp"
 
 using mint=StaticModInt<998244353>;
 using FPS=FormalPowerSeries<mint>;

@@ -19,14 +19,14 @@ documentation_of: ../../ds/famous.hpp
 
 ## 用途
 
-- `SegmentTree`
-- `LazySegmentTree`
+- `Segtree`
+- `LazySegtree`
 - `SparseTable`
-- `DynamicSegmentTree`
+- `DynamicSegtree`
 
 ## 例
 
 ```cpp
 using Info=Min<long long,(long long)4e18>;
-SegmentTree<Info> seg(n);
+Segtree<Info> seg(n);
 ```
