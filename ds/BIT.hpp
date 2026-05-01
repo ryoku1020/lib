@@ -39,3 +39,5 @@ struct BinaryIndexedTree{
         return x;
     }
 };
+template<class T=long long>
+using BIT=BinaryIndexedTree<T>;
