@@ -51,6 +51,15 @@ public:
         if constexpr(is_directed)inv_built=false;
         if(++added==m)build();
     }
+    template<int substract=0>
+    void input(int edge_count){
+        rep(i,edge_count){
+            INT(a,b);
+            a-=substract;
+            b-=substract;
+            add_edge(a,b);
+        }
+    }
     void build()const{
         if(csr_built)return;
         csr_built=true;

@@ -11,8 +11,7 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    static_graph<1> g(N);
-    Tree hld(N, g);
+    Tree hld(N);
     for (int i = 0; i < N - 1; i++) {
         int u, v;
         cin >> u >> v;
