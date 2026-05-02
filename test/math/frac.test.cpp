@@ -1,3 +1,4 @@
+#define IGNORE
 #include <cassert>
 #include "../../math/frac.hpp"
 
