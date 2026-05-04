@@ -11,6 +11,9 @@ struct Point{
         x-=p.x,y-=p.y;
         return *this;
     }
+    Point operator-(){
+        return Point(-x,-y);
+    }
     friend Point operator+(Point p1,const Point&p2){
         return Point(p1)+=p2;
     }
