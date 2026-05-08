@@ -44,5 +44,6 @@ title: Library Docs Index
 
 - tree: centroid decomposition / countour_add / DSU on Tree
 - string: Z algorithm / Manacher / Aho-Corasick / EerTree / Run Enumerate
-- math: Frac / kth-root / prime-counting / enumerate-floor / GoldenSearch
+- math: Frac / kth-root / prime-counting / enumerate-floor / GoldenSearch / counting
 - graph: MinCostFlow
+- ds: LiChaoTree / DynamicLiChaoTree / CompressedLiChaoTree / NodePool
