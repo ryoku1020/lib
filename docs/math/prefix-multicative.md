@@ -5,24 +5,77 @@ documentation_of: ../../math/prefix-multicative.hpp
 
 # prefix-multicative helpers
 
-素数ごとの寄与をまとめて扱う前計算補助です。
-`lucy_dp` や `black_algorithm` が入っています。
+$n$ 以下の整数に関わる積性関数の総和を $O(n^{2/3})$ または $O(n^{3/4}/\log n)$ で計算する補助関数群です。
+内部では **Lucy DP (Min-25 篩の前半)** を利用しています。
 
 ## 関数
 
 ### `vc<ll> floors(ll n)`
 
-`floor(n/k)` が取りうる値を昇順で返します。
+$\lfloor n/k \rfloor$ が取りうるすべての値を昇順で返します。
+返り値の長さは $O(\sqrt{n})$ です。
+
+```cpp
+auto v = floors(12);
+// → {1, 2, 3, 4, 6, 12}
+```
 
 ### `tuple<vc<T>,vc<int>,vc<ll>> lucy_dp(ll n, F f, G g)`
 
-Lucy DP を行い、DP 値・素数列・`floors(n)` を返します。
+Min-25 篩の前半（Lucy DP）を実行します。
 
-### `mint black_algorithm(ll n, F f, G g, H h)`
+- `f(x)` : $x$ が素数のとき素数への寄与の「初期値」（例: $x$ 自身や $x^k$）
+- `g(x)` : 素数の寄与が 1 段階上に伝播するときの乗数（例: 倍数除去の係数）
+- 返り値:
+  - `vc<T> dp` : `dp[i]` = `floors(n)` の `i` 番目の値 $v$ に対して「$\le v$ の素数への寄与の総和」
+  - `vc<int> primes` : $\sqrt{n}$ 以下の素数リスト
+  - `vc<ll> QN` : `floors(n)` の値リスト（添字の対応に使う）
 
-積性的関数系の高速総和を行う補助です。
+### `mint black_algorithm<DP>(ll n, F f, G g, H h)`
+
+Min-25 篩の後半（Black algorithm）を実行し、積性関数 $\sum_{i=1}^{n} f(i)$ を計算します。
+
+- テンプレート引数 `DP` : Lucy DP の型
+- `f(x)` / `g(x)` : Lucy DP と同じ
+- `h(p, e)` : 素数冪 $p^e$ への寄与（例: $p^e - p^{e-1}$、`e=1` なら素数の寄与）
+
+## 使用例: $n$ 以下の素数の個数
+
+```cpp
+#include "math/prefix-multicative.hpp"
+#include "math/enumerate-floor.hpp"
+
+// prime_counting(n) を直接使う方が楽
+ll cnt = prime_counting(n);
+```
+
+`prime-counting.hpp` が `prefix-multicative.hpp` + `enumerate-floor.hpp` をラップしているので、
+単に素数の個数が欲しいだけなら `prime_counting(n)` を使ってください。
+
+## 使用例: $n$ 以下の素数の和
+
+```cpp
+#include "math/prefix-multicative.hpp"
+
+using mint = StaticModInt<998244353>;
+
+// f(x) = x (素数 x の寄与は x 自身)
+// g(x) = 1 (係数は 1)
+// h(p, e) = p^e * (1 - p) ... 等
+
+// Lucy DP で「x 以下の素数の和」を求める
+auto [dp, primes, QN] = lucy_dp<mint>(
+    n,
+    [](ll x){ return mint(x); }, // 初期値 = x
+    [](ll x){ return mint(1); }  // 係数 = 1
+);
+
+// dp.back() が「n 以下の素数の和」
+mint sum_of_primes = dp.back() - mint(1); // 1 を除く
+```
 
 ## 注意
 
-- かなり上級者向けの補助関数群です。
-- 実際の `f`, `g`, `h` の設計は呼び出し側問題設定に依存します。
+- かなり高度な実装です。使い方に慣れるまでは `prime_counting` などのラッパーを使う方が無難です。
+- `f`, `g`, `h` の設計は問題の積性関数に依存します。`h(p, 1)` は素数冪 `p^1 = p` での寄与を返す関数です。
+- `black_algorithm` のテンプレート引数 `<mint>` は戻り値の型で、`DP` 型と分けて指定できます。

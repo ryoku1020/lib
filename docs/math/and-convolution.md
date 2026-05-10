@@ -5,22 +5,33 @@ documentation_of: ../../math/and-convolution.hpp
 
 # AND Convolution
 
-ビットごとの AND 演算に対する畳み込み (Bitwise AND Convolution) を計算します。
-長さが $N, M$ の数列 $A, B$ が与えられたとき、$C_k = \sum_{i \text{ AND } j = k} A_i B_j$ となる数列 $C$ を高速ゼータ変換 (Fast Zeta Transform)・高速メビウス変換 (Fast Mobius Transform) を用いて $O(L \log L)$ で計算します（ただし $L$ は $\max(N, M)$ 以上の最小の2のべき乗）。
+$C_k = \sum_{i \mathbin{\&} j = k} A_i B_j$ となる数列 $C$ を高速ゼータ変換・メビウス変換で計算します。
 
-## and_convolution
+## 関数
+
+### `vc<mint> and_convolution(vc<mint> a, vc<mint> b)`
+
+- `mint` — Modint 型や `long long` など四則演算が定義された型
+- 入力の長さが 2 のべき乗でなくても、内部で自動的にゼロ埋めされます
+- 返り値: 長さ $L = 2^{\lceil \log_2(\max(|A|, |B|)) \rceil}$ の畳み込み結果
+- 計算量: $O(L \log L)$
+
+## 使用例
 
 ```cpp
-template<class mint>
-vc<mint> and_convolution(vc<mint> a, vc<mint> b);
+#include "math/and-convolution.hpp"
+
+using mint = StaticModInt<998244353>;
+
+vc<mint> a = {1,2,3,4}; // A[0..3]
+vc<mint> b = {1,0,1,0}; // B[0..3]
+
+auto c = and_convolution(a, b);
+// c[k] = sum of a[i]*b[j] for all i&j==k
+// c[0] = a[0]*b[0] + a[1]*b[0] + a[2]*b[0] + ... など
 ```
 
-### 制約・引数
-- `class mint`: Modint 型や `long long` などの算術演算が定義された型。
-- `vc<mint> a, b`: 畳み込みを行う対象の数列。長さが 2 のべき乗でなくても、内部で自動的に必要な2のべき乗の長さにゼロ埋め（resize）されます。
+## 注意
 
-### 戻り値
-- 畳み込み結果の数列 `C`。長さは $\max(|A|, |B|)$ 以上の最小の2のべき乗になります。
-
-### 計算量
-- $O(L \log L)$ （ただし $L = 2^{\lceil \log_2(\max(|A|, |B|)) \rceil}$）
+- 返り値の長さは $\max(|A|, |B|)$ 以上の最小の2のべき乗になります。
+- 添字が $k$ 未満の部分は 0 埋めとして正しく計算されます。

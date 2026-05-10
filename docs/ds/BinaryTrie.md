@@ -5,30 +5,75 @@ documentation_of: ../../ds/BinaryTrie.hpp
 
 # Binary Trie
 
-非負整数の多重集合を管理し、全体のXOR操作や最小値の取得などを高速に行うための2進トライ木 (Binary Trie) です。
-※ 現在の実装はテンプレートや型定義(`T`, `depth`)がコード上に暗黙に依存しているため、使用時に適宜型の修正や外部変数の定義が必要になる場合があります。
+非負整数の多重集合を管理し、全体への XOR 操作や最小値・個数の取得を高速に行うトライ木です。
 
-## BinaryTrie
+## 型
 
-### メンバ変数
-- `int all_size`: トライ木に格納されている要素の総数
-- `T offset`: 現在の全体にかかっているXORオフセット
-- `Node* root`: トライ木の根ノード
+```cpp
+BinaryTrie<T, depth>
+```
 
-### メソッド
+- `T` — 要素の型（非負整数型: `int`, `long long` など）
+- `depth` — ビット深さ（扱える値の範囲は `[0, 2^depth)` ）
 
-- `BinaryTrie()`
-  空のトライ木を初期化します。
+## コンストラクタ
 
-- `void insert(T val, int x = 1)`
-  値 `val` を `x` 個追加します。`val` は非負整数である必要があります。`x` に負の値を指定することで削除の動作を行わせることも可能です(サイズが負にならないように注意してください)。
-  計算量: $O(\text{depth})$
+### `BinaryTrie<T, depth>()`
 
-- `void all_xor(T x)`
-  木に含まれる全ての要素に対して `x` をXOR演算します。この操作は遅延的に `offset` に適用されるため $O(1)$ で完了します。
-  計算量: $O(1)$
+空のトライ木を作成します。
 
-- `T find_min()`
-  現在の木に含まれる要素（`offset` によるXOR演算適用後の値）のうち、最小のものを返します。
-  ※ 木が空の場合（`all_size == 0`）は `assert` で停止します。
-  計算量: $O(\text{depth})$
+## メソッド
+
+### `void tr.insert(T val, int x = 1)`
+
+値 `val` を `x` 個追加します。
+`x` に負の値を渡すと削除として機能します（個数が 0 未満にならないよう注意）。
+
+- 制約: `val >= 0`, `0 <= val < 2^depth`
+- 計算量: `O(depth)`
+
+### `T tr.count(T val)`
+
+値 `val` の個数（多重度）を返します。存在しない場合は `0`。
+
+- 制約: `val >= 0`, `0 <= val < 2^depth`
+- 計算量: `O(depth)`
+
+### `void tr.all_xor(T x)`
+
+木の全要素に `x` を XOR します。遅延的に offset に反映されるため `O(1)` です。
+
+- 計算量: `O(1)`
+
+### `T tr.find_min()`
+
+木に含まれる要素（XOR offset 適用後）の最小値を返します。
+
+- 制約: 木が空でないこと（`all_size > 0`）。空のとき `assert` で停止。
+- 計算量: `O(depth)`
+
+## 使用例
+
+```cpp
+#include "ds/BinaryTrie.hpp"
+
+BinaryTrie<int, 20> tr; // [0, 2^20) の非負整数を管理
+
+tr.insert(5);
+tr.insert(3);
+tr.insert(5);      // 5 は 2 個に
+
+auto cnt = tr.count(5); // 2
+auto mn  = tr.find_min(); // 3
+
+tr.all_xor(7);     // 全要素に XOR 7
+// 3^7=4, 5^7=2 → 最小は 2
+auto mn2 = tr.find_min(); // 2
+
+tr.insert(5, -1);  // 5 を 1 個削除
+```
+
+## 注意
+
+- `insert(val, x)` で `x` が負の場合、個数が負にならないよう呼び出し側で管理してください。
+- `find_min` は `all_xor` による offset を考慮した実際の最小値を返します。

@@ -34,16 +34,19 @@ title: Library Docs Index
 
 ## 代表的な入口
 
-- 木: [docs/tree/base.md](/Users/ryoku_/Desktop/cp/lib/docs/tree/base.md), [docs/tree/dsu-on-tree.md](/Users/ryoku_/Desktop/cp/lib/docs/tree/dsu-on-tree.md), [docs/tree/centroid.md](/Users/ryoku_/Desktop/cp/lib/docs/tree/centroid.md)
-- 文字列: [docs/string/lcpsuf.md](/Users/ryoku_/Desktop/cp/lib/docs/string/lcpsuf.md), [docs/string/z-algorithm.md](/Users/ryoku_/Desktop/cp/lib/docs/string/z-algorithm.md), [docs/string/aho-corasick.md](/Users/ryoku_/Desktop/cp/lib/docs/string/aho-corasick.md)
-- 数学: [docs/math/mod.md](/Users/ryoku_/Desktop/cp/lib/docs/math/mod.md), [docs/math/conv.md](/Users/ryoku_/Desktop/cp/lib/docs/math/conv.md), [docs/math/frac.md](/Users/ryoku_/Desktop/cp/lib/docs/math/frac.md)
-- データ構造: [docs/ds/BIT.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/BIT.md), [docs/ds/segtree.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/segtree.md), [docs/ds/lazy-segtree.md](/Users/ryoku_/Desktop/cp/lib/docs/ds/lazy-segtree.md)
-- グラフ: [docs/graph/base.md](/Users/ryoku_/Desktop/cp/lib/docs/graph/base.md), [docs/graph/flow.md](/Users/ryoku_/Desktop/cp/lib/docs/graph/flow.md), [docs/graph/min-cost-flow.md](/Users/ryoku_/Desktop/cp/lib/docs/graph/min-cost-flow.md)
+- 木: [Tree / HLD](tree/base.md), [重心分解](tree/centroid.md), [DSU on Tree](tree/dsu-on-tree.md), [輪郭クエリ](tree/contour.md), [全方位DP](ds/Reroot.md)
+- 文字列: [Suffix Array / LCP](string/lcpsuf.md), [Z Algorithm](string/z-algorithm.md), [Aho-Corasick](string/aho-corasick.md), [Manacher](string/manacher.md), [EerTree](string/eer-tree.md)
+- 数学: [ModInt](math/static-mod-int.md), [FPS](math/fps.md), [畳み込み](math/conv.md), [行列](math/mat.md), [分数](math/frac.md), [素数カウント](math/prime-counting.md), [Stern-Brocot木](math/stern-brocot-tree.md)
+- データ構造: [BIT](ds/BIT.md), [Segtree](ds/segtree.md), [LazySegtree](ds/lazy-segtree.md), [treap](ds/treap.md), [Wavelet行列](ds/wavlet_matrix.md), [SparseTable](ds/sparse_table.md)
+- グラフ: [static_graph](graph/base.md), [最大流](graph/flow.md), [最小費用流](graph/min-cost-flow.md), [SCC](graph/scc.md), [2-SAT](graph/two-sat.md), [二部マッチング](graph/bipartite-match.md)
 
-## 今回追加した主なページ
+## 注意: 存在しないファイルへの参照
 
-- tree: centroid decomposition / countour_add / DSU on Tree
-- string: Z algorithm / Manacher / Aho-Corasick / EerTree / Run Enumerate
-- math: Frac / kth-root / prime-counting / enumerate-floor / GoldenSearch / counting
-- graph: MinCostFlow
-- ds: LiChaoTree / DynamicLiChaoTree / CompressedLiChaoTree / NodePool
+以下は `documentation_of` が指すソースファイルが存在しません。
+
+| ドキュメント | 状況 |
+|------------|------|
+| `docs/tree/HLD.md` | `tree/HLD.hpp` は存在しない。HLD は [`tree/base.hpp`](tree/base.md) の `Tree` クラスに統合済み |
+| `docs/ds/compress.md` | `ds/compress.hpp` は存在しない。実際は [`ds/compresser.hpp`](ds/compress.md) |
+| `docs/ds/cht.md` | `ds/cht.hpp` は削除済み。用途別に li-chao-tree / dynamic-li-chao-tree / compressed-li-chao-tree を使う |
+| `docs/other/commute_cheker.md` | `other/commute_cheker.hpp` は空ファイル |

@@ -10,59 +10,89 @@ documentation_of: ../../math/mat.hpp
 
 ## 型
 
-### `Matrix<T>`
+```cpp
+Matrix<T>
+```
 
-`n x m` 行列です。
+- `T` — 要素の型（`long long`, `mint` など四則演算と `0/1` 判定ができる型）
 
 ## コンストラクタ
 
 ### `Matrix(vvc<T> a)`
+
+二次元配列から行列を作ります。
+
 ### `Matrix(int n, int m)`
+
+`n × m` のゼロ行列を作ります。
 
 ## メソッド
 
+### `static Matrix Matrix::unit(int n)`
+
+`n × n` 単位行列を返します。
+
 ### `Matrix trans() const`
 
-転置を返します。
-
-### `static Matrix unit(int n)`
-
-`n x n` 単位行列を返します。
+転置行列を返します。`n × m` → `m × n`。
 
 ### `Matrix pow(long long k)`
 
-行列累乗を返します。
-正方行列を仮定します。
+行列累乗 $A^k$ を返します。
+
+- 制約: 正方行列であること、`k >= 0`
+- 計算量: `O(n^3 log k)`
 
 ### `T det() const`
 
 行列式を返します。
 
+- 制約: 正方行列であること
+- 計算量: `O(n^3)`
+
 ### `int rank() const`
 
 階数を返します。
 
+- 計算量: `O(n^2 m)`（`n × m` 行列）
+
 ### `optional<Matrix> inverse() const`
 
-逆行列が存在すれば返します。
-存在しなければ `nullopt` です。
+逆行列が存在すれば `optional<Matrix>` に包んで返します。
+存在しないとき（行列式が 0 のとき）は `nullopt` を返します。
+
+- 制約: 正方行列であること
+- 計算量: `O(n^3)`
 
 ## 演算
 
-- `+`, `-`, `*`
+- `+`, `-`, `*`（行列どうし、またはスカラーとの積）
 - `+=`, `-=`, `*=`
 
-## 使用例
+## 使用例: 行列累乗でフィボナッチ数列
 
 ```cpp
 #include "math/mat.hpp"
 
-Matrix<long long> A({{1,1},{1,0}});
-auto B=A.pow(10);
-auto d=A.det();
+using mint = StaticModInt<1000000007>;
+using Mat = Matrix<mint>;
+
+Mat A({{1,1},{1,0}});
+Mat res = A.pow(n); // F(n), F(n-1) が res[0][0], res[0][1]
+```
+
+## 使用例: 逆行列
+
+```cpp
+auto inv = A.inverse();
+if (inv) {
+    // *inv が逆行列
+} else {
+    // 逆行列なし（行列式 == 0）
+}
 ```
 
 ## 注意
 
-- `pow`, `det`, `inverse` は正方行列前提です。
-- `T` は四則演算と `0/1` 判定ができる型を想定しています。
+- `pow`, `det`, `inverse` は正方行列が必要です。非正方行列を渡すと未定義動作（または `assert`）です。
+- `T` が整数型のとき `det` の結果は厳密に正しくない場合があります（ガウスの消去で除算が発生するため）。`mint` や `double` で使うのが安全です。

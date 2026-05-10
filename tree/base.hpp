@@ -3,6 +3,7 @@
 #include"../graph/base.hpp" 
 struct Tree{
     using Graph=static_graph<0>;
+    using edge=Graph::edge;
     mutable Graph g;
     mutable bool built_hld=false;
     int n;

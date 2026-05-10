@@ -11,9 +11,9 @@ documentation_of: ../../ds/undo_uf.hpp
 ## 使い方
 
 ```cpp
-#include "ds/undo_uf.cpp"
+#include "ds/undo_uf.hpp"
 
-undo_Unionfind uf(N);
+UndoableUnionFind uf(N);
 
 // 要素 0 と 1 を併合
 uf.merge(0, 1);
@@ -30,7 +30,7 @@ uf.rollback();
 
 ## メソッド
 
-### `undo_Unionfind(int n)`
+### `UndoableUnionFind(int n)`
 要素数 $n$ で初期化します。
 - 計算量: $O(N)$
 

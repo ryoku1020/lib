@@ -1,55 +1,83 @@
 ---
-title: Roll
+title: Hash
 documentation_of: ../../ds/Hash.hpp
 ---
 
-# Roll
+# Hash
 
-複数 base 対応の rolling hash です。
-文字列や整数列の部分列ハッシュを `O(1)` で取れます。
+`N` 個の値を並列に持つラッパー構造体です。
+複数 base のハッシュ値をまとめて扱うときに使います。
 
 ## 型
 
-### `Roll<base_count>`
+```cpp
+Hash<T, N>
+```
 
-`base_count` 本の base を使います。
+- `T` — 各要素の型（通常は mod 型や `long long`）
+- `N` — 並列数（衝突率を下げたいときは 2〜3 が多い）
 
-## 事前設定
-
-### `static void Roll<base_count>::init(int MAXN)`
-
-最大長 `MAXN` までの base 累乗と逆元を前計算します。
-先に必須です。
+`value_type` は `Hash<T,N>` 自体です。
+内部には `array<T,N>` が入っています。
 
 ## コンストラクタ
 
-### `Roll(string s)`
-### `Roll(vc<int> v)`
-### `Roll(vc<ll> v)`
+### `Hash(long long x = 0)`
 
-列から rolling hash を構築します。
+全要素を `T(x)` で初期化します。
 
-## メソッド
+### `Hash(T x)`
 
-### `array<ll,base_count> get(int l, int r)`
+全要素を `x` で初期化します。
 
-半開区間 `[l,r)` のハッシュを返します。
+## 演算子
 
-- 計算量: `O(base_count)`
+`Hash` どうし、または `Hash` と `T` スカラーに対して以下が使えます。
 
-## 使用例
+| 演算子 | 動作 |
+|--------|------|
+| `+`, `-`, `*`, `/` | 要素ごとの四則演算 |
+| `+=`, `-=`, `*=`, `/=` | 同上（in-place） |
+| `==`, `!=` | 全要素が等しいか |
+| `h[i]` | i 番目の要素へのアクセス |
+
+## 静的メソッド
+
+### `static const Hash& Hash<T,N>::get_base()`
+
+各要素がランダムな素数（約 `2 〜 2e10` の範囲）である `Hash` を返します。
+最初の呼び出し時にのみ生成され、以降はキャッシュされます。
+
+## 使用例: 文字列ローリングハッシュ（2-base）
 
 ```cpp
 #include "ds/Hash.hpp"
+// T に mod 型を使う場合は対応する mod 型を include する
 
-Roll<2>::init(n);
-Roll<2> rh(s);
+using H = Hash<long long, 2>; // long long で 2 本
 
-if(rh.get(l1,r1)==rh.get(l2,r2)){
-    // probably equal
+H base = H::get_base(); // ランダムな 2 つの素数
+
+// 前処理: prefix hash と power を計算
+int n = s.size();
+vc<H> h(n+1), pw(n+1, H(1));
+for(int i=0;i<n;i++){
+    pw[i+1] = pw[i] * base;
+    h[i+1] = h[i] * base + H(s[i]);
+}
+
+// [l,r) のハッシュ
+auto get = [&](int l, int r) -> H {
+    return h[r] - h[l] * pw[r-l];
+};
+
+if(get(l1,r1) == get(l2,r2)){
+    // ほぼ等しい（衝突確率は非常に低い）
 }
 ```
 
 ## 注意
 
-- 実装中の include 名は [math/mod261.hpp](/Users/ryoku_/Desktop/cp/lib/math/mod261.hpp) と実ファイル名に差がありますが、型自体は `Mod261Int` を使っています。
+- 衝突を避けるためには `T` に mod 型（例: `Mod261Int`）を使うか、`N>=2` にするのが安全です。
+- `get_base()` は実行のたびに同じ値を返します（static キャッシュ）。同一プログラム内では一定です。
+- `Hash` 自体はローリングハッシュの前処理を行いません。前処理ロジックはユーザーが書く必要があります。

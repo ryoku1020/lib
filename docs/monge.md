@@ -5,62 +5,73 @@ documentation_of: ../monge.hpp
 
 # Monge
 
-Monge性を持つ行列や関数に対するアルゴリズムの詰め合わせです。
+Monge 性を持つ行列・関数に対するアルゴリズムの詰め合わせです。
 
-## monotone_minima
+## `monotone_minima`
 
 ```cpp
 template<class T, class F>
-vector<T> monotone_minima(F& a, int h, int w, int ismax = 0);
+vector<T> monotone_minima(F& a, int h, int w);
 ```
-Monotone Minimaを用いて、各行の最小値を求めます。
-関数 $f(i, j)$ が Monge 性を満たすとき、各行 $i$ ($0 \le i < h$) について $f(i, j)$ を最小にする列 $j$ を効率よく探します。
 
-### 制約・引数
-- `F& a`: `a(i, j)` で $(i, j)$ の値を返す関数オブジェクト
-- `int h`: 行の数
-- `int w`: 列の数
-- `int ismax`: 現在未使用
+各行の最小値を `O(h + w log h)` で求めます。
 
-### 戻り値
-- 各行の最小値を格納した `vector<T>` 型の配列
+- `a(i, j)` — 行 `i`、列 `j` の値を返す関数。`a` が Monge 行列（または totally monotone matrix）であることが前提。
+- `h` — 行数
+- `w` — 列数
+- 返り値: 長さ `h` の配列。`res[i]` = 行 `i` の最小値。
 
-### 計算量
-- $O(h + w \log h)$
+- 計算量: `O(h + w log h)`
 
-## monge_d_edge_shortest
+### 使用例
+
+```cpp
+auto a = [&](int i, int j) -> long long {
+    return cost[i][j]; // Monge 性を満たすコスト
+};
+auto res = monotone_minima<long long>(a, h, w);
+// res[i] = i 行の最小コスト
+```
+
+---
+
+## `monge_d_edge_shortest`
 
 ```cpp
 template<class F>
 ll monge_d_edge_shortest(F& f, int n, int d, ll inf = 2e13);
 ```
-Alien DP (WQS二分探索) と分割統治法(Divide and Conquer DP / Monotone Minima)を組み合わせた、Mongeグラフ上の辺数指定最短路問題を解く関数です。
-$0$ から $n-1$ まで、ちょうど $d$ 本の辺を使って移動する際の最短経路長を求めます。
 
-### 制約・引数
-- `F& f`: `f(i, j)` で $i$ から $j$ ($i < j$) への辺の重みを返す関数オブジェクト。辺の重みはMonge性を満たす必要があります。
-- `int n`: 頂点数。頂点番号は $0$ から $n-1$ まで。
-- `int d`: 使用する辺の数
-- `ll inf`: 無限大を表す値
+Alien DP（WQS 二分探索）と分割統治 DP（Monotone Minima）を組み合わせた、
+Monge グラフ上でちょうど `d` 本の辺を使う最短路問題を解きます。
 
-### 計算量
-- $O(n \log^2 n \log(\text{MAX\_WEIGHT}))$
+- `f(i, j)` — `i → j`（`i < j`）の辺重みを返す関数。Monge 性が必要。
+- `n` — 頂点数（`0` から `n-1`）
+- `d` — 使う辺の本数（ちょうど `d` 本）
+- `inf` — 辺の重みの上界目安
+- 返り値: 頂点 0 から頂点 n-1 へちょうど `d` 本の辺を使う最短路長
 
-## monge_edge_shortest2
+- 計算量: `O(n log^2 n log(MAX_WEIGHT))`
+
+---
+
+## `monge_edge_shortest2`
 
 ```cpp
 template<class F>
 pair<ll, ll> monge_edge_shortest2(F& f, int n);
 ```
-分割統治法とMonotone Minimaを用いた、Mongeグラフ上の最短路問題を解く関数です。
-辺数に制限はなく、$0$ から $n-1$ までの最短経路長とその際に用いた辺数のペアを返します。
 
-### 制約・引数
-- `F& f`: `f(i, j)` で $i$ から $j$ ($i < j$) への辺の重みを返す関数オブジェクト。辺の重みはMonge性を満たす必要があります。
-- `int n`: 頂点数。頂点番号は $0$ から $n-1$ まで。
+辺数制限なしで Monge グラフ上の最短路と使用辺数を求めます。
 
-### 戻り値
-- `pair<ll, ll>`: (最短経路長, その経路で使った辺の数)
+- `f(i, j)` — `i → j`（`i < j`）の辺重み。Monge 性が必要。
+- `n` — 頂点数（`0` から `n-1`）
+- 返り値: `{最短路長, 使用辺数}`
 
-### 計算量
-- $O(n \log^2 n)$
+- 計算量: `O(n log^2 n)`
+
+## 注意
+
+- いずれの関数も `f(i, j)` の定義域は `i < j` です。
+- Monge 性（四辺形不等式）が成立しない場合、結果は保証されません。
+- `monge_d_edge_shortest` の精度は `inf` パラメータに依存します。コスト上界より十分大きい値を渡してください。

@@ -1,75 +1,46 @@
 ---
 title: Heavy-Light Decomposition (HL分解)
-documentation_of: ../../tree/HLD.hpp
 ---
 
 # Heavy-Light Decomposition (HL分解)
 
-木をパス (Heavy-edge) の集合に分解し、パス上の頂点・辺のクエリを列のクエリに帰着させます。
-木の任意のパスは $O(\log N)$ 個の区間に分割されます。
-LCAや2頂点間の距離、パス上の頂点の取得などもサポートしています。
+> **注意**: `tree/HLD.hpp` は存在しません。
+> HLD 機能は [`tree/base.hpp`](base.md) の `Tree` クラスに統合されています。
 
-## 使い方
+HL分解の API については [`docs/tree/base.md`](base.md) を参照してください。
+
+## 主な API (Tree クラス)
+
+| メソッド | 説明 |
+|---------|------|
+| `tree.lca(a, b)` | LCA を返す |
+| `tree.dist(a, b)` | 辺数距離を返す |
+| `tree.jumpup(a, k)` | `a` の k 個上の祖先 |
+| `tree.jump(s, t, k)` | s→t パス上で s から距離 k の頂点 |
+| `tree.Query(s, t)` | s→t パスを in 配列上の区間列に分解 |
+
+## 使用例
 
 ```cpp
-#include "tree/HLD.cpp"
+#include "tree/base.hpp"
 
-// 頂点数 N で初期化
-HLD hld(N);
+Tree tree(n);
+for(int i=0;i<n-1;i++){
+    INT(u,v); u--; v--;
+    tree.add_edge(u,v);
+}
+tree.build(0); // 根 0 で構築
 
-// 無向辺を追加
-hld.ae(u, v);
+// LCA
+int l = tree.lca(u, v);
 
-// 構築 (根を 0 として分解を行う)
-hld.build();
-
-// u と v の Lowest Common Ancestor
-int lca = hld.lca(u, v);
-
-// 頂点 s から t へのパス上で s から距離 k の頂点を取得
-int v = hld.jump(s, t, k);
-
-// s から t へのパスを区間に分解して取得
-// {l, r} のリストが s 側から順に返る (l > r になる区間は、頂点を逆方向に進むことを意味する)
-auto path = hld.Query(s, t);
+// パスをセグ木クエリへ変換
+for(auto [ql, qr] : tree.Query(s, t)){
+    // in[ql] <= in[qr] であれば [ql, qr] を左から右
+    // in[ql] >  in[qr] であれば [qr, ql] を右から左 (非可換演算に注意)
+    auto res = seg.prod(min(ql,qr), max(ql,qr)+1);
+    // ...
+}
 ```
 
-## メソッド
-
-### `HLD(int n)`
-頂点数 $n$ の森として初期化します。内部で `CSRgraph` を用いています。
-- 計算量: $O(N)$
-
-### `void ae(int a, int b)`
-頂点 $a$ と $b$ の間に無向辺を追加します。
-- 計算量: $O(1)$ amortized
-
-### `void build()`
-追加された辺をもとに、頂点 0 を根とした根付き木として HL分解 を構築します。
-DFS によって各頂点の `in`, `out`（オイラーツアーの行きがけ・帰りがけの時刻）、`head`（属する Heavy-path の最も浅い頂点）、`size`（部分木のサイズ）などを計算します。
-- 制約: 辺がすべて追加された後に呼び出すこと。
-- 計算量: $O(N)$
-
-### `int lca(int a, int b)`
-頂点 $a$ と $b$ の最小共通祖先 (LCA: Lowest Common Ancestor) を返します。
-- 制約: 0-indexed で $0 \le a, b < N$
-- 計算量: $O(\log N)$
-
-### `int dist(int a, int b)`
-頂点 $a$ と $b$ のパス上の辺の数 (距離) を返します。
-- 計算量: $O(\log N)$
-
-### `int jumpup(int a, int k)`
-頂点 $a$ の $k$ 個上の祖先を返します。存在しない場合は `-1` を返します。
-- 計算量: $O(\log N)$
-
-### `int jump(int s, int t, int k)`
-頂点 $s$ から $t$ へ向かうパス上で、$s$ から距離 $k$ にある頂点を返します。
-そのような頂点が存在しない (距離が $k$ 未満) 場合は `-1` を返します。
-- 計算量: $O(\log N)$
-
-### `std::vector<std::pair<int, int>> Query(int s, int t)`
-頂点 $s$ から $t$ へのパスを、HL分解の `in` 配列 (オイラーツアー順) における $O(\log N)$ 個の閉区間 $[l, r]$ の列として返します。
-セグメント木などのデータ構造にクエリを投げる際に用います。
-返される区間 $\{u, v\}$ において、$u > v$ となっている場合、セグメント木等において「右から左へ」評価する必要があることに注意してください。
-- 計算量: $O(\log N)$
+詳細は [`docs/tree/base.md`](base.md) を参照してください。
