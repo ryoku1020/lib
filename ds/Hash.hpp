@@ -7,6 +7,7 @@ struct Hash{
     Hash(T x){for(size_t i=0;i<N;++i)v[i]=x;}
     T& operator[](size_t i){return v[i];}
     const T& operator[](size_t i)const{return v[i];}
+    Hash operator-()const{Hash res;for(size_t i=0;i<N;++i)res.v[i]=-v[i];return res;}
     Hash& operator+=(const Hash&b){for(size_t i=0;i<N;++i)v[i]+=b.v[i];return*this;}
     Hash& operator-=(const Hash&b){for(size_t i=0;i<N;++i)v[i]-=b.v[i];return*this;}
     Hash& operator*=(const Hash&b){for(size_t i=0;i<N;++i)v[i]*=b.v[i];return*this;}
@@ -29,6 +30,10 @@ struct Hash{
     friend Hash operator/(const T&a,const Hash&b){return Hash(a)/=b;}
     bool operator==(const Hash&b)const{return v==b.v;}
     bool operator!=(const Hash&b)const{return v!=b.v;}
+    bool operator<(const Hash&b)const{return v<b.v;}
+    bool operator<=(const Hash&b)const{return v<=b.v;}
+    bool operator>(const Hash&b)const{return v>b.v;}
+    bool operator>=(const Hash&b)const{return v>=b.v;}
     static const Hash& get_base(){
         static const Hash b=[](){
             mt19937_64 en(chrono::steady_clock::now().time_since_epoch().count());
@@ -47,5 +52,12 @@ struct Hash{
             return res;
         }();
         return b;
+    }
+    static Hash get_rand(){
+        static mt19937_64 en(chrono::steady_clock::now().time_since_epoch().count());
+        uniform_int_distribution<long long>d(0,llabs(numeric_limits<long long>::max()));
+        Hash res;
+        for(size_t i=0;i<N;++i)res.v[i]=T(d(en));
+        return res;
     }
 };

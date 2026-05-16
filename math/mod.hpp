@@ -3,33 +3,52 @@
 #include "dynamic-mod-int.hpp"
 template<class mint>
 struct Binom{
-    inline static vector<mint>fact={1},invfact={1};
+private:
+    inline static vector<mint>_fact={1},_invfact={1},_invs={0};
+public:
     static void build(int n){
-        if(n<(int)fact.size())return;
-        fact=invfact=vector<mint>(n+1);
-        fact[0]=1;
-        for(int i=1;i<=n;i++)fact[i]=fact[i-1]*i;
-        invfact[n]=(1/fact[n]);
-        for(int i=n-1;i>=0;i--)invfact[i]=invfact[i+1]*(i+1);
+        if(n<(int)_fact.size())return;
+        int old=_fact.size();
+        _fact.resize(n+1);
+        _invfact.resize(n+1);
+        _invs.resize(n+1);
+        auto mod=mint::get_mod();
+        for(int i=old;i<=n;i++){
+            _fact[i]=_fact[i-1]*i;
+            if(i==1)_invs[i]=1;
+            else _invs[i]=-_invs[mod%i]*(mod/i);
+            _invfact[i]=_invfact[i-1]*_invs[i];
+        }
+    }
+    static mint fact(int i){
+        assert(i>=0);
+        build(i);
+        return _fact[i];
+    }
+    static mint invfact(int i){
+        assert(i>=0);
+        build(i);
+        return _invfact[i];
+    }
+    static mint inv(int i){
+        assert(i>0);
+        build(i);
+        return _invs[i];
     }
     static mint C(int a,int b){//aCb
         if(a<0||b<0||a-b<0)return mint(0);
-        while((int)fact.size()<=a){
-            fact.push_back(fact.back()*(fact.size()));
-        }
-        while((int)invfact.size()<=a){
-            invfact.push_back(invfact.back()/invfact.size());
-        }
-        return fact[a]*invfact[b]*invfact[a-b];
+        build(a);
+        return _fact[a]*_invfact[b]*_invfact[a-b];
     }
     static mint P(int a,int b){
         if(a<b||b<0)return 0;
-        return fact[a]*invfact[a-b];
+        build(a);
+        return _fact[a]*_invfact[a-b];
     }
     static mint H(int a,int b){
         return C(a+b-1,b);
-    }  
-    
+    }
+
 };
 template<class T>
 pair<T,T> inv(T x,T m){

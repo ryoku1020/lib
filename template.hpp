@@ -151,6 +151,24 @@ T isqrt(T x){
     return F;
 }
 template<class T>
+vvc<T>trans(const vvc<T>&a){
+    assert(a.size()&&a[0].size());
+    vvc<T>b(a[0].size(),vc<T>(a.size()));
+    rep(i,a.size())rep(j,a[0].size()){
+        b[j][i]=a[i][j];
+    }
+    return b;
+}
+template<class T>
+vc<string>trans(const vc<string>&a){
+    assert(a.size()&&a[0].size());
+    vc<string>b(a[0].size(),string(a.size(),0));
+    rep(i,a.size())rep(j,a[0].size()){
+        b[j][i]=a[i][j];
+    }
+    return b;
+}
+template<class T>
 int popcount(T n){
     return __builtin_popcountll(n);
 }

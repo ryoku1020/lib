@@ -6,7 +6,7 @@ vc<mint>EnumarateProd(vc<int>s,int size){
     int S=max(s);
     vc<mint>cnt(S+1);for(auto&x:s)cnt[x]+=1;
     poly cnt2(size);for(int i=1;i<size;i++)if(i<=S&&cnt[i].val)for(int j=i;j<size;j+=i){
-        cnt2[j]+=cnt[i]*B.invfact[j/i]*B.fact[j/i-1]*(j/i%2?1:-1);
+        cnt2[j]+=cnt[i]*B.invfact(j/i)*B.fact(j/i-1)*(j/i%2?1:-1);
     }
     return cnt2.exp(size);
 }
@@ -17,7 +17,7 @@ vc<mint>EnumarateProdInv(vc<int>s,int size){
     int S=max(s);
     vc<mint>cnt(S+1);for(auto&x:s)cnt[x]+=1;
     poly cnt2(size);for(int i=1;i<size;i++)if(i<=S&&cnt[i].val)for(int j=i;j<size;j+=i){
-        cnt2[j]+=cnt[i]*B.invfact[j/i]*B.fact[j/i-1];
+        cnt2[j]+=cnt[i]*B.invfact(j/i)*B.fact(j/i-1);
     }
     return cnt2.exp(size);
 }

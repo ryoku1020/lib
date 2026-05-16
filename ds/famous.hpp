@@ -116,3 +116,111 @@ struct Reversed{
         return Info::get2();
     }
 };
+
+
+template<class Key,class Val,int K>
+struct MaxK{
+    struct T{
+        Val val;
+        Key key;
+        T&operator+=(Val v){val+=v;return *this;}
+        T&operator-=(Val v){val-=v;return *this;}
+        T operator+(Val v)const{return {val+v,key};}
+        T operator-(Val v)const{return {val-v,key};}
+        friend T operator+(Val v,const T&a){return a+v;}
+    };
+    struct DATA{
+        array<T,K> d;
+        DATA(){d.fill({-inf<Val>,Key{}});}
+        T&operator[](int i){return d[i];}
+        const T&operator[](int i)const{return d[i];}
+        void add_element(const T&a){
+            if(a.val<=d[K-1].val)return;
+            int pos=0;
+            while(pos<K&&d[pos].val>=a.val){
+                if(d[pos].key==a.key)return;
+                pos++;
+            }
+            int end=K-1;
+            REP(i,pos,K)if(d[i].key==a.key){end=i;break;}
+            DREP(i,end,pos+1)d[i]=d[i-1];
+            d[pos]=a;
+        }
+        DATA&merge_data(const DATA&x){
+            rep(i,K)add_element(x.d[i]);
+            return *this;
+        }
+        DATA&operator+=(Val v){
+            rep(i,K)if(d[i].val>-inf<Val>)d[i].val+=v;
+            return *this;
+        }
+        DATA&operator-=(Val v){
+            rep(i,K)if(d[i].val>-inf<Val>)d[i].val-=v;
+            return *this;
+        }
+        DATA operator+(Val v)const{return DATA(*this)+=v;}
+        DATA operator-(Val v)const{return DATA(*this)-=v;}
+        friend DATA operator+(Val v,const DATA&a){return a+v;}
+        static DATA e(){return DATA();}
+    };
+    static DATA op(const DATA&a,const DATA&b){
+        DATA res(a);
+        return res.merge_data(b);
+    }
+    static DATA e(){return DATA();}
+};
+template<class Key,class Val>
+struct MaxK<Key,Val,2>{
+    struct T{
+        Val val;
+        Key key;
+        T&operator+=(Val v){val+=v;return *this;}
+        T&operator-=(Val v){val-=v;return *this;}
+        T operator+(Val v)const{return {val+v,key};}
+        T operator-(Val v)const{return {val-v,key};}
+        friend T operator+(Val v,const T&a){return a+v;}
+    };
+    struct DATA{
+        array<T,2> d;
+        DATA(){d.fill({-inf<Val>,Key{}});}
+        T&operator[](int i){return d[i];}
+        const T&operator[](int i)const{return d[i];}
+        void add_element(const T&a){
+            if(a.val<=d[1].val)return;
+            if(a.key==d[0].key){
+                if(a.val>d[0].val)d[0].val=a.val;
+                return;
+            }
+            if(a.val>d[0].val){
+                d[1]=d[0];
+                d[0]=a;
+            }else{
+                d[1]=a;
+            }
+        }
+        DATA&merge_data(const DATA&x){
+            add_element(x.d[0]);
+            add_element(x.d[1]);
+            return *this;
+        }
+        DATA&operator+=(Val v){
+            if(d[0].val>-inf<Val>)d[0].val+=v;
+            if(d[1].val>-inf<Val>)d[1].val+=v;
+            return *this;
+        }
+        DATA&operator-=(Val v){
+            if(d[0].val>-inf<Val>)d[0].val-=v;
+            if(d[1].val>-inf<Val>)d[1].val-=v;
+            return *this;
+        }
+        DATA operator+(Val v)const{return DATA(*this)+=v;}
+        DATA operator-(Val v)const{return DATA(*this)-=v;}
+        friend DATA operator+(Val v,const DATA&a){return a+v;}
+        static DATA e(){return DATA();}
+    };
+    static DATA op(const DATA&a,const DATA&b){
+        DATA res(a);
+        return res.merge_data(b);
+    }
+    static DATA e(){return DATA();}
+};
