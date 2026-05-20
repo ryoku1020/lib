@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<int sigma>
 struct EerTree{
     vc<array<int,sigma>>child;

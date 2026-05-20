@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 #include "dynamic-mod-int.hpp"
 template<class mint>
 struct Binom{

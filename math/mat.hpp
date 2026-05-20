@@ -1,11 +1,10 @@
 #pragma  once
-#include "../template.hpp"
 
 namespace MATMAT{
 template <typename T, typename = void>
-struct is_mint : std::false_type {};
+struct IsMint : std::false_type {};
 template <typename T>
-struct is_mint<T, std::void_t<decltype(T::get_mod())>> : std::true_type {};
+struct IsMint<T, std::void_t<decltype(T::get_mod())>> : std::true_type {};
 };
 template<class T>
 struct Matrix{
@@ -38,7 +37,7 @@ struct Matrix{
         assert(m==mt2.n);
         vc<vc<T>>res(n,vc<T>(mt2.m));
         auto Mt2=mt2.trans();
-        if constexpr(MATMAT::is_mint<T>::value){
+        if constexpr(MATMAT::IsMint<T>::value){
             rep(i,n)rep(j,mt2.m){
                 __int128 tmp{};
                 rep(k,m){
@@ -220,7 +219,7 @@ struct FixedMatrix{
     template<int K>
     FixedMatrix<T,N,K>operator*(const FixedMatrix<T,M,K>&mt2)const{
         FixedMatrix<T,N,K>res;
-        if constexpr(MATMAT::is_mint<T>::value){
+        if constexpr(MATMAT::IsMint<T>::value){
             auto Mt2=mt2.trans();
             rep(i,N)rep(j,K){
                 __int128 tmp{};

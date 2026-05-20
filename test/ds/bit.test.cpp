@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_add_range_sum"
 
 #include <iostream>
-#include "../../ds/BIT.hpp"
+#include "../../ds/bit.hpp"
 
 using namespace std;
 

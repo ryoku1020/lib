@@ -1,6 +1,6 @@
 ---
 title: Mo
-documentation_of: ../../ds/Mo.hpp
+documentation_of: ../../ds/mo.hpp
 ---
 
 # Mo
@@ -47,7 +47,7 @@ Mo's algorithm の順序付けと実行部分をまとめた構造体です。
 ## 使用例
 
 ```cpp
-#include "ds/Mo.hpp"
+#include "ds/mo.hpp"
 
 Mo mo(n,q);
 for(int i=0;i<q;i++){

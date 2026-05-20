@@ -1,14 +1,14 @@
 ---
-title: countour_add
+title: ContourAdd
 documentation_of: ../../tree/contour.hpp
 ---
 
-# countour_add
+# ContourAdd
 
 木上の各頂点に値を持たせ、ある頂点から距離制約付きで和を取るための構造体です。
 内部では `centroid_decomposition13` と `BinaryIndexedTree` を使って、更新と距離範囲クエリを処理します。
 
-## `countour_add<T>`
+## `ContourAdd<T>`
 
 ### 使い方
 
@@ -19,7 +19,7 @@ Tree tree(n);
 // 辺を追加
 
 vector<long long> init(n);
-countour_add<long long> ds(tree);
+ContourAdd<long long> ds(tree);
 ds.work(init);
 
 long long within_r=ds.prod(v,r);
@@ -35,7 +35,7 @@ Tree tree(n);
 // 辺を追加
 
 vector<long long> a(n);
-countour_add<long long> ds(tree);
+ContourAdd<long long> ds(tree);
 ds.work(a);
 
 long long ans=ds.prod(v,3); // 距離 0,1,2 の総和
@@ -44,7 +44,7 @@ ds.add(v,5);                // a[v]+=5
 
 ### コンストラクタ
 
-- `countour_add(Tree& tree)`
+- `ContourAdd(Tree& tree)`
   対象となる木を参照で保持します。
 
 ### メソッド
@@ -69,4 +69,4 @@ ds.add(v,5);                // a[v]+=5
 - `work` を呼ぶ前に `prod` や `add` を呼ぶことはできません。
 - `prod` の距離は辺数で数えます。
 - 構築後に木構造を変更することは想定されていません。
-- 構造体名は実装に合わせて `countour_add` です。
+- 構造体名は実装に合わせて `ContourAdd` です。

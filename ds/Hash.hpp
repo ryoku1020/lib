@@ -1,12 +1,11 @@
 #pragma once
-#include "../template.hpp"
 template<typename T,size_t N>
 struct Hash{
     array<T,N>v;
     Hash(long long x=0){for(size_t i=0;i<N;++i)v[i]=T(x);}
     Hash(T x){for(size_t i=0;i<N;++i)v[i]=x;}
-    T& operator[](size_t i){return v[i];}
-    const T& operator[](size_t i)const{return v[i];}
+    T& operator[](size_t i){assert(i<N);return v[i];}
+    const T& operator[](size_t i)const{assert(i<N);return v[i];}
     Hash operator-()const{Hash res;for(size_t i=0;i<N;++i)res.v[i]=-v[i];return res;}
     Hash& operator+=(const Hash&b){for(size_t i=0;i<N;++i)v[i]+=b.v[i];return*this;}
     Hash& operator-=(const Hash&b){for(size_t i=0;i<N;++i)v[i]-=b.v[i];return*this;}

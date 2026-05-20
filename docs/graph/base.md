@@ -1,9 +1,9 @@
 ---
-title: static_graph
+title: StaticGraph
 documentation_of: ../../graph/base.hpp
 ---
 
-# static_graph
+# StaticGraph
 
 CSR 形式をベースにしたグラフ構造です。
 有向・無向、重み付き・重みなしの両方を扱えます。
@@ -14,7 +14,7 @@ CSR 形式をベースにしたグラフ構造です。
 
 重みなしグラフ用のダミー重み型です。
 
-### `edge<T>`
+### `Edge<T>`
 
 辺は次のメンバを持ちます。
 
@@ -25,7 +25,7 @@ CSR 形式をベースにしたグラフ構造です。
 
 ## クラス
 
-### `static_graph<is_directed, T>`
+### `StaticGraph<is_directed, T>`
 
 - `is_directed=true`
   有向グラフ
@@ -36,11 +36,11 @@ CSR 形式をベースにしたグラフ構造です。
 
 ## コンストラクタ
 
-### `static_graph(int n)`
+### `StaticGraph(int n)`
 
 頂点数 `n` のグラフを作ります。
 
-### `static_graph(int n, int m)`
+### `StaticGraph(int n, int m)`
 
 頂点数 `n`、辺数 `m` を想定して reserve 付きで作ります。
 追加辺数がちょうど `m` に達すると内部で `build()` が走ります。
@@ -55,7 +55,7 @@ CSR 形式をベースにしたグラフ構造です。
 - 制約: `0<=a,b<n`
 - 計算量: amortized `O(1)`
 
-### `void g.add_edge(const edge& e)`
+### `void g.add_edge(const Edge& e)`
 
 辺オブジェクトを直接追加します。
 
@@ -88,7 +88,7 @@ for(auto&e:g[u]){
 頂点 `u` に入る辺の列を返します。
 無向グラフでは `g[u]` と同じです。
 
-### `const vc<edge>& g.all_edges() const`
+### `const vc<Edge>& g.all_edges() const`
 
 追加した元辺列を返します。
 
@@ -96,7 +96,7 @@ for(auto&e:g[u]){
 
 元辺数を返します。
 
-### `edge g.get_edge(int id) const`
+### `Edge g.get_edge(int id) const`
 
 id 番目の元辺を返します。
 
@@ -136,7 +136,7 @@ id 番目の元辺を返します。
 ```cpp
 #include "graph/base.hpp"
 
-static_graph<1> g(n);
+StaticGraph<1> g(n);
 g.add_edge(u,v);
 g.add_edge(v,w);
 
@@ -148,7 +148,7 @@ for(auto&e:g[u]){
 ## 使用例 2: 重み付き無向グラフ
 
 ```cpp
-static_graph<0,long long> g(n);
+StaticGraph<0,long long> g(n);
 g.add_edge(u,v,cost);
 
 for(auto&e:g[u]){

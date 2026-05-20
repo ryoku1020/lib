@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<class String>
 vc<int>ZAlgorithm(String&s){
     assert(s.size()<=numeric_limits<int>::max());

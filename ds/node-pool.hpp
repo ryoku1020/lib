@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<class T,class ptr_t=int>
 struct NodePool{
     vector<T>pool;

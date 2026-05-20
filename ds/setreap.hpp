@@ -1,8 +1,7 @@
 #pragma once
-#include"../template.hpp"
 #include <random>
 template<class T>
-struct setreap{
+struct SetTreap{
     struct Node{
         Node*lc,*rc;
         T val;
@@ -58,7 +57,7 @@ struct setreap{
     }
     static mt19937 mt;
     Node*root;
-    setreap(){
+    SetTreap(){
         root=NULL;
     }
     Node*merge(Node*l,Node*r){
@@ -178,4 +177,4 @@ struct setreap{
     }
 };
 template<class T>
-mt19937 setreap<T>::mt(random_device{}()); 
+mt19937 SetTreap<T>::mt(random_device{}()); 

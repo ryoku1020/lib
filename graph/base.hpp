@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 #include<type_traits>
 struct Unweighted{
     Unweighted()=default;
@@ -7,36 +6,36 @@ struct Unweighted{
     operator int()const{return 1;}
 };
 template<class T=Unweighted>
-struct edge{
+struct Edge{
     int from,to,id;
     [[no_unique_address]] T cost;
     #ifdef LOCAL
-    friend ostream&operator<<(ostream&os,const edge&e){
+    friend ostream&operator<<(ostream&os,const Edge&e){
         return os<<"{from:"<<e.from<<",to:"<<e.to<<",id:"<<e.id<<",cost:"<<e.cost<<"}";
     }
     #endif
 };
-template<class T,class=void>struct is_edge:false_type{};
-template<class T>struct is_edge<T,void_t<decltype(declval<T>().from),decltype(declval<T>().to),decltype(declval<T>().id),decltype(declval<T>().cost)>>:true_type{};
-struct empty_storage{};
+template<class T,class=void>struct IsEdge:false_type{};
+template<class T>struct IsEdge<T,void_t<decltype(declval<T>().from),decltype(declval<T>().to),decltype(declval<T>().id),decltype(declval<T>().cost)>>:true_type{};
+struct EmptyStorage{};
 template<bool is_directed,class T=Unweighted>
-struct static_graph{
+struct StaticGraph{
     constexpr static bool directed(){return is_directed;}
-    using edge=conditional_t<is_edge<T>::value,T,::edge<T>>;
-    using cost_t=decltype(declval<edge>().cost);
+    using Edge=conditional_t<IsEdge<T>::value,T,::Edge<T>>;
+    using cost_t=decltype(declval<Edge>().cost);
 private:
     int n,m,added=0;
     mutable bool csr_built=false;
-    [[no_unique_address]] mutable conditional_t<is_directed,bool,empty_storage> inv_built{};
-    vc<edge>_all_edges;
+    [[no_unique_address]] mutable conditional_t<is_directed,bool,EmptyStorage> inv_built{};
+    vc<Edge>_all_edges;
     mutable vc<int>csr_start;
-    mutable vc<edge>csr_edge;
-    [[no_unique_address]] mutable conditional_t<is_directed,vc<int>,empty_storage>inv_start;
-    [[no_unique_address]] mutable conditional_t<is_directed,vc<edge>,empty_storage>inv_edge;
+    mutable vc<Edge>csr_edge;
+    [[no_unique_address]] mutable conditional_t<is_directed,vc<int>,EmptyStorage>inv_start;
+    [[no_unique_address]] mutable conditional_t<is_directed,vc<Edge>,EmptyStorage>inv_edge;
 public:
-    static_graph(int n):n(n),m(-1),csr_start(n+1){}
-    static_graph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
-    void add_edge(const edge&e){
+    StaticGraph(int n):n(n),m(-1),csr_start(n+1){}
+    StaticGraph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
+    void add_edge(const Edge&e){
         assert(0<=e.from&&e.from<n&&0<=e.to&&e.to<n);
         _all_edges.push_back(e);
         csr_built=false;
@@ -95,9 +94,9 @@ public:
             }
         }
     }
-    const vc<edge>&all_edges()const{return _all_edges;}
+    const vc<Edge>&all_edges()const{return _all_edges;}
     int edge_size()const{return (int)_all_edges.size();}
-    edge get_edge(int id)const{
+    Edge get_edge(int id)const{
         assert(0<=id&&id<edge_size());
         return _all_edges[id];
     }
@@ -113,7 +112,7 @@ public:
     }
     int deg(int u)const{return out_deg(u);}
     template<class E>
-    struct span{
+    struct Span{
         E*l; E* r;
         E*begin()const{return l;}
         E*end()const{return r;}
@@ -123,11 +122,11 @@ public:
     };
     auto operator[](int u){
         assert(0<=u&&u<n);build();
-        return span<edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
+        return Span<Edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
     }
     auto operator[](int u)const{
         assert(0<=u&&u<n);build();
-        return span<const edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
+        return Span<const Edge>{csr_edge.data()+csr_start[u],csr_edge.data()+csr_start[u+1]};
     }
     auto inv(int u){
         assert(0<=u&&u<n);
@@ -135,7 +134,7 @@ public:
             return (*this)[u];
         }else{
             build_inv();
-            return span<edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
+            return Span<Edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
         }
     }
     auto inv(int u)const{
@@ -144,7 +143,7 @@ public:
             return (*this)[u];
         }else{
             build_inv();
-            return span<const edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
+            return Span<const Edge>{inv_edge.data()+inv_start[u],inv_edge.data()+inv_start[u+1]};
         }
     }
     int size()const{return n;}
@@ -186,14 +185,14 @@ public:
         sort(inv_edge.begin()+inv_start[i],inv_edge.begin()+inv_start[i+1],f);
     }
     template<class F>
-    static_graph<is_directed,T>extract(F f)const{
-        static_graph<is_directed,T>res(n);
+    StaticGraph<is_directed,T>extract(F f)const{
+        StaticGraph<is_directed,T>res(n);
         for(auto&e:_all_edges)if(f(e))res.add_edge(e);
         return res;
     }
     template<class F>
-    static_graph<1,T>reorder(F f)const{
-        static_graph<1,T>res(n);
+    StaticGraph<1,T>reorder(F f)const{
+        StaticGraph<1,T>res(n);
         for(auto&e:_all_edges){
             if(f(e))res.add_edge(e);
             else res.add_edge({e.to,e.from,e.id,e.cost});

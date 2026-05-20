@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 #include"fps.hpp"
 template<class mint>
 void fwht(vc<mint>&a,bool is_inv){

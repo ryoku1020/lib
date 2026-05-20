@@ -1,23 +1,23 @@
 ---
-title: flow
+title: Flow
 documentation_of: ../../graph/flow.hpp
 ---
 
-# flow
+# Flow
 
 Dinic 法による最大流です。
 
 ## 型
 
 ```cpp
-flow<T>
+Flow<T>
 ```
 
 - `T` — 容量・流量の型（`int`, `long long` など）
 
 ## コンストラクタ
 
-### `flow<T>(int n)`
+### `Flow<T>(int n)`
 
 頂点数 `n` のフローネットワークを作ります。
 
@@ -31,7 +31,7 @@ flow<T>
 - 制約: `0 <= a, b < n`, `cap >= 0`
 - 計算量: `O(1)` amortized
 
-### `T mf.work(int s, int t)`
+### `T mf.run(int s, int t)`
 
 `s` から `t` への最大流値を返します。
 
@@ -44,17 +44,17 @@ flow<T>
 ```cpp
 #include "graph/flow.hpp"
 
-flow<long long> mf(n);
+Flow<long long> mf(n);
 mf.add_edge(s, a, 3);
 mf.add_edge(s, b, 4);
 mf.add_edge(a, t, 2);
 mf.add_edge(b, t, 5);
 mf.add_edge(a, b, 1);
 
-auto ans = mf.work(s, t); // 最大流値
+auto ans = mf.run(s, t); // 最大流値
 ```
 
 ## 注意
 
 - `cap` は非負整数を前提としています。負の容量を渡した場合の動作は未定義です。
-- `work` を複数回呼ぶと前回の残余グラフを引き継ぎます。通常は 1 度だけ呼んでください。
+- `run` を複数回呼ぶと前回の残余グラフを引き継ぎます。通常は 1 度だけ呼んでください。

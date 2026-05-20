@@ -1,7 +1,6 @@
 #pragma once
-#include"../template.hpp"
 template<class Info>
-struct segtree2d{
+struct Segtree2d{
     using value_type=Info::value_type;
     ll H,W;
     struct Node{
@@ -31,10 +30,13 @@ struct segtree2d{
         }
     };
     Node*root;
-    segtree2d(ll H,ll W):H(H),W(W){
+    Segtree2d(ll H,ll W):H(H),W(W){
+        assert(H>=0&&W>=0);
         root=new Node();
     }
     void set(ll i,ll j,value_type v){
+        assert(0<=i&&i<H);
+        assert(0<=j&&j<W);
         auto dfs=[&](auto&dfs,ll L,ll R,Node*now)->void{
             auto dfs2=[&](auto&dfs2,ll D,ll U,Node*now)->value_type{
                 if(U-D==1){
@@ -66,6 +68,8 @@ struct segtree2d{
     }
     //[L,R) [D,U)
     value_type prod(ll L,ll R,ll D,ll U){
+        assert(0<=L&&L<=R&&R<=H);
+        assert(0<=D&&D<=U&&U<=W);
         value_type res=Info::e();
         auto dfs=[&](auto&dfs,ll sl,ll sr,Node*now){
             if(sl>=R||sr<=L)return;

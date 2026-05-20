@@ -1,14 +1,13 @@
 #pragma once
-#include "../template.hpp"
 template<class Info>
 struct AssignSegtree{
     using value_type=Info::value_type;
     template<typename T,typename=void>
-    struct has_leaf:false_type{};
+    struct HasLeaf:false_type{};
     template<typename T>
-    struct has_leaf<T,void_t<decltype(T::leaf())>>:true_type{};
+    struct HasLeaf<T,void_t<decltype(T::leaf())>>:true_type{};
     static constexpr value_type leaf(){
-        if constexpr(has_leaf<Info>::value) {
+        if constexpr(HasLeaf<Info>::value) {
             return Info::leaf();
         }else{
             return Info::e();

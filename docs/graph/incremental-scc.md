@@ -20,10 +20,10 @@ documentation_of: ../../graph/incremental-scc.hpp
 
 時刻順に辺 `a->b` を追加します。
 
-### `vc<graph::edge> inc.work()`
+### `vc<graph::Edge> inc.work()`
 
 内部処理を行い、マージ情報を返します。
-返る `edge` の `id` にはそのマージが起きた時刻 index が入ります。
+返る `Edge` の `id` にはそのマージが起きた時刻 index が入ります。
 
 ## 注意
 

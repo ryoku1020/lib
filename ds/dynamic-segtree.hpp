@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 template<class Info,class sztype,bool is_persistent>
 struct DynamicSegtree{
     using value_type=Info::value_type;

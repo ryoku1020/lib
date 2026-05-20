@@ -10,11 +10,10 @@ title: Library Docs Index
 ## 使い始め方
 
 このライブラリは多くの実装が `template.hpp` に依存しています。
-単体で使うときは、そのファイル自身が `template.hpp` を include しているかをまず確認してください。
+VSCode では `.vscode/settings.json` と `.clangd` で `template.hpp` を自動 include するようにしています。
 
 ```cpp
-#include "template.hpp"
-#include "ds/BIT.hpp"
+#include "ds/bit.hpp"
 #include "tree/base.hpp"
 ```
 
@@ -34,11 +33,11 @@ title: Library Docs Index
 
 ## 代表的な入口
 
-- 木: [Tree / HLD](tree/base.md), [重心分解](tree/centroid.md), [DSU on Tree](tree/dsu-on-tree.md), [輪郭クエリ](tree/contour.md), [全方位DP](ds/Reroot.md)
+- 木: [Tree / HLD](tree/base.md), [重心分解](tree/centroid.md), [DSU on Tree](tree/dsu-on-tree.md), [輪郭クエリ](tree/contour.md), [全方位DP](ds/reroot.md)
 - 文字列: [Suffix Array / LCP](string/lcpsuf.md), [Z Algorithm](string/z-algorithm.md), [Aho-Corasick](string/aho-corasick.md), [Manacher](string/manacher.md), [EerTree](string/eer-tree.md)
 - 数学: [ModInt](math/static-mod-int.md), [FPS](math/fps.md), [畳み込み](math/conv.md), [行列](math/mat.md), [分数](math/frac.md), [素数カウント](math/prime-counting.md), [Stern-Brocot木](math/stern-brocot-tree.md)
-- データ構造: [BIT](ds/BIT.md), [Segtree](ds/segtree.md), [LazySegtree](ds/lazy-segtree.md), [treap](ds/treap.md), [Wavelet行列](ds/wavlet_matrix.md), [SparseTable](ds/sparse_table.md)
-- グラフ: [static_graph](graph/base.md), [最大流](graph/flow.md), [最小費用流](graph/min-cost-flow.md), [SCC](graph/scc.md), [2-SAT](graph/two-sat.md), [二部マッチング](graph/bipartite-match.md)
+- データ構造: [BIT](ds/bit.md), [Segtree](ds/segtree.md), [LazySegtree](ds/lazy-segtree.md), [Treap](ds/treap.md), [Wavelet行列](ds/wavelet-matrix.md), [SparseTable](ds/sparse-table.md)
+- グラフ: [StaticGraph](graph/base.md), [最大流](graph/flow.md), [最小費用流](graph/min-cost-flow.md), [SCC](graph/scc.md), [2-SAT](graph/two-sat.md), [二部マッチング](graph/bipartite-match.md)
 
 ## 注意: 存在しないファイルへの参照
 
@@ -46,7 +45,7 @@ title: Library Docs Index
 
 | ドキュメント | 状況 |
 |------------|------|
-| `docs/tree/HLD.md` | `tree/HLD.hpp` は存在しない。HLD は [`tree/base.hpp`](tree/base.md) の `Tree` クラスに統合済み |
+| `docs/tree/hld.md` | `tree/hld.hpp` は存在しない。HLD は [`tree/base.hpp`](tree/base.md) の `Tree` クラスに統合済み |
 | `docs/ds/compress.md` | `ds/compress.hpp` は存在しない。実際は [`ds/compresser.hpp`](ds/compress.md) |
 | `docs/ds/cht.md` | `ds/cht.hpp` は削除済み。用途別に li-chao-tree / dynamic-li-chao-tree / compressed-li-chao-tree を使う |
-| `docs/other/commute_cheker.md` | `other/commute_cheker.hpp` は空ファイル |
+| `docs/other/commute-checker.md` | `other/commute-checker.hpp` は空ファイル |

@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<class mint>
 vc<mint>and_convolution(vc<mint>a,vc<mint>b){
     assert(mint::get_mod());

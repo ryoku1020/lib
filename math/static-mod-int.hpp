@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 #include "mod.hpp"
 template<uint32_t mod>
 struct StaticModInt{

@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 template<class X>
 struct SlidingWindowAggregation{
     using value_type=X::value_type;

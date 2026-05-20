@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 /*
 struct X{
     using value_type=pair<mint,mint>;

@@ -1,6 +1,5 @@
-#pragma 
+#pragma once
 #include"z-algorithm.hpp"
-#include"../template.hpp"
 vc<array<int,3>>RunEnumerate(string s){
     assert(s.size()<=numeric_limits<int>::max());
     if(s.empty())return {};

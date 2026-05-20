@@ -1,37 +1,37 @@
 #pragma once
-#include"base.cpp"
+#include"base.hpp"
 template<class T>
-struct leftist_heap{
-    leftist_heap*l,*r;
+struct LeftistHeap{
+    LeftistHeap*l,*r;
     int s;
     T val;
-    int edge; 
-    leftist_heap():l(nullptr),r(nullptr),s(0),edge(-1){}
-    static leftist_heap*new_node(){
-        return new leftist_heap();
+    int Edge; 
+    LeftistHeap():l(nullptr),r(nullptr),s(0),Edge(-1){}
+    static LeftistHeap*new_node(){
+        return new LeftistHeap();
     }
-    static leftist_heap*meld(leftist_heap*a,leftist_heap*b){
+    static LeftistHeap*meld(LeftistHeap*a,LeftistHeap*b){
         if(a==nullptr)return b;
         if(b==nullptr)return a;
         if(a->val>b->val)swap(a,b);
-        auto na=new leftist_heap(*a);
+        auto na=new LeftistHeap(*a);
         na->r=meld(na->r,b); 
         if(na->l==nullptr||(na->l->s<na->r->s))swap(na->l,na->r);
         na->s=(na->r==nullptr?0:na->r->s)+1;
         return na;
     }
-    static leftist_heap*push(leftist_heap*a,T x,int f){
-        leftist_heap*b=new leftist_heap();
+    static LeftistHeap*push(LeftistHeap*a,T x,int f){
+        LeftistHeap*b=new LeftistHeap();
         b->val=x;
         b->s=1;
-        b->edge=f;
+        b->Edge=f;
         return meld(a,b);
     }
 };
 template<class T,class G>
 vc<T> kthshortestpath(G g,int s,int t,int k){
     auto INF=numeric_limits<T>::max();
-    using Heap=leftist_heap<T>;
+    using Heap=LeftistHeap<T>;
     int n=g.size();
     assert(0<=s&&s<n);
     assert(0<=t&&t<n);
@@ -70,7 +70,7 @@ vc<T> kthshortestpath(G g,int s,int t,int k){
     };
     dfs(dfs,t);
     heap[n]=Heap::new_node();
-    heap[n]->edge=s;
+    heap[n]->Edge=s;
     auto comp=[](const pair<T,Heap*>&a,const pair<T,Heap*>&b){
         return a.first>b.first;
     };
@@ -84,7 +84,7 @@ vc<T> kthshortestpath(G g,int s,int t,int k){
         if(k==0)break;
         if(hp->l)que2.push({d+hp->l->val-hp->val,hp->l});
         if(hp->r)que2.push({d+hp->r->val-hp->val,hp->r});
-        if(heap[hp->edge])que2.push({d+heap[hp->edge]->val,heap[hp->edge]});
+        if(heap[hp->Edge])que2.push({d+heap[hp->Edge]->val,heap[hp->Edge]});
     }
     while(k)len.pb(-1),--k;
     return len;

@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 //floor(a^{1/b})
 ull kth_root(ull a,ull b){
     assert(b>0);

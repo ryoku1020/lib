@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<class F1,class F2>
 void internal_centroid_decomposition13(vvc<int>&g,vc<int>&is_virtual,vc<int>&is_alive,vc<int>&size,int root,vvc<int>&send,vc<int>&col,F1&Callnonvirtual,F2&Callvirtual){
     assert(0<=root&&root<(int)g.size());

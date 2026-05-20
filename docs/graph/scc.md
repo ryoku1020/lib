@@ -28,7 +28,7 @@ documentation_of: ../../graph/scc.hpp
 #include "graph/base.hpp"
 #include "graph/scc.hpp"
 
-static_graph<1> g(n);
+StaticGraph<1> g(n);
 for(auto [u,v]:edges)g.add_edge(u,v);
 
 auto comp=scc(g);

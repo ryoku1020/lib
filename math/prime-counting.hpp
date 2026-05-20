@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 #include"enumerate-floor.hpp"
 ll prime_counting(ll n){
     assert(n>=0);

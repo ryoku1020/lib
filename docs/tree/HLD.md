@@ -4,7 +4,7 @@ title: Heavy-Light Decomposition (HL分解)
 
 # Heavy-Light Decomposition (HL分解)
 
-> **注意**: `tree/HLD.hpp` は存在しません。
+> **注意**: `tree/hld.hpp` は存在しません。
 > HLD 機能は [`tree/base.hpp`](base.md) の `Tree` クラスに統合されています。
 
 HL分解の API については [`docs/tree/base.md`](base.md) を参照してください。

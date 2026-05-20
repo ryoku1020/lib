@@ -1,7 +1,7 @@
 #pragma once
 #include"noninfo.hpp"
 template<class Info=Noninfo,class Tag=Nontag<Info>>
-struct treap{
+struct Treap{
     using value_type=Info::value_type;
     using lazy_type=Tag::lazy_type;
     static uint32_t get_rand(){
@@ -70,7 +70,7 @@ struct treap{
     Node*pool;
     int pool_ptr;
     Node*root;
-    treap(int max_nodes){
+    Treap(int max_nodes){
         assert(max_nodes>0);
         pool=(Node*)malloc(sizeof(Node)*max_nodes);
         pool_ptr=0;

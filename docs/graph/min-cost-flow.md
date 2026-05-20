@@ -39,7 +39,7 @@ if(ans){
   流せない場合は `nullopt` を返します。
 
 - `vc<tuple<int,int,int,Cap>> Info()`
-  各元辺に対する `(from,to,id,flow)` を返します。
+  各元辺に対する `(from,to,id,Flow)` を返します。
 
 ## 典型例
 
@@ -58,4 +58,4 @@ for(auto [u,v,id,f]:info){
 
 - `cost>=0` を仮定しています。
 - `add_edge(a,a,...)` は無視されます。
-- `flow` ベクタは `run` のたびに再計算されます。
+- `Flow` ベクタは `run` のたびに再計算されます。

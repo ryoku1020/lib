@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<class T>
 struct Compresser{
     vc<T>x;

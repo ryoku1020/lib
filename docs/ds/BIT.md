@@ -1,6 +1,6 @@
 ---
 title: Binary Indexed Tree
-documentation_of: ../../ds/BIT.hpp
+documentation_of: ../../ds/bit.hpp
 ---
 
 # Binary Indexed Tree
@@ -62,7 +62,7 @@ Fenwick Tree です。
 ## 使用例
 
 ```cpp
-#include "ds/BIT.hpp"
+#include "ds/bit.hpp"
 
 BinaryIndexedTree<long long> bit(N);
 

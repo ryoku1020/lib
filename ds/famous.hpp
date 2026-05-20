@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 template<class Value_type,Value_type inf>
 struct Min{
     using value_type=Value_type;

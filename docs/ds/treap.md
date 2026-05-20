@@ -1,17 +1,17 @@
 ---
-title: treap
+title: Treap
 documentation_of: ../../ds/treap.hpp
 ---
 
-# treap
+# Treap
 
-implicit treap です。
+implicit Treap です。
 列として扱い、挿入・削除・区間作用・区間反転・区間積を行えます。
 
 ## 型
 
 ```cpp
-treap<Info, Tag>
+Treap<Info, Tag>
 ```
 
 - `Info` — 値モノイド（省略時: `Noninfo`）
@@ -21,7 +21,7 @@ treap<Info, Tag>
 
 ## コンストラクタ
 
-### `treap<Info, Tag>(int max_nodes)`
+### `Treap<Info, Tag>(int max_nodes)`
 
 最大ノード数 `max_nodes` のプールを確保して初期化します。
 
@@ -29,7 +29,7 @@ treap<Info, Tag>
 
 ### `void tr.build(const vc<value_type>& v)`
 
-配列 `v` から treap を構築します。既存の内容はリセットされます。
+配列 `v` から Treap を構築します。既存の内容はリセットされます。
 
 - 計算量: `O(n)`
 
@@ -88,7 +88,7 @@ struct Tag{
     static lazy_type id(){ return 0; }
 };
 
-treap<Info, Tag> tr(1 << 20);
+Treap<Info, Tag> tr(1 << 20);
 tr.build(a);          // 配列から構築
 
 tr.insert(pos, x);    // pos に x を挿入

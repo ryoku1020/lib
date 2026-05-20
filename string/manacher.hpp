@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<class String>
 vc<int>Manacher(String&s){
     assert(s.size()<=numeric_limits<int>::max()/2);

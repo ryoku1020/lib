@@ -2,7 +2,7 @@
 #include "scc.hpp"
 #include "base.hpp"
 struct TwoSatisfiability{
-    static_graph<1>g;
+    StaticGraph<1>g;
     int n;
     TwoSatisfiability(int n):g(n*2),n(n),ans(n){}
     //a=fa or b=fb という条件を追加

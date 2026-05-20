@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 #include "fps.hpp"
 template<class mint>
 mint BostanMori(FormalPowerSeries<mint>p,FormalPowerSeries<mint>q,long long n){

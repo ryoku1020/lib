@@ -1,4 +1,4 @@
-#include "../ds/uf.hpp"
+#include "../../../ds/uf.hpp"
 #include <cassert>
 #include <iostream>
 #include <vector>

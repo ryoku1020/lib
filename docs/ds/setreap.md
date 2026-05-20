@@ -1,16 +1,16 @@
 ---
-title: setreap
+title: SetTreap
 documentation_of: ../../ds/setreap.hpp
 ---
 
-# setreap
+# SetTreap
 
-ランダム優先度 treap による順序付き集合（重複なし）です。
+ランダム優先度 Treap による順序付き集合（重複なし）です。
 
 ## 型
 
 ```cpp
-setreap<T>
+SetTreap<T>
 ```
 
 - `T` — 要素の型。非負整数型を推奨（`int`, `long long`）。
@@ -18,7 +18,7 @@ setreap<T>
 
 ## コンストラクタ
 
-### `setreap<T>()`
+### `SetTreap<T>()`
 
 空の集合を作成します。
 
@@ -93,7 +93,7 @@ setreap<T>
 ```cpp
 #include "ds/setreap.hpp"
 
-setreap<int> st;
+SetTreap<int> st;
 st.insert(5);
 st.insert(2);
 st.insert(8);

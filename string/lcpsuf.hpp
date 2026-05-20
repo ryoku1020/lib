@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 vc<int>sf_array(vc<int>s,bool first=true){
     assert(s.size()<=numeric_limits<int>::max());
     if(s.empty())return {};

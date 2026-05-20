@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 template<class T=ll,bool reduce_always=true>
 struct Frac{
     using compare_type=conditional_t<(sizeof(T)<=8),i128,T>;

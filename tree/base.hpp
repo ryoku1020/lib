@@ -1,9 +1,8 @@
 #pragma once
-#include"../template.hpp"
 #include"../graph/base.hpp" 
 struct Tree{
-    using Graph=static_graph<0>;
-    using edge=Graph::edge;
+    using Graph=StaticGraph<0>;
+    using Edge=Graph::Edge;
     mutable Graph g;
     mutable bool built_hld=false;
     int n;
@@ -114,15 +113,15 @@ struct Tree{
         build();
         auto s=g[u];
         int sz=s.size(),ce=(par[u]==-1?sz:sz-1);
-        if(ce<=0)return span<const Graph::edge>{s.l,s.l};
-        return span<const Graph::edge>{s.l,s.l+1};
+        if(ce<=0)return Graph::template Span<const Graph::Edge>{s.l,s.l};
+        return Graph::template Span<const Graph::Edge>{s.l,s.l+1};
     }
     auto light_edges(int u)const{
         build();
         auto s=g[u];
         int sz=s.size(),ce=(par[u]==-1?sz:sz-1);
-        if(ce<=1)return span<const Graph::edge>{s.l,s.l};
-        return span<const Graph::edge>{s.l+1,s.l+ce};
+        if(ce<=1)return Graph::template Span<const Graph::Edge>{s.l,s.l};
+        return Graph::template Span<const Graph::Edge>{s.l+1,s.l+ce};
     }
     int lca(int a,int b)const{
         build();

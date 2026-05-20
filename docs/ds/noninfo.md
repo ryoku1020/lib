@@ -17,6 +17,6 @@ documentation_of: ../../ds/noninfo.hpp
 
 ## 用途
 
-- 汎用 treap
+- 汎用 Treap
 - 汎用 segment tree
 - 値を持たないが構造だけ使いたいテンプレート

@@ -11,8 +11,6 @@ documentation_of: ../template.hpp
 ## よく使うもの
 
 ```cpp
-#include "template.hpp"
-
 INT(n,m);
 VC(int,a,n);
 

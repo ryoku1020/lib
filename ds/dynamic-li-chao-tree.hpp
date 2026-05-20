@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 //max で eval されるので注意
 template<class Info,bool ismin,class T>
 struct DynamicLiChaoTree{

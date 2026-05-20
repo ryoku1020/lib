@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 struct Noninfo{
     using value_type=monostate;
     static value_type op(value_type a,value_type b){return {};}

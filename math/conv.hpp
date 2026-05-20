@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 #include "static-mod-int.hpp"
 #ifndef ATCODER_CONVOLUTION_HPP
 #define ATCODER_CONVOLUTION_HPP 1

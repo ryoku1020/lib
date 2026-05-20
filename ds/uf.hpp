@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 template<class T,auto op,int extra>
 struct BaseDisjointSetUnion{
         vector<int>par;

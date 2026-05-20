@@ -1,16 +1,15 @@
 #pragma once
-#include "../template.hpp"
-#include "../other/commute_cheker.hpp"
+#include "../other/commute-checker.hpp"
 template<class Info,class Tag>
 struct LazySegtree{
     using value_type=typename Info::value_type;
     using lazy_type=typename Tag::lazy_type;
     template<typename T,typename=void>
-    struct has_leaf:false_type{};
+    struct HasLeaf:false_type{};
     template<typename T>
-    struct has_leaf<T,void_t<decltype(T::leaf())>>:true_type{};
+    struct HasLeaf<T,void_t<decltype(T::leaf())>>:true_type{};
     static constexpr value_type leaf(){
-        if constexpr(has_leaf<Info>::value) {
+        if constexpr(HasLeaf<Info>::value) {
             return Info::leaf();
         }else{
             return Info::e();
@@ -32,7 +31,7 @@ struct LazySegtree{
     }
     LazySegtree(int N){
         build(N);
-        if constexpr(has_leaf<Info>::value){
+        if constexpr(HasLeaf<Info>::value){
             REP(i,n,n*2)node[i]=leaf();
             DREP(i,n-1,1)update(i);
         }

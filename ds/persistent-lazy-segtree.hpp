@@ -1,5 +1,4 @@
 #pragma  once
-#include "../template.hpp"
 template<class Info,class Tag>
 struct PersistentLazySegtree{
     using value_type=typename Info::value_type;

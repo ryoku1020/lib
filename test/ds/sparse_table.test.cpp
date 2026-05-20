@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "../../ds/sparse_table.hpp"
+#include "../../ds/sparse-table.hpp"
 
 using namespace std;
 

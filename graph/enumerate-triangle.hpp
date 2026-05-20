@@ -1,5 +1,5 @@
 #pragma once
-#include"base.cpp"
+#include"base.hpp"
 //https://www.slideshare.net/slideshow/trianguler/38443802
 template<template<bool,typename...>class G,typename T,typename F>
 void enumerate_triangle(const G<0,T>&g,F f){

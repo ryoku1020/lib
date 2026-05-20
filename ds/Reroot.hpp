@@ -1,11 +1,10 @@
 #pragma  once
-#include "../template.hpp"
 #include "../tree/base.hpp"
 /*
 struct Reroot{
-    using V=hoge;
-    using E=hoge;
-    using Edge=Tree::Graph::edge;
+    using V=Value;
+    using E=Value;
+    using Edge=Tree::Graph::Edge;
     static E merge(E a,E b){
     }
     static V put_vertex(E a,int v){
@@ -24,7 +23,7 @@ struct Redp{
     using V=Reroot::V;
     Tree t;
     vc<V>dp,ans;
-    Redp(int n):t(n),dp(n),ans(n){}
+    Redp(int n):t(n),dp(n),ans(n){assert(n>=0);}
     void add_edge(int a,int b){
         t.add_edge(a,b);
     }

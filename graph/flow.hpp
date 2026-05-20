@@ -1,27 +1,29 @@
 #pragma once
 #include"base.hpp"
 template<class Cap>
-struct flow{
+struct Flow{
     struct Edge{
         int from,to,id;
         Cap cost;
     };
-    vc<Edge>edge;
+    vc<Edge>edges;
     int n;
-    flow(int n=0):n(n){
+    Flow(int n=0):n(n){
     }
     void add_edge(int a,int b,Cap cap){
         assert(0<=a&&a<n);
         assert(0<=b&&b<n);
-        if(a!=b)edge.push_back({a,b,(int)edge.size(),cap});
+        if(a!=b)edges.push_back({a,b,(int)edges.size(),cap});
     }
     vc<Cap>_flow;
     Cap run(int s,int t){
-        _flow.assign(edge.size(),0);
+        assert(0<=s&&s<n);
+        assert(0<=t&&t<n);
+        _flow.assign(edges.size(),0);
         Cap res=0;
         while(1){
-            static_graph<1,Edge>g(n);
-            for(auto&e:edge){
+            StaticGraph<1,Edge>g(n);
+            for(auto&e:edges){
                 Cap c1=e.cost-_flow[e.id];
                 Cap c2=_flow[e.id];
                 if(c1>0)g.add_edge({e.from,e.to,e.id,c1});
@@ -45,9 +47,9 @@ struct flow{
                     auto&e=g[v][i];
                     if(level[v]<level[e.to]&&e.cost>0){
                         Cap d=self(self,e.to,min(f,e.cost));
-                        if(d>0){
-                            e.cost-=d;
-                            if(v==edge[e.id].from)_flow[e.id]+=d;
+                            if(d>0){
+                                e.cost-=d;
+                            if(v==edges[e.id].from)_flow[e.id]+=d;
                             else _flow[e.id]-=d;
                             return d;
                         }
@@ -61,12 +63,13 @@ struct flow{
     }
     vc<tuple<int,int,int,Cap>>Info(){
         vc<tuple<int,int,int,Cap>>res;
-        rep(i,edge.size())res.push_back({edge[i].from,edge[i].to,edge[i].id,_flow[i]});
+        rep(i,edges.size())res.push_back({edges[i].from,edges[i].to,edges[i].id,_flow[i]});
         return res;
     }
     vc<bool>min_cut(int s){
-        static_graph<1,Edge>g(n);
-        for(auto&e:edge){
+        assert(0<=s&&s<n);
+        StaticGraph<1,Edge>g(n);
+        for(auto&e:edges){
             Cap c1=e.cost-_flow[e.id];
             Cap c2=_flow[e.id];
             if(c1>0)g.add_edge({e.from,e.to,e.id,c1});

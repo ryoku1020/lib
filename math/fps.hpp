@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 #include "conv.hpp"
 template<class mint>
 struct FormalPowerSeries:vc<mint>{

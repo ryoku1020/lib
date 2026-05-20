@@ -1,6 +1,6 @@
 ---
 title: Hash
-documentation_of: ../../ds/Hash.hpp
+documentation_of: ../../ds/hash.hpp
 ---
 
 # Hash
@@ -51,7 +51,7 @@ Hash<T, N>
 ## 使用例: 文字列ローリングハッシュ（2-base）
 
 ```cpp
-#include "ds/Hash.hpp"
+#include "ds/hash.hpp"
 // T に mod 型を使う場合は対応する mod 型を include する
 
 using H = Hash<long long, 2>; // long long で 2 本

@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<class Info,bool ismin>
 struct LiChaoTree{
     int coef;

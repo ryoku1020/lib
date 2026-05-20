@@ -7,30 +7,31 @@ struct MinCostFlow{
         Cap cap;
         Cost cost;
     };
-    vc<Edge>edge;
+    vc<Edge>edges;
     int n;
-    MinCostFlow(int n=0):n(n){}
+    MinCostFlow(int n=0):n(n){assert(n>=0);}
     void add_edge(int a,int b,Cap cap,Cost cost){
         assert(0<=a&&a<n);
         assert(0<=b&&b<n);
         assert(cost>=0);
         assert(cap>=0);
-        if(a!=b)edge.push_back({a,b,(int)edge.size(),cap,cost});
+        if(a!=b)edges.push_back({a,b,(int)edges.size(),cap,cost});
     }
-    vc<Cap>flow;
+    vc<Cap>Flow;
     optional<Cost>run(int s,int t,Cap target){
         assert(0<=s&&s<n);
         assert(0<=t&&t<n);
-        flow.assign(edge.size(),0);
+        assert(target>=0);
+        Flow.assign(edges.size(),0);
         vc<Cost>pot(n);
         Cost res=0;
         while(target){
-            static_graph<1,Edge>g(n);
-            for(auto e:edge){
+            StaticGraph<1,Edge>g(n);
+            for(auto e:edges){
                 auto e1=e,e2=e;
                 swap(e2.from,e2.to);
-                e1.cap=e.cap-flow[e.id];
-                e2.cap=flow[e.id];e2.cost=-e2.cost;
+                e1.cap=e.cap-Flow[e.id];
+                e2.cap=Flow[e.id];e2.cost=-e2.cost;
                 if(e1.cap)g.add_edge(e1);
                 if(e2.cap)g.add_edge(e2);
             }
@@ -61,18 +62,19 @@ struct MinCostFlow{
             target-=new_flow;
             for(auto&e:used){
                 res+=e.cost*new_flow;
-                bool is_rev=e.from!=edge[e.id].from;
-                if(is_rev)flow[e.id]-=new_flow;
-                else flow[e.id]+=new_flow;
+                bool is_rev=e.from!=edges[e.id].from;
+                if(is_rev)Flow[e.id]-=new_flow;
+                else Flow[e.id]+=new_flow;
             }
             rep(i,n)if(md[i]!=numeric_limits<Cost>::max())pot[i]+=md[i];
         }
         return res;
     }
     vc<tuple<int,int,int,Cap>>Info(){
+        assert(Flow.size()==edges.size());
         vc<tuple<int,int,int,Cap>>res;
-        rep(i,edge.size()){
-            res.push_back(tuple<int,int,int,Cap>{edge[i].from,edge[i].to,edge[i].id,flow[i]});
+        rep(i,edges.size()){
+            res.push_back(tuple<int,int,int,Cap>{edges[i].from,edges[i].to,edges[i].id,Flow[i]});
         }
         return res;
     }

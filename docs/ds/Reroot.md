@@ -1,6 +1,6 @@
 ---
 title: Redp (Rerooting DP)
-documentation_of: ../../ds/Reroot.hpp
+documentation_of: ../../ds/reroot.hpp
 ---
 
 # Redp (Rerooting DP)
@@ -60,7 +60,7 @@ struct Reroot{
 ## 使用例: 各頂点からの距離の最大値
 
 ```cpp
-#include "ds/Reroot.hpp"
+#include "ds/reroot.hpp"
 
 struct Reroot{
     using V = int; // 頂点からの最大距離

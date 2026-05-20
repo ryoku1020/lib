@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<class G>
 vc<int>scc(const G& g){
     assert(G::directed()==true);

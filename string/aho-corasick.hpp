@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 template<int sigma,auto give_order>
 struct AhoCorasick{
     vc<array<int,sigma>>child;

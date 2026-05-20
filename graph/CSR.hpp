@@ -1,6 +1,5 @@
 #pragma once
-#include "../template.hpp"
-struct CSRgraph{
+struct CsrGraph{
     vc<int>row_ptr;
     vc<int>col_indices;
     vc<pair<int,int>>edges;
@@ -14,8 +13,13 @@ struct CSRgraph{
         size_t size()const{return ptr_e-ptr_b;}
         bool empty()const{return ptr_b==ptr_e;}    
     };
-    CSRgraph(int n):row_ptr(n+1,0){}
+    CsrGraph(int n):row_ptr(n+1,0){
+        assert(n>=0);
+    }
     void add_edge(int u,int v){
+        assert(!built);
+        assert(0<=u&&u+1<(int)row_ptr.size());
+        assert(0<=v);
         edges.push_back({u,v});
     }
     bool built=0;
@@ -31,10 +35,12 @@ struct CSRgraph{
     }
     int empty(int u){
         assert(built);
+        assert(0<=u&&u+1<(int)row_ptr.size());
         return row_ptr[u+1]==row_ptr[u];
     }
     RowView operator[](int u){
         assert(built);
+        assert(0<=u&&u+1<(int)row_ptr.size());
         return{&col_indices[row_ptr[u]],&col_indices[row_ptr[u+1]]};
     }
 };

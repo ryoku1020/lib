@@ -1,5 +1,4 @@
 #pragma once
-#include "template.hpp"
 template<class T,class F>
 vector<T>monotone_minima(F&a,int h,int w,int ismax=0){//関数Fに対してminを求める
 

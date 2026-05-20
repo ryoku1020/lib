@@ -1,5 +1,4 @@
 #pragma once
-#include "../template.hpp"
 struct Mo{
     int N,Q;
     int B;
@@ -8,7 +7,7 @@ struct Mo{
     }
     vc<array<int,3>>Query;
     void push(int l,int r){
-        assert(0<=l&&l<=r&&r<N);
+        assert(0<=l&&l<=r&&r<=N);
         Query.push_back({l,r,(int)Query.size()});
     }
     void Sort(){

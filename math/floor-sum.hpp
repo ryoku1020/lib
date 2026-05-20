@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 constexpr long long safe_mod(long long x, long long m) {
     x %= m;
     if (x < 0) x += m;

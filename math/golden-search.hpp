@@ -1,5 +1,4 @@
 #pragma once
-#include"../template.hpp"
 namespace _G001dENSEARCH{
 vc<ull>fib{1,1};
 template<class T>

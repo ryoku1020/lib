@@ -1,11 +1,10 @@
 #pragma once
-#include"../template.hpp"
 #include"base.hpp"
-#include"../ds/BIT.hpp"
+#include"../ds/bit.hpp"
 template<class T>
-struct countour_add{
+struct ContourAdd{
     Tree&tree;
-    countour_add(Tree&tree):tree(tree){}
+    ContourAdd(Tree&tree):tree(tree){}
     vc<BinaryIndexedTree<T>>call_non;
     vc<T>cen1;
     vc<array<BinaryIndexedTree<T>,2>>call_v;
