@@ -9,10 +9,12 @@ struct Flow{
     vc<Edge>edges;
     int n;
     Flow(int n=0):n(n){
+        assert(n>=0);
     }
     void add_edge(int a,int b,Cap cap){
         assert(0<=a&&a<n);
         assert(0<=b&&b<n);
+        assert(cap>=0);
         if(a!=b)edges.push_back({a,b,(int)edges.size(),cap});
     }
     vc<Cap>_flow;
@@ -62,12 +64,14 @@ struct Flow{
         return res;
     }
     vc<tuple<int,int,int,Cap>>Info(){
+        assert(_flow.size()==edges.size());
         vc<tuple<int,int,int,Cap>>res;
         rep(i,edges.size())res.push_back({edges[i].from,edges[i].to,edges[i].id,_flow[i]});
         return res;
     }
     vc<bool>min_cut(int s){
         assert(0<=s&&s<n);
+        assert(_flow.size()==edges.size());
         StaticGraph<1,Edge>g(n);
         for(auto&e:edges){
             Cap c1=e.cost-_flow[e.id];

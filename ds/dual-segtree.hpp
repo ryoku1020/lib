@@ -34,10 +34,12 @@ struct DualSegtree{
         }else node[p+n]=x;
     }
     void all_apply(int k,value_type x){
+        assert(0<=k&&k<n*2);
         node[k]=X::op(node[k],x);
         if(k<n)lazy[k]=X::op(lazy[k],x);
     }
     void push(int k){
+        assert(0<k&&k<n);
         all_apply(k*2,lazy[k]);
         all_apply(k*2+1,lazy[k]);
         lazy[k]=X::e();

@@ -15,6 +15,7 @@ struct SetTreap{
         }
     };
     void build(vc<T>v){
+        for(auto&x:v)assert(x>=0);
         sort(all(v));
         v.erase(unique(all(v)),v.end());
         int n=v.size();
@@ -106,6 +107,7 @@ struct SetTreap{
         root=erase(root,val);
     }
     bool count(T val){
+        assert(val>=0);
         auto s1=split(root,val);
         auto s2=split(s1.second,val+1);
         auto res=s2.first!=NULL;
@@ -114,6 +116,7 @@ struct SetTreap{
     }
     //min in [val,♾️)
     T next(T val){
+        assert(val>=0);
         auto s1=split(root,val);
         auto now=s1.second;
         while(now){
@@ -128,6 +131,7 @@ struct SetTreap{
     }
     //max in (-♾️,val)
     T prev(T val){
+        assert(val>=0);
         auto s1=split(root,val);
         auto now=s1.first;
         while(now){
@@ -141,6 +145,7 @@ struct SetTreap{
     }
     //[val,♾️)
     int bigger(T val){
+        assert(val>=0);
         int ans=size();
         auto s1=split(root,val);
         if(s1.first)ans-=s1.first->size;
@@ -153,14 +158,18 @@ struct SetTreap{
     }
     //(-♾️,val)
     int smaller(T val){
+        assert(val>=0);
         if(root==NULL)return 0;
         return size()-bigger(val);
     }
     //[l,r)
     int range_count(T l,T r){
+        assert(0<=l&&l<=r);
         return -bigger(r)+bigger(l);
     }
     T kth(Node*x,int k){
+        assert(x);
+        assert(0<=k&&k<x->size);
         if(x->lc){
             if(x->lc->size>k){
                 return kth(x->lc,k);
@@ -172,9 +181,10 @@ struct SetTreap{
         return kth(x->rc,k);
     }
     T kth(int k){
+        assert(k>=0);
         if(k>=size())return -1;
         return kth(root,k);
     }
 };
 template<class T>
-mt19937 SetTreap<T>::mt(random_device{}()); 
+mt19937 SetTreap<T>::mt(random_device{}());

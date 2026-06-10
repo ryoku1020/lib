@@ -11,10 +11,14 @@ struct Matrix{
     int n,m;
     vvc<T>a;
     Matrix()=default;
-    Matrix(vvc<T>b):a(b),n(b.size()){
+    Matrix(vvc<T>b):a(b),n(b.size()),m(0){
         if(b.size())m=b[0].size();
+        for(auto&row:b)assert((int)row.size()==m);
     }
-    Matrix(int n,int m):n(n),m(m),a(n,vc<T>(m)){}
+    Matrix(int n,int m):n(n),m(m){
+        assert(n>=0&&m>=0);
+        a.assign(n,vc<T>(m));
+    }
     vc<T>&operator[](int i){
         assert(0<=i&&i<n);
         return a[i];
@@ -52,13 +56,19 @@ struct Matrix{
         }
         a=move(res);
         n=a.size();
-        m=a[0].size();
+        m=(n?a[0].size():mt2.m);
         return *this;
     }
     Matrix trans()const{
         Matrix res(m,n);
         rep(i,n)rep(j,m)res[j][i]=a[i][j];
         return res;
+    }
+    int size()const{
+        return n;
+    }
+    int size2()const{
+        return m;
     }
     Matrix operator-() const{
         vvc<T>b=a;
@@ -78,11 +88,14 @@ struct Matrix{
         return lhs*=rhs;
     }
     static Matrix unit(int n){
+        assert(n>=0);
         Matrix mt(n,n);
         rep(i,n)mt[i][i]=1;
         return mt;
     }
     Matrix pow(ll n){
+        assert(this->n==this->m);
+        assert(n>=0);
         Matrix res=unit(this->n);
         Matrix mul=a;
         while(n){

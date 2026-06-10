@@ -3,10 +3,16 @@ template<class T,auto op,int extra>
 struct BaseDisjointSetUnion{
         vector<int>par;
         vector<T>data;
-        BaseDisjointSetUnion(int n):par(n,-1){
+        BaseDisjointSetUnion(int n){
             static_assert(!extra,"e is needed");
+            assert(n>=0);
+            par.assign(n,-1);
         }
-        BaseDisjointSetUnion(int n,T e):par(n,-1),data(n,e){}
+        BaseDisjointSetUnion(int n,T e){
+            assert(n>=0);
+            par.assign(n,-1);
+            data.assign(n,e);
+        }
         T& operator[](int i){
             static_assert(extra,"No data");
             return data[leader(i)];

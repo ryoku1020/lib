@@ -6,6 +6,7 @@ struct AhoCorasick{
     vc<int>depth;
     vc<int>word;
     int root;
+    bool built=false;
     int new_node(){
         int id=child.size();
         child.push_back({});
@@ -19,6 +20,7 @@ struct AhoCorasick{
     }
     template<class String>
     int add(String&s){
+        built=false;
         int res=0;
         auto dfs=[&](auto&dfs,int now,int idx)->void{
             if(idx==s.size()){
@@ -40,6 +42,8 @@ struct AhoCorasick{
     }
 
     void build(){
+        if(built)return;
+        built=true;
         suffix[root]=root;
         queue<int>que;que.push(root);
         while(que.size()){
@@ -59,10 +63,22 @@ struct AhoCorasick{
             }
         }
     }
+    template<class Char>
+    int next(int x,Char c){
+        build();
+        int C=give_order(c);
+        assert(0<=C&&C<sigma);
+        while(x!=root&&child[x][C]==-1){
+            x=suffix[x];
+        }
+        if(child[x][C]!=-1)x=child[x][C];
+        return x;
+    }
     int size(){
         return child.size();
     }
     vc<int>suffix_order(){
+        build();
         vc<int>in_deg(size());
         for(auto&x:suffix){
             in_deg[x]++;
@@ -81,6 +97,7 @@ struct AhoCorasick{
         return res;
     }
     vvc<int>suffix_inv(){
+        build();
         vvc<int>res(size());
         REP(i,1,size())res[suffix[i]].pb(i);
         return res;

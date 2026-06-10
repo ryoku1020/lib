@@ -7,6 +7,12 @@ struct FormalPowerSeries:vc<mint>{
     using vc<mint>::vc;
     using vc<mint>::operator[];
     using poly=FormalPowerSeries<mint>;
+    FormalPowerSeries(initializer_list<mint> init):vc<mint>(init){}
+    FormalPowerSeries(const vc<mint>& v):vc<mint>(v){}
+    FormalPowerSeries(vc<mint>&& v):vc<mint>(std::move(v)){}
+    poly& operator=(initializer_list<mint> init){vc<mint>::operator=(init);return *this;}
+    poly& operator=(const vc<mint>& v){vc<mint>::operator=(v);return *this;}
+    poly& operator=(vc<mint>&& v){vc<mint>::operator=(std::move(v));return *this;}
     poly& operator+=(const poly& g){
         int n=g.size();
         if(n>(int)this->size())this->resize(n);
@@ -22,7 +28,7 @@ struct FormalPowerSeries:vc<mint>{
     poly& operator*=(const poly& g){
         if(this->empty()||g.empty()){this->clear();return *this;}
         auto res=atcoder::convolution<mint>(*this,g);
-        *this={res.begin(),res.end()};
+        *this=poly(res.begin(),res.end());
         return *this;
     }
     poly& operator+=(const mint& v){if(this->empty())this->resize(1);(*this)[0]+=v;return *this;}
@@ -235,14 +241,26 @@ struct FormalPowerSeries:vc<mint>{
     }
 };
 template<class mint>
+FormalPowerSeries(vc<mint>)->FormalPowerSeries<mint>;
+template<class mint>
+using fps=FormalPowerSeries<mint>;
+template<class mint>
 FormalPowerSeries<mint>to_fps(vc<mint> v){
     FormalPowerSeries<mint>res(v.size());rep(i,v.size())res[i]=v[i];
     return res;
 }
 template<class mint>
+FormalPowerSeries<mint>to_fps(FormalPowerSeries<mint> v){
+    return v;
+}
+template<class mint>
 vc<mint>to_vec(FormalPowerSeries<mint> v){
     vc<mint>res(v.size());rep(i,v.size())res[i]=v[i];
     return res;
+}
+template<class mint>
+vc<mint>to_vec(vc<mint> v){
+    return v;
 }
 template<class mint>
 FormalPowerSeries<mint> all_prod(vc<FormalPowerSeries<mint>> v){
@@ -258,6 +276,13 @@ FormalPowerSeries<mint> all_prod(vc<FormalPowerSeries<mint>> v){
         pq.push(std::move(p1*p2));
     }
     return pq.top();
+}
+template<class mint>
+FormalPowerSeries<mint> all_prod(vc<vc<mint>> v){
+    vc<FormalPowerSeries<mint>> ps;
+    ps.reserve(v.size());
+    for(auto&p:v)ps.push_back(std::move(p));
+    return all_prod(ps);
 }
 template<class mint>
 struct SubproductTree{
@@ -368,7 +393,7 @@ struct SubproductTree{
 };
 
 template<class mint>
-vc<mint> multipoint_evaluation(FormalPowerSeries<mint> f,vc<mint> query){
+vc<mint> multipoint_evaluation(std::type_identity_t<FormalPowerSeries<mint>> f,vc<mint> query){
     assert(mint::get_mod());
     SubproductTree<mint> st(query.size());
     for(auto& x:query)st.add_query(x);
@@ -377,7 +402,7 @@ vc<mint> multipoint_evaluation(FormalPowerSeries<mint> f,vc<mint> query){
 }
 //f(a),f(ar),...,f(ar^{m-1})
 template<class mint>
-vc<mint>chirp_z(FormalPowerSeries<mint>f,mint a,mint r,int m){
+vc<mint>chirp_z(std::type_identity_t<FormalPowerSeries<mint>>f,mint a,mint r,int m){
     assert(mint::get_mod());
     if(m==0)return {};
     if(r==0){
@@ -485,6 +510,11 @@ FormalPowerSeries<mint>taylor_shift(FormalPowerSeries<mint>f,int c){
     ans=FormalPowerSeries<mint>(ans.begin()+f.size()-1,ans.end());
     rep(i,f.size())ans[i]*=bin.invfact(i);
     return ans;
+}
+template<class F>
+auto taylor_shift(F f,int c)->FormalPowerSeries<typename F::value_type>{
+    using mint=typename F::value_type;
+    return taylor_shift(FormalPowerSeries<mint>(std::move(f)),c);
 }
 using mint=StaticModInt<998244353>;
 using poly=FormalPowerSeries<mint>;

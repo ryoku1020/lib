@@ -18,13 +18,14 @@ struct MinCostFlow{
         if(a!=b)edges.push_back({a,b,(int)edges.size(),cap,cost});
     }
     vc<Cap>Flow;
-    optional<Cost>run(int s,int t,Cap target){
+    pair<Cost,Cap>run(int s,int t,Cap target){
         assert(0<=s&&s<n);
         assert(0<=t&&t<n);
         assert(target>=0);
         Flow.assign(edges.size(),0);
         vc<Cost>pot(n);
         Cost res=0;
+        Cap flow=0;
         while(target){
             StaticGraph<1,Edge>g(n);
             for(auto e:edges){
@@ -48,7 +49,7 @@ struct MinCostFlow{
                     }
                 }
             }
-            if(md[t]==numeric_limits<Cost>::max())return nullopt;
+            if(md[t]==numeric_limits<Cost>::max())return {res,flow};
             int now=t;
             vc<Edge>used;
             while(now!=s){
@@ -66,9 +67,10 @@ struct MinCostFlow{
                 if(is_rev)Flow[e.id]-=new_flow;
                 else Flow[e.id]+=new_flow;
             }
+            flow+=new_flow;
             rep(i,n)if(md[i]!=numeric_limits<Cost>::max())pot[i]+=md[i];
         }
-        return res;
+        return {res,flow};
     }
     vc<tuple<int,int,int,Cap>>Info(){
         assert(Flow.size()==edges.size());

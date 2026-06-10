@@ -31,6 +31,21 @@ VSCode では `.vscode/settings.json` と `.clangd` で `template.hpp` を自動
 - `注意`
   index の取り方、半開区間かどうか、事前 `build` が必要かどうか、などのハマりやすい点を書いています。
 
+## Chrome で見る
+
+リポジトリのルートから次を実行すると、Markdown viewer を起動して Chrome で開きます。
+数式は KaTeX、コードブロックは highlight.js で表示します。
+
+```sh
+python3 lib/docs/serve.py
+```
+
+手動で開く場合は次を使います。
+
+```sh
+python3 lib/docs/serve.py --no-open
+```
+
 ## 代表的な入口
 
 - 木: [Tree / HLD](tree/base.md), [重心分解](tree/centroid.md), [DSU on Tree](tree/dsu-on-tree.md), [輪郭クエリ](tree/contour.md), [全方位DP](ds/reroot.md)

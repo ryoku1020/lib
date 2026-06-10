@@ -23,6 +23,7 @@ struct Segtree{
         node[i]=Info::op(node[i*2],node[i*2+1]);
     }
     Segtree(int n=0){
+        assert(n>=0);
         N=1;
         lg=0;
         while(N<n)N*=2,++lg;
@@ -31,6 +32,7 @@ struct Segtree{
     }
     template<class F>
     Segtree(int n,F f){
+        assert(n>=0);
         N=1;
         lg=0;
         while(N<n)N*=2,++lg;

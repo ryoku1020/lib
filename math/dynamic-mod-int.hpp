@@ -35,7 +35,7 @@ struct DynamicModInt{
         return *this;
     }
     DynamicModInt operator-() const{
-        return DynamicModInt(-val);
+        return DynamicModInt(val?get_mod()-val:0);
     }
     DynamicModInt operator+() const {
         return *this;

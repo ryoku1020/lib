@@ -4,8 +4,8 @@ struct NodePool{
     vector<T>pool;
     vector<ptr_t>st;
     int idx,cap;
-    NodePool(int s=4):pool(s),st(),idx(1),cap(s){assert(s>0);}
-    inline T&operator[](ptr_t i){return pool[int(i)];}
+    NodePool(int s=4):idx(1),cap(s){assert(s>0);pool.resize(s);}
+    inline T&operator[](ptr_t i){assert(0<=int(i)&&int(i)<idx);return pool[int(i)];}
     void grow(){
         cap*=2;
         pool.resize(cap);
@@ -25,6 +25,6 @@ struct NodePool{
         pool[int(res)]=T(args...);
         return res;
     }
-    void del(ptr_t i){st.push_back(i);}
+    void del(ptr_t i){assert(0<int(i)&&int(i)<idx);st.push_back(i);}
     void clear(){idx=1;st.clear();}
 };

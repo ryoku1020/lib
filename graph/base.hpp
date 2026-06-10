@@ -33,10 +33,11 @@ private:
     [[no_unique_address]] mutable conditional_t<is_directed,vc<int>,EmptyStorage>inv_start;
     [[no_unique_address]] mutable conditional_t<is_directed,vc<Edge>,EmptyStorage>inv_edge;
 public:
-    StaticGraph(int n):n(n),m(-1),csr_start(n+1){}
-    StaticGraph(int n,int m):n(n),m(m),csr_start(n+1){_all_edges.reserve(m);}
+    StaticGraph(int n):n(n),m(-1){assert(n>=0);csr_start.resize(n+1);}
+    StaticGraph(int n,int m):n(n),m(m){assert(n>=0&&m>=0);csr_start.resize(n+1);_all_edges.reserve(m);}
     void add_edge(const Edge&e){
         assert(0<=e.from&&e.from<n&&0<=e.to&&e.to<n);
+        assert(m==-1||added<m);
         _all_edges.push_back(e);
         csr_built=false;
         if constexpr(is_directed)inv_built=false;
@@ -44,6 +45,7 @@ public:
     }
     void add_edge(int a,int b,cost_t cost=1,int id=-1){
         assert(0<=a&&a<n&&0<=b&&b<n);
+        assert(m==-1||added<m);
         if(id==-1)id=(int)_all_edges.size();
         _all_edges.push_back({a,b,id,cost});
         csr_built=false;
@@ -52,6 +54,7 @@ public:
     }
     template<int substract=0>
     void input(int edge_count){
+        assert(edge_count>=0);
         rep(i,edge_count){
             INT(a,b);
             a-=substract;

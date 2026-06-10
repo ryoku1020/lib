@@ -49,11 +49,13 @@ struct SlidingWindowAggregation{
         return X::op(left_data.back(),right_data.back());
     }
     void pop_front(){
+        assert(left.size()+right.size()>0);
         if(left.empty())balance();
         left.pop_back();
         left_data.pop_back();
     }
     void pop_back(){
+        assert(left.size()+right.size()>0);
         if(right.empty())balance();
         right.pop_back();
         right_data.pop_back();
@@ -84,6 +86,7 @@ struct OneWaySlidingWindowAggregation{
         }
     }
     void pop_front(){
+        assert(s1.size()+s2.size()>0);
         if(s1.empty()){
             modify();        
         }

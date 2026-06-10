@@ -19,10 +19,8 @@ mcf.add_edge(1,3,2,4);
 mcf.add_edge(0,2,1,1);
 mcf.add_edge(2,3,1,2);
 
-auto ans=mcf.run(0,3,2);
-if(ans){
-    cout<<*ans<<"\n";
-}
+auto [cost,flow]=mcf.run(0,3,2);
+cout<<cost<<" "<<flow<<"\n";
 ```
 
 ## メソッド
@@ -34,9 +32,9 @@ if(ans){
   有向辺 `a->b` を追加します。
   `cap`, `cost` はともに非負を仮定しています。
 
-- `optional<Cost> run(int s,int t,Cap target)`
-  `s` から `t` に `target` だけ流したときの最小コストを返します。
-  流せない場合は `nullopt` を返します。
+- `pair<Cost,Cap> run(int s,int t,Cap target)`
+  `s` から `t` に高々 `target` だけ流したときの `(cost,flow)` を返します。
+  `target` だけ流せない場合も、実際に流せた量とその最小コストを返します。
 
 - `vc<tuple<int,int,int,Cap>> Info()`
   各元辺に対する `(from,to,id,Flow)` を返します。

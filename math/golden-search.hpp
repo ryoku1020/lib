@@ -1,5 +1,5 @@
 #pragma once
-namespace _G001dENSEARCH{
+namespace GOLDENSEARCH{
 vc<ull>fib{1,1};
 template<class T>
 int find_target(T w){
@@ -65,5 +65,5 @@ pair<G,T> GoldenSearch(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
 }
 template<class T,class G,class F,class Compare=less<G>>
 auto GoldenSearch(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
-    return _G001dENSEARCH::GoldenSearch<T,G,F,Compare>(l,r,get_value,weakest,Comp);
+    return GOLDENSEARCH::GoldenSearch<T,G,F,Compare>(l,r,get_value,weakest,Comp);
 }

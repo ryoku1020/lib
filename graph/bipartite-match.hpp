@@ -1,10 +1,16 @@
 #pragma once
 struct BipartiteMatching{
-    vc<int>pm,qm;
     int l,r;
+    vc<int>pm,qm;
     vvc<int>g;
     vc<int>dist;
-    BipartiteMatching(int l,int r):l(l),r(r),pm(l,-1),qm(r,-1),g(l),dist(l){}
+    BipartiteMatching(int l,int r):l(l),r(r){
+        assert(l>=0&&r>=0);
+        pm.assign(l,-1);
+        qm.assign(r,-1);
+        g.resize(l);
+        dist.resize(l);
+    }
     void add_edge(int a,int b){
         assert(0<=a&&a<l);
         assert(0<=b&&b<r);

@@ -35,6 +35,15 @@ suffix link を BFS で構築します。
 
 - 計算量: `O(sigma * |trie|)`
 
+### `int ac.next(int x, Char c)`
+
+ノード `x` にいる状態で文字 `c` を読んだ後の遷移先ノードを返します。
+trie 遷移が存在しない場合は suffix link を辿り、遷移先がない場合は `root` を返します。
+内部で `build()` を呼ぶので、事前に明示的に `build()` していなくても使えます。
+
+- 制約: `give_order(c)` が `[0, sigma)` に収まること
+- 計算量: `O(辿った suffix link の本数 + 1)`
+
 ### `int ac.size()`
 
 trie のノード数を返します。
@@ -75,10 +84,7 @@ string text = "ushers";
 vc<int> cnt(ac.size(), 0);
 int v = ac.root;
 for (char ch : text) {
-    int c = f(ch);
-    // suffix link を辿って遷移先を探す
-    while (v != ac.root && ac.child[v][c] == -1) v = ac.suffix[v];
-    if (ac.child[v][c] != -1) v = ac.child[v][c];
+    v = ac.next(v, ch);
     cnt[v]++;
 }
 
@@ -96,8 +102,7 @@ for (int i = 0; i < (int)patterns.size(); i++) {
 
 ## 注意
 
-- この実装は各ステップで suffix link を手動に辿る形です。
-  `child[v][c] == -1` の遷移はオートマトンとしてあらかじめ補完されていないので、
-  テキストを読む際は `while(v != root && child[v][c] == -1) v = suffix[v]` が必要です。
+- `next(x,c)` は suffix link を辿って遷移先を探します。
+  `child[v][c] == -1` の遷移はオートマトンとしてあらかじめ補完されません。
 - `build()` 前に `suffix` を使ってはいけません。
 - `word[i]` は追加順のノード id です。同じ文字列を複数回 `add` すると同じノードが複数回記録されます。

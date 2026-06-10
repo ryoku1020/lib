@@ -6,8 +6,13 @@ struct PotentializedUnionFind{
     vc<int>par;
     //val[par[x]]=val[x]*w[x]
     vc<value_type>w;
-    PotentializedUnionFind(int n):par(n,-1),w(n,X::e()){}
+    PotentializedUnionFind(int n){
+        assert(n>=0);
+        par.assign(n,-1);
+        w.assign(n,X::e());
+    }
     int root(int x){
+        assert(0<=x&&x<par.size());
         if(par[x]<0)return x;
         else{
             auto res=root(par[x]);
@@ -16,16 +21,19 @@ struct PotentializedUnionFind{
         }
     }
     int same(int x,int y){
+        assert(0<=x&&x<par.size()&&0<=y&&y<par.size());
         return root(x)==root(y);
     }
     //assume that same(x,y)=1
     //val[x]^{-1}*val[y] 
     value_type diff(int x,int y){
+        assert(0<=x&&x<par.size()&&0<=y&&y<par.size());
         assert(same(x,y));
         return X::op(w[x],X::inv(w[y]));
     }
     //val[x]=val[y]*W 
     int merge(int x,int y,value_type W){
+        assert(0<=x&&x<par.size()&&0<=y&&y<par.size());
         if(same(y,x)){
             if(diff(y,x)!=W)return -1;
             return 0;

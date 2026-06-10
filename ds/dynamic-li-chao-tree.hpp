@@ -16,6 +16,7 @@ struct DynamicLiChaoTree{
     T n,N;
     int coef;
     DynamicLiChaoTree(T n_):root(nullptr),n(n_){
+        assert(n_>=0);
         N=1;
         while(N<n_)N*=2;
         if(ismin)coef=1;
@@ -48,7 +49,10 @@ struct DynamicLiChaoTree{
         add_segment_(a,t->l,L,mid,ql,qr);
         add_segment_(a,t->r,mid,R,ql,qr);
     }
-    void add_segment(Line a,T ql,T qr){add_segment_(a,root,0,N,ql,qr);}
+    void add_segment(Line a,T ql,T qr){
+        assert(0<=ql&&ql<=qr&&qr<=n);
+        add_segment_(a,root,0,N,ql,qr);
+    }
     auto query(T x){
         assert(0<=x&&x<n);
         Node*t=root;

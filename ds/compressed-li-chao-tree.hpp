@@ -12,6 +12,7 @@ struct CompressedLiChaoTree{
         else coef=-1;
     }
     void add_x(T x){
+        assert(!built);
         cp.push(x);
     }
     bool built=0;
@@ -44,9 +45,11 @@ public:
         add_line_(a,1,0,n);
     }
     void add_segment(Line a,T L,T R){
+        assert(L<=R);
         build();
         int l=cp.find_next(L),r=cp.find_next(R);
-        assert(l>=0&&r>=0);
+        assert(l>=0&&l<cp.size()&&cp[l]==L);
+        assert(r>=0&&r<cp.size()&&cp[r]==R);
         int sl=l,sr=r;
         int w=1;
         l+=n,r+=n;

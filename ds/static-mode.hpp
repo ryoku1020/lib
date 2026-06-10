@@ -1,21 +1,26 @@
 #pragma once
+#include"compresser.hpp"
 template<class T>
 struct StaticRangeMode{
     vc<T>a;
     int n;
-    StaticRangeMode()=default;
-    StaticRangeMode(int n):n(n),a(n){}
-    void set(int i,T x){a[i]=x;}
     int B;
     int block_cnt;
     vc<vc<int>>idx;
     vvc<pair<int,T>>mode;
     vc<int>inv;
     vc<int>Query_cnt;
-    Compress<T>cp;
+    Compresser<T>cp;
+    bool built=false;
+    StaticRangeMode()=default;
+    StaticRangeMode(int n):n(n){assert(n>=0);a.resize(n);}
+    void set(int i,T x){assert(!built);assert(0<=i&&i<n);a[i]=x;}
     void precalc(){
+        if(built)return;
+        built=true;
+        assert(n>0);
         B=sqrt(n);
-        rep(i,n)cp.push(a[i]);cp.work();rep(i,n)a[i]=cp.find(a[i]);
+        rep(i,n)cp.push(a[i]);cp.build();rep(i,n)a[i]=cp.find(a[i]);
         idx.resize(n);
         inv.resize(n);
         rep(i,n){
@@ -45,6 +50,7 @@ struct StaticRangeMode{
     //[l,r) l==r > ng!!!!!!
     pair<int,T>Query(int l,int r){
         assert(0<=l&&l<r&&r<=n);
+        precalc();
         if(l/B==r/B){
             pair<int,T>now_mode{0,0};
             REP(i,l,r){
@@ -52,7 +58,7 @@ struct StaticRangeMode{
                 chmax(now_mode,make_pair(int(Query_cnt[a[i]]),T(a[i])));
             }
             REP(i,l,r)Query_cnt[a[i]]--;
-            now_mode.second=cp.v[now_mode.second];
+            now_mode.second=cp.x[now_mode.second];
             return now_mode;
         }
         
@@ -73,7 +79,7 @@ struct StaticRangeMode{
                 now_mode={inv[i]-nxt+1,target};
             }
         } 
-        now_mode.second=cp.v[now_mode.second];
+        now_mode.second=cp.x[now_mode.second];
         return now_mode;
     }
 };

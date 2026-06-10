@@ -1,5 +1,6 @@
 #pragma once
 # pragma GCC optimize("O3")
+
 using namespace std;
 #include <iostream>
 #include <iomanip>
@@ -240,22 +241,85 @@ constexpr ll ten(ll a){
     return POW<ll>(10,a);
 }
 template<typename T>constexpr T inf=numeric_limits<T>::max()/2-1;
-int tbit(int32_t x){return x==0?-1:31-__builtin_clz((uint32_t)x);}
-int lbit(int32_t x){return x==0?-1:__builtin_ctz((uint32_t)x);}
-int tbit(uint32_t x){return x==0?-1:31-__builtin_clz(x);}
-int lbit(uint32_t x){return x==0?-1:__builtin_ctz(x);}
-int tbit(int64_t x){return x==0?-1:63-__builtin_clzll((uint64_t)x);}
-int lbit(int64_t x){return x==0?-1:__builtin_ctzll((uint64_t)x);}
-int tbit(uint64_t x){return x==0?-1:63-__builtin_clzll(x);}
-int lbit(uint64_t x){return x==0?-1:__builtin_ctzll(x);}
-int tbit(int32_t x,int p){return p<0?-1:tbit((int32_t)(x&(p>=31?~0u:(1u<<(p+1))-1)));}
-int lbit(int32_t x,int p){return p>31?-1:lbit((int32_t)(x&(~0u<<p)));}
-int tbit(uint32_t x,int p){return p<0?-1:tbit((uint32_t)(x&(p>=31?~0u:(1u<<(p+1))-1)));}
-int lbit(uint32_t x,int p){return p>31?-1:lbit((uint32_t)(x&(~0u<<p)));}
-int tbit(int64_t x,int p){return p<0?-1:tbit((int64_t)(x&(p>=63?~0ULL:(1ULL<<(p+1))-1)));}
-int lbit(int64_t x,int p){return p>63?-1:lbit((int64_t)(x&(~0ULL<<p)));}
-int tbit(uint64_t x,int p){return p<0?-1:tbit((uint64_t)(x&(p>=63?~0ULL:(1ULL<<(p+1))-1)));}
-int lbit(uint64_t x,int p){return p>63?-1:lbit((uint64_t)(x&(~0ULL<<p)));}
+int tbit(bool x){return x?0:-1;}
+int lbit(bool x){return x?0:-1;}
+int tbit(bool x,int p){return x&&p>=0?0:-1;}
+int lbit(bool x,int p){return x&&p<=0?0:-1;}
+template<class T,enable_if_t<is_integral_v<T>&&!is_same_v<remove_cv_t<T>,bool>,int> =0>
+int tbit(T x){
+    using U=make_unsigned_t<T>;
+    constexpr int W=numeric_limits<U>::digits;
+    static_assert(W<=64);
+    U y=(U)x;
+    if(y==0)return -1;
+    if constexpr(W<=32)return 31-__builtin_clz((uint32_t)y);
+    else return 63-__builtin_clzll((uint64_t)y);
+}
+template<class T,enable_if_t<is_integral_v<T>&&!is_same_v<remove_cv_t<T>,bool>,int> =0>
+int lbit(T x){
+    using U=make_unsigned_t<T>;
+    constexpr int W=numeric_limits<U>::digits;
+    static_assert(W<=64);
+    U y=(U)x;
+    if(y==0)return -1;
+    if constexpr(W<=32)return __builtin_ctz((uint32_t)y);
+    else return __builtin_ctzll((uint64_t)y);
+}
+template<class T,enable_if_t<is_integral_v<T>&&!is_same_v<remove_cv_t<T>,bool>,int> =0>
+int tbit(T x,int p){
+    using U=make_unsigned_t<T>;
+    constexpr int W=numeric_limits<U>::digits;
+    U y=(U)x;
+    if(p<0)return -1;
+    if(p>=W-1)return tbit(y);
+    return tbit((U)(y&((U(1)<<(p+1))-1)));
+}
+template<class T,enable_if_t<is_integral_v<T>&&!is_same_v<remove_cv_t<T>,bool>,int> =0>
+int lbit(T x,int p){
+    using U=make_unsigned_t<T>;
+    constexpr int W=numeric_limits<U>::digits;
+    U y=(U)x;
+    if(p<0)return lbit(y);
+    if(p>=W)return -1;
+    return lbit((U)(y&(numeric_limits<U>::max()<<p)));
+}
+int tbit(__uint128_t x){
+    if(x==0)return -1;
+    uint64_t hi=(uint64_t)(x>>64);
+    if(hi)return 64+tbit(hi);
+    return tbit((uint64_t)x);
+}
+int lbit(__uint128_t x){
+    if(x==0)return -1;
+    uint64_t lo=(uint64_t)x;
+    if(lo)return lbit(lo);
+    return 64+lbit((uint64_t)(x>>64));
+}
+int tbit(__int128_t x){return tbit((__uint128_t)x);}
+int lbit(__int128_t x){return lbit((__uint128_t)x);}
+int tbit(__uint128_t x,int p){
+    if(p<0)return -1;
+    if(p>=127)return tbit(x);
+    if(p>=64){
+        int res=tbit((uint64_t)(x>>64),p-64);
+        return res==-1?tbit((uint64_t)x):res+64;
+    }
+    return tbit((uint64_t)x,p);
+}
+int lbit(__uint128_t x,int p){
+    if(p<0)return lbit(x);
+    if(p>=128)return -1;
+    if(p>=64){
+        int res=lbit((uint64_t)(x>>64),p-64);
+        return res==-1?-1:res+64;
+    }
+    int res=lbit((uint64_t)x,p);
+    if(res!=-1)return res;
+    res=lbit((uint64_t)(x>>64));
+    return res==-1?-1:res+64;
+}
+int tbit(__int128_t x,int p){return tbit((__uint128_t)x,p);}
+int lbit(__int128_t x,int p){return lbit((__uint128_t)x,p);}
 std::istream& operator>>(std::istream& is, __int128& x) {
     std::streambuf* sb = is.rdbuf();
 
@@ -303,7 +367,10 @@ std::ostream& operator<<(std::ostream& os, __int128 x) {
     sb->sputn(buf + pos, 39 - pos);
     return os;
 }
+#define dbg(...) 1111
+
 #ifdef LOCAL
+#undef dbg
 
 template<typename T, typename U> std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& p);
 template<typename T> std::ostream& operator<<(std::ostream& os, const std::vector<T>& v);
@@ -472,6 +539,4 @@ std::ostream& operator<<(std::ostream& os, const std::array<T, N>& a) {
     os << "]";
     return os;
 }
-#else
-#define dbg(...) 1111
 #endif

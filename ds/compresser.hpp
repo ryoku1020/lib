@@ -2,11 +2,11 @@
 template<class T>
 struct Compresser{
     vc<T>x;
-    Compresser(int n){x.reserve(n);}
+    Compresser(int n=0){x.reserve(n);}
     Compresser(const vc<T>&xs){
         x=xs;
     }
-    void push(T p){x.pb(p);}
+    void push(T p){built=false;x.pb(p);}
     bool built=false;
     void build(){
         if(!chmax(built,1))return;

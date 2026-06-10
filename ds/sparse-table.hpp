@@ -5,7 +5,9 @@ struct SparseTable{
     int lg;
     int n;
     vvc<V>table;
+    bool built=false;
     SparseTable(int N){
+        assert(N>=0);
         lg=0;
         while((1<<lg)<=N)lg++;
         lg--;
@@ -15,8 +17,11 @@ struct SparseTable{
     void set(int i,V x){
         assert(0<=i&&i<n);
         table[0][i]=x;
+        built=false;
     }
     void build(){
+        if(built)return;
+        built=true;
         REP(i,1,lg+1){
             rep(j,n){
                 if(j+(1<<i)>n)break;
@@ -26,6 +31,7 @@ struct SparseTable{
     }
     V prod(int l,int r){
         assert(0<=l&&l<=r&&r<=n);
+        build();
         if(l==r)return X::e();
         for(int i=0;;i++){
             if((r-l)<(1<<(i+1))){

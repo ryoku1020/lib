@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Library Docs</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github.min.css">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-2: #f0f3f6;
+      --text: #1f2933;
+      --muted: #667085;
+      --line: #d8dee8;
+      --accent: #0969da;
+      --accent-soft: #e7f0ff;
+      --code: #f5f7fa;
+      --shadow: 0 18px 50px rgba(31, 41, 51, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr) 240px;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid var(--line);
+      background: var(--panel);
+      overflow: auto;
+      padding: 20px 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 0 4px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .search {
+      width: 100%;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+      padding: 0 12px;
+    }
+
+    .search:focus {
+      border-color: var(--accent);
+      background: var(--panel);
+    }
+
+    .nav {
+      margin-top: 16px;
+    }
+
+    .group {
+      margin: 18px 8px 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      display: block;
+      width: 100%;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      padding: 8px 10px;
+    }
+
+    .nav-item:hover {
+      background: var(--panel-2);
+    }
+
+    .nav-item.active {
+      background: var(--accent-soft);
+      color: #074a9c;
+      font-weight: 650;
+    }
+
+    .nav-title {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .nav-path {
+      display: block;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 28px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 940px;
+      margin: 0 auto 16px;
+    }
+
+    .path {
+      min-width: 0;
+      overflow: hidden;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .actions {
+      display: flex;
+      flex: none;
+      gap: 8px;
+    }
+
+    .button {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      padding: 0 11px;
+    }
+
+    .button:hover {
+      border-color: #b8c2d1;
+      background: var(--panel-2);
+      text-decoration: none;
+    }
+
+    .article {
+      max-width: 940px;
+      min-height: calc(100vh - 92px);
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      padding: 42px 52px;
+    }
+
+    .doc-meta {
+      display: none;
+      margin: -10px 0 28px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .doc-meta.visible {
+      display: block;
+    }
+
+    .article h1,
+    .article h2,
+    .article h3 {
+      line-height: 1.3;
+    }
+
+    .article h1 {
+      margin: 0 0 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+
+    .article h2 {
+      margin: 34px 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .article h3 {
+      margin: 26px 0 8px;
+      font-size: 19px;
+      letter-spacing: 0;
+    }
+
+    .article p,
+    .article ul,
+    .article ol,
+    .article table,
+    .article pre,
+    .article blockquote {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    .article code {
+      border-radius: 5px;
+      background: var(--code);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .92em;
+      padding: .16em .36em;
+    }
+
+    .article pre {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--code);
+      padding: 16px;
+    }
+
+    .article pre code {
+      display: block;
+      background: transparent;
+      padding: 0;
+    }
+
+    .article blockquote {
+      border-left: 4px solid var(--line);
+      color: var(--muted);
+      padding-left: 14px;
+    }
+
+    .article table {
+      display: block;
+      width: max-content;
+      max-width: 100%;
+      overflow: auto;
+      border-collapse: collapse;
+    }
+
+    .article th,
+    .article td {
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+    }
+
+    .article th {
+      background: var(--panel-2);
+    }
+
+    .article .katex-display {
+      overflow: auto hidden;
+      padding: 4px 0;
+    }
+
+    .toc {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-left: 1px solid var(--line);
+      background: var(--bg);
+      overflow: auto;
+      padding: 24px 16px;
+    }
+
+    .toc-title {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .toc a {
+      display: block;
+      overflow: hidden;
+      border-radius: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 5px 8px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .toc a:hover {
+      background: var(--panel-2);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .toc .level-3 {
+      padding-left: 18px;
+    }
+
+    .message {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    @media (max-width: 1050px) {
+      .app {
+        grid-template-columns: 260px minmax(0, 1fr);
+      }
+
+      .toc {
+        display: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .app {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        max-height: 46vh;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .main {
+        padding: 16px;
+      }
+
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .actions {
+        width: 100%;
+      }
+
+      .button {
+        flex: 1;
+      }
+
+      .article {
+        min-height: auto;
+        padding: 28px 22px;
+      }
+
+      .article h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>Library Docs</h1>
+        <span class="count" id="count"></span>
+      </div>
+      <input class="search" id="search" type="search" placeholder="Search docs">
+      <nav class="nav" id="nav"></nav>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="path" id="path"></div>
+        <div class="actions">
+          <a class="button" id="raw" target="_blank" rel="noreferrer">Raw</a>
+          <button class="button" id="copy" type="button">Copy link</button>
+        </div>
+      </div>
+      <article class="article">
+        <div class="doc-meta" id="meta"></div>
+        <div id="content" class="message">Loading...</div>
+      </article>
+    </main>
+
+    <aside class="toc">
+      <div class="toc-title">Contents</div>
+      <div id="toc"></div>
+    </aside>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <script>
+    const state = {
+      files: [],
+      current: new URLSearchParams(location.search).get("file") || "README.md",
+    };
+
+    const el = {
+      nav: document.getElementById("nav"),
+      search: document.getElementById("search"),
+      count: document.getElementById("count"),
+      content: document.getElementById("content"),
+      toc: document.getElementById("toc"),
+      path: document.getElementById("path"),
+      raw: document.getElementById("raw"),
+      copy: document.getElementById("copy"),
+      meta: document.getElementById("meta"),
+    };
+
+    function normalizePath(path) {
+      const out = [];
+      for (const part of path.split("/")) {
+        if (!part || part === ".") continue;
+        if (part === "..") out.pop();
+        else out.push(part);
+      }
+      return out.join("/");
+    }
+
+    function dirname(path) {
+      const parts = path.split("/");
+      parts.pop();
+      return parts.join("/");
+    }
+
+    function isExternal(href) {
+      return /^(https?:|mailto:|tel:)/.test(href);
+    }
+
+    function parseFrontMatter(text) {
+      if (!text.startsWith("---")) return [{}, text];
+      const end = text.indexOf("\n---", 3);
+      if (end === -1) return [{}, text];
+      const front = text.slice(3, end).trim();
+      const body = text.slice(end + 4).replace(/^\r?\n/, "");
+      const meta = {};
+      for (const line of front.split(/\r?\n/)) {
+        const index = line.indexOf(":");
+        if (index === -1) continue;
+        const key = line.slice(0, index).trim();
+        const value = line.slice(index + 1).trim().replace(/^["']|["']$/g, "");
+        meta[key] = value;
+      }
+      return [meta, body];
+    }
+
+    function slugify(text, used) {
+      let base = text.trim().toLowerCase()
+        .replace(/[^\p{Letter}\p{Number}\s_-]/gu, "")
+        .replace(/\s+/g, "-");
+      if (!base) base = "section";
+      let slug = base;
+      let n = 2;
+      while (used.has(slug)) {
+        slug = `${base}-${n++}`;
+      }
+      used.add(slug);
+      return slug;
+    }
+
+    function setMessage(message) {
+      el.meta.classList.remove("visible");
+      el.content.className = "message";
+      el.content.textContent = message;
+      el.toc.textContent = "";
+    }
+
+    function renderSidebar() {
+      const query = el.search.value.trim().toLowerCase();
+      const files = state.files.filter(file => {
+        const haystack = `${file.title} ${file.path}`.toLowerCase();
+        return haystack.includes(query);
+      });
+
+      el.count.textContent = `${state.files.length} files`;
+      el.nav.textContent = "";
+      let group = "";
+      for (const file of files) {
+        if (file.group !== group) {
+          group = file.group;
+          const title = document.createElement("div");
+          title.className = "group";
+          title.textContent = group;
+          el.nav.append(title);
+        }
+        const button = document.createElement("button");
+        button.className = "nav-item" + (file.path === state.current ? " active" : "");
+        button.type = "button";
+        button.innerHTML = `<span class="nav-title"></span><span class="nav-path"></span>`;
+        button.querySelector(".nav-title").textContent = file.title;
+        button.querySelector(".nav-path").textContent = file.path;
+        button.addEventListener("click", () => loadDoc(file.path, "", true));
+        el.nav.append(button);
+      }
+    }
+
+    function renderToc() {
+      const used = new Set();
+      const headings = [...el.content.querySelectorAll("h2, h3")];
+      el.toc.textContent = "";
+      for (const heading of headings) {
+        if (!heading.id) heading.id = slugify(heading.textContent, used);
+        const link = document.createElement("a");
+        link.href = `#${heading.id}`;
+        link.className = `level-${heading.tagName.slice(1)}`;
+        link.textContent = heading.textContent;
+        el.toc.append(link);
+      }
+    }
+
+    function rewriteLinks() {
+      const base = dirname(state.current);
+      for (const link of el.content.querySelectorAll("a[href]")) {
+        const href = link.getAttribute("href");
+        if (!href || isExternal(href)) continue;
+        if (href.startsWith("#")) continue;
+
+        const [rawPath, hash = ""] = href.split("#");
+        const target = normalizePath(`${base}/${rawPath}`);
+        if (target.endsWith(".md")) {
+          link.href = `?file=${encodeURIComponent(target)}${hash ? `#${hash}` : ""}`;
+          link.addEventListener("click", event => {
+            event.preventDefault();
+            loadDoc(target, hash, true);
+          });
+        } else {
+          link.href = `/${target}${hash ? `#${hash}` : ""}`;
+          link.target = "_blank";
+          link.rel = "noreferrer";
+        }
+      }
+    }
+
+    function renderMeta(meta) {
+      el.meta.textContent = "";
+      if (!meta.documentation_of) {
+        el.meta.classList.remove("visible");
+        return;
+      }
+      const target = normalizePath(`${dirname(state.current)}/${meta.documentation_of}`);
+      el.meta.classList.add("visible");
+      el.meta.append("documentation_of: ");
+      const link = document.createElement("a");
+      link.href = `/${target}`;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.textContent = meta.documentation_of;
+      el.meta.append(link);
+    }
+
+    async function loadDoc(path, hash = "", push = false) {
+      state.current = normalizePath(path || "README.md");
+      renderSidebar();
+      el.path.textContent = state.current;
+      el.raw.href = `/${state.current}`;
+      setMessage("Loading...");
+
+      const response = await fetch(`/api/doc?path=${encodeURIComponent(state.current)}`);
+      if (!response.ok) {
+        setMessage(`Could not load ${state.current}`);
+        return;
+      }
+
+      const raw = await response.text();
+      const [meta, markdown] = parseFrontMatter(raw);
+      renderMeta(meta);
+      el.content.className = "";
+      el.content.innerHTML = DOMPurify.sanitize(marked.parse(markdown));
+
+      for (const code of el.content.querySelectorAll("pre code")) {
+        hljs.highlightElement(code);
+      }
+
+      renderMathInElement(el.content, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "\\[", right: "\\]", display: true },
+          { left: "\\(", right: "\\)", display: false },
+          { left: "$", right: "$", display: false },
+        ],
+        ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+        throwOnError: false,
+      });
+
+      rewriteLinks();
+      renderToc();
+
+      const title = meta.title || el.content.querySelector("h1")?.textContent || state.current;
+      document.title = `${title} - Library Docs`;
+      if (push) {
+        const url = `?file=${encodeURIComponent(state.current)}${hash ? `#${hash}` : ""}`;
+        history.pushState({ file: state.current }, "", url);
+      }
+      if (hash) {
+        requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView());
+      } else {
+        scrollTo({ top: 0 });
+      }
+    }
+
+    async function boot() {
+      if (location.protocol === "file:") {
+        setMessage("Run `python3 lib/docs/serve.py` and open the shown URL in Chrome.");
+        return;
+      }
+      if (!window.marked || !window.DOMPurify || !window.hljs || !window.renderMathInElement) {
+        setMessage("Renderer libraries did not load. Check your network connection.");
+        return;
+      }
+      const response = await fetch("/api/files");
+      state.files = await response.json();
+      renderSidebar();
+      await loadDoc(state.current);
+    }
+
+    el.search.addEventListener("input", renderSidebar);
+    el.copy.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(location.href);
+      el.copy.textContent = "Copied";
+      setTimeout(() => { el.copy.textContent = "Copy link"; }, 1000);
+    });
+    addEventListener("popstate", () => {
+      const file = new URLSearchParams(location.search).get("file") || "README.md";
+      loadDoc(file, location.hash.slice(1));
+    });
+    addEventListener("keydown", event => {
+      if (event.key === "/" && document.activeElement !== el.search) {
+        event.preventDefault();
+        el.search.focus();
+      }
+    });
+
+    boot().catch(error => setMessage(error.message));
+  </script>
+</body>
+</html>

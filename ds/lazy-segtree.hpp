@@ -21,6 +21,7 @@ struct LazySegtree{
     vc<value_type>node;
     vc<lazy_type>lazy;
     void build(int N_){
+        assert(N_>=0);
         N=N_;
         lg=0;
         while((1<<lg)<N)lg++;

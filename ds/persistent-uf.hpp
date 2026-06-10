@@ -10,18 +10,21 @@ struct PersistentUnionFind{
     }
     int root(int x,node root_){
         assert(root_);
+        assert(0<=x&&x<par.n_);
         auto res=par.get(x,root_);
         if(res<0)return x;
         return root(res,root_);
     }
     int same(int a,int b,node root_){
         assert(root_);
+        assert(0<=a&&a<par.n_&&0<=b&&b<par.n_);
         a=root(a,root_);
         b=root(b,root_);
         return a==b;
     }
     node merge(int a,int b,node root_){
         assert(root_);
+        assert(0<=a&&a<par.n_&&0<=b&&b<par.n_);
         a=root(a,root_),b=root(b,root_);
         if(a==b)return root_;
         int pa=par.get(a,root_);

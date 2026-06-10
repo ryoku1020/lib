@@ -7,6 +7,7 @@ struct LiChaoTree{
     int n;
     int in;
     LiChaoTree(int n_):in(n_){
+        assert(n_>=0);
         int N=1;
         while(N<n_)N*=2;
         n=N;
@@ -31,6 +32,7 @@ struct LiChaoTree{
         add_line_(a,1,0,n);
     }
     void add_segment(Line a,int l,int r){
+        assert(0<=l&&l<=r&&r<=in);
         int sl=l,sr=r;
         int w=1;
         l+=n,r+=n;

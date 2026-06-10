@@ -69,8 +69,9 @@ struct Treap{
     };
     Node*pool;
     int pool_ptr;
+    int max_nodes;
     Node*root;
-    Treap(int max_nodes){
+    Treap(int max_nodes):max_nodes(max_nodes){
         assert(max_nodes>0);
         pool=(Node*)malloc(sizeof(Node)*max_nodes);
         pool_ptr=0;
@@ -78,6 +79,7 @@ struct Treap{
     }
     Node*new_node(){
         assert(pool);
+        assert(pool_ptr<max_nodes);
         Node*res=&pool[pool_ptr++];
         res->lc=res->rc=0;
         res->val=res->sum=res->rev_sum=Info::e();
@@ -97,6 +99,7 @@ struct Treap{
         return res->update();
     }
     void build(const vc<value_type>&v){
+        assert(pool_ptr+v.size()<=max_nodes);
         root=build(0,v.size(),v);
     }
     Node*merge(Node*l,Node*r){

@@ -6,15 +6,20 @@ struct WaveletMatrix{
     vc<T>val;
     vc<int>start;
     vc<BitVector>bv;
-    WaveletMatrix(int n=0):val(n),n(n),start(depth){
+    bool built=false;
+    WaveletMatrix(int n=0):n(n),start(depth){
         assert(n>=0);
+        val.resize(n);
     }
     void set(int i,T x){
+        assert(!built);
         assert(0<=i&&i<n);
         val[i]=x;
     }
 
     void build(){
+        if(built)return;
+        built=true;
         bv.resize(depth);
         drep(i,depth){
             vc<int>w(n);rep(j,n)w[j]=val[j]>>i&1;
@@ -31,6 +36,7 @@ struct WaveletMatrix{
     T kth_smallest(int l,int r,T k){
         assert(0<=l&&l<=r&&r<=n);
         assert(0<=k&&k<r-l);
+        build();
         T now=0;
         drep(i,depth){
             auto&target=bv[i];
@@ -53,6 +59,7 @@ struct WaveletMatrix{
     //# of i \in[l,r) and val[i]<=k
     int count_lower(int l,int r,T k){
         assert(0<=l&&l<=r&&r<=n);
+        build();
         int ans=0;
         drep(i,depth){
             auto&target=bv[i];

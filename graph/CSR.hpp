@@ -24,6 +24,7 @@ struct CsrGraph{
     }
     bool built=0;
     void build(){
+        if(built)return;
         built=1;
         for(const auto&e:edges)row_ptr[e.first+1]++;
         for(int i=0;i<row_ptr.size()-1;++i)row_ptr[i+1]+=row_ptr[i];
@@ -34,13 +35,13 @@ struct CsrGraph{
         edges.shrink_to_fit();
     }
     int empty(int u){
-        assert(built);
         assert(0<=u&&u+1<(int)row_ptr.size());
+        build();
         return row_ptr[u+1]==row_ptr[u];
     }
     RowView operator[](int u){
-        assert(built);
         assert(0<=u&&u+1<(int)row_ptr.size());
+        build();
         return{&col_indices[row_ptr[u]],&col_indices[row_ptr[u+1]]};
     }
 };

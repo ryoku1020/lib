@@ -16,6 +16,7 @@ struct BinaryTrie{
     }
     T count(T val){
         assert(val>=0);
+        assert(val<(T(1)<<depth));
         val^=offset;
         auto dfs=[&](auto&dfs,Node*now,T l,T r,int target)->T{
             if(r-l==1){
@@ -34,6 +35,8 @@ struct BinaryTrie{
     }
     void insert(T val,int x=1){
         assert(val>=0);
+        assert(val<(T(1)<<depth));
+        assert(all_size+x>=0);
         val^=offset;
         auto dfs=[&](auto&dfs,Node*now,T l,T r,int target)->void{
             if(r-l==1){
@@ -54,6 +57,7 @@ struct BinaryTrie{
         all_size+=x;
     }
     void all_xor(T x){
+        assert(0<=x&&x<(T(1)<<depth));
         offset^=x;
     }
     T find_min(){

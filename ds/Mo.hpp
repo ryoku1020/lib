@@ -3,7 +3,8 @@ struct Mo{
     int N,Q;
     int B;
     Mo(int N,int Q):N(N),Q(Q){
-        B=max<int>(1,N/sqrt(Q));
+        assert(N>=0&&Q>=0);
+        B=max<int>(1,Q?N/sqrt(Q):1);
     }
     vc<array<int,3>>Query;
     void push(int l,int r){
@@ -11,6 +12,7 @@ struct Mo{
         Query.push_back({l,r,(int)Query.size()});
     }
     void Sort(){
+        if(Query.empty())return;
         auto cost=[&](int a,int b,int c,int d){
             return abs(a-c)+abs(b-d);
         };

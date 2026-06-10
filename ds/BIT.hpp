@@ -4,8 +4,9 @@ struct BinaryIndexedTree{
     int n;
     std::vector<T>data;
     BinaryIndexedTree():n(0),data(0){}
-    BinaryIndexedTree(int N):n(N),data(N,0){
+    BinaryIndexedTree(int N):n(N){
         assert(N>=0);
+        data.assign(N,0);
     }
     BinaryIndexedTree(const std::vector<T>& a):n(a.size()),data(a){
         for(int i=1;i<=n;i++){
