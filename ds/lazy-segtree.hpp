@@ -110,4 +110,47 @@ struct LazySegtree{
     value_type all_prod(){
         return node[1];
     }
+    template<class F>
+    int max_right(int L,F f){
+        assert(0<=L&&L<=N);
+        if(L<N)for(int i=lg;i;i--)push((n+L)>>i);
+        int l=n+L,w=1;
+        value_type ansL=Info::e();
+        for(;L+w<=N;l>>=1,w<<=1)if(l&1){
+            if(!f(Info::op(ansL,node[l])))break;
+            ansL=Info::op(ansL,node[l++]);
+            L+=w;
+        }
+        while(w>1){
+            if(0<l&&l<n)push(l);
+            l<<=1,w>>=1;
+            if(L+w<=N&&f(Info::op(ansL,node[l]))){
+                ansL=Info::op(ansL,node[l++]);
+                L+=w;
+            }
+        }
+        return L;
+    }
+    template<class F>
+    int min_left(int R,F f){
+        assert(0<=R&&R<=N);
+        if(R>0)for(int i=lg;i;i--)push((n+R-1)>>i);
+        int r=n+R,w=1;
+        value_type ansR=Info::e();
+        for(;R-w>=0;r>>=1,w<<=1)if(r&1){
+            if(!f(Info::op(node[r-1],ansR)))break;
+            ansR=Info::op(node[--r],ansR);
+            R-=w;
+        }
+        while(w>1){
+            if(0<r-1&&r-1<n)push(r-1);
+            r<<=1,w>>=1;
+            if(R-w>=0&&f(Info::op(node[r-1],ansR))){
+                ansR=Info::op(node[r-1],ansR);
+                R-=w;
+                r--;
+            }
+        }
+        return R;
+    }
 };

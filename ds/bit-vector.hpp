@@ -23,21 +23,21 @@ struct BitVector{
         }
     }
     //[0,r)
-    int rank1(int r){
+    int rank1(int r)const{
         assert(0<=r&&r<=n);
         int res=big_block[r/B];
         res+=__builtin_popcountll(pattern[r/B]&((u64(1)<<(r%B))-1));
         return res;
     }
-    int rank1(int l,int r){
+    int rank1(int l,int r)const{
         assert(0<=l&&l<=r&&r<=n);
         return rank1(r)-rank1(l);
     }
-    int rank0(int r){
+    int rank0(int r)const{
         assert(0<=r&&r<=n);
         return r-rank1(r);
     }
-    int rank0(int l,int r){
+    int rank0(int l,int r)const{
         assert(0<=l&&l<=r&&r<=n);
         return r-l-rank1(l,r);
     }

@@ -12,6 +12,7 @@ documentation_of: ../../math/static-mod-int.hpp
 ### `StaticModInt<mod>`
 
 `mod` をテンプレート引数で与えます。
+`1<=mod<=2^31-1` を満たす必要があります。
 
 ```cpp
 using mint=StaticModInt<998244353>;

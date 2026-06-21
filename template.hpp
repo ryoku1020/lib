@@ -1,6 +1,7 @@
-#pragma once
+#ifdef TEMPLATE
+#else
+#define TEMPLATE
 # pragma GCC optimize("O3")
-
 using namespace std;
 #include <iostream>
 #include <iomanip>
@@ -54,14 +55,6 @@ using i128=__int128;
 template<class T>using vc=vector<T>;
 template<class T>using vvc=vc<vc<T>>;
 template<class T>using vvvc=vvc<vc<T>>;
-#define vec(d,T,n,...) vec_##d(T,n,__VA_ARGS__)
-#define vec_1(T,n,a) vector<T> n(a)
-#define vec_2(T,n,a,b) vector<vector<T>> n(a,vector<T>(b))
-#define vec_3(T,n,a,b,c) vector<vector<vector<T>>> n(a,vector<vector<T>>(b,vector<T>(c)))
-#define vec_4(T,n,a,b,c,d) vector<vector<vector<vector<T>>>> n(a,vector<vector<vector<T>>>(b,vector<vector<T>>(c,vector<T>(d))))
-#define vec_5(T,n,a,b,c,d,e) vector<vector<vector<vector<vector<T>>>>> n(a,vector<vector<vector<vector<T>>>>(b,vector<vector<vector<T>>>(c,vector<vector<T>>(d,vector<T>(e)))))
-#define vec_6(T,n,a,b,c,d,e,f) vector<vector<vector<vector<vector<vector<T>>>>>> n(a,vector<vector<vector<vector<vector<T>>>>>(b,vector<vector<vector<vector<T>>>>(c,vector<vector<vector<T>>>(d,vector<vector<T>>(e,vector<T>(f))))))
-#define vec_7(T,n,a,b,c,d,e,f,g) vector<vector<vector<vector<vector<vector<vector<T>>>>>>> n(a,vector<vector<vector<vector<vector<vector<T>>>>>>(b,vector<vector<vector<vector<vector<T>>>>>(c,vector<vector<vector<vector<T>>>>(d,vector<vector<vector<T>>>(e,vector<vector<T>>(f,vector<T>(g)))))))
 template<class T>using smpq=priority_queue<T,vector<T>,greater<T>>;
 template<class T>using bipq=priority_queue<T>;
 #define rep(i,n) for(ll i=0;i<(ll)(n);i++)
@@ -92,9 +85,6 @@ template<class Head, class... Tail> void read(Head&head, Tail&... tail) { scan(h
 #define LL(...) ll __VA_ARGS__; read(__VA_ARGS__);
 #define ULL(...) ull __VA_ARGS__; read(__VA_ARGS__);
 #define STR(...) string __VA_ARGS__; read(__VA_ARGS__);
-#define CHR(...) char __VA_ARGS__; read(__VA_ARGS__);
-#define DBL(...) double __VA_ARGS__; read(__VA_ARGS__);
-#define LD(...) ld __VA_ARGS__; read(__VA_ARGS__);
 #define VC(type, name, ...) vector<type> name(__VA_ARGS__); read(name);
 #define VVC(type, name, size, ...) vector<vector<type>> name(size, vector<type>(__VA_ARGS__)); read(name);
 template<class T>void print(T a) { cout << a; }
@@ -137,6 +127,15 @@ pair<T, T> divmod(T x, T y) {
 }
 void YesNo(bool b){
     cout<<(b?"Yes":"No")<<endl;
+}
+void YESNO(bool b){
+    cout<<(b?"YES":"NO")<<endl;
+}
+void AliceBob(bool b){
+    cout<<(b?"Alice":"Bob")<<endl;
+}
+void TakahashiAoki(bool b){
+    cout<<(b?"Takahashi":"Aoki")<<endl;
 }
 void Yes(){
     cout<<"Yes"<<endl;
@@ -192,20 +191,42 @@ template<class T>
 T min(vc<T>&a){
     return *min_element(all(a));
 }
-vvc<int>readgraph(int n,int m,int off = -1){
-    vvc<int> g(n);
-    rep(i, m){
-        int u,v;
-        cin>>u>>v;
-        u+=off,v+=off;
-        g[u].push_back(v);
-        g[v].push_back(u);
+#ifndef COMPRESSER_STRUCT
+#define COMPRESSER_STRUCT
+template<class T>
+struct Compresser{
+    vc<T>x;
+    Compresser(int n=0){x.reserve(n);}
+    Compresser(const vc<T>&xs){
+        x=xs;
     }
-    return g;
-}
-vvc<int> readtree(int n,int off=-1){
-    return readgraph(n,n-1,off);
-}
+    void push(T p){built=false;x.pb(p);}
+    bool built=false;
+    void build(){
+        if(!chmax(built,1))return;
+        sort(all(x));
+        x.erase(unique(all(x)),x.end());
+    }
+    int find(T v){
+        build();
+        auto itr=lower_bound(all(x),v)-x.begin();
+        if(itr==x.size()||x[itr]!=v)return -1;
+        return itr;
+    }
+    int find_next(T v){
+        build();
+        return lower_bound(all(x),v)-x.begin();
+    }
+    int size(){
+        build();
+        return x.size();
+    }
+    T operator[](int i)const{
+        assert(0<=i&&i<x.size());
+        return x[i];
+    }
+};
+#endif
 template<class T,class L=ll>
 vc<L> presum(vc<T> &a){
     vc<L> ret(a.size()+1);
@@ -241,302 +262,191 @@ constexpr ll ten(ll a){
     return POW<ll>(10,a);
 }
 template<typename T>constexpr T inf=numeric_limits<T>::max()/2-1;
-int tbit(bool x){return x?0:-1;}
-int lbit(bool x){return x?0:-1;}
-int tbit(bool x,int p){return x&&p>=0?0:-1;}
-int lbit(bool x,int p){return x&&p<=0?0:-1;}
-template<class T,enable_if_t<is_integral_v<T>&&!is_same_v<remove_cv_t<T>,bool>,int> =0>
+template<class T>
 int tbit(T x){
     using U=make_unsigned_t<T>;
-    constexpr int W=numeric_limits<U>::digits;
-    static_assert(W<=64);
     U y=(U)x;
-    if(y==0)return -1;
-    if constexpr(W<=32)return 31-__builtin_clz((uint32_t)y);
-    else return 63-__builtin_clzll((uint64_t)y);
+    return y?(int)bit_width(y)-1:-1;
 }
-template<class T,enable_if_t<is_integral_v<T>&&!is_same_v<remove_cv_t<T>,bool>,int> =0>
+template<class T>
 int lbit(T x){
     using U=make_unsigned_t<T>;
-    constexpr int W=numeric_limits<U>::digits;
-    static_assert(W<=64);
     U y=(U)x;
-    if(y==0)return -1;
-    if constexpr(W<=32)return __builtin_ctz((uint32_t)y);
-    else return __builtin_ctzll((uint64_t)y);
+    return y?(int)countr_zero(y):-1;
 }
-template<class T,enable_if_t<is_integral_v<T>&&!is_same_v<remove_cv_t<T>,bool>,int> =0>
+template<class T>
 int tbit(T x,int p){
     using U=make_unsigned_t<T>;
     constexpr int W=numeric_limits<U>::digits;
     U y=(U)x;
     if(p<0)return -1;
     if(p>=W-1)return tbit(y);
-    return tbit((U)(y&((U(1)<<(p+1))-1)));
+    return tbit(y&((U(1)<<(p+1))-1));
 }
-template<class T,enable_if_t<is_integral_v<T>&&!is_same_v<remove_cv_t<T>,bool>,int> =0>
+template<class T>
 int lbit(T x,int p){
     using U=make_unsigned_t<T>;
     constexpr int W=numeric_limits<U>::digits;
     U y=(U)x;
     if(p<0)return lbit(y);
     if(p>=W)return -1;
-    return lbit((U)(y&(numeric_limits<U>::max()<<p)));
+    return lbit(y&(~U(0)<<p));
 }
-int tbit(__uint128_t x){
-    if(x==0)return -1;
-    uint64_t hi=(uint64_t)(x>>64);
-    if(hi)return 64+tbit(hi);
-    return tbit((uint64_t)x);
-}
-int lbit(__uint128_t x){
-    if(x==0)return -1;
-    uint64_t lo=(uint64_t)x;
-    if(lo)return lbit(lo);
-    return 64+lbit((uint64_t)(x>>64));
-}
-int tbit(__int128_t x){return tbit((__uint128_t)x);}
-int lbit(__int128_t x){return lbit((__uint128_t)x);}
-int tbit(__uint128_t x,int p){
-    if(p<0)return -1;
-    if(p>=127)return tbit(x);
-    if(p>=64){
-        int res=tbit((uint64_t)(x>>64),p-64);
-        return res==-1?tbit((uint64_t)x):res+64;
-    }
-    return tbit((uint64_t)x,p);
-}
-int lbit(__uint128_t x,int p){
-    if(p<0)return lbit(x);
-    if(p>=128)return -1;
-    if(p>=64){
-        int res=lbit((uint64_t)(x>>64),p-64);
-        return res==-1?-1:res+64;
-    }
-    int res=lbit((uint64_t)x,p);
-    if(res!=-1)return res;
-    res=lbit((uint64_t)(x>>64));
-    return res==-1?-1:res+64;
-}
-int tbit(__int128_t x,int p){return tbit((__uint128_t)x,p);}
-int lbit(__int128_t x,int p){return lbit((__uint128_t)x,p);}
-std::istream& operator>>(std::istream& is, __int128& x) {
-    std::streambuf* sb = is.rdbuf();
-
-    int c = sb->sgetc();
-    while (c <= ' ') c = sb->snextc();
-
-    bool neg = false;
-    if (c == '-') {
-        neg = true;
-        c = sb->snextc();
-    }
-
-    unsigned __int128 v = 0;
-
-    while ((unsigned)(c - '0') < 10) {
-        v = v * 10 + (c - '0');
-        c = sb->snextc();
-    }
-
-    x = neg ? -(__int128)v : (__int128)v;
+istream& operator>>(istream&is,i128&x){
+    string s;is>>s;
+    x=0;
+    int i=0,neg=0;
+    if(s[0]=='-')neg=1,i=1;
+    for(;i<(int)s.size();i++)x=x*10+s[i]-'0';
+    if(neg)x=-x;
     return is;
 }
-
-std::ostream& operator<<(std::ostream& os, __int128 x) {
-    std::streambuf* sb = os.rdbuf();
-
-    if (x == 0) {
-        sb->sputc('0');
-        return os;
-    }
-
-    char buf[40];
-    int pos = 39;
-
-    bool neg = x < 0;
-    unsigned __int128 v = neg ? -(unsigned __int128)x : (unsigned __int128)x;
-
-    while (v) {
-        buf[--pos] = char('0' + (v % 10));
-        v /= 10;
-    }
-
-    if (neg) buf[--pos] = '-';
-
-    sb->sputn(buf + pos, 39 - pos);
-    return os;
+ostream& operator<<(ostream&os,i128 x){
+    if(x==0)return os<<0;
+    if(x<0)os<<"-";
+    using u128=__uint128_t;
+    u128 y=x<0?-(u128)x:(u128)x;
+    string s;
+    while(y)s.pb('0'+y%10),y/=10;
+    reverse(all(s));
+    return os<<s;
 }
 #define dbg(...) 1111
 
 #ifdef LOCAL
 #undef dbg
 
-template<typename T, typename U> std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& p);
-template<typename T> std::ostream& operator<<(std::ostream& os, const std::vector<T>& v);
-template<typename T> std::ostream& operator<<(std::ostream& os, const std::deque<T>& dq);
-template<typename T> std::ostream& operator<<(std::ostream& os, const std::list<T>& lst);
-template<typename T> std::ostream& operator<<(std::ostream& os, const std::set<T>& s);
-template<typename T> std::ostream& operator<<(std::ostream& os, const std::unordered_set<T>& s);
-template<typename K, typename V> std::ostream& operator<<(std::ostream& os, const std::map<K, V>& m);
-template<typename K, typename V> std::ostream& operator<<(std::ostream& os, const std::unordered_map<K, V>& m);
-template<typename T> std::ostream& operator<<(std::ostream& os, std::stack<T> st);
-template<typename T> std::ostream& operator<<(std::ostream& os, std::queue<T> q);
-template<typename T, std::size_t N> std::ostream& operator<<(std::ostream& os, const std::array<T, N>& a);
-template <typename T, typename Container, typename Compare>
-std::ostream& operator<<(std::ostream& os, std::priority_queue<T, Container, Compare> pq);
-
-#define dbg(...) debug_func(0, #__VA_ARGS__, __VA_ARGS__)
-
-template <typename T>
-void debug_func(int i, T name) {
-  cout << endl;
+template<class T,class U>
+ostream& operator<<(ostream&os,const pair<T,U>&p){
+    return os<<"("<<p.fi<<", "<<p.se<<")";
 }
-
-template <typename T1, typename T2, typename... T3>
-void debug_func(int i, const T1 &name, const T2 &a, const T3 &...b) {
-  for ( ; name[i] != ',' && name[i] != '\0'; i++ ) cout << name[i];
-  cout << ":" << a << " ";
-  debug_func(i + 1, name, b...);
-}
-// pair
-template<typename T, typename U>
-std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& p) {
-    return os << "(" << p.first << ", " << p.second << ")";
-}
-// vector
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
-    os << "[";
-    for (size_t i = 0; i < v.size(); ++i) {
-        if (i > 0) os << ", ";
-        os << v[i];
+template<class T,size_t N>
+ostream& operator<<(ostream&os,const array<T,N>&a){
+    os<<"[";
+    rep(i,N){
+        if(i)os<<", ";
+        os<<a[i];
     }
-    os << "]";
-    return os;
+    return os<<"]";
+}
+template<class T>
+ostream& operator<<(ostream&os,const vc<T>&a){
+    os<<"[";
+    rep(i,a.size()){
+        if(i)os<<", ";
+        os<<a[i];
+    }
+    return os<<"]";
+}
+template<class T>
+ostream& operator<<(ostream&os,const deque<T>&a){
+    os<<"[";
+    rep(i,a.size()){
+        if(i)os<<", ";
+        os<<a[i];
+    }
+    return os<<"]";
+}
+template<class T>
+ostream& operator<<(ostream&os,const set<T>&s){
+    os<<"{";
+    bool f=0;
+    for(auto&x:s){
+        if(f)os<<", ";
+        f=1;
+        os<<x;
+    }
+    return os<<"}";
+}
+template<class T>
+ostream& operator<<(ostream&os,const multiset<T>&s){
+    os<<"{";
+    bool f=0;
+    for(auto&x:s){
+        if(f)os<<", ";
+        f=1;
+        os<<x;
+    }
+    return os<<"}";
+}
+template<class T>
+ostream& operator<<(ostream&os,const unordered_set<T>&s){
+    os<<"{";
+    bool f=0;
+    for(auto&x:s){
+        if(f)os<<", ";
+        f=1;
+        os<<x;
+    }
+    return os<<"}";
+}
+template<class T,class U>
+ostream& operator<<(ostream&os,const map<T,U>&m){
+    os<<"{";
+    bool f=0;
+    for(auto&x:m){
+        if(f)os<<", ";
+        f=1;
+        os<<x;
+    }
+    return os<<"}";
+}
+template<class T,class U>
+ostream& operator<<(ostream&os,const unordered_map<T,U>&m){
+    os<<"{";
+    bool f=0;
+    for(auto&x:m){
+        if(f)os<<", ";
+        f=1;
+        os<<x;
+    }
+    return os<<"}";
+}
+template<class T>
+ostream& operator<<(ostream&os,queue<T>q){
+    vc<T>a;
+    while(q.size())a.pb(q.front()),q.pop();
+    return os<<a;
+}
+template<class T>
+ostream& operator<<(ostream&os,stack<T>s){
+    vc<T>a;
+    while(s.size())a.pb(s.top()),s.pop();
+    return os<<a;
+}
+template<class T,class C,class F>
+ostream& operator<<(ostream&os,priority_queue<T,C,F>q){
+    vc<T>a;
+    while(q.size())a.pb(q.top()),q.pop();
+    return os<<a;
 }
 
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const std::deque<T>& dq) {
-    os << "[";
-    for (size_t i = 0; i < dq.size(); ++i) {
-        if (i > 0) os << ", ";
-        os << dq[i];
-    }
-    os << "]";
-    return os;
+void debug_out(){cout<<endl;}
+template<class T,class... Ts>
+void debug_out(const T&x,const Ts&...xs){
+    cout<<x;
+    if constexpr(sizeof...(xs))cout<<" ",debug_out(xs...);
+    else cout<<endl;
 }
+#define dbg(...) cout<<"["<<#__VA_ARGS__<<"] = ",debug_out(__VA_ARGS__)
+#endif
 
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const std::list<T>& lst) {
-    os << "[";
-    bool first = true;
-    for (const auto& x : lst) {
-        if (!first) os << ", ";
-        os << x;
-        first = false;
+struct TemplateSetup{
+    TemplateSetup(){
+        #ifdef LOCAL
+        freopen("input.txt","r",stdin);
+        freopen("output.txt","w",stdout);
+        
+        #endif
+        cin.tie(0)->sync_with_stdio(0);
+        #ifdef LOCAL
+        cout<<fixed<<setprecision(6);
+        dbg("==============="s);
+        #else
+        cout<<fixed<<setprecision(20);
+        #endif
     }
-    os << "]";
-    return os;
-}
+};
+inline TemplateSetup template_setup;
 
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const std::set<T>& s) {
-    os << "{";
-    bool first = true;
-    for (const auto& x : s) {
-        if (!first) os << ", ";
-        os << x;
-        first = false;
-    }
-    os << "}";
-    return os;
-}
-
-template<typename T>
-std::ostream& operator<<(std::ostream& os, const std::unordered_set<T>& s) {
-    os << "{";
-    bool first = true;
-    for (const auto& x : s) {
-        if (!first) os << ", ";
-        os << x;
-        first = false;
-    }
-    os << "}";
-    return os;
-}
-
-template<typename K, typename V>
-std::ostream& operator<<(std::ostream& os, const std::map<K, V>& m) {
-    os << "{";
-    bool first = true;
-    for (const auto& kv : m) {
-        if (!first) os << ", ";
-        os << kv;
-        first = false;
-    }
-    os << "}";
-    return os;
-}
-
-template<typename K, typename V>
-std::ostream& operator<<(std::ostream& os, const std::unordered_map<K, V>& m) {
-    os << "{";
-    bool first = true;
-    for (const auto& kv : m) {
-        if (!first) os << ", ";
-        os << kv;
-        first = false;
-    }
-    os << "}";
-    return os;
-}
-
-template<typename T>
-std::ostream& operator<<(std::ostream& os, std::stack<T> st) {
-    os << "[";
-    bool first = true;
-    while (!st.empty()) {
-        if (!first) os << ", ";
-        os << st.top();
-        st.pop();
-        first = false;
-    }
-    os << "]";
-    return os;
-}
-
-template<typename T>
-std::ostream& operator<<(std::ostream& os, std::queue<T> q) {
-    os << "[";
-    bool first = true;
-    while (!q.empty()) {
-        if (!first) os << ", ";
-        os << q.front();
-        q.pop();
-        first = false;
-    }
-    os << "]";
-    return os;
-}
-
-template<typename T, typename Container, typename Compare>
-std::ostream& operator<<(std::ostream& os, std::priority_queue<T, Container, Compare> pq) {
-    os << "[";
-    while (!pq.empty()) {
-        os << pq.top() << (pq.size() > 1 ? ", " : "");
-        pq.pop();
-    }
-    return os << "]";
-}
-template<typename T, std::size_t N>
-std::ostream& operator<<(std::ostream& os, const std::array<T, N>& a) {
-    os << "[";
-    for (std::size_t i = 0; i < N; ++i) {
-        if (i > 0) os << ", ";
-        os << a[i];
-    }
-    os << "]";
-    return os;
-}
 #endif

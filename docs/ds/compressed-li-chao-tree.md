@@ -100,5 +100,5 @@ long long ans = lct.query(X[j]);
 ## 注意
 
 - `build()` を呼ぶ前に `add_line` / `add_segment` / `query` を呼んでも内部で自動 `build()` が実行されます（`add_line_` の先頭で `build()` を呼ぶ設計）。ただし、`build()` 後に `add_x` を追加しても反映されないので、登録は必ず `build()` の前にまとめてください。
-- 内部で `Compresser<T>` を利用しています（`ds/compresser.hpp`）。
+- 内部で `Compresser<T>` を利用しています（`template.hpp`）。
 - `add_segment` の `L`, `R` が `add_x` で登録されていない場合は `assert` で止まります。

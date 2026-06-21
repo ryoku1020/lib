@@ -1,6 +1,5 @@
 #pragma once
 #include "barrett.hpp"
-#include "barrett.hpp"
 template<int id>
 struct DynamicModInt{
     using u32=uint32_t;
@@ -8,7 +7,7 @@ struct DynamicModInt{
     u32 val;
     DynamicModInt():val(0){}
     DynamicModInt(ll x){
-        int v=x%get_mod();
+        ll v=x%get_mod();
         if(v<0)v+=get_mod();
         val=v;
     }
@@ -79,7 +78,7 @@ struct DynamicModInt{
         return is;
     }
     DynamicModInt inv()const{
-        int a=val,b=get_mod(),u=1,v=0,t;
+        int64_t a=val,b=get_mod(),u=1,v=0,t;
         #ifdef LOCAL
         assert(gcd(a,b)==1);
         #endif
@@ -96,7 +95,7 @@ struct DynamicModInt{
         return mod;
     }
     static void set_mod(int md){
-        assert(0<md&&md<=(1ll<<30)-1);
+        assert(0<md&&md<=(1ll<<31)-1);
         get_mod()=md;
         BarrettReduction().set(md);
     }

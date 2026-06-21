@@ -516,5 +516,3 @@ auto taylor_shift(F f,int c)->FormalPowerSeries<typename F::value_type>{
     using mint=typename F::value_type;
     return taylor_shift(FormalPowerSeries<mint>(std::move(f)),c);
 }
-using mint=StaticModInt<998244353>;
-using poly=FormalPowerSeries<mint>;

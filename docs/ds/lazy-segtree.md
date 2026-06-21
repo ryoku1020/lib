@@ -112,14 +112,28 @@ ACL と同様に、`Tag::Apply` は「1 要素」ではなく「そのノード�
 
 - 計算量: `O(1)`
 
+### `int seg.max_right(int l, F f)`
+
+`f(op(a[l],...,a[r-1]))` が true になる最大の `r` を返します。
+`Segtree` と同様に、`f(e())` が true で、条件が単調であることを想定しています。
+
+- 制約: `0<=l<=N`
+- 計算量: `O(log N)`
+
+### `int seg.min_left(int r, F f)`
+
+`f(op(a[l],...,a[r-1]))` が true になる最小の `l` を返します。
+`Segtree` と同様に、`f(e())` が true で、条件が単調であることを想定しています。
+
+- 制約: `0<=r<=N`
+- 計算量: `O(log N)`
+
 ## この実装にない ACL API
 
 ACL の `lazy_segtree` にある次の API は、この実装にはありません。
 
 - `get`
 - 1 点 `apply`
-- `max_right`
-- `min_left`
 
 必要なら `prod(p,p+1)` で 1 点取得はできますが、計算量は `O(log N)` です。
 

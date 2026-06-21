@@ -109,7 +109,6 @@ struct FastSet{
                 idx=Ihis[i]*B+tbit(val[i][Ihis[i]],xdig[val.size()-i-1]-1);
                 break;
             }
-            
         }
         if(hi==-1)return -1;
         REP(i,hi,val.size()){

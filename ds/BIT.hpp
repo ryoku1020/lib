@@ -18,17 +18,17 @@ struct BinaryIndexedTree{
         assert(i>=0&&i<n);
         for(i++;i<=n;i+=(i&-i))data[i-1]+=x;
     }
-    T internal_sum(int r){
+    T internal_sum(int r)const{
         assert(0<=r&&r<=n);
         T ret=0;
         for(;r>0;r-=(r&-r))ret+=data[r-1];
         return ret;
     }
-    T sum(int l,int r){
+    T sum(int l,int r)const{
         assert(0<=l&&l<=r&&r<=n);
         return internal_sum(r)-internal_sum(l);
     }
-    int lower_bound(T w){
+    int lower_bound(T w)const{
         if(w<=0)return 0;
         int x=0,r=1;
         while(r<n)r<<=1;

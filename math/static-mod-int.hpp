@@ -2,12 +2,13 @@
 #include "mod.hpp"
 template<uint32_t mod>
 struct StaticModInt{
+    static_assert(0<mod&&mod<=(1u<<31)-1);
     using u32=uint32_t;
     using u64=uint64_t;
     u32 val;
     StaticModInt():val(0){}
     StaticModInt(ll x){
-        int v=x%mod;
+        ll v=x%mod;
         if(v<0)v+=mod;
         val=v;
     }
@@ -81,7 +82,7 @@ struct StaticModInt{
         return is;
     }
     StaticModInt inv()const{
-        int a=val,b=mod,u=1,v=0,t;
+        int64_t a=val,b=mod,u=1,v=0,t;
         #ifdef LOCAL
         assert(gcd(a,b)==1);
         #endif
@@ -93,4 +94,3 @@ struct StaticModInt{
         return StaticModInt(u);
     }
 };
-

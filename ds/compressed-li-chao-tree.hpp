@@ -1,5 +1,4 @@
 #pragma once
-#include"compresser.hpp"
 template<class Info,bool ismin,class T>
 struct CompressedLiChaoTree{
     int coef;

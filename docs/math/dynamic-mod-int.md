@@ -18,6 +18,7 @@ documentation_of: ../../math/dynamic-mod-int.hpp
 ### `static void mint::set_mod(int md)`
 
 先に mod を設定します。
+`1<=md<=2^31-1` を満たす必要があります。
 
 ```cpp
 using mint=DynamicModInt<0>;

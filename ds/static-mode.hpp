@@ -1,5 +1,4 @@
 #pragma once
-#include"compresser.hpp"
 template<class T>
 struct StaticRangeMode{
     vc<T>a;

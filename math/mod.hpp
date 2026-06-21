@@ -1,5 +1,9 @@
 #pragma once
 #include "dynamic-mod-int.hpp"
+template<class,class=void>
+struct BinomHasGetMod:false_type{};
+template<class mint>
+struct BinomHasGetMod<mint,void_t<decltype(mint::get_mod())>>:true_type{};
 template<class mint>
 struct Binom{
 private:
@@ -12,23 +16,34 @@ public:
         auto&_fact=fact_table();
         auto&_invfact=invfact_table();
         auto&_invs=invs_table();
-        auto mod=mint::get_mod();
-        if(built_mod()!=mod){
-            _fact={1};
-            _invfact={1};
-            _invs={0};
-            built_mod()=mod;
+        if constexpr(BinomHasGetMod<mint>::value){
+            auto mod=mint::get_mod();
+            if(built_mod()!=mod){
+                _fact={1};
+                _invfact={1};
+                _invs={0};
+                built_mod()=mod;
+            }
         }
         if(n<(int)_fact.size())return;
         int old=_fact.size();
         _fact.resize(n+1);
         _invfact.resize(n+1);
         _invs.resize(n+1);
-        for(int i=old;i<=n;i++){
-            _fact[i]=_fact[i-1]*i;
-            if(i==1)_invs[i]=1;
-            else _invs[i]=-_invs[mod%i]*(mod/i);
-            _invfact[i]=_invfact[i-1]*_invs[i];
+        if constexpr(BinomHasGetMod<mint>::value){
+            auto mod=mint::get_mod();
+            for(int i=old;i<=n;i++){
+                _fact[i]=_fact[i-1]*i;
+                if(i==1)_invs[i]=1;
+                else _invs[i]=-_invs[mod%i]*(mod/i);
+                _invfact[i]=_invfact[i-1]*_invs[i];
+            }
+        }else{
+            for(int i=old;i<=n;i++){
+                _fact[i]=_fact[i-1]*i;
+                _invs[i]=mint(1)/i;
+                _invfact[i]=_invfact[i-1]*_invs[i];
+            }
         }
     }
     static mint fact(int i){
@@ -81,7 +96,10 @@ template<class T>
 pair<T,T> inv(T x,T m){
     T a1,a2;
     T res=extgcd<ll>(x,m,a1,a2);
-    return {a1,m/res};
+    T md=m/res;
+    a1%=md;
+    if(a1<0)a1+=md;
+    return {a1,md};
 }
 template<class T>
 pair<T,T> mod_solve(T a,T b,T m){//return x s.t. ax=b mod m

@@ -61,6 +61,5 @@ python3 lib/docs/serve.py --no-open
 | ドキュメント | 状況 |
 |------------|------|
 | `docs/tree/hld.md` | `tree/hld.hpp` は存在しない。HLD は [`tree/base.hpp`](tree/base.md) の `Tree` クラスに統合済み |
-| `docs/ds/compress.md` | `ds/compress.hpp` は存在しない。実際は [`ds/compresser.hpp`](ds/compress.md) |
 | `docs/ds/cht.md` | `ds/cht.hpp` は削除済み。用途別に li-chao-tree / dynamic-li-chao-tree / compressed-li-chao-tree を使う |
 | `docs/other/commute-checker.md` | `other/commute-checker.hpp` は空ファイル |

@@ -1,7 +1,9 @@
 #pragma once
 #include"fps.hpp"
 //[x^{0,1,..,size}] (1+x^s[0])(1+x^s[1])... 
+template<class mint>
 vc<mint>EnumarateProd(vc<int>s,int size){
+    using poly=fps<mint>;
     assert(size>=0);
     assert(all_of(all(s),[](int x){return x>0;}));
     if(s.empty())return poly(size).exp(size);
@@ -15,7 +17,9 @@ vc<mint>EnumarateProd(vc<int>s,int size){
 }
 
 //[x^{0,1,..,size}] 1/(1-x^s[0])(1-x^s[1])... 
+template<class mint>
 vc<mint>EnumarateProdInv(vc<int>s,int size){
+    using poly=fps<mint>;
     assert(size>=0);
     assert(all_of(all(s),[](int x){return x>0;}));
     if(s.empty())return poly(size).exp(size);
@@ -27,16 +31,18 @@ vc<mint>EnumarateProdInv(vc<int>s,int size){
     }
     return cnt2.exp(size);
 }
+template<class mint>
 vc<mint>PartitionFunction(int n){
     assert(n>=0);
     if(n==0)return {1};
     vc<int>s(n);iota(all(s),1);
-    return EnumarateProdInv(s,n+1);
+    return EnumarateProdInv<mint>(s,n+1);
 }
 
 //[n,0] ... [n,n]
 template<class mint>
 vc<mint>Stirling1(int n){
+    using poly=fps<mint>;
     auto dfs=[&](auto&dfs,int n)->poly{
         if(n==1){
             return {0,1};
@@ -55,6 +61,7 @@ vc<mint>Stirling1(int n){
 //[k,k] ... [n,k]
 template<class mint>
 vc<mint>Stirling1FixedK(int n,int k){
+    using poly=fps<mint>;
     using B=Binom<mint>;
     poly f=-((poly{1,-1}).log(n+1).pow(k,n+1))*B::invfact(k);
     poly ans(n-k+1);
@@ -87,4 +94,21 @@ vc<mint>Stirling2FixedK(int n,int k){
     f=f.pow(k,n+1);f*=B::invfact(k);
     rep(i,f.size())f[i]*=B::fact(i);
     return vc<mint>(f.begin()+k,f.begin()+n+1);
+}
+template<class mint>
+vc<mint>MontmortNumber(int K){
+    assert(K>1);
+    vc<mint>dp(max(K+1,4));
+    dp[2]=1,dp[3]=2;
+    REP(i,3,dp.size()){
+        dp[i]=(i-1)*(dp[i-1]+dp[i-2]);
+    }
+    dp.resize(K+1);dp.erase(dp.begin());
+    return dp;
+}
+template<class mint>
+vc<mint>BellNumber(int n){
+    auto ans=fps(((fps<mint>{0,1}.exp(n+1))-1).exp(n+1));
+    drep(i,ans.size())ans[i]*=Binom<mint>::fact(i);
+    return ans;
 }
