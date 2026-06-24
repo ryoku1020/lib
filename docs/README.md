@@ -54,7 +54,7 @@ python3 lib/docs/serve.py --no-open
 - データ構造: [BIT](ds/bit.md), [Segtree](ds/segtree.md), [LazySegtree](ds/lazy-segtree.md), [Treap](ds/treap.md), [Wavelet行列](ds/wavelet-matrix.md), [SparseTable](ds/sparse-table.md)
 - グラフ: [StaticGraph](graph/base.md), [最大流](graph/flow.md), [最小費用流](graph/min-cost-flow.md), [SCC](graph/scc.md), [2-SAT](graph/two-sat.md), [二部マッチング](graph/bipartite-match.md)
 
-## 注意: 存在しないファイルへの参照
+## 境界・注意: 存在しないファイルへの参照
 
 以下は `documentation_of` が指すソースファイルが存在しません。
 
@@ -63,3 +63,14 @@ python3 lib/docs/serve.py --no-open
 | `docs/tree/hld.md` | `tree/hld.hpp` は存在しない。HLD は [`tree/base.hpp`](tree/base.md) の `Tree` クラスに統合済み |
 | `docs/ds/cht.md` | `ds/cht.hpp` は削除済み。用途別に li-chao-tree / dynamic-li-chao-tree / compressed-li-chao-tree を使う |
 | `docs/other/commute-checker.md` | `other/commute-checker.hpp` は空ファイル |
+
+## 使用例
+
+木の LCA やパスクエリを調べたいときは、まず [Tree](tree/base.md) を開きます。
+ブラウザで数式付きで読みたい場合は viewer を起動します。
+
+```sh
+python3 lib/docs/serve.py --no-open
+```
+
+その後、表示された URL から `tree/base.md` を開きます。

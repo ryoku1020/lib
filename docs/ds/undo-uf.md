@@ -67,3 +67,29 @@ uf.rollback();
 ### `void rollback()`
 履歴スタックに残っているすべての操作を取り消し、初期状態または最後に `save()` を呼び出した直後の状態まで戻します。
 - 計算量: 取り消す履歴数に比例 ($O(K)$)
+
+## 境界・注意
+
+- 経路圧縮は使っていません。rollback できるようにするためです。
+- `undo()` は直近の `merge` 1 回分を取り消します。同じ成分どうしの `merge` も 1 回分の履歴として扱われます。
+- `save()` は現在までの履歴を捨てる操作です。`save()` より前には戻れなくなります。
+
+## 使用例
+
+DFS 中だけ辺を追加し、戻るときに直前の状態へ戻します。
+
+```cpp
+UndoableUnionFind uf(n);
+
+auto dfs=[&](auto&dfs,int v)->void{
+    uf.save();
+    for(auto [a,b]:temporary_edges[v]){
+        uf.merge(a,b);
+    }
+
+    // この節点での連結性を使って処理する
+
+    for(int to:children[v])dfs(dfs,to);
+    uf.rollback();
+};
+```

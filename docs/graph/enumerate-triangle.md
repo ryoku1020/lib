@@ -15,6 +15,11 @@ documentation_of: ../../graph/enumerate-triangle.hpp
 
 - 計算量: 典型的には `O(m sqrt(m))` 系
 
+## 境界・注意
+
+- 無向グラフを前提としています。
+- 同じ三角形は 1 回ずつ列挙されます。
+
 ## 使用例
 
 ```cpp
@@ -26,7 +31,3 @@ enumerate_triangle(g,[&](int a,int b,int c){
 });
 ```
 
-## 注意
-
-- 無向グラフを前提としています。
-- 同じ三角形は 1 回ずつ列挙されます。

@@ -45,7 +45,25 @@ for(int i=0;i<t.size();i++){
 
 - `O(|s|)`
 
-## 注意
+## 境界・注意
 
 - `String` は `s[i]` でアクセスできる列を想定しています。
 - 返り値は 0-indexed です。
+
+## 使用例
+
+文字列 `t` の中にパターン `p` が現れる位置を列挙します。
+
+```cpp
+string p,t;
+cin>>p>>t;
+
+string s=p+"$"+t;
+auto z=ZAlgorithm(s);
+
+for(int i=0;i<(int)t.size();i++){
+    if(z[p.size()+1+i]>=(int)p.size()){
+        cout<<i<<"\n";
+    }
+}
+```

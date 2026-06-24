@@ -84,3 +84,32 @@ out << "Hello, World!" << '\n';
 
 整数型(`__uint128_t`を含む)、文字、文字列(`string_view`)の出力に対応しています。
 出力バッファはデストラクタでフラッシュされます。
+
+## 境界・注意
+
+- 空白文字は読み飛ばされます。
+- 浮動小数点数の入出力には対応していません。
+- `FastWrite` はデストラクタで flush します。早く出力を確定したい場合はスコープを抜けるようにしてください。
+
+## 使用例
+
+標準入力から読み、標準出力へ答えを出します。
+
+```cpp
+#include "fast-io.hpp"
+
+FastRead in;
+FastWrite out;
+
+int n;
+in(n);
+
+long long sum=0;
+rep(i,n){
+    long long x;
+    in(x);
+    sum+=x;
+}
+
+out.ln(sum);
+```

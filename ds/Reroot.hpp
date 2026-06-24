@@ -4,7 +4,7 @@
 struct Reroot{
     using V=Value;
     using E=Value;
-    using Edge=Tree::Graph::Edge;
+    using Edge=Tree<>::Edge;
     static E merge(E a,E b){
     }
     static V put_vertex(E a,int v){
@@ -17,15 +17,20 @@ struct Reroot{
 
     }
 };*/
-template<class Reroot>
+template<class Reroot,class T=Unweighted>
 struct Redp{
     using E=Reroot::E;
     using V=Reroot::V;
-    Tree t;
+    using Edge=typename Tree<T>::Edge;
+    using cost_t=typename Tree<T>::cost_t;
+    Tree<T>t;
     vc<V>dp,ans;
     Redp(int n):t(n),dp(n),ans(n){assert(n>=0);}
-    void add_edge(int a,int b){
-        t.add_edge(a,b);
+    void add_edge(const Edge&e){
+        t.add_edge(e);
+    }
+    void add_edge(int a,int b,cost_t cost=1,int id=-1){
+        t.add_edge(a,b,cost,id);
     }
     vc<V>calc(){
         int n=t.n;

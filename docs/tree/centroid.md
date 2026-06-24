@@ -69,8 +69,27 @@ auto call_nonvirtual=[&](int cen,vector<vector<int>>&send,vector<int>&is_virtual
 - `template<class Tree,class F1,class F2> void centroid_decomposition13(Tree& g,F1& Callnonvirtual,F2& Callvirutal)`
   `g[i]` から `.to` を持つ辺を列挙できる木構造を受け取る版です。内部で `vector<vector<int>>` に変換してから同じ処理を行います。
 
-### 注意
+### 境界・注意
 
 - 実装中のコメントにもある通り、木やコールバックを copy して受け取ると意図しない動作になる可能性があります。参照で渡す前提です。
 - 木であることを仮定しています。連結でないグラフやサイクルを含むグラフには使えません。
 - コールバックのシグネチャが少し特殊なので、まずは `auto` ラムダで受けるのが安全です。
+
+## 使用例
+
+各重心が選ばれた順番を記録します。
+
+```cpp
+vvc<int> g(n);
+// 辺を追加
+
+vc<int> order;
+auto call_nonvirtual=[&](int cen,vvc<int>& send,vc<int>& is_virtual){
+    order.pb(cen);
+};
+auto call_virtual=[&](int cen,vc<int>& col,vvc<int>& send,vc<int>& is_virtual){
+    order.pb(cen);
+};
+
+centroid_decomposition13(g,call_nonvirtual,call_virtual);
+```

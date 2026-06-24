@@ -68,6 +68,11 @@ Point<Point_type, eps = EPS>
 
 - 計算量: `O(n log n)`
 
+## 境界・注意
+
+- 凸包の共線点はデフォルトでは除かれます。辺上の点も含めたい場合は `containboundary=true` を渡してください。
+- `EPS` を変えたい場合は `#define EPS ...` を `#include "geometry/point.hpp"` より前に書いてください。
+
 ## 使用例
 
 ```cpp
@@ -90,7 +95,3 @@ vc<P>dirs = {{1,0},{0,1},{-1,0},{0,-1}};
 sort(all(dirs));
 ```
 
-## 注意
-
-- 凸包の共線点はデフォルトでは除かれます。辺上の点も含めたい場合は `containboundary=true` を渡してください。
-- `EPS` を変えたい場合は `#define EPS ...` を `#include "geometry/point.hpp"` より前に書いてください。

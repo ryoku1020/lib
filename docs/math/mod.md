@@ -31,22 +31,6 @@ documentation_of: ../../math/mod.hpp
 
 `aHb`（重複組合せ、= `C(a+b-1, b)`）を返します。
 
-## 使用例
-
-```cpp
-#include "math/mod.hpp"
-#include "math/static-mod-int.hpp"
-
-using mint = StaticModInt<998244353>;
-
-Binom<mint>::build(2000000); // 必要な最大値を渡す
-auto c = Binom<mint>::C(n, k); // nCk
-auto p = Binom<mint>::P(n, k); // nPk
-auto h = Binom<mint>::H(n, k); // nHk
-```
-
----
-
 ## `pair<T,T> inv(T x, T m)`
 
 `x` の `mod m` 逆元情報を拡張 Euclid で返します。
@@ -87,7 +71,21 @@ if (r != -1) {
 }
 ```
 
-## 注意
+## 境界・注意
 
 - `Binom<mint>::C` / `P` / `H` は `build` で前計算したサイズを超えると動作未定義です。十分大きく `build` してください。
 - `Binom<mint>::C` は内部テーブルを自動拡張する実装になっています（必要なら `build` を省略可能）。
+
+## 使用例
+
+```cpp
+#include "math/mod.hpp"
+#include "math/static-mod-int.hpp"
+
+using mint = StaticModInt<998244353>;
+
+Binom<mint>::build(2000000); // 必要な最大値を渡す
+auto c = Binom<mint>::C(n, k); // nCk
+auto p = Binom<mint>::P(n, k); // nPk
+auto h = Binom<mint>::H(n, k); // nHk
+```

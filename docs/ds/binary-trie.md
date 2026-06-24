@@ -52,6 +52,11 @@ BinaryTrie<T, depth>
 - 制約: 木が空でないこと（`all_size > 0`）。空のとき `assert` で停止。
 - 計算量: `O(depth)`
 
+## 境界・注意
+
+- `insert(val, x)` で `x` が負の場合、個数が負にならないよう呼び出し側で管理してください。
+- `find_min` は `all_xor` による offset を考慮した実際の最小値を返します。
+
 ## 使用例
 
 ```cpp
@@ -73,7 +78,3 @@ auto mn2 = tr.find_min(); // 2
 tr.insert(5, -1);  // 5 を 1 個削除
 ```
 
-## 注意
-
-- `insert(val, x)` で `x` が負の場合、個数が負にならないよう呼び出し側で管理してください。
-- `find_min` は `all_xor` による offset を考慮した実際の最小値を返します。

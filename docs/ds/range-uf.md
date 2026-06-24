@@ -32,6 +32,12 @@ documentation_of: ../../ds/range-uf.hpp
 - `l==r` または `L==0` のときは何もしません
 - 計算量: `O(L * alpha(n))` ならし（最悪 `O(L log L)` 程度）
 
+## 境界・注意
+
+- `ds/super-dsu.hpp` と同じ実装です。
+- 内部で複数サイズの Union-Find を持ちます。
+- `root(x)` は 0-indexed です。
+
 ## 使用例
 
 ```cpp
@@ -48,8 +54,3 @@ if (uf.root(3) == uf.root(7)) {
 }
 ```
 
-## 注意
-
-- `ds/super-dsu.hpp` と同じ実装です。
-- 内部で複数サイズの Union-Find を持ちます。
-- `root(x)` は 0-indexed です。

@@ -22,6 +22,21 @@ Dijkstra 法で `s` から `t` への最短路を求めます。
 - 制約: 辺重みは非負
 - 計算量: `O((V+E)log V)`
 
+## `cycle_detection`
+
+### `pair<vc<int>,vc<int>> cycle_detection(const Graph& g)`
+
+グラフ中の閉路を 1 つ返します。
+返り値は `{vertices,edge_ids}` です。
+閉路がないときは両方空です。
+
+- 計算量: `O(V+E)`
+
+## 境界・注意
+
+- `shortest_path` では `e.to`, `e.cost`, `e.from` を参照します。
+- `cycle_detection` では `e.to`, `e.id` を参照します。
+
 ## 使用例
 
 ```cpp
@@ -33,16 +48,6 @@ if(path.empty()){
 }
 ```
 
-## `cycle_detection`
-
-### `pair<vc<int>,vc<int>> cycle_detection(const Graph& g)`
-
-グラフ中の閉路を 1 つ返します。
-返り値は `{vertices,edge_ids}` です。
-閉路がないときは両方空です。
-
-- 計算量: `O(V+E)`
-
 ## 使用例
 
 ```cpp
@@ -52,7 +57,3 @@ if(!vs.empty()){
 }
 ```
 
-## 注意
-
-- `shortest_path` では `e.to`, `e.cost`, `e.from` を参照します。
-- `cycle_detection` では `e.to`, `e.id` を参照します。

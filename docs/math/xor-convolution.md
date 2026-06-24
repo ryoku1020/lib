@@ -23,6 +23,11 @@ FWHT の順変換・逆変換をインプレースで行います。
 - 返り値: 長さ $L = 2^{\lceil \log_2(\max(|A|, |B|)) \rceil}$ の畳み込み結果
 - 計算量: $O(L \log L)$
 
+## 境界・注意
+
+- `fwht` に渡す配列は長さが **2 のべき乗** である必要があります（`xor_convolution` は自動調整します）。
+- `xor_convolution` の返り値の長さは $\max(|A|, |B|)$ 以上の最小の2のべき乗です。
+
 ## 使用例
 
 ```cpp
@@ -37,7 +42,3 @@ auto c = xor_convolution(a, b);
 // c[k] = sum of a[i]*b[j] for all i^j==k
 ```
 
-## 注意
-
-- `fwht` に渡す配列は長さが **2 のべき乗** である必要があります（`xor_convolution` は自動調整します）。
-- `xor_convolution` の返り値の長さは $\max(|A|, |B|)$ 以上の最小の2のべき乗です。

@@ -44,7 +44,20 @@ auto [val,arg]=GoldenSearch<long long,long long>(0,20,g,(long long)-4e18,greater
 - `Comp`
   比較関数です。デフォルトは `less` なので最小化です。
 
-## 注意
+## 境界・注意
 
 - 関数が単峰であることを仮定しています。
 - tie-break は index が小さい方を優先します。
+
+## 使用例
+
+整数区間上の凸なコスト関数を最小化します。
+
+```cpp
+auto cost=[&](long long x){
+    return (x-a)*(x-a)+b;
+};
+
+auto [best,arg]=GoldenSearch<long long,long long>(0,1000000,cost,(long long)4e18);
+cout<<arg<<" "<<best<<"\n";
+```

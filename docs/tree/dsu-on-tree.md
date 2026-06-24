@@ -79,8 +79,31 @@ solver.run(add,query,reset);
 - `reset()`
   現在保持している集計状態を空に戻します。
 
-### 注意
+### 境界・注意
 
 - `Tree::build(root)` が内部で呼ばれるため、事前に `build` していなくても構いません。
 - `reset()` は対象部分木の全消去を自前で行う想定です。
 - `add` を逆操作付きで書く実装ではなく、不要になったときにまとめて `reset` する設計です。
+
+## 使用例
+
+各頂点の部分木に含まれる色の種類数を求めます。
+
+```cpp
+vc<int> color(n),cnt(n),ans(n);
+int kind=0;
+
+auto add=[&](int v){
+    if(cnt[color[v]]++==0)kind++;
+};
+auto query=[&](int v){
+    ans[v]=kind;
+};
+auto reset=[&](){
+    fill(all(cnt),0);
+    kind=0;
+};
+
+DsuOnTree solver(tree);
+solver.run(add,query,reset);
+```

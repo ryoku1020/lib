@@ -48,24 +48,6 @@ Union-Find です。
 - 制約: `0 <= x < n`
 - 計算量: ならし `O(alpha(n))`
 
-## 使用例
-
-```cpp
-#include "ds/uf.hpp"
-
-DisjointSetUnion uf(n);
-uf.merge(0, 1); // true
-uf.merge(1, 2); // true
-uf.merge(0, 2); // false (すでに同じ成分)
-
-if (uf.same(0, 2)) {
-    // true
-}
-cout << uf.size(0); // 3
-```
-
----
-
 ## `ExtraDisjointSetUnion<T, op>`
 
 各連結成分に値を乗せる Union-Find です。
@@ -104,8 +86,24 @@ cout << uf[0]; // 30 (op(10, 20))
 
 - 全メソッド: ならし `O(alpha(n))`（alpha はアッカーマン逆関数、実質定数）
 
-## 注意
+## 境界・注意
 
 - 頂点番号は 0-indexed です。
 - `ExtraDisjointSetUnion` の `operator[]` は常にその時点の代表元のデータを返します。
   `merge` 後は代表元が変わる可能性があるので、インデックスではなく `uf[i]` で常に参照してください。
+
+## 使用例
+
+```cpp
+#include "ds/uf.hpp"
+
+DisjointSetUnion uf(n);
+uf.merge(0, 1); // true
+uf.merge(1, 2); // true
+uf.merge(0, 2); // false (すでに同じ成分)
+
+if (uf.same(0, 2)) {
+    // true
+}
+cout << uf.size(0); // 3
+```

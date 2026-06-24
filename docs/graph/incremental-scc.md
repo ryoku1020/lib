@@ -25,7 +25,26 @@ documentation_of: ../../graph/incremental-scc.hpp
 内部処理を行い、マージ情報を返します。
 返る `Edge` の `id` にはそのマージが起きた時刻 index が入ります。
 
-## 注意
+## 境界・注意
 
 - 一般用途の SCC ではなく、増加列に対する特殊なオフライン処理です。
 - 詳しい利用側はこのリポジトリ内の実利用コードに合わせて読むのが安全です。
+
+## 使用例
+
+辺を時刻順に登録し、SCC がマージされた時刻を取り出します。
+
+```cpp
+IncrementalScc inc(n);
+for(auto [a,b]:edges){
+    inc.push(a,b);
+}
+
+auto merges=inc.work();
+for(auto e:merges){
+    int u=e.from;
+    int v=e.to;
+    int time=e.id;
+    // time 番目までの辺追加で u と v の SCC がマージされた
+}
+```

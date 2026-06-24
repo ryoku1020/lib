@@ -69,6 +69,11 @@ Treap<Info, Tag>
 - 制約: `0 <= l <= r <= size()`
 - 計算量: `O(log n)`
 
+## 境界・注意
+
+- `max_nodes` はプールサイズです。`insert` の総回数が超えないよう見積もってください。
+- `build` + `insert` を合わせた合計ノード数が `max_nodes` 以下である必要があります。
+
 ## 使用例
 
 ```cpp
@@ -99,7 +104,3 @@ tr.reverse(l, r);     // [l,r) を反転
 auto s = tr.prod(l, r); // [l,r) の和
 ```
 
-## 注意
-
-- `max_nodes` はプールサイズです。`insert` の総回数が超えないよう見積もってください。
-- `build` + `insert` を合わせた合計ノード数が `max_nodes` 以下である必要があります。

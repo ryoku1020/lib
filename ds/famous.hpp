@@ -117,8 +117,9 @@ struct Reversed{
 };
 
 
-template<class Key,class Val,int K>
+template<class Key,class Val,int K,Val neg_inf>
 struct MaxK{
+    using DATA=MaxK<Key,Val,K,neg_inf>;
     struct T{
         Val val;
         Key key;
@@ -128,48 +129,46 @@ struct MaxK{
         T operator-(Val v)const{return {val-v,key};}
         friend T operator+(Val v,const T&a){return a+v;}
     };
-    struct DATA{
-        array<T,K> d;
-        DATA(){d.fill({-inf<Val>,Key{}});}
-        T&operator[](int i){return d[i];}
-        const T&operator[](int i)const{return d[i];}
-        void add_element(const T&a){
-            if(a.val<=d[K-1].val)return;
-            int pos=0;
-            while(pos<K&&d[pos].val>=a.val){
-                if(d[pos].key==a.key)return;
-                pos++;
-            }
-            int end=K-1;
-            REP(i,pos,K)if(d[i].key==a.key){end=i;break;}
-            DREP(i,end,pos+1)d[i]=d[i-1];
-            d[pos]=a;
-        }
-        DATA&merge_data(const DATA&x){
-            rep(i,K)add_element(x.d[i]);
-            return *this;
-        }
-        DATA&operator+=(Val v){
-            rep(i,K)if(d[i].val>-inf<Val>)d[i].val+=v;
-            return *this;
-        }
-        DATA&operator-=(Val v){
-            rep(i,K)if(d[i].val>-inf<Val>)d[i].val-=v;
-            return *this;
-        }
-        DATA operator+(Val v)const{return DATA(*this)+=v;}
-        DATA operator-(Val v)const{return DATA(*this)-=v;}
-        friend DATA operator+(Val v,const DATA&a){return a+v;}
-        static DATA e(){return DATA();}
-    };
-    static DATA op(const DATA&a,const DATA&b){
-        DATA res(a);
-        return res.merge_data(b);
+    array<T,K> d;
+    MaxK(){d.fill({neg_inf,Key{}});}
+    T&operator[](int i){return d[i];}
+    const T&operator[](int i)const{return d[i];}
+    bool has(Key key,Val val)const{
+        rep(i,K)if(d[i].val>neg_inf&&d[i].key==key&&d[i].val==val)return true;
+        return false;
     }
-    static DATA e(){return DATA();}
+    int add_element(Key key,Val val){
+        if(val<=d[K-1].val)return 0;
+        int pos=0;
+        while(pos<K&&d[pos].val>=val){
+            if(d[pos].key==key)return 0;
+            pos++;
+        }
+        int end=K-1;
+        REP(i,pos,K)if(d[i].key==key){end=i;break;}
+        DREP(i,end,pos+1)d[i]=d[i-1];
+        d[pos]={val,key};
+        return 1;
+    }
+    DATA&merge_data(const DATA&x){
+        rep(i,K)add_element(x.d[i].key,x.d[i].val);
+        return *this;
+    }
+    DATA&operator+=(Val v){
+        rep(i,K)if(d[i].val>neg_inf)d[i].val+=v;
+        return *this;
+    }
+    DATA&operator-=(Val v){
+        rep(i,K)if(d[i].val>neg_inf)d[i].val-=v;
+        return *this;
+    }
+    DATA operator+(Val v)const{return DATA(*this)+=v;}
+    DATA operator-(Val v)const{return DATA(*this)-=v;}
+    friend DATA operator+(Val v,const DATA&a){return a+v;}
 };
-template<class Key,class Val>
-struct MaxK<Key,Val,2>{
+template<class Key,class Val,Val neg_inf>
+struct MaxK<Key,Val,2,neg_inf>{
+    using DATA=MaxK<Key,Val,2,neg_inf>;
     struct T{
         Val val;
         Key key;
@@ -179,47 +178,170 @@ struct MaxK<Key,Val,2>{
         T operator-(Val v)const{return {val-v,key};}
         friend T operator+(Val v,const T&a){return a+v;}
     };
-    struct DATA{
-        array<T,2> d;
-        DATA(){d.fill({-inf<Val>,Key{}});}
-        T&operator[](int i){return d[i];}
-        const T&operator[](int i)const{return d[i];}
-        void add_element(const T&a){
-            if(a.val<=d[1].val)return;
-            if(a.key==d[0].key){
-                if(a.val>d[0].val)d[0].val=a.val;
-                return;
+    array<T,2> d;
+    MaxK(){d.fill({neg_inf,Key{}});}
+    T&operator[](int i){return d[i];}
+    const T&operator[](int i)const{return d[i];}
+    bool has(Key key,Val val)const{
+        return (d[0].val>neg_inf&&d[0].key==key&&d[0].val==val)||(d[1].val>neg_inf&&d[1].key==key&&d[1].val==val);
+    }
+    int add_element(Key key,Val val){
+        if(val<=d[1].val)return 0;
+        if(key==d[0].key){
+            if(val>d[0].val){
+                d[0].val=val;
+                return 1;
             }
-            if(a.val>d[0].val){
-                d[1]=d[0];
-                d[0]=a;
-            }else{
-                d[1]=a;
-            }
+            return 0;
         }
-        DATA&merge_data(const DATA&x){
-            add_element(x.d[0]);
-            add_element(x.d[1]);
-            return *this;
+        if(val>d[0].val){
+            d[1]=d[0];
+            d[0]={val,key};
+        }else{
+            d[1]={val,key};
         }
-        DATA&operator+=(Val v){
-            if(d[0].val>-inf<Val>)d[0].val+=v;
-            if(d[1].val>-inf<Val>)d[1].val+=v;
-            return *this;
-        }
-        DATA&operator-=(Val v){
-            if(d[0].val>-inf<Val>)d[0].val-=v;
-            if(d[1].val>-inf<Val>)d[1].val-=v;
-            return *this;
-        }
-        DATA operator+(Val v)const{return DATA(*this)+=v;}
-        DATA operator-(Val v)const{return DATA(*this)-=v;}
-        friend DATA operator+(Val v,const DATA&a){return a+v;}
-        static DATA e(){return DATA();}
-    };
-    static DATA op(const DATA&a,const DATA&b){
-        DATA res(a);
+        return 1;
+    }
+    DATA&merge_data(const DATA&x){
+        add_element(x.d[0].key,x.d[0].val);
+        add_element(x.d[1].key,x.d[1].val);
+        return *this;
+    }
+    DATA&operator+=(Val v){
+        if(d[0].val>neg_inf)d[0].val+=v;
+        if(d[1].val>neg_inf)d[1].val+=v;
+        return *this;
+    }
+    DATA&operator-=(Val v){
+        if(d[0].val>neg_inf)d[0].val-=v;
+        if(d[1].val>neg_inf)d[1].val-=v;
+        return *this;
+    }
+    DATA operator+(Val v)const{return DATA(*this)+=v;}
+    DATA operator-(Val v)const{return DATA(*this)-=v;}
+    friend DATA operator+(Val v,const DATA&a){return a+v;}
+};
+template<class Key,class Val,int K,Val neg_inf>
+struct MaxKInfo{
+    using value_type=MaxK<Key,Val,K,neg_inf>;
+    static value_type op(const value_type&a,const value_type&b){
+        value_type res(a);
         return res.merge_data(b);
     }
-    static DATA e(){return DATA();}
+    static value_type e(){return value_type();}
+    static value_type leaf(){return value_type();}
+};
+template<class Key,class Val,int K,Val inf>
+struct MinK{
+    using DATA=MinK<Key,Val,K,inf>;
+    struct T{
+        Val val;
+        Key key;
+        T&operator+=(Val v){val+=v;return *this;}
+        T&operator-=(Val v){val-=v;return *this;}
+        T operator+(Val v)const{return {val+v,key};}
+        T operator-(Val v)const{return {val-v,key};}
+        friend T operator+(Val v,const T&a){return a+v;}
+    };
+    array<T,K> d;
+    MinK(){d.fill({inf,Key{}});}
+    T&operator[](int i){return d[i];}
+    const T&operator[](int i)const{return d[i];}
+    bool has(Key key,Val val)const{
+        rep(i,K)if(d[i].val<inf&&d[i].key==key&&d[i].val==val)return true;
+        return false;
+    }
+    int add_element(Key key,Val val){
+        if(val>=d[K-1].val)return 0;
+        int pos=0;
+        while(pos<K&&d[pos].val<=val){
+            if(d[pos].key==key)return 0;
+            pos++;
+        }
+        int end=K-1;
+        REP(i,pos,K)if(d[i].key==key){end=i;break;}
+        DREP(i,end,pos+1)d[i]=d[i-1];
+        d[pos]={val,key};
+        return 1;
+    }
+    DATA&merge_data(const DATA&x){
+        rep(i,K)add_element(x.d[i].key,x.d[i].val);
+        return *this;
+    }
+    DATA&operator+=(Val v){
+        rep(i,K)if(d[i].val<inf)d[i].val+=v;
+        return *this;
+    }
+    DATA&operator-=(Val v){
+        rep(i,K)if(d[i].val<inf)d[i].val-=v;
+        return *this;
+    }
+    DATA operator+(Val v)const{return DATA(*this)+=v;}
+    DATA operator-(Val v)const{return DATA(*this)-=v;}
+    friend DATA operator+(Val v,const DATA&a){return a+v;}
+};
+template<class Key,class Val,Val inf>
+struct MinK<Key,Val,2,inf>{
+    using DATA=MinK<Key,Val,2,inf>;
+    struct T{
+        Val val;
+        Key key;
+        T&operator+=(Val v){val+=v;return *this;}
+        T&operator-=(Val v){val-=v;return *this;}
+        T operator+(Val v)const{return {val+v,key};}
+        T operator-(Val v)const{return {val-v,key};}
+        friend T operator+(Val v,const T&a){return a+v;}
+    };
+    array<T,2> d;
+    MinK(){d.fill({inf,Key{}});}
+    T&operator[](int i){return d[i];}
+    const T&operator[](int i)const{return d[i];}
+    bool has(Key key,Val val)const{
+        return (d[0].val<inf&&d[0].key==key&&d[0].val==val)||(d[1].val<inf&&d[1].key==key&&d[1].val==val);
+    }
+    int add_element(Key key,Val val){
+        if(val>=d[1].val)return 0;
+        if(key==d[0].key){
+            if(val<d[0].val){
+                d[0].val=val;
+                return 1;
+            }
+            return 0;
+        }
+        if(val<d[0].val){
+            d[1]=d[0];
+            d[0]={val,key};
+        }else{
+            d[1]={val,key};
+        }
+        return 1;
+    }
+    DATA&merge_data(const DATA&x){
+        add_element(x.d[0].key,x.d[0].val);
+        add_element(x.d[1].key,x.d[1].val);
+        return *this;
+    }
+    DATA&operator+=(Val v){
+        if(d[0].val<inf)d[0].val+=v;
+        if(d[1].val<inf)d[1].val+=v;
+        return *this;
+    }
+    DATA&operator-=(Val v){
+        if(d[0].val<inf)d[0].val-=v;
+        if(d[1].val<inf)d[1].val-=v;
+        return *this;
+    }
+    DATA operator+(Val v)const{return DATA(*this)+=v;}
+    DATA operator-(Val v)const{return DATA(*this)-=v;}
+    friend DATA operator+(Val v,const DATA&a){return a+v;}
+};
+template<class Key,class Val,int K,Val inf>
+struct MinKInfo{
+    using value_type=MinK<Key,Val,K,inf>;
+    static value_type op(const value_type&a,const value_type&b){
+        value_type res(a);
+        return res.merge_data(b);
+    }
+    static value_type e(){return value_type();}
+    static value_type leaf(){return value_type();}
 };

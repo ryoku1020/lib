@@ -70,8 +70,19 @@ pair<ll, ll> monge_edge_shortest2(F& f, int n);
 
 - 計算量: `O(n log^2 n)`
 
-## 注意
+## 境界・注意
 
 - いずれの関数も `f(i, j)` の定義域は `i < j` です。
 - Monge 性（四辺形不等式）が成立しない場合、結果は保証されません。
 - `monge_d_edge_shortest` の精度は `inf` パラメータに依存します。コスト上界より十分大きい値を渡してください。
+
+## 使用例: Monge グラフの最短路
+
+```cpp
+auto cost=[&](int i,int j)->long long{
+    assert(i<j);
+    return (long long)(j-i)*(j-i)+w[j];
+};
+
+auto [dist,edges]=monge_edge_shortest2(cost,n);
+```

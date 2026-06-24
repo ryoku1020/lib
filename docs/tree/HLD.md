@@ -19,6 +19,12 @@ HL分解の API については [`docs/tree/base.md`](base.md) を参照して�
 | `tree.jump(s, t, k)` | s→t パス上で s から距離 k の頂点 |
 | `tree.Query(s, t)` | s→t パスを in 配列上の区間列に分解 |
 
+## 境界・注意
+
+- このページは移行案内です。対応する `tree/hld.hpp` は存在しません。
+- HLD の実装と詳しい境界条件は [Tree](base.md) にまとめています。
+- `tree.Query(s,t)` の返り値は閉区間ベースです。セグ木に渡すときは `[min(l,r),max(l,r)+1)` に変換します。
+
 ## 使用例
 
 ```cpp

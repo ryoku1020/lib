@@ -46,6 +46,18 @@ documentation_of: ../../graph/two-sat.hpp
 一つの解を返します。
 各要素は `0/1` です。
 
+## 計算量
+
+- 節追加: `O(1)`
+- `satisfiable()`: `O(n+m)`
+
+ここで `m` は追加した含意辺数です。
+
+## 境界・注意
+
+- `answer()` は `satisfiable()` を呼んだあとに使う想定です。
+- 変数 `i` の値は `answer()[i]` に入ります。
+
 ## 使用例
 
 ```cpp
@@ -61,14 +73,3 @@ if(sat.satisfiable()){
 }
 ```
 
-## 計算量
-
-- 節追加: `O(1)`
-- `satisfiable()`: `O(n+m)`
-
-ここで `m` は追加した含意辺数です。
-
-## 注意
-
-- `answer()` は `satisfiable()` を呼んだあとに使う想定です。
-- 変数 `i` の値は `answer()[i]` に入ります。

@@ -37,3 +37,24 @@ struct GraphComponents;
 成分ごとに、その成分に含まれる頂点のリストを返します。関節点は複数の成分に属する可能性があります。また、孤立点はそれ自身のみを含むサイズ1の成分として扱われます。
 
 - **戻り値**: `vvc<int>` (頂点リストの配列)。各要素が1つの二重頂点連結成分を構成する頂点の集合を表します。
+
+## 境界・注意
+
+- `G::directed()==false` を仮定します。
+- `G` は `is_bridge(e)`, `ord(u)`, `low(u)` 相当の Lowlink 情報を提供している必要があります。
+- `vertexc2()` は辺 ID ごとの成分 ID を返します。孤立点は辺を持たないため、この戻り値には現れません。
+
+## 使用例
+
+Lowlink 情報を持つ無向グラフ `g` に対して、橋を取り除いた成分 ID を得ます。
+
+```cpp
+GraphComponents components(g);
+
+auto edge_component=components.edgec2();
+auto biconn_vertices=components.vertexc2vertex();
+
+for(auto& vs:biconn_vertices){
+    // vs が 1 つの二重頂点連結成分
+}
+```

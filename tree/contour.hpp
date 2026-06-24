@@ -1,10 +1,10 @@
 #pragma once
 #include"base.hpp"
 #include"../ds/bit.hpp"
-template<class T>
+template<class T,class U=Unweighted>
 struct ContourAdd{
-    Tree&tree;
-    ContourAdd(Tree&tree):tree(tree){}
+    Tree<U>&tree;
+    ContourAdd(Tree<U>&tree):tree(tree){}
     vc<BinaryIndexedTree<T>>call_non;
     vc<T>cen1;
     vc<array<BinaryIndexedTree<T>,2>>call_v;

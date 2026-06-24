@@ -89,6 +89,11 @@ struct Info{
 - 制約: `f(e())=true`, `0<=r<=n`
 - 計算量: `O(log n)`
 
+## 境界・注意
+
+- 区間は 0-indexed の半開区間 `[l,r)` です。
+- `Segtree(int n)` は `leaf()` を使い、`prod` の単位元には `e()` を使います。ここを分けられるのが ACL と少し違う点です。
+
 ## 使用例 1: Range Max Query
 
 ```cpp
@@ -127,7 +132,3 @@ long long X=100;
 int r=seg.max_right(0,[&](long long s){ return s<=X; });
 ```
 
-## 注意
-
-- 区間は 0-indexed の半開区間 `[l,r)` です。
-- `Segtree(int n)` は `leaf()` を使い、`prod` の単位元には `e()` を使います。ここを分けられるのが ACL と少し違う点です。

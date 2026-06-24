@@ -143,6 +143,15 @@ void Yes(){
 void No(){
     cout<<"No"<<endl;
 }
+vc<int>stovi(const string&s,const string&S){
+    vc<int>v(s.size());
+    rep(i,s.size()){
+        auto t=S.find(s[i]);
+        assert(t!=string::npos);
+        v[i]=t;
+    }
+    return v;
+}
 template<class T=ll>
 T isqrt(T x){
     T F=sqrtl(x);

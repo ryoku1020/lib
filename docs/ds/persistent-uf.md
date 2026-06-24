@@ -47,6 +47,11 @@ PersistentUnionFind<B = 2>
 - 制約: `0 <= a, b < n`
 - 計算量: `O(log^2 n)`
 
+## 境界・注意
+
+- パス圧縮を行わないため `root` / `same` は `O(log^2 n)` です（union by size を使うため）。
+- `merge` のたびに `O(log n)` ノードが生成されます。`Q` 回の操作で `O(Q log n)` ノードを消費します。
+
 ## 使用例
 
 ```cpp
@@ -63,7 +68,3 @@ bool b2 = uf.same(0, 2, r2); // false
 bool b0 = uf.same(0, 1, r0); // false (r0 は元のまま)
 ```
 
-## 注意
-
-- パス圧縮を行わないため `root` / `same` は `O(log^2 n)` です（union by size を使うため）。
-- `merge` のたびに `O(log n)` ノードが生成されます。`Q` 回の操作で `O(Q log n)` ノードを消費します。

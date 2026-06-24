@@ -22,6 +22,13 @@ Eppstein 系のアルゴリズムで、内部で leftist heap を使っていま
 - 制約: `0<=s<n`, `0<=t<n`, `k>=0`
 - 計算量: `O((n + m + k) log n)` 程度
 
+## 境界・注意
+
+- `g.inv(v)` が使えるグラフ型を仮定しています。`graph/base.hpp` の `Graph` が対応しています。
+- 実装が `.hpp` ではなく `.cpp` にあります。`#include "graph/kth-shortest-path.cpp"` で読み込みます。
+- 到達不能パスは `numeric_limits<T>::max()` で埋まります（`-1` ではありません）。
+- `s==t` のとき「長さ 0 のパス（自己ループなし）」は経路として数えられます。
+
 ## 使用例
 
 ```cpp
@@ -39,9 +46,3 @@ for(int i=0;i<k;i++){
 }
 ```
 
-## 注意
-
-- `g.inv(v)` が使えるグラフ型を仮定しています。`graph/base.hpp` の `Graph` が対応しています。
-- 実装が `.hpp` ではなく `.cpp` にあります。`#include "graph/kth-shortest-path.cpp"` で読み込みます。
-- 到達不能パスは `numeric_limits<T>::max()` で埋まります（`-1` ではありません）。
-- `s==t` のとき「長さ 0 のパス（自己ループなし）」は経路として数えられます。

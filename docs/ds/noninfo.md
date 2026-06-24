@@ -20,3 +20,19 @@ documentation_of: ../../ds/noninfo.hpp
 - 汎用 Treap
 - 汎用 segment tree
 - 値を持たないが構造だけ使いたいテンプレート
+
+## 境界・注意
+
+- `Noninfo` の値は `monostate` なので、値そのものを読み出して意味のある計算をする用途には向きません。
+- `Nontag<Info>` は遅延作用を使わないことを明示するための型です。
+
+## 使用例
+
+遅延を使わない Treap を、`Tag` だけダミーにして宣言します。
+
+```cpp
+#include "ds/noninfo.hpp"
+#include "ds/treap.hpp"
+
+Treap<Info,Nontag<Info>> tr(max_nodes);
+```

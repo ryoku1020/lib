@@ -46,6 +46,24 @@ struct X {
 
 - 計算量: `O(1)`
 
+## `OneWaySlidingWindowAggregation<X>`
+
+片方向（キュー）用途に最適化した版です。
+`push_back` して `pop_front` するだけの場合はこちらが軽量です。
+
+```cpp
+OneWaySlidingWindowAggregation<X> q;
+q.push_back(x);
+auto cur = q.get_all();
+q.pop_front();
+```
+
+## 境界・注意
+
+- 空のとき `pop_*` を呼ぶと動作未定義です（内部で `assert` はされません）。
+- `get_all()` は空のとき `e()` を返します。
+- `op` が非可換でも正しく動きます（SWAG は左右を分けて管理するため）。
+
 ## 使用例: 固定幅スライディングウィンドウの最小値
 
 ```cpp
@@ -69,20 +87,3 @@ for (int i = 0; i < n; i++) {
 }
 ```
 
-## `OneWaySlidingWindowAggregation<X>`
-
-片方向（キュー）用途に最適化した版です。
-`push_back` して `pop_front` するだけの場合はこちらが軽量です。
-
-```cpp
-OneWaySlidingWindowAggregation<X> q;
-q.push_back(x);
-auto cur = q.get_all();
-q.pop_front();
-```
-
-## 注意
-
-- 空のとき `pop_*` を呼ぶと動作未定義です（内部で `assert` はされません）。
-- `get_all()` は空のとき `e()` を返します。
-- `op` が非可換でも正しく動きます（SWAG は左右を分けて管理するため）。

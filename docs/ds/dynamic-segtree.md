@@ -60,6 +60,12 @@ struct Info{
 
 `root` のバージョンで `op(a[l],...,a[r-1])` を返します。
 
+## 境界・注意
+
+- 区間は 0-indexed の半開区間 `[l,r)` です。
+- `prod` は `build` 後の root から呼ぶ必要があります（NULL は不可）。
+- 永続版ではノード数が `O(Q log N)` になるのでメモリに注意してください。
+
 ## 使用例: 非永続・区間最小値
 
 ```cpp
@@ -104,8 +110,3 @@ auto ans = seg.prod(roots[i], l, r);
 auto diff = seg.prod(roots[i],l,r) - seg.prod(roots[j],l,r);
 ```
 
-## 注意
-
-- 区間は 0-indexed の半開区間 `[l,r)` です。
-- `prod` は `build` 後の root から呼ぶ必要があります（NULL は不可）。
-- 永続版ではノード数が `O(Q log N)` になるのでメモリに注意してください。

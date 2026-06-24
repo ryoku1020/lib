@@ -1,16 +1,20 @@
 #pragma once
 #include"../graph/base.hpp" 
+template<class T=Unweighted>
 struct Tree{
-    using Graph=StaticGraph<0>;
-    using Edge=Graph::Edge;
+    using Graph=StaticGraph<0,T>;
+    using Edge=typename Graph::Edge;
+    using cost_t=typename Graph::cost_t;
     mutable Graph g;
     mutable bool built_hld=false;
     int n;
     mutable vc<int>in,out,head,size_,par,depth,ord;
     Tree(int n):n(n),g(n,n-1){}
-    void add_edge(int a,int b){
-        assert(0<=a&&a<n&&0<=b&&b<n);
-        g.add_edge(a,b);
+    void add_edge(const Edge&e){
+        g.add_edge(e);
+    }
+    void add_edge(int a,int b,cost_t cost=1,int id=-1){
+        g.add_edge(a,b,cost,id);
     }
     bool is_to_par(auto&e)const{
         return par[e.from]==e.to;
@@ -50,7 +54,7 @@ struct Tree{
         par[root]=-1;
         depth[root]=0;
         head[root]=root;
-        int T=0;
+        int timer=0;
         auto dfs=[&](auto&dfs,int u,int v,int d)->void{
             depth[u]=d++;
             auto s=g[u];
@@ -76,7 +80,7 @@ struct Tree{
             }
         };dfs(dfs,root,-1,0);
         {auto dfs=[&](auto&dfs,int u)->void{
-            in[u]=T++;
+            in[u]=timer++;
             ord.push_back(u);
             auto s=g[u];
             bool first=true;
@@ -85,7 +89,7 @@ struct Tree{
                 first=false;
                 dfs(dfs,e.to);
             }
-            out[u]=T;
+            out[u]=timer;
         };dfs(dfs,root);}
     }
     auto heavy_edge(int u)const{
@@ -93,16 +97,16 @@ struct Tree{
         build();
         auto s=g[u];
         int sz=s.size(),ce=(par[u]==-1?sz:sz-1);
-        if(ce<=0)return Graph::template Span<const Graph::Edge>{s.l,s.l};
-        return Graph::template Span<const Graph::Edge>{s.l,s.l+1};
+        if(ce<=0)return typename Graph::template Span<const Edge>{s.l,s.l};
+        return typename Graph::template Span<const Edge>{s.l,s.l+1};
     }
     auto light_edges(int u)const{
         assert(0<=u&&u<n);
         build();
         auto s=g[u];
         int sz=s.size(),ce=(par[u]==-1?sz:sz-1);
-        if(ce<=1)return Graph::template Span<const Graph::Edge>{s.l,s.l};
-        return Graph::template Span<const Graph::Edge>{s.l+1,s.l+ce};
+        if(ce<=1)return typename Graph::template Span<const Edge>{s.l,s.l};
+        return typename Graph::template Span<const Edge>{s.l+1,s.l+ce};
     }
     int lca(int a,int b)const{
         assert(0<=a&&a<n&&0<=b&&b<n);
@@ -153,7 +157,7 @@ struct Tree{
             return jumpup(t,D-k);
         }
     }   
-    vc<pair<int,int>>Query(int s,int t)const{
+    vc<pair<int,int>>Query(int s,int t,bool edge=false)const{
         assert(0<=s&&s<n&&0<=t&&t<n);
         build();
         auto&h=head;
@@ -170,10 +174,12 @@ struct Tree{
                 t=P[h[t]];
             }
         }
-        if(d[s]>d[t]){
-            rs.push_back({I[s],I[t]});
-        }else{
-            rt.push_back({I[s],I[t]});
+        if(s!=t||!edge){
+            if(d[s]>d[t]){
+                rs.push_back({I[s],I[t]+edge});
+            }else{
+                rt.push_back({I[s]+edge,I[t]});
+            }
         }
         rs.reserve(rs.size()+rt.size());
         for(auto it=rt.rbegin();it!=rt.rend();++it)rs.push_back(*it);

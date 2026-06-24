@@ -59,6 +59,11 @@ Fenwick Tree です。
 - 制約: 各 `a[i]>=0`
 - 計算量: `O(log n)`
 
+## 境界・注意
+
+- インターフェースは 0-indexed、内部実装は 1-indexed です。
+- 区間は半開区間 `[l,r)` です。
+
 ## 使用例
 
 ```cpp
@@ -82,7 +87,3 @@ int k=5; // 1-indexed
 int pos=bit.lower_bound(k);
 ```
 
-## 注意
-
-- インターフェースは 0-indexed、内部実装は 1-indexed です。
-- 区間は半開区間 `[l,r)` です。

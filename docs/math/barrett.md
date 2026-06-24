@@ -22,6 +22,10 @@ Barrett reduction による高速 mod 乗算補助です。
 
 `x mod mod` を高速に返します。
 
+## 境界・注意
+
+- 単独で使うより `DynamicModInt` の内部利用が主用途です。
+
 ## 使用例
 
 ```cpp
@@ -32,6 +36,3 @@ b.set(1000000007);
 auto r=b.reduce(1234567890123ULL);
 ```
 
-## 注意
-
-- 単独で使うより `DynamicModInt` の内部利用が主用途です。

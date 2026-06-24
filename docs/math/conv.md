@@ -30,6 +30,32 @@ modint 上の畳み込みを返します。
 
 畳み込み結果を `MOD` で割ったものを返します。
 
+## その他の関数
+
+### `long long pow_mod(long long x, long long n, int m)`
+
+`x^n mod m` を返します。
+
+### `long long inv_mod(long long x, long long m)`
+
+`x mod m` の逆元を返します。
+存在することを仮定しています。
+
+### `pair<long long,long long> crt(const vector<long long>& r, const vector<long long>& m)`
+
+中国剰余定理です。
+`x ≡ r[i] (mod m[i])` を満たす解を `{x,lcm}` で返します。
+解が存在しないときは `{0,0}` です。
+
+### `long long floor_sum(long long n, long long m, long long a, long long b)`
+
+`sum_{i=0}^{n-1} floor((a*i+b)/m)` を返します。
+
+## 境界・注意
+
+- `convolution(const vector<mint>&, ...)` は NTT 可能な modint を想定しています。
+- 小さい入力では内部で naive 畳み込みに落ちます。
+
 ## 使用例 1: modint 畳み込み
 
 ```cpp
@@ -53,28 +79,3 @@ auto c=convolution_ll(a,b);
 auto d=convolution_ll(a,b,1000000007LL);
 ```
 
-## その他の関数
-
-### `long long pow_mod(long long x, long long n, int m)`
-
-`x^n mod m` を返します。
-
-### `long long inv_mod(long long x, long long m)`
-
-`x mod m` の逆元を返します。
-存在することを仮定しています。
-
-### `pair<long long,long long> crt(const vector<long long>& r, const vector<long long>& m)`
-
-中国剰余定理です。
-`x ≡ r[i] (mod m[i])` を満たす解を `{x,lcm}` で返します。
-解が存在しないときは `{0,0}` です。
-
-### `long long floor_sum(long long n, long long m, long long a, long long b)`
-
-`sum_{i=0}^{n-1} floor((a*i+b)/m)` を返します。
-
-## 注意
-
-- `convolution(const vector<mint>&, ...)` は NTT 可能な modint を想定しています。
-- 小さい入力では内部で naive 畳み込みに落ちます。

@@ -55,6 +55,13 @@ $\log(1+x^i) = \sum_{j \geq 1} (-1)^{j-1} \frac{x^{ij}}{j}$ を展開して係�
 
 `EnumarateProdInv` も同様で、$\log(1/(1-x^i)) = \sum_{j \geq 1} \frac{x^{ij}}{j}$ を使います。
 
+## 境界・注意
+
+- `mint` は `fps.hpp` で定義されている静的 mod 整数型です。
+- `size` は「係数列の長さ」です。`[x^0]` から `[x^{size-1}]` までを返します。
+- `EnumarateProd` / `EnumarateProdInv` は `s` 中に重複があっても正しく処理します（`cnt` で集計するため）。
+- `PartitionFunction(0)` は `{1}` を返します（分割数 `p(0) = 1` の定義通り）。
+
 ## 使用例
 
 ### 0/1 ナップサック問題（母関数）
@@ -86,9 +93,3 @@ auto f = PartitionFunction(N);
 cout << f[N] << "\n";
 ```
 
-## 注意
-
-- `mint` は `fps.hpp` で定義されている静的 mod 整数型です。
-- `size` は「係数列の長さ」です。`[x^0]` から `[x^{size-1}]` までを返します。
-- `EnumarateProd` / `EnumarateProdInv` は `s` 中に重複があっても正しく処理します（`cnt` で集計するため）。
-- `PartitionFunction(0)` は `{1}` を返します（分割数 `p(0) = 1` の定義通り）。

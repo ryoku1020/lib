@@ -56,6 +56,11 @@ documentation_of: ../../ds/double-priority-queue.hpp
 
 - 計算量: `O(1)`
 
+## 境界・注意
+
+- 内部は遅延削除で実装されており、`front`/`back`/`pop_*` 呼び出し時に不要ノードを削除します。
+- `size()` は定数時間ですが、`front`/`back` は amortized です。
+
 ## 使用例
 
 ```cpp
@@ -73,7 +78,3 @@ auto hi = pq.pop_back();  // 10 を取り出す
 // 残りは {3}
 ```
 
-## 注意
-
-- 内部は遅延削除で実装されており、`front`/`back`/`pop_*` 呼び出し時に不要ノードを削除します。
-- `size()` は定数時間ですが、`front`/`back` は amortized です。

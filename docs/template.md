@@ -34,7 +34,23 @@ PRT("answer",s);
 - グラフ入力
   `readgraph`, `readtree`
 
-## 注意
+## 境界・注意
 
 - `using namespace std;` を含みます。
 - `template.hpp` 自体がかなり大きいので、ドキュメントでは全要素を列挙せず、特によく使うものに絞っています。
+
+## 使用例
+
+入力・集計・出力を短く書きます。
+
+```cpp
+#include "template.hpp"
+
+int main(){
+    INT(n);
+    VC(ll,a,n);
+
+    ll ans=sum(a);
+    PRT(ans);
+}
+```

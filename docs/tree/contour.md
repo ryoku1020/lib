@@ -64,9 +64,28 @@ ds.add(v,5);                // a[v]+=5
 - `void add(int v,T x)`
   頂点 `v` の値に `x` を加算します。
 
-### 制約・注意
+### 境界・注意
 
 - `work` を呼ぶ前に `prod` や `add` を呼ぶことはできません。
 - `prod` の距離は辺数で数えます。
 - 構築後に木構造を変更することは想定されていません。
 - 構造体名は実装に合わせて `ContourAdd` です。
+
+## 使用例
+
+頂点 `v` から距離 `K` 以下にある頂点値の総和を求めます。
+
+```cpp
+Tree tree(n);
+// 辺を追加
+
+vc<long long> a(n);
+ContourAdd<long long> contour(tree);
+contour.work(a);
+
+int v,K;
+cin>>v>>K;
+
+long long ans=contour.prod(v,K+1);
+contour.add(v,3);
+```
