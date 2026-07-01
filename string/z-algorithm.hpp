@@ -1,7 +1,6 @@
 #pragma once
 template<class String>
 vc<int>ZAlgorithm(String&s){
-    assert(s.size()<=numeric_limits<int>::max());
     int N=s.size();
     vc<int>dp(N);
     dp[0]=N;

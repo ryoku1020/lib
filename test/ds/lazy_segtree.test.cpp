@@ -18,9 +18,6 @@ struct Info {
     static value_type e() {
         return {0, 0};
     }
-    static value_type leaf() {
-        return {0, 1};
-    }
 };
 
 struct Tag {

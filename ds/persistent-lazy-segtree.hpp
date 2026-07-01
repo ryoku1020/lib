@@ -16,6 +16,11 @@ struct PersistentLazySegtree{
     int N;
     int LOG;
     vc<value_type>db;
+    value_type init_prod(int len){
+        value_type res=Info::e();
+        for(int i=0;len;i++,len>>=1)if(len&1)res=Info::op(res,db[i]);
+        return res;
+    }
     int new_node(const Node&n){
         assert(ptr<MAX_NODE);
         pool[ptr]=n;
@@ -35,13 +40,13 @@ struct PersistentLazySegtree{
         pool[x].lazy=Tag::id();
     }
     PersistentLazySegtree():ptr(1),N(0),LOG(0){}
-    int build(int n){
+    int build(int n,value_type leaf=Info::e()){
         assert(n>=0);
         LOG=1;
         while((1<<LOG)<n)LOG++;
         N=1<<LOG;
         db.resize(LOG+1);
-        db[0]=Info::leaf();
+        db[0]=leaf;
         rep(i,LOG)db[i+1]=Info::op(db[i],db[i]);
         int root=new_node({});
         pool[root].val=db.back();
@@ -77,9 +82,9 @@ struct PersistentLazySegtree{
             value_type res=Info::e();
             x=Tag::Merge(pool[root].lazy,x);
             if(pool[root].l)res=Info::op(res,dfs(dfs,sl,mid,pool[root].l,depth-1,x));
-            else res=Info::op(res,Tag::Apply(Info::bylen(common(sl,mid,l,r),db),x));
+            else res=Info::op(res,Tag::Apply(init_prod(common(sl,mid,l,r)),x));
             if(pool[root].r)res=Info::op(res,dfs(dfs,mid,sr,pool[root].r,depth-1,x));
-            else res=Info::op(res,Tag::Apply(Info::bylen(common(mid,sr,l,r),db),x));
+            else res=Info::op(res,Tag::Apply(init_prod(common(mid,sr,l,r)),x));
             return res;
         };
         return dfs(dfs,0,N,root,LOG,Tag::id());

@@ -5,9 +5,6 @@ struct Info{
     }
     static value_type e(){
     }
-    static value_type leaf(){
-    
-    }
 };
 struct Tag{
     using value_type=Info::value_type;

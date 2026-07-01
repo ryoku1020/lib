@@ -16,6 +16,13 @@ documentation_of: ../../ds/famous.hpp
 | `Sum<V>` | `V` | `a+b` | `0` | 区間和 |
 | `Prod<V>` | `V` | `a*b` | `1` | 区間積 |
 | `Affine<V>` | `pair<V,V>` | affine合成 | `{1,0}` | affine 変換の合成 |
+| `AddMin<V>` | nested | - | - | 区間加算・区間最小値 |
+| `AddMax<V>` | nested | - | - | 区間加算・区間最大値 |
+| `AddSum<V>` | nested | - | - | 区間加算・区間和 |
+| `AssignMin<V>` | nested | - | - | 区間代入・区間最小値 |
+| `AssignMax<V>` | nested | - | - | 区間代入・区間最大値 |
+| `AssignSum<V>` | nested | - | - | 区間代入・区間和 |
+| `AffineSum<V>` | nested | - | - | 区間 affine・区間和 |
 | `Merger<Info...>` | `tuple<...>` | 各 op を並列 | 各 e() | 複数情報の同時管理 |
 | `Reversed<Info>` | same | `Info::op(b,a)` | same | 逆順（右から左） |
 | `MaxK<Key,Val,K,neg_inf>` | - | - | - | key ごとの上位 K 個 |
@@ -60,6 +67,45 @@ using Info = Affine<long long>;
 // value_type = pair<V,V> = {a, b}  → f(x) = ax + b
 // op({a1,b1},{a2,b2}) = {a1*a2, b2*a1+b2}（右から左に合成）
 ```
+
+### `AddMin<Value_type>` / `AddMax<Value_type>` / `AddSum<Value_type>`
+
+`LazySegtree` 用に `Info` と `Tag` をまとめた型です。
+
+```cpp
+using X = AddSum<ll>;
+LazySegtree<X::Info, X::Tag> seg(n, a);
+seg.apply(l, r, x);
+auto ans = seg.prod(l, r).first;
+```
+
+`AddSum<V>::Info::value_type` は `{sum,len}` です。
+
+### `AssignMin<Value_type>` / `AssignMax<Value_type>` / `AssignSum<Value_type>`
+
+区間代入用です。`Tag` は `{true,value}` で代入、`{false,0}` で恒等作用です。
+
+```cpp
+using X = AssignSum<ll>;
+LazySegtree<X::Info, X::Tag> seg(n, a);
+seg.apply(l, r, {true, x});
+auto ans = seg.prod(l, r).first;
+```
+
+`AssignSum<V>::Info::value_type` は `{sum,len}` です。
+
+### `AffineSum<Value_type>`
+
+区間 affine 変換・区間和です。`Tag` は `{a,b}` で `x -> a*x+b` を表します。
+
+```cpp
+using X = AffineSum<mint>;
+LazySegtree<X::Info, X::Tag> seg(n, a);
+seg.apply(l, r, {a, b});
+auto ans = seg.prod(l, r).first;
+```
+
+`AffineSum<V>::Info::value_type` は `{sum,len}` です。
 
 ### `Merger<Info...>`
 

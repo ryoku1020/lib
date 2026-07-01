@@ -1,20 +1,8 @@
 #pragma once
-#include "../other/commute-checker.hpp"
-template<class Info,class Tag>
+template<class Info,class Tag,bool beats>
 struct LazySegtree{
     using value_type=typename Info::value_type;
     using lazy_type=typename Tag::lazy_type;
-    template<typename T,typename=void>
-    struct HasLeaf:false_type{};
-    template<typename T>
-    struct HasLeaf<T,void_t<decltype(T::leaf())>>:true_type{};
-    static constexpr value_type leaf(){
-        if constexpr(HasLeaf<Info>::value) {
-            return Info::leaf();
-        }else{
-            return Info::e();
-        }
-    }
     int N;
     int n;
     int lg;
@@ -30,12 +18,10 @@ struct LazySegtree{
         node=vc<value_type>(n*2,Info::e());
         lazy=vc<lazy_type>(n,Tag::id());
     }
-    LazySegtree(int N){
+    LazySegtree(int N,value_type leaf=Info::e()){
         build(N);
-        if constexpr(HasLeaf<Info>::value){
-            REP(i,n,n*2)node[i]=leaf();
-            DREP(i,n-1,1)update(i);
-        }
+        REP(i,n,n*2)node[i]=leaf;
+        DREP(i,n-1,1)update(i);
     }
     LazySegtree(int N,vc<value_type> A){
         build(N);
@@ -55,7 +41,12 @@ struct LazySegtree{
     void all_apply(int k,lazy_type x){
         assert(0<=k&&k<N*2);
         node[k]=Tag::Apply(node[k],x);
-        if(k<n)lazy[k]=Tag::Merge(lazy[k],x);
+        if(k<n){
+            lazy[k]=Tag::Merge(lazy[k],x);
+            if constexpr(beats){
+                if(node[k].fail())push(k),update(k);
+            }
+        }
     }
     void push(int k){
         assert(0<=k&&k<N*2);

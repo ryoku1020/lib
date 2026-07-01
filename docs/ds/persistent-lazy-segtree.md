@@ -19,14 +19,10 @@ struct Info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
-    static value_type leaf(); // 葉の初期値
-    // bylen: 長さ len の初期状態区間の集約値
-    static value_type bylen(int len, const vc<value_type>& db);
 };
 ```
 
-`bylen(len, db)` は DynamicLazySegtree と同じ役割です。
-`db[i]` には「長さ `2^i` の初期状態区間の集約値」が事前計算されて渡されます。
+未生成ノードの値は、`build` で渡した `leaf` から内部で計算されます。
 
 ### `Tag` の要件
 
@@ -40,9 +36,10 @@ struct Info{
 
 ## メソッド
 
-### `int seg.build(int n)`
+### `int seg.build(int n, value_type leaf = Info::e())`
 
 長さ `n` の初期状態の木を作成し、root インデックスを返します。
+未生成ノードを含む各要素の初期値は `leaf` です。
 複数回呼ぶことで複数の独立した木を管理できます。
 
 - 計算量: `O(log n)`
@@ -81,7 +78,6 @@ struct Info{
 - node pool の上限は `MAX_NODE = 1.5e7` でコンパイル時に固定されています。
   クエリ数 $Q$ が多い場合は `O(Q \log N)` ノードを消費するのでオーバーフローに注意。
 - 区間は 0-indexed の半開区間 `[l,r)` です。
-- `Info::bylen` の実装を忘れると実行時エラー（コンパイルエラーではない）になることがあります。
 
 ## 使用例: クエリ時刻ごとの版管理
 
@@ -93,9 +89,6 @@ struct Info{
     using value_type = ll;
     static value_type op(value_type a,value_type b){ return min(a,b); }
     static value_type e(){ return (ll)4e18; }
-    static value_type leaf(){ return e(); }
-    static value_type bylen(int, const vc<value_type>&){ return e(); }
-    // 未生成区間は INF なので bylen = e()
 };
 struct Tag{
     using lazy_type = ll;
@@ -115,4 +108,3 @@ roots.push_back(seg.apply(l, r, x, roots.back())); // バージョン 1
 auto ans0 = seg.prod(l, r, roots[0]); // バージョン 0 での結果
 auto ans1 = seg.prod(l, r, roots[1]); // バージョン 1 での結果
 ```
-

@@ -19,7 +19,6 @@ struct Info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
-    static value_type leaf(); // 任意
 };
 ```
 
@@ -29,10 +28,6 @@ struct Info{
   区間をマージする二項演算です。結合法則を満たす必要があります。
 - `e`
   `op` の単位元です。
-- `leaf`
-  `LazySegtree(int N)` で葉を何で初期化するかを指定したいときに定義します。
-  未定義なら `e()` が使われます。
-
 ### `Tag`
 
 ```cpp
@@ -60,10 +55,10 @@ ACL と同様に、`Tag::Apply` は「1 要素」ではなく「そのノード�
 
 ## コンストラクタ
 
-### `LazySegtree(int N)`
+### `LazySegtree(int N, value_type leaf = Info::e())`
 
 長さ `N` の列を作ります。
-各要素は `Info::leaf()` があればそれ、なければ `Info::e()` で初期化されます。
+各要素は `leaf` で初期化されます。
 
 - 制約: `0<=N`
 - 計算量: `O(N)`
@@ -141,7 +136,7 @@ ACL の `lazy_segtree` にある次の API は、この実装にはありませ�
 
 - 区間はすべて 0-indexed の半開区間 `[l,r)` です。
 - `Tag::Merge(old_tag,new_tag)` の順序を取り違えると壊れやすいです。「もともと積まれていたものに、後から新しい作用を乗せる」と読んで書くと安全です。
-- `leaf()` を使う設計は ACL にはない差分です。この実装では「単位元 `e()` と葉の初期値を分けたい」ケースに使えます。
+- 初期値を `e()` 以外にしたいときは `LazySegtree(N, leaf)`、各要素を直接与えたいときは `LazySegtree(N, A)` か `LazySegtree(N, f)` を使います。
 
 ## 使用例 1: 区間加算・区間最小値
 
@@ -191,9 +186,6 @@ struct Info{
     static value_type e(){
         return {0,0};
     }
-    static value_type leaf(){
-        return {0,1};
-    }
 };
 
 struct Tag{
@@ -212,4 +204,3 @@ struct Tag{
 
 このとき `value_type` に長さ `len` を持たせているのが重要です。
 区間全体の和に `c` を足すには `len*c` が必要なので、`sum` だけでは `Apply` を書けません。
-

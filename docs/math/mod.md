@@ -22,6 +22,11 @@ documentation_of: ../../math/mod.hpp
 `aCb`（二項係数）を返します。
 `b < 0`, `b > a`, `a < 0` のとき `0` を返します。
 
+### `static mint Binom<mint>::iC(int a, int b)`
+
+`1 / aCb`（二項係数の逆数）を返します。
+`b < 0`, `b > a`, `a < 0` のとき `0` を返します。
+
 ### `static mint Binom<mint>::P(int a, int b)`
 
 `aPb`（順列）を返します。
@@ -86,6 +91,7 @@ using mint = StaticModInt<998244353>;
 
 Binom<mint>::build(2000000); // 必要な最大値を渡す
 auto c = Binom<mint>::C(n, k); // nCk
+auto ic = Binom<mint>::iC(n, k); // 1 / nCk
 auto p = Binom<mint>::P(n, k); // nPk
 auto h = Binom<mint>::H(n, k); // nHk
 ```

@@ -39,14 +39,19 @@ struct DynamicLazySegtree{
         pool[pool[x].r].val=Tag::Apply(pool[pool[x].r].val,pool[x].lazy);
         pool[x].lazy=Tag::id();
     }
-    DynamicLazySegtree(sztype n){build(n);}
-    void build(sztype n){
+    value_type init_prod(sztype len){
+        value_type res=Info::e();
+        for(int i=0;len;i++,len>>=1)if(len&1)res=Info::op(res,db[i]);
+        return res;
+    }
+    DynamicLazySegtree(sztype n,value_type leaf=Info::e()){build(n,leaf);}
+    void build(sztype n,value_type leaf=Info::e()){
         assert(n>=0);
         LOG=1;
         while((i128(1)<<LOG)<n)LOG++;
         N=sztype(1)<<LOG;
         db.resize(LOG+1);
-        db[0]=Info::leaf();
+        db[0]=leaf;
         rep(i,LOG)db[i+1]=Info::op(db[i],db[i]);
         root=new_node({});
         pool[root].val=db.back();
@@ -80,9 +85,9 @@ struct DynamicLazySegtree{
             value_type res=Info::e();
             x=Tag::Merge(pool[root].lazy,x);
             if(pool[root].l)res=Info::op(res,dfs(dfs,sl,mid,pool[root].l,depth-1,x));
-            else res=Info::op(res,Tag::Apply(Info::bylen(common(sl,mid,l,r),db),x));
+            else res=Info::op(res,Tag::Apply(init_prod(common(sl,mid,l,r)),x));
             if(pool[root].r)res=Info::op(res,dfs(dfs,mid,sr,pool[root].r,depth-1,x));
-            else res=Info::op(res,Tag::Apply(Info::bylen(common(mid,sr,l,r),db),x));
+            else res=Info::op(res,Tag::Apply(init_prod(common(mid,sr,l,r)),x));
             return res;
         };
         return dfs(dfs,0,N,root,LOG,Tag::id());

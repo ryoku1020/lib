@@ -84,7 +84,6 @@ struct Info{
     using value_type = long long;
     static value_type op(value_type a, value_type b){ return a+b; }
     static value_type e(){ return 0; }
-    static value_type leaf(){ return 0; }
 };
 struct Tag{
     using lazy_type = long long;
@@ -103,4 +102,3 @@ tr.reverse(l, r);     // [l,r) を反転
 
 auto s = tr.prod(l, r); // [l,r) の和
 ```
-

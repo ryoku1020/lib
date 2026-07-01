@@ -68,6 +68,13 @@ public:
         auto&_invfact=invfact_table();
         return _fact[a]*_invfact[b]*_invfact[a-b];
     }
+    static mint iC(int a,int b){//1/aCb
+        if(a<0||b<0||a-b<0)return mint(0);
+        build(a);
+        auto&_fact=fact_table();
+        auto&_invfact=invfact_table();
+        return _fact[b]*_fact[a-b]*_invfact[a];
+    }
     static mint P(int a,int b){
         if(a<b||b<0)return 0;
         build(a);

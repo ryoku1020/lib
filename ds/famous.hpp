@@ -8,9 +8,6 @@ struct Min{
     static value_type e(){
         return inf;
     }
-    static value_type leaf(){
-        return inf;
-    }
     static value_type get(auto a){
         return inf;
     }
@@ -24,12 +21,6 @@ struct Max{
     static value_type e(){
         return neg_inf;
     }
-    static value_type leaf(){
-        return neg_inf;
-    }
-    static value_type get2(auto a){
-        return neg_inf;
-    }
 };
 template<class Value_type>
 struct Sum{
@@ -40,12 +31,6 @@ struct Sum{
     static value_type e(){
         return 0;
     }
-    static value_type leaf(){
-        return 0;
-    }
-    static value_type get2(auto a){
-        return 0;
-    }
 };
 template<class Value_type>
 struct Prod{
@@ -54,12 +39,6 @@ struct Prod{
         return a*b;
     }
     static value_type e(){
-        return 1;
-    }
-    static value_type leaf(){
-        return 1;
-    }
-    static value_type get2(auto a){
         return 1;
     }
 };
@@ -76,12 +55,6 @@ struct Merger{
     static value_type e(){
         return value_type{Infos::e()...};
     }
-    static value_type leaf(){
-        return value_type{Infos::leaf()...};
-    }
-    static value_type get2(auto a){
-        return value_type{Infos::get2(a)...};
-    }
 };
 template<class Value_type>
 struct Affine{
@@ -92,27 +65,189 @@ struct Affine{
     static value_type e(){
         return {1,0};
     }
-    static value_type leaf(){
-        return e();
-    }
-    static value_type get2(auto a){
-        return e();
-    }
+};
+template<class Value_type>
+struct AddMin{
+    struct Info{
+        using value_type=Value_type;
+        static value_type op(value_type a,value_type b){
+            return min(a,b);
+        }
+        static value_type e(){
+            return numeric_limits<Value_type>::max();
+        }
+    };
+    struct Tag{
+        using lazy_type=Value_type;
+        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+            return old_tag+new_tag;
+        }
+        static lazy_type id(){
+            return 0;
+        }
+        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+            return node+lz;
+        }
+    };
+};
+template<class Value_type>
+struct AddMax{
+    struct Info{
+        using value_type=Value_type;
+        static value_type op(value_type a,value_type b){
+            return max(a,b);
+        }
+        static value_type e(){
+            return numeric_limits<Value_type>::lowest();
+        }
+    };
+    struct Tag{
+        using lazy_type=Value_type;
+        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+            return old_tag+new_tag;
+        }
+        static lazy_type id(){
+            return 0;
+        }
+        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+            return node+lz;
+        }
+    };
+};
+template<class Value_type>
+struct AddSum{
+    struct Info{
+        using value_type=pair<Value_type,Value_type>;
+        static value_type op(value_type a,value_type b){
+            return {a.first+b.first,a.second+b.second};
+        }
+        static value_type e(){
+            return {0,0};
+        }
+    };
+    struct Tag{
+        using lazy_type=Value_type;
+        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+            return old_tag+new_tag;
+        }
+        static lazy_type id(){
+            return 0;
+        }
+        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+            return {node.first+node.second*lz,node.second};
+        }
+    };
+};
+template<class Value_type>
+struct AssignMin{
+    struct Info{
+        using value_type=Value_type;
+        static value_type op(value_type a,value_type b){
+            return min(a,b);
+        }
+        static value_type e(){
+            return numeric_limits<Value_type>::max();
+        }
+    };
+    struct Tag{
+        using lazy_type=pair<bool,Value_type>;
+        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+            if(new_tag.first)return new_tag;
+            return old_tag;
+        }
+        static lazy_type id(){
+            return {false,0};
+        }
+        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+            if(lz.first)return lz.second;
+            return node;
+        }
+    };
+};
+template<class Value_type>
+struct AssignMax{
+    struct Info{
+        using value_type=Value_type;
+        static value_type op(value_type a,value_type b){
+            return max(a,b);
+        }
+        static value_type e(){
+            return numeric_limits<Value_type>::lowest();
+        }
+    };
+    struct Tag{
+        using lazy_type=pair<bool,Value_type>;
+        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+            if(new_tag.first)return new_tag;
+            return old_tag;
+        }
+        static lazy_type id(){
+            return {false,0};
+        }
+        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+            if(lz.first)return lz.second;
+            return node;
+        }
+    };
+};
+template<class Value_type>
+struct AssignSum{
+    struct Info{
+        using value_type=pair<Value_type,Value_type>;
+        static value_type op(value_type a,value_type b){
+            return {a.first+b.first,a.second+b.second};
+        }
+        static value_type e(){
+            return {0,0};
+        }
+    };
+    struct Tag{
+        using lazy_type=pair<bool,Value_type>;
+        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+            if(new_tag.first)return new_tag;
+            return old_tag;
+        }
+        static lazy_type id(){
+            return {false,0};
+        }
+        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+            if(lz.first)return {node.second*lz.second,node.second};
+            return node;
+        }
+    };
+};
+template<class Value_type>
+struct AffineSum{
+    struct Info{
+        using value_type=pair<Value_type,Value_type>;
+        static value_type op(value_type a,value_type b){
+            return {a.first+b.first,a.second+b.second};
+        }
+        static value_type e(){
+            return {0,0};
+        }
+    };
+    struct Tag{
+        using lazy_type=pair<Value_type,Value_type>;
+        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+            return {new_tag.first*old_tag.first,new_tag.first*old_tag.second+new_tag.second};
+        }
+        static lazy_type id(){
+            return {1,0};
+        }
+        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+            return {node.first*lz.first+node.second*lz.second,node.second};
+        }
+    };
 };
 template<class Info>
 struct Reversed{
-    using value_type=Info::value_type;
+    using value_type=typename Info::value_type;
     static value_type op(value_type a,value_type b){
         return Info::op(b,a);
     }
     static value_type e(){
         return Info::e();
-    }
-    static value_type leaf(){
-        return Info::leaf();
-    }
-    static value_type get2(){
-        return Info::get2();
     }
 };
 
@@ -229,7 +364,6 @@ struct MaxKInfo{
         return res.merge_data(b);
     }
     static value_type e(){return value_type();}
-    static value_type leaf(){return value_type();}
 };
 template<class Key,class Val,int K,Val inf>
 struct MinK{
@@ -343,5 +477,4 @@ struct MinKInfo{
         return res.merge_data(b);
     }
     static value_type e(){return value_type();}
-    static value_type leaf(){return value_type();}
 };

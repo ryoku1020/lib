@@ -2,17 +2,6 @@
 template<class Info>
 struct AssignSegtree{
     using value_type=Info::value_type;
-    template<typename T,typename=void>
-    struct HasLeaf:false_type{};
-    template<typename T>
-    struct HasLeaf<T,void_t<decltype(T::leaf())>>:true_type{};
-    static constexpr value_type leaf(){
-        if constexpr(HasLeaf<Info>::value) {
-            return Info::leaf();
-        }else{
-            return Info::e();
-        }
-    }
     vc<value_type>node;
     vc<int>lazy;
     int N,lg;
@@ -24,9 +13,9 @@ struct AssignSegtree{
         node=vc<value_type>(N*2);
         lazy=vc<int>(N,-1);
     }
-    AssignSegtree(int n){
+    AssignSegtree(int n,value_type leaf=Info::e()){
         build(n);
-        REP(i,N,N+n)node[i]=leaf();
+        REP(i,N,N+n)node[i]=leaf;
         REP(i,N+n,N*2)node[i]=Info::e();
         DREP(i,N-1,1)update(i);
     }

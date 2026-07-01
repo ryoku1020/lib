@@ -15,7 +15,6 @@ struct Info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
-    static value_type leaf(); // 任意 (なければ e() を使用)
 };
 ```
 
@@ -23,10 +22,10 @@ struct Info{
 
 ## コンストラクタ
 
-### `AssignSegtree<Info>(int n)`
+### `AssignSegtree<Info>(int n, value_type leaf = Info::e())`
 
 長さ `n` で初期化します。
-各要素は `Info::leaf()` (未定義なら `Info::e()`) で初期化されます。
+各要素は `leaf` で初期化されます。
 
 - 計算量: `O(n)`
 
@@ -72,7 +71,6 @@ struct Info{
     using value_type = long long;
     static value_type op(value_type a,value_type b){ return max(a,b); }
     static value_type e(){ return -(ll)4e18; }
-    static value_type leaf(){ return e(); }
 };
 
 AssignSegtree<Info> seg(n);
@@ -90,13 +88,12 @@ struct Info{
         return {a.first+b.first, a.second+b.second};
     }
     static value_type e(){ return {0,0}; }
-    static value_type leaf(){ return {0,1}; } // 葉は長さ 1
 };
+
+AssignSegtree<Info> seg(N,{0,1});
 
 // assign(l,r,{x,1}) で [l,r) を全部 x にしたとき
 // sum はセグ木が自動で len * x を計算してくれる
-AssignSegtree<Info> seg(n);
 seg.assign(l, r, {x, 1});
 auto [sum, len] = seg.prod(0, n);
 ```
-

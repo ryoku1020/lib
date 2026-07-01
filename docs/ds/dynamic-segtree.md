@@ -26,20 +26,15 @@ struct Info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
-    // get2(depth): 深さ depth のノードが表す区間全体の「初期値」
-    // 葉 (depth==0) なら leaf() の値、内部ノードは op(get2(depth-1),get2(depth-1))
-    static value_type get2(int depth);
 };
 ```
 
-`get2(depth)` は、長さ `2^depth` の初期状態区間の集約値です。
-`e()` で充填されている（初期値がモノイドの単位元）なら `get2(depth)=e()` で OK です。
-
 ## コンストラクタ
 
-### `DynamicSegtree(int n)`
+### `DynamicSegtree(int n, value_type leaf = Info::e())`
 
 長さ `n` の領域を作ります（内部で最小の 2 冪に切り上げ）。
+未生成ノードを含む各要素の初期値は `leaf` です。
 
 - 計算量: `O(log n)`
 
@@ -75,7 +70,6 @@ struct Info{
     using value_type = long long;
     static value_type op(value_type a, value_type b){ return min(a,b); }
     static value_type e(){ return (ll)4e18; }
-    static value_type get2(int){ return e(); } // 未生成ノードは INF
 };
 
 DynamicSegtree<Info, int, false> seg(1e9); // [0, 1e9) の範囲
@@ -92,7 +86,6 @@ struct Info{
     using value_type = long long;
     static value_type op(value_type a, value_type b){ return a+b; }
     static value_type e(){ return 0; }
-    static value_type get2(int){ return 0; } // 未生成は 0
 };
 
 DynamicSegtree<Info, int, true> seg(n);
@@ -109,4 +102,3 @@ auto ans = seg.prod(roots[i], l, r);
 // version i の区間和 - version j の区間和 (区間内 count など)
 auto diff = seg.prod(roots[i],l,r) - seg.prod(roots[j],l,r);
 ```
-

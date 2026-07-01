@@ -20,20 +20,10 @@ struct Info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
-    static value_type leaf(); // 葉 1 要素の初期値
-    // bylen: 長さ len の「初期状態の区間」の集約値
-    static value_type bylen(sztype len, const vc<value_type>& db);
 };
 ```
 
-`bylen` は、ノードが生成されていない（= 初期状態の）長さ `len` の区間に対して
-`op(leaf(), leaf(), ..., leaf())` を返す関数です。
-`db[i]` には「長さ `2^i` の初期状態区間の集約値」が入っています。
-
-例えば区間和の場合、`leaf()=0` なら `bylen(len, db)=0` です。
-区間 min の場合も `bylen(len, db) = e() = INF` になります。
-区間和で葉の初期値が `1`（長さ len なら合計 len）のような場合は
-`bylen(len, db)` の実装が必要になります。
+未生成ノードの値は、コンストラクタで渡した `leaf` から内部で計算されます。
 
 ### `Tag` の要件
 
@@ -50,9 +40,10 @@ struct Tag{
 
 ## コンストラクタ
 
-### `DynamicLazySegtree(sztype n)`
+### `DynamicLazySegtree(sztype n, value_type leaf = Info::e())`
 
 長さ `n` の領域を作ります（内部で最小の 2 冪に切り上げ）。
+未生成ノードを含む各要素の初期値は `leaf` です。
 
 - 計算量: `O(log n)`
 
@@ -98,9 +89,6 @@ struct Info{
     using value_type = ll; // {sum}
     static value_type op(value_type a, value_type b){ return a+b; }
     static value_type e(){ return 0; }
-    static value_type leaf(){ return 0; }
-    static value_type bylen(ll len, const vc<value_type>& db){ return 0; }
-    // 初期値が 0 なので長さがいくつでも和は 0
 };
 
 struct Tag{
@@ -122,14 +110,7 @@ struct Info{
     using value_type = ll;
     static value_type op(value_type a, value_type b){ return a+b; }
     static value_type e(){ return 0; }
-    static value_type leaf(){ return 1; } // 各要素が初期値 1
-    static value_type bylen(ll len, const vc<value_type>& db){
-        // 長さ len の初期状態の和 = len
-        // db[i] = 2^i (長さ 2^i の区間の和)
-        value_type res=0;
-        for(int i=0;(1LL<<i)<=len;i++)if(len>>i&1)res+=db[i];
-        return res;
-    }
 };
-```
 
+DynamicLazySegtree<Info,Tag,ll> seg(1e18,1);
+```

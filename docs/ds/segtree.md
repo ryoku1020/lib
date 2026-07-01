@@ -15,7 +15,6 @@ struct Info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
-    static value_type leaf(); // 初期化用
 };
 ```
 
@@ -23,15 +22,12 @@ struct Info{
   結合法則を満たす二項演算
 - `e`
   単位元
-- `leaf`
-  `Segtree(int n)` で各葉をどう初期化するか
-
 ## コンストラクタ
 
-### `Segtree(int n = 0)`
+### `Segtree(int n = 0, value_type leaf = Info::e())`
 
 長さ `n` の列を作ります。
-各要素は `Info::leaf()` で初期化されます。
+各要素は `leaf` で初期化されます。
 
 - 制約: `0<=n`
 - 計算量: `O(n)`
@@ -92,7 +88,7 @@ struct Info{
 ## 境界・注意
 
 - 区間は 0-indexed の半開区間 `[l,r)` です。
-- `Segtree(int n)` は `leaf()` を使い、`prod` の単位元には `e()` を使います。ここを分けられるのが ACL と少し違う点です。
+- 初期値を `e()` 以外にしたいときは `Segtree(n, leaf)` で渡します。
 
 ## 使用例 1: Range Max Query
 
@@ -106,9 +102,6 @@ struct Info{
     }
     static value_type e(){
         return -(long long)4e18;
-    }
-    static value_type leaf(){
-        return e();
     }
 };
 
@@ -124,11 +117,9 @@ struct Info{
     using value_type=long long;
     static value_type op(value_type a,value_type b){ return a+b; }
     static value_type e(){ return 0; }
-    static value_type leaf(){ return 0; }
 };
 
 Segtree<Info> seg(N,f);
 long long X=100;
 int r=seg.max_right(0,[&](long long s){ return s<=X; });
 ```
-

@@ -8,9 +8,6 @@ struct X{
     static value_type e(){
         return {1,0};
     }
-    static value_type leaf(){
-        return e();
-    }
 };*/
 template<typename Info>
 struct Segtree{
@@ -22,12 +19,12 @@ struct Segtree{
         assert(0<=i&&i<N);
         node[i]=Info::op(node[i*2],node[i*2+1]);
     }
-    Segtree(int n=0){
+    Segtree(int n=0,value_type leaf=Info::e()){
         assert(n>=0);
         N=1;
         lg=0;
         while(N<n)N*=2,++lg;
-        node.resize(N*2,Info::leaf());
+        node.resize(N*2,leaf);
         DREP(i,N-1,1)update(i);
     }
     template<class F>

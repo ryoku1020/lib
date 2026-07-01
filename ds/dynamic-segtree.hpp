@@ -9,14 +9,18 @@ struct DynamicSegtree{
         Node(value_type x):l(nullptr),r(nullptr),val(x){}
     };
     int N,LOG;
-    DynamicSegtree(int n){
+    vc<value_type>db;
+    DynamicSegtree(int n,value_type leaf=Info::e()){
         assert(n>=0);
         LOG=0;
         while((1<<LOG)<n)LOG++;
         N=1<<LOG;
+        db.resize(LOG+1);
+        db[0]=leaf;
+        rep(i,LOG)db[i+1]=Info::op(db[i],db[i]);
     }
-    Node*build(){return new Node(Info::get2(LOG));}
-    value_type get(Node*x,int depth){return x?x->val:Info::get2(depth);}
+    Node*build(){return new Node(db[LOG]);}
+    value_type get(Node*x,int depth){return x?x->val:db[depth];}
     sztype common(sztype l1,sztype r1,sztype l2,sztype r2){return max(sztype(0),min(r1,r2)-max(l1,l2));}
     Node*set(Node*now,sztype i,value_type x){
         assert(now);
@@ -26,10 +30,10 @@ struct DynamicSegtree{
             if(r-l==1){next->val=x;return next;}
             sztype mid=(l+r)>>1;
             if(i<mid){
-                if(!next->l)next->l=new Node(Info::get2(depth-1));
+                if(!next->l)next->l=new Node(db[depth-1]);
                 next->l=dfs(dfs,l,mid,depth-1,next->l);
             }else{
-                if(!next->r)next->r=new Node(Info::get2(depth-1));
+                if(!next->r)next->r=new Node(db[depth-1]);
                 next->r=dfs(dfs,mid,r,depth-1,next->r);
             }
             next->val=Info::op(get(next->l,depth-1),get(next->r,depth-1));
@@ -45,8 +49,8 @@ struct DynamicSegtree{
             int mid=(l+r)>>1;
             Node*lc=cur?cur->l:nullptr,*rc=cur?cur->r:nullptr;
             if(!is_persistent&&cur){
-                if(!lc)lc=cur->l=new Node(Info::get2(depth-1));
-                if(!rc)rc=cur->r=new Node(Info::get2(depth-1));
+                if(!lc)lc=cur->l=new Node(db[depth-1]);
+                if(!rc)rc=cur->r=new Node(db[depth-1]);
             }
             return Info::op(dfs(dfs,l,mid,depth-1,lc),dfs(dfs,mid,r,depth-1,rc));
         };
