@@ -33,6 +33,26 @@ struct BinaryTrie{
         };
         return dfs(dfs,root,0,T(1)<<depth,depth-1);
     }
+    T lessthan(T val){
+        if(val<=0)return 0;
+        if(val>=T(1)<<depth)return all_size;
+        auto dfs=[&](auto&dfs,Node*now,T l,T r,int target)->T{
+            if(now==0)return 0;
+            if(r-l==1)return 0;
+            T mid=(l+r)>>1;
+            if(!(val>>target&1)){
+                if(!(offset>>target&1))return dfs(dfs,now->l,l,mid,target-1);
+                else return dfs(dfs,now->r,mid,r,target-1);
+            }else{
+                if(!(offset>>target&1)){
+                    return (now->l?now->l->size:0)+dfs(dfs,now->r,mid,r,target-1);
+                }else{
+                    return (now->r?now->r->size:0)+dfs(dfs,now->l,l,mid,target-1);
+                }
+            }
+        };
+        return dfs(dfs,root,0,T(1)<<depth,depth-1);
+    }
     void insert(T val,int x=1){
         assert(val>=0);
         assert(val<(T(1)<<depth));

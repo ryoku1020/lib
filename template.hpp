@@ -52,6 +52,7 @@ using ld=long double;
 using pii=pair<int,int>;
 using pll=pair<ll,ll>;
 using i128=__int128;
+using u128=unsigned __int128;
 template<class T>using vc=vector<T>;
 template<class T>using vvc=vc<vc<T>>;
 template<class T>using vvvc=vvc<vc<T>>;

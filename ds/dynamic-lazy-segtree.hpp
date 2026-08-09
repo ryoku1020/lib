@@ -3,6 +3,15 @@ template<class Info,class Tag,class sztype=int>
 struct DynamicLazySegtree{
     using value_type=typename Info::value_type;
     using lazy_type=typename Tag::lazy_type;
+    template<class T,class=void>
+    struct has_commute{
+        static constexpr bool value=false;
+    };
+    template<class T>
+    struct has_commute<T,decltype((void)T::commute,void())>{
+        static constexpr bool value=T::commute;
+    };
+    static constexpr bool commute=has_commute<Tag>::value;
     struct Node{
         value_type val;
         lazy_type lazy;
@@ -103,11 +112,11 @@ struct DynamicLazySegtree{
                 return;
             }
             make(root,depth);
-            eval(root);
+            if constexpr(!commute)eval(root);
             sztype mid=(sl+sr)>>1;
             dfs(dfs,sl,mid,pool[root].l,depth-1);
             dfs(dfs,mid,sr,pool[root].r,depth-1);
-            pool[root].val=Info::op(pool[pool[root].l].val,pool[pool[root].r].val);
+            pool[root].val=Tag::Apply(Info::op(pool[pool[root].l].val,pool[pool[root].r].val),pool[root].lazy);
         };
         return dfs(dfs,0,N,root,LOG);
     }

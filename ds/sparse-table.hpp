@@ -33,10 +33,7 @@ struct SparseTable{
         assert(0<=l&&l<=r&&r<=n);
         build();
         if(l==r)return X::e();
-        for(int i=0;;i++){
-            if((r-l)<(1<<(i+1))){
-                return X::op(table[i][l],table[i][r-(1<<i)]);
-            }
-        }
+        int i=31-__builtin_clz(r-l);
+        return X::op(table[i][l],table[i][r-(1<<i)]);
     }
 };

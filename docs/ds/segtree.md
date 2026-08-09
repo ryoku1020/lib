@@ -47,6 +47,13 @@ struct Info{
 - 制約: `0<=p<n`
 - 計算量: `O(log n)`
 
+### `void seg.apply(int p, value_type x)`
+
+`a[p]=op(a[p],x)` とします。
+
+- 制約: `0<=p<n`
+- 計算量: `O(log n)`
+
 ### `value_type seg.prod(int l, int r)`
 
 `op(a[l],...,a[r-1])` を返します。

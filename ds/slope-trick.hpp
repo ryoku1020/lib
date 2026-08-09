@@ -17,7 +17,6 @@ struct SlopeTrick{
     }
     //f(x) <- f(x)+max(x-a,0)
     void add_R(T a){
-        dbg("R",a);
         a-=Loffset;
         L.push(a);
         R.push(L.top()+Loffset-Roffset);
@@ -25,7 +24,6 @@ struct SlopeTrick{
     }
     //f(x) <- f(x)+max(a-x,0)
     void add_L(T a){
-        dbg("L",a);
         a-=Roffset;
         R.push(a);
         L.push(R.top()+Roffset-Loffset);

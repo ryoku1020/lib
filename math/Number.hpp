@@ -49,4 +49,14 @@ struct Ninfo{
         buildp();
         return n>=2&&mf_[n]==n;
     }
+    int phi(int n){
+        ll res=n;
+        while(n>1){
+            res*=mf_[n]-1;
+            res/=mf_[n];
+            int M=mf_[n];
+            while(n%M==0)n/=M;
+        }
+        return res;
+    }
 };

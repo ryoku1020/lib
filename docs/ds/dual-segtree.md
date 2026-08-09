@@ -14,10 +14,12 @@ struct X{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
+    static constexpr bool commute=false; // optional
 };
 ```
 
 ここで `op` は作用の合成として使われます。
+`commute=true` を指定すると `op` が可換であることを表し、区間更新と一点取得で不要な遅延伝播を省略します。
 
 ## コンストラクタ
 
@@ -73,4 +75,3 @@ DualSegtree<X> seg(n);
 seg.apply(l,r,x);
 auto v=seg.get(p);
 ```
-

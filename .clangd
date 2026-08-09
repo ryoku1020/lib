@@ -1,6 +1,7 @@
 CompileFlags:
   Add:
     - "-std=c++20"
+    - "-Werror=shadow"
     - "-I/Users/ryoku_/Desktop/cp/lib"
     - "-include"
     - "/Users/ryoku_/Desktop/cp/lib/template.hpp"

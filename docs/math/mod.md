@@ -39,7 +39,7 @@ documentation_of: ../../math/mod.hpp
 ## `pair<T,T> inv(T x, T m)`
 
 `x` の `mod m` 逆元情報を拡張 Euclid で返します。
-返り値 `{a, m'}` は `a * x ≡ 1 (mod m')` に対応します。
+返り値 `{a, m'}` は `a * x ≡ 1 (mod m')` に対応します。`a` は `0 <= a < m'` に正規化されます。
 
 ---
 

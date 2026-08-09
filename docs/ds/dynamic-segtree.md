@@ -55,6 +55,20 @@ struct Info{
 
 `root` のバージョンで `op(a[l],...,a[r-1])` を返します。
 
+### `sztype seg.max_right(Node* root, sztype l, F f)`
+
+`f(prod(l,r))` が真となる最大の `r` を返します。
+`f(Info::e())` は真である必要があります。
+
+- 計算量: `O(log n)`
+
+### `sztype seg.min_left(Node* root, sztype r, F f)`
+
+`f(prod(l,r))` が真となる最小の `l` を返します。
+`f(Info::e())` は真である必要があります。
+
+- 計算量: `O(log n)`
+
 ## 境界・注意
 
 - 区間は 0-indexed の半開区間 `[l,r)` です。

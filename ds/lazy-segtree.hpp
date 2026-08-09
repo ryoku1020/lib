@@ -1,8 +1,17 @@
 #pragma once
-template<class Info,class Tag,bool beats>
+template<class Info,class Tag,bool beats=false>
 struct LazySegtree{
     using value_type=typename Info::value_type;
     using lazy_type=typename Tag::lazy_type;
+    template<class T,class=void>
+    struct has_commute{
+        static constexpr bool value=false;
+    };
+    template<class T>
+    struct has_commute<T,decltype((void)T::commute,void())>{
+        static constexpr bool value=T::commute;
+    };
+    static constexpr bool commute=has_commute<Tag>::value;
     int N;
     int n;
     int lg;
@@ -14,7 +23,6 @@ struct LazySegtree{
         lg=0;
         while((1<<lg)<N)lg++;
         n=1<<lg;
-        N=n;
         node=vc<value_type>(n*2,Info::e());
         lazy=vc<lazy_type>(n,Tag::id());
     }
@@ -39,7 +47,7 @@ struct LazySegtree{
         DREP(i,n-1,1)update(i);
     }
     void all_apply(int k,lazy_type x){
-        assert(0<=k&&k<N*2);
+        assert(0<=k&&k<n*2);
         node[k]=Tag::Apply(node[k],x);
         if(k<n){
             lazy[k]=Tag::Merge(lazy[k],x);
@@ -49,14 +57,14 @@ struct LazySegtree{
         }
     }
     void push(int k){
-        assert(0<=k&&k<N*2);
+        assert(0<=k&&k<n*2);
         all_apply(k*2,lazy[k]);
         all_apply(k*2+1,lazy[k]);
         lazy[k]=Tag::id();
     }
     void update(int i){
-        assert(0<=i&&i<N*2);
-        node[i]=Info::op(node[i*2],node[i*2+1]);
+        assert(0<=i&&i<n*2);
+        node[i]=Tag::Apply(Info::op(node[i*2],node[i*2+1]),lazy[i]);
     }
     void set(int i,value_type x){
         assert(0<=i&&i<N);
@@ -67,6 +75,16 @@ struct LazySegtree{
     }
     value_type prod(int l,int r){
         assert(0<=l&&l<=r&&r<=N);
+        if constexpr(commute){
+            auto dfs=[&](auto&dfs,int k,int sl,int sr,lazy_type x)->value_type{
+                if(sr<=l||r<=sl)return Info::e();
+                if(l<=sl&&sr<=r)return Tag::Apply(node[k],x);
+                x=Tag::Merge(lazy[k],x);
+                int mid=(sl+sr)>>1;
+                return Info::op(dfs(dfs,k*2,sl,mid,x),dfs(dfs,k*2+1,mid,sr,x));
+            };
+            return dfs(dfs,1,0,n,Tag::id());
+        }
         l+=n,r+=n;
         for(int i=lg;i;i--){
             if(((l>>i)<<i)!=l)push(l>>i);
@@ -83,9 +101,11 @@ struct LazySegtree{
     void apply(int l,int r,lazy_type x){
         assert(0<=l&&l<=r&&r<=N);
         l+=n,r+=n;
-        for(int i=lg;i;i--){
-            if(((l>>i)<<i)!=l)push(l>>i);
-            if(((r>>i)<<i)!=r)push((r-1)>>i);
+        if constexpr(!commute){
+            for(int i=lg;i;i--){
+                if(((l>>i)<<i)!=l)push(l>>i);
+                if(((r>>i)<<i)!=r)push((r-1)>>i);
+            }
         }
         int l2=l,r2=r;
         while(l2<r2){
@@ -97,6 +117,13 @@ struct LazySegtree{
             if(((l>>i)<<i)!=l)update(l>>i);
             if(((r>>i)<<i)!=r)update((r-1)>>i);
         }
+    }
+    void apply(int i,lazy_type x){
+        assert(0<=i&&i<N);
+        i+=n;
+        if constexpr(!commute)for(int j=lg;j;j--)push(i>>j);
+        all_apply(i,x);
+        for(int j=1;j<=lg;j++)update(i>>j);
     }
     value_type all_prod(){
         return node[1];

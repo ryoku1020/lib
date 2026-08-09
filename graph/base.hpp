@@ -35,6 +35,12 @@ private:
 public:
     StaticGraph(int n):n(n),m(-1){assert(n>=0);csr_start.resize(n+1);}
     StaticGraph(int n,int m):n(n),m(m){assert(n>=0&&m>=0);csr_start.resize(n+1);_all_edges.reserve(m);}
+    void resize(int size){
+        assert(n<=size);
+        assert(!csr_built);
+        n=size;
+        csr_start.resize(n+1);
+    }
     void add_edge(const Edge&e){
         assert(0<=e.from&&e.from<n&&0<=e.to&&e.to<n);
         assert(m==-1||added<m);
@@ -120,6 +126,7 @@ public:
         E*begin()const{return l;}
         E*end()const{return r;}
         int size()const{return r-l;}
+        E&back()const{return r[-1];}
         E&operator[](int i){return l[i];}
         const E&operator[](int i)const{return l[i];}
     };

@@ -6,7 +6,7 @@ struct Tree{
     using Edge=typename Graph::Edge;
     using cost_t=typename Graph::cost_t;
     mutable Graph g;
-    mutable bool built_hld=false;
+    mutable int built_hld=-1;
     int n;
     mutable vc<int>in,out,head,size_,par,depth,ord;
     Tree(int n):n(n),g(n,n-1){}
@@ -39,18 +39,20 @@ struct Tree{
             g.add_edge(a,b);
         }
     }
+    template<int disjoint=0>
     void build(int root=0)const{
         assert(0<=root&&root<n);
-        if(built_hld)return;
-        built_hld=1;
+        if(built_hld!=-1){
+            return;
+        }
+        built_hld=disjoint;
         in.resize(n);
         out.resize(n);
         head.resize(n);
         size_.assign(n,1);
         par.resize(n);
         depth.resize(n);
-        ord.clear();
-        ord.reserve(n);
+        ord.assign(n*(disjoint+1),-1);
         par[root]=-1;
         depth[root]=0;
         head[root]=root;
@@ -80,17 +82,25 @@ struct Tree{
             }
         };dfs(dfs,root,-1,0);
         {auto dfs=[&](auto&dfs,int u)->void{
-            in[u]=timer++;
-            ord.push_back(u);
+            in[u]=timer;
+            ord[timer++]=u;
             auto s=g[u];
             bool first=true;
-            for(auto&e:s)if(e.to!=par[u]){
+            rep(i,s.size()){
+                auto&e=s[i];
+                if(e.to==par[u])continue;
                 head[e.to]=first?head[u]:e.to;
                 first=false;
                 dfs(dfs,e.to);
             }
-            out[u]=timer;
+            if constexpr(disjoint)out[u]=timer++;
+            else out[u]=timer;
         };dfs(dfs,root);}
+        rep(u,n){
+            auto s=g[u];
+            int ce=s.size()-(par[u]!=-1);
+            if(ce>1)sort(s.begin()+1,s.begin()+ce,[&](const Edge&a,const Edge&b){return in[a.to]<in[b.to];});
+        }
     }
     auto heavy_edge(int u)const{
         assert(0<=u&&u<n);
@@ -157,6 +167,21 @@ struct Tree{
             return jumpup(t,D-k);
         }
     }   
+    int to(int x,int y)const{
+        assert(0<=x&&x<n&&0<=y&&y<n&&x!=y);
+        build();
+        if(in[y]<in[x]||out[x]<=in[y])return g[x].size()-1;
+        auto s=g[x];
+        int ce=s.size()-(par[x]!=-1);
+        if(in[s[0].to]<=in[y]&&in[y]<out[s[0].to])return 0;
+        int l=1,r=ce;
+        while(l<r){
+            int m=(l+r)/2;
+            if(in[s[m].to]<=in[y])l=m+1;
+            else r=m;
+        }
+        return l-1;
+    }
     vc<pair<int,int>>Query(int s,int t,bool edge=false)const{
         assert(0<=s&&s<n&&0<=t&&t<n);
         build();

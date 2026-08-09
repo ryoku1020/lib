@@ -10,7 +10,9 @@ ld ArcTan(T x,T y){
     if(x==0&&y==0)return 0;
     return atan2l((ld)y,(ld)x);
 }
-
+i128 abs(i128 x){
+    return x<0?-x:x;
+}
 template<class Point_type,Point_type eps=EPS>
 struct Point{
     using Ptype=Point_type;

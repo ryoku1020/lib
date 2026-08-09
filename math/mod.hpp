@@ -104,8 +104,7 @@ pair<T,T> inv(T x,T m){
     T a1,a2;
     T res=extgcd<ll>(x,m,a1,a2);
     T md=m/res;
-    a1%=md;
-    if(a1<0)a1+=md;
+    a1=(a1%md+md)%md;
     return {a1,md};
 }
 template<class T>

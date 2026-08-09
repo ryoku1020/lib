@@ -1,13 +1,13 @@
 #pragma once
 #include"noninfo.hpp"
+#include <random>
 template<class Info=Noninfo,class Tag=Nontag<Info>>
 struct Treap{
     using value_type=Info::value_type;
     using lazy_type=Tag::lazy_type;
-    static uint32_t get_rand(){
-        static uint32_t x=123456789,y=362436069,z=521288629,w=88675123;
-        uint32_t t=x^(x<<11);x=y;y=z;z=w;
-        return w=(w^(w>>19))^(t^(t>>8));
+    mt19937 mt;
+    uint32_t get_rand(){
+        return mt();
     }
     struct Node{
         Node*lc,*rc;
@@ -72,6 +72,7 @@ struct Treap{
     int max_nodes;
     Node*root;
     Treap(int max_nodes):max_nodes(max_nodes){
+        mt.seed(random_device{}());
         assert(max_nodes>0);
         pool=(Node*)malloc(sizeof(Node)*max_nodes);
         pool_ptr=0;

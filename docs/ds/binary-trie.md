@@ -39,6 +39,13 @@ BinaryTrie<T, depth>
 - 制約: `val >= 0`, `0 <= val < 2^depth`
 - 計算量: `O(depth)`
 
+### `T tr.lessthan(T val)`
+
+`val` 未満の要素数（多重度込み）を返します。`all_xor` による offset も考慮されます。
+
+- `val <= 0` のときは `0`、`val >= 2^depth` のときは全要素数を返します。
+- 計算量: `O(depth)`
+
 ### `void tr.all_xor(T x)`
 
 木の全要素に `x` を XOR します。遅延的に offset に反映されるため `O(1)` です。
@@ -69,6 +76,7 @@ tr.insert(3);
 tr.insert(5);      // 5 は 2 個に
 
 auto cnt = tr.count(5); // 2
+auto less = tr.lessthan(5); // 3 は 1 個なので 1
 auto mn  = tr.find_min(); // 3
 
 tr.all_xor(7);     // 全要素に XOR 7
@@ -77,4 +85,3 @@ auto mn2 = tr.find_min(); // 2
 
 tr.insert(5, -1);  // 5 を 1 個削除
 ```
-

@@ -36,6 +36,7 @@ struct Tag{
     static Info::value_type Apply(Info::value_type x,lazy_type f);
     static lazy_type Merge(lazy_type old_tag,lazy_type new_tag);
     static lazy_type id();
+    static constexpr bool commute=false; // optional
 };
 ```
 
@@ -47,6 +48,8 @@ struct Tag{
   すでに積まれている遅延 `old_tag` に、新しい遅延 `new_tag` を後から積んだ結果を返します。
 - `id`
   恒等作用です。
+- `commute`
+  省略可能です。`true` のとき、任意の 2 つのタグが可換であることを表します。この場合、区間更新・`prod`・1 点 `apply` で不要な遅延伝播を省略します。
 
 ### 作用の考え方
 
@@ -101,6 +104,13 @@ ACL と同様に、`Tag::Apply` は「1 要素」ではなく「そのノード�
 - 制約: `0<=l<=r<=N`
 - 計算量: `O(log N)`
 
+### `void seg.apply(int p, lazy_type f)`
+
+`a[p]` に作用素 `f` を適用します。
+
+- 制約: `0<=p<N`
+- 計算量: `O(log N)`
+
 ### `value_type seg.all_prod()`
 
 `op(a[0],a[1],...,a[N-1])` を返します。
@@ -125,12 +135,8 @@ ACL と同様に、`Tag::Apply` は「1 要素」ではなく「そのノード�
 
 ## この実装にない ACL API
 
-ACL の `lazy_segtree` にある次の API は、この実装にはありません。
-
-- `get`
-- 1 点 `apply`
-
-必要なら `prod(p,p+1)` で 1 点取得はできますが、計算量は `O(log N)` です。
+ACL の `lazy_segtree` にある `get` はこの実装にはありません。
+必要なら `prod(p,p+1)` で 1 点取得できます（計算量は `O(log N)`）。
 
 ## 境界・注意
 

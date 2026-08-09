@@ -56,4 +56,42 @@ struct DynamicSegtree{
         };
         return dfs(dfs,0,N,LOG,now);
     }
+    template<class F>
+    sztype max_right(Node*now,sztype L,F f){
+        assert(0<=L&&L<=N);
+        value_type ans=Info::e();
+        auto dfs=[&](auto&dfs,sztype l,sztype r,int depth,Node*cur)->bool{
+            if(r<=L)return true;
+            if(L<=l&&f(Info::op(ans,get(cur,depth)))){
+                ans=Info::op(ans,get(cur,depth));
+                L=r;
+                return true;
+            }
+            if(r-l==1){L=l;return false;}
+            sztype mid=(l+r)>>1;
+            Node*lc=cur?cur->l:nullptr,*rc=cur?cur->r:nullptr;
+            return dfs(dfs,l,mid,depth-1,lc)&&dfs(dfs,mid,r,depth-1,rc);
+        };
+        dfs(dfs,0,N,LOG,now);
+        return L;
+    }
+    template<class F>
+    sztype min_left(Node*now,sztype R,F f){
+        assert(0<=R&&R<=N);
+        value_type ans=Info::e();
+        auto dfs=[&](auto&dfs,sztype l,sztype r,int depth,Node*cur)->bool{
+            if(R<=l)return true;
+            if(r<=R&&f(Info::op(get(cur,depth),ans))){
+                ans=Info::op(get(cur,depth),ans);
+                R=l;
+                return true;
+            }
+            if(r-l==1){R=r;return false;}
+            sztype mid=(l+r)>>1;
+            Node*lc=cur?cur->l:nullptr,*rc=cur?cur->r:nullptr;
+            return dfs(dfs,mid,r,depth-1,rc)&&dfs(dfs,l,mid,depth-1,lc);
+        };
+        dfs(dfs,0,N,LOG,now);
+        return R;
+    }
 };

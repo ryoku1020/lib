@@ -35,8 +35,12 @@ struct Tag{
     static value_type Apply(value_type x, lazy_type f);
     static lazy_type Merge(lazy_type old_tag, lazy_type new_tag);
     static lazy_type id();
+    static constexpr bool commute=false; // optional
 };
 ```
+
+`Tag::commute` を `true` にすると、任意の 2 つのタグが可換であることを表します。
+この場合、部分区間更新で親の遅延を子へ伝播せずに処理します。省略時は従来どおり伝播します。
 
 ## コンストラクタ
 

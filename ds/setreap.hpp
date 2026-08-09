@@ -59,6 +59,7 @@ struct SetTreap{
     static mt19937 mt;
     Node*root;
     SetTreap(){
+        mt.seed(random_device{}());
         root=NULL;
     }
     Node*merge(Node*l,Node*r){

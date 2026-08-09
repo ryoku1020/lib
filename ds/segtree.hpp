@@ -14,39 +14,63 @@ struct Segtree{
     using value_type=typename Info::value_type;
     vc<value_type>node;
     int N;
+    int n;
     int lg;
     void update(int i){
-        assert(0<=i&&i<N);
+        assert(0<=i&&i<n);
         node[i]=Info::op(node[i*2],node[i*2+1]);
     }
-    Segtree(int n=0,value_type leaf=Info::e()){
-        assert(n>=0);
-        N=1;
+    Segtree(int N_=0,value_type leaf=Info::e()){
+        assert(N_>=0);
+        N=N_;
+        n=1;
         lg=0;
-        while(N<n)N*=2,++lg;
-        node.resize(N*2,leaf);
-        DREP(i,N-1,1)update(i);
+        while(n<N)n*=2,++lg;
+        node.resize(n*2,Info::e());
+        REP(i,n,n+N)node[i]=leaf;
+        DREP(i,n-1,1)update(i);
     }
     template<class F>
-    Segtree(int n,F f){
-        assert(n>=0);
-        N=1;
+    Segtree(int N_,F f){
+        assert(N_>=0);
+        N=N_;
+        n=1;
         lg=0;
-        while(N<n)N*=2,++lg;
-        node.resize(N*2,Info::e());
-        for(int i=N;i<N+n;i++){
-            node[i]=f(i-N);
+        while(n<N)n*=2,++lg;
+        node.resize(n*2,Info::e());
+        for(int i=n;i<n+N;i++){
+            node[i]=f(i-n);
         }
-        DREP(i,N-1,1)update(i);
+        DREP(i,n-1,1)update(i);
+    }
+    void push_back(value_type val){
+        if(n==N){
+            vc<value_type>vs(n+1);rep(i,n)vs[i]=node[i+n];
+            vs[n]=val;
+            (*this)=Segtree(N+1,[&](auto i){
+                if(i<n+1)return vs[i];
+                return Info::e();
+            });
+        }else{
+            node[N+n]=val;
+            int i=N+n;
+            while(i>>=1)update(i);N++;
+        }
     }
     void set(int i,value_type val){
         assert(0<=i&&i<N);
-        node[i+=N]=val;
+        node[i+=n]=val;
+        while(i>>=1)update(i);
+    }
+    void apply(int i,value_type val){
+        assert(0<=i&&i<N);
+        i+=n;
+        node[i]=Info::op(node[i],val);
         while(i>>=1)update(i);
     }
     value_type prod(int l,int r){
         assert(0<=l&&l<=r&&r<=N);
-        l+=N,r+=N;
+        l+=n,r+=n;
         value_type sml=Info::e(),smr=Info::e();
         while(l<r){
             if(l&1)sml=Info::op(sml,node[l++]);
@@ -61,7 +85,7 @@ struct Segtree{
     template<class F>
     int max_right(int L,F f){
         assert(0<=L&&L<=N);
-        int l=N+L,w=1;
+        int l=n+L,w=1;
         value_type ansL=Info::e();
         for(;L+w<=N;l>>=1,w<<=1)if(l&1){
             if(!f(Info::op(ansL,node[l])))break;
@@ -79,7 +103,7 @@ struct Segtree{
     template<class F>
     int min_left(int R,F f){
         assert(0<=R&&R<=N);
-        int r=N+R,w=1;
+        int r=n+R,w=1;
         value_type ansR=Info::e();
         for(;R-w>=0;r>>=1,w<<=1)if(r&1){
             if(!f(Info::op(node[r-1],ansR)))break;

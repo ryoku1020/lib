@@ -80,6 +80,8 @@ auto ans = seg.prod(l, r).first;
 ```
 
 `AddSum<V>::Info::value_type` は `{sum,len}` です。
+`AddMin` / `AddMax` / `AddSum` のタグは可換なので、`Tag::commute=true` が設定されています。
+`Min` / `Max` / `Sum` / `Prod` と、これらを組み合わせた可換な `Merger` には `Info::commute=true` が設定されています。
 
 ### `AssignMin<Value_type>` / `AssignMax<Value_type>` / `AssignSum<Value_type>`
 

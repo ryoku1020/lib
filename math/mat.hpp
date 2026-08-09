@@ -6,6 +6,8 @@ struct IsMint : std::false_type {};
 template <typename T>
 struct IsMint<T, std::void_t<decltype(T::get_mod())>> : std::true_type {};
 };
+template<class T,int N,int M>
+struct FixedMatrix;
 template<class T>
 struct Matrix{
     int n,m;
@@ -87,6 +89,8 @@ struct Matrix{
     friend Matrix operator*(Matrix lhs, const Matrix& rhs){
         return lhs*=rhs;
     }
+    template<int N,int M>
+    Matrix&operator*=(const FixedMatrix<T,N,M>&mt2);
     static Matrix unit(int n){
         assert(n>=0);
         Matrix mt(n,n);
@@ -244,8 +248,7 @@ struct FixedMatrix{
         }
         return res;
     }
-    FixedMatrix&operator*=(const FixedMatrix&mt2){
-        static_assert(N==M,"operator*= requires square");
+    FixedMatrix&operator*=(const FixedMatrix<T,M,M>&mt2){
         return *this=*this*mt2;
     }
     FixedMatrix<T,M,N>trans()const{
@@ -373,3 +376,43 @@ struct FixedMatrix{
         return res;
     }
 };
+
+template<class T,int N,int M>
+Matrix<T>operator*(const FixedMatrix<T,N,M>&mt1,const Matrix<T>&mt2){
+    assert(M==mt2.n);
+    Matrix<T>res(N,mt2.m);
+    auto Mt2=mt2.trans();
+    if constexpr(MATMAT::IsMint<T>::value){
+        rep(i,N)rep(j,mt2.m){
+            __int128 tmp{};
+            rep(k,M)tmp+=(ll)mt1[i][k].val*Mt2[j][k].val;
+            res[i][j]=tmp%T::get_mod();
+        }
+    }else{
+        rep(i,N)rep(j,mt2.m)rep(k,M)res[i][j]+=mt1[i][k]*Mt2[j][k];
+    }
+    return res;
+}
+
+template<class T,int N,int M>
+Matrix<T>operator*(const Matrix<T>&mt1,const FixedMatrix<T,N,M>&mt2){
+    assert(mt1.m==N);
+    Matrix<T>res(mt1.n,M);
+    auto Mt2=mt2.trans();
+    if constexpr(MATMAT::IsMint<T>::value){
+        rep(i,mt1.n)rep(j,M){
+            __int128 tmp{};
+            rep(k,N)tmp+=(ll)mt1[i][k].val*Mt2[j][k].val;
+            res[i][j]=tmp%T::get_mod();
+        }
+    }else{
+        rep(i,mt1.n)rep(j,M)rep(k,N)res[i][j]+=mt1[i][k]*Mt2[j][k];
+    }
+    return res;
+}
+
+template<class T>
+template<int N,int M>
+Matrix<T>&Matrix<T>::operator*=(const FixedMatrix<T,N,M>&mt2){
+    return *this=*this*mt2;
+}

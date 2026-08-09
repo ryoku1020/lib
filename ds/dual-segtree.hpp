@@ -2,6 +2,15 @@
 template<class X>
 struct DualSegtree{
     using value_type=X::value_type;
+    template<class T,class=void>
+    struct has_commute{
+        static constexpr bool value=false;
+    };
+    template<class T>
+    struct has_commute<T,decltype((void)T::commute,void())>{
+        static constexpr bool value=T::commute;
+    };
+    static constexpr bool commute=has_commute<X>::value;
     vc<value_type>lazy;
     vc<value_type>node;
     int n;
@@ -47,9 +56,11 @@ struct DualSegtree{
     void apply(int l,int r,value_type x){
         assert(0<=l&&l<=r&&r<=n);
         l+=n,r+=n;
-        for(int i=lg;i;i--){
-            if(((l>>i)<<i)!=l)push(l>>i);
-            if(((r>>i)<<i)!=r)push((r-1)>>i);
+        if constexpr(!commute){
+            for(int i=lg;i;i--){
+                if(((l>>i)<<i)!=l)push(l>>i);
+                if(((r>>i)<<i)!=r)push((r-1)>>i);
+            }
         }
         while(l<r){
             if(l&1)all_apply(l++,x);
@@ -60,6 +71,11 @@ struct DualSegtree{
     value_type get(int p){
         assert(0<=p&&p<n);
         p+=n;
+        if constexpr(commute){
+            value_type res=node[p];
+            for(int i=lg;i;i--)res=X::op(res,lazy[p>>i]);
+            return res;
+        }
         for(int i=lg;i;i--)push(p>>i);
         return node[p];
     }

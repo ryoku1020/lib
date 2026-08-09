@@ -1,7 +1,16 @@
 #pragma once
+template<class T,class=void>
+struct FamousHasCommute{
+    static constexpr bool value=false;
+};
+template<class T>
+struct FamousHasCommute<T,decltype((void)T::commute,void())>{
+    static constexpr bool value=T::commute;
+};
 template<class Value_type,Value_type inf>
 struct Min{
     using value_type=Value_type;
+    static constexpr bool commute=true;
     static value_type op(value_type a,value_type b){
         return min(a,b);
     }
@@ -15,6 +24,7 @@ struct Min{
 template<class Value_type,Value_type neg_inf>
 struct Max{
     using value_type=Value_type;
+    static constexpr bool commute=true;
     static value_type op(value_type a,value_type b){
         return max(a,b);
     }
@@ -25,6 +35,7 @@ struct Max{
 template<class Value_type>
 struct Sum{
     using value_type=Value_type;
+    static constexpr bool commute=true;
     static value_type op(value_type a,value_type b){
         return a+b;
     }
@@ -35,6 +46,7 @@ struct Sum{
 template<class Value_type>
 struct Prod{
     using value_type=Value_type;
+    static constexpr bool commute=true;
     static value_type op(value_type a,value_type b){
         return a*b;
     }
@@ -45,6 +57,7 @@ struct Prod{
 template<class... Infos>
 struct Merger{
     using value_type=tuple<typename Infos::value_type...>;
+    static constexpr bool commute=(FamousHasCommute<Infos>::value&&...);
     template<size_t... I>
     static value_type op_impl(value_type a,value_type b,index_sequence<I...>){
         return value_type{Infos::op(get<I>(a),get<I>(b))...};
@@ -70,6 +83,7 @@ template<class Value_type>
 struct AddMin{
     struct Info{
         using value_type=Value_type;
+        static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
             return min(a,b);
         }
@@ -79,6 +93,7 @@ struct AddMin{
     };
     struct Tag{
         using lazy_type=Value_type;
+        static constexpr bool commute=true;
         static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
             return old_tag+new_tag;
         }
@@ -94,6 +109,7 @@ template<class Value_type>
 struct AddMax{
     struct Info{
         using value_type=Value_type;
+        static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
             return max(a,b);
         }
@@ -103,6 +119,7 @@ struct AddMax{
     };
     struct Tag{
         using lazy_type=Value_type;
+        static constexpr bool commute=true;
         static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
             return old_tag+new_tag;
         }
@@ -118,6 +135,7 @@ template<class Value_type>
 struct AddSum{
     struct Info{
         using value_type=pair<Value_type,Value_type>;
+        static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
             return {a.first+b.first,a.second+b.second};
         }
@@ -127,6 +145,7 @@ struct AddSum{
     };
     struct Tag{
         using lazy_type=Value_type;
+        static constexpr bool commute=true;
         static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
             return old_tag+new_tag;
         }
@@ -142,6 +161,7 @@ template<class Value_type>
 struct AssignMin{
     struct Info{
         using value_type=Value_type;
+        static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
             return min(a,b);
         }
@@ -168,6 +188,7 @@ template<class Value_type>
 struct AssignMax{
     struct Info{
         using value_type=Value_type;
+        static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
             return max(a,b);
         }
@@ -194,6 +215,7 @@ template<class Value_type>
 struct AssignSum{
     struct Info{
         using value_type=pair<Value_type,Value_type>;
+        static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
             return {a.first+b.first,a.second+b.second};
         }
@@ -220,6 +242,7 @@ template<class Value_type>
 struct AffineSum{
     struct Info{
         using value_type=pair<Value_type,Value_type>;
+        static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
             return {a.first+b.first,a.second+b.second};
         }
@@ -243,6 +266,7 @@ struct AffineSum{
 template<class Info>
 struct Reversed{
     using value_type=typename Info::value_type;
+    static constexpr bool commute=FamousHasCommute<Info>::value;
     static value_type op(value_type a,value_type b){
         return Info::op(b,a);
     }

@@ -1,6 +1,16 @@
 #pragma once
 template<class T=ll,bool reduce_always=true>
 struct Frac{
+    T gcd(T a,T b){
+        if(a<0)a=-a;
+        if(b<0)b=-b;
+        while(b){
+            T r=a%b;
+            a=b;
+            b=r;
+        }
+        return a;
+    }
     using compare_type=conditional_t<(sizeof(T)<=8),i128,T>;
     T a,b;
     void fix_sign(){
