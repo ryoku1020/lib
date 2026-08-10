@@ -62,6 +62,7 @@ public:
         return invs_table()[i];
     }
     static mint C(int a,int b){//aCb
+        if(b==0)return 1;
         if(a<0||b<0||a-b<0)return mint(0);
         build(a);
         auto&_fact=fact_table();
@@ -115,33 +116,46 @@ pair<T,T> mod_solve(T a,T b,T m){//return x s.t. ax=b mod m
     if(gcd(a,m)>1)return {-1,-1};
     return {(inv<ll>(a,m).first*b)%m,inv<ll>(a,m).second};
 }
-//https://nyaannyaan.github.io/library/modulo/mod-sqrt.hpp.html
-int64_t mod_sqrt(const int64_t &a, const int64_t &p) {
-  assert(0 <= a && a < p);
-  if (a < 2) return a;
-  using Mint = DynamicModInt<409075245>;
-  Mint::set_mod(p);
-  if (Mint(a).pow((p - 1) >> 1) != 1) return -1;
-  Mint b = 1, one = 1;
-  while (b.pow((p - 1) >> 1) == 1) b += one;
-  int64_t m = p - 1, e = 0;
-  while (m % 2 == 0) m >>= 1, e += 1;
-  Mint x = Mint(a).pow((m - 1) >> 1);
-  Mint y = Mint(a) * x * x;
-  x *= a;
-  Mint z = Mint(b).pow(m);
-  while (y != 1) {
-    int64_t j = 0;
-    Mint t = y;
-    while (t != one) {
-      j += 1;
-      t *= t;
+
+//x^2 ≡ b (mod p)
+ll ModSqrt(ll b,ll p){
+    static mt19937 mt(random_device{}());
+    b%=p;if(b<0)b+=p;
+    if(b==0)return 0;
+    if(p==2){
+        return b;
     }
-    z = z.pow(int64_t(1) << (e - j - 1));
-    x *= z;
-    z *= z;
-    y *= z;
-    e = j;
-  }
-  return x.val;
+    assert(p>=3);
+    using mint=DynamicModInt<20260801>;mint::set_mod(p);
+    if(mint(b).pow((p-1)/2)==-1){
+        return -1;
+    }
+    if(p%4==3){
+        return mint(b).pow((p+1)/4).val;
+    }
+    ll t=[&](){
+        ll w;
+        while(1){
+            ll t=mt()%p;
+            w=t*t-b;
+            if(mint(w).pow((p-1)/2)==mint(-1)){
+                return t;
+            }
+        }
+        assert(0);
+    }();
+    mint w=mint(t*t-b);
+    using T=pair<mint,mint>;
+    auto ml=[&](T a,T b)->T{
+        return T{a.first.val*b.first.val+a.second*b.second*w,a.second*b.first+a.first*b.second};
+    };
+    ll e=(p+1)/2;
+    T ans={1,0};
+    T gy={t,1};
+    while(e){
+        if(e%2)ans=ml(ans,gy);
+        gy=ml(gy,gy);
+        e/=2;
+    }
+    return ans.first.val;
 }
