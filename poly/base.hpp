@@ -1,5 +1,5 @@
 #pragma once
-#include "conv.hpp"
+#include"../lib/math/conv.hpp"
 template<class mint>
 struct fps:vc<mint>{
     #define BF atcoder::internal::butterfly
