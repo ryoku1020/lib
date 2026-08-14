@@ -1,5 +1,5 @@
 #pragma once
-#include"fps.hpp"
+#include"../poly/taylor-shift.hpp"
 //[x^{0,1,..,size}] (1+x^s[0])(1+x^s[1])... 
 template<class mint>
 vc<mint>EnumarateProd(vc<int>s,int size){
@@ -50,7 +50,7 @@ vc<mint>Stirling1(int n){
         if(n<=0)return {1};
         if(n%2==0){
             auto poly1=dfs(dfs,n/2);
-            auto poly2=taylor_shift(poly1,-n/2);
+            auto poly2=TaylorShift(poly1,-n/2);
             return poly1*poly2;
         }
         return dfs(dfs,n-1)*poly{-n+1,1};

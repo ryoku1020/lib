@@ -1,7 +1,7 @@
 #pragma once
-#include "fps.hpp"
+#include"base.hpp"
 template<class mint>
-mint BostanMori(FormalPowerSeries<mint>p,FormalPowerSeries<mint>q,long long n){
+mint BostanMori(fps<mint>p,fps<mint>q,long long n){
     assert(n>=0);
     if(p.empty()||q.empty())return 0;
     assert(q[0]!=0);

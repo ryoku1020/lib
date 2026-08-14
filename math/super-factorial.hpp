@@ -1,5 +1,5 @@
 #pragma once
-#include"shiftof-sampling-points.hpp"
+#include"../poly/shift-of-sampling-points.hpp"
 template<class mint>
 struct SuperFactorial{
     static const int mod=mint::get_mod();

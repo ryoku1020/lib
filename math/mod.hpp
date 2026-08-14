@@ -147,7 +147,7 @@ ll ModSqrt(ll b,ll p){
     mint w=mint(t*t-b);
     using T=pair<mint,mint>;
     auto ml=[&](T a,T b)->T{
-        return T{a.first.val*b.first.val+a.second*b.second*w,a.second*b.first+a.first*b.second};
+        return T{a.first*b.first+a.second*b.second*w,a.second*b.first+a.first*b.second};
     };
     ll e=(p+1)/2;
     T ans={1,0};

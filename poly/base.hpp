@@ -1,5 +1,7 @@
 #pragma once
-#include"../lib/math/conv.hpp"
+#include"../math/conv.hpp"
+#ifndef FPS_STRUCT
+#define FPS_STRUCT
 template<class mint>
 struct fps:vc<mint>{
     #define BF atcoder::internal::butterfly
@@ -222,3 +224,4 @@ struct fps:vc<mint>{
         return nxt;
     }
 };
+#endif

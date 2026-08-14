@@ -5,6 +5,7 @@ template<class mint>
 vc<mint>PowerSum(vc<mint>a,vc<mint>c,int K){
     using f=fps<mint>;
     int n=a.size();
+    if(n==0)return vc<mint>(K+1);
     vc<f>fs(n);rep(i,n)fs[i]={1,-a[i]};
     auto dfs=[&](auto&dfs,int l,int r)->pair<f,f>{
         if(r-l==1){

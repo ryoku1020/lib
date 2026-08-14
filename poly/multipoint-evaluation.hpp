@@ -15,7 +15,7 @@ struct SubproductTree{
     }
     void dfs(int node,int l,int r){
         if(r-l==1){
-            T[node]=fps{mint(1),-queries[l]};
+            T[node]=fps<mint>{mint(1),-queries[l]};
             return;
         }
         int m=(l+r)/2;

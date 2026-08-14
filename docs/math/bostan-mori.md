@@ -1,6 +1,6 @@
 ---
 title: BostanMori
-documentation_of: ../../math/bostan-mori.hpp
+documentation_of: ../../poly/bostan-mori.hpp
 ---
 
 # BostanMori
@@ -9,7 +9,7 @@ documentation_of: ../../math/bostan-mori.hpp
 
 ## 関数
 
-### `mint BostanMori(FormalPowerSeries<mint> p, FormalPowerSeries<mint> q, long long n)`
+### `mint BostanMori(fps<mint> p, fps<mint> q, long long n)`
 
 `P(x)/Q(x)` の `x^n` 係数を返します。
 
@@ -28,14 +28,13 @@ documentation_of: ../../math/bostan-mori.hpp
 ## 使用例
 
 ```cpp
-#include "math/bostan-mori.hpp"
+#include "poly/bostan-mori.hpp"
 
 using mint=StaticModInt<998244353>;
-using FPS=FormalPowerSeries<mint>;
+using FPS=fps<mint>;
 
 FPS p={0,1};    // x
 FPS q={1,-1,-1}; // 1-x-x^2
 
 mint fn=BostanMori(p,q,n);
 ```
-
