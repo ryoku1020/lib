@@ -10,11 +10,11 @@ mint BostanMori(fps<mint>p,fps<mint>q,long long n){
     int ntt_size=1;
     while(ntt_size<2*d)ntt_size<<=1;
     int half=ntt_size>>1;
-    std::vector<mint>bp(ntt_size),bq(ntt_size),np_full(ntt_size),nq_half(half),np_half(half);
+    vector<mint>bp(ntt_size),bq(ntt_size),np_full(ntt_size),nq_half(half),np_half(half);
     mint inv_n=mint(ntt_size).inv(),inv_half=mint(half).inv();
     while(n>0){
-        std::fill(bp.begin(),bp.end(),0);
-        std::fill(bq.begin(),bq.end(),0);
+        fill(bp.begin(),bp.end(),0);
+        fill(bq.begin(),bq.end(),0);
         for(int i=0;i<(int)p.size();i++)bp[i]=p[i];
         for(int i=0;i<(int)q.size();i++)bq[i]=q[i];
         atcoder::internal::butterfly(bp);
