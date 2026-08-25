@@ -89,6 +89,16 @@ struct matrix{
     friend matrix operator*(matrix lhs, const matrix& rhs){
         return lhs*=rhs;
     }
+    matrix&operator*=(const T&v){
+        for(auto&row:a)for(auto&e:row)e*=v;
+        return *this;
+    }
+    friend matrix operator*(matrix lhs, const T&rhs){
+        return lhs*=rhs;
+    }
+    friend matrix operator*(const T&lhs, matrix rhs){
+        return rhs*=lhs;
+    }
     template<int N,int M>
     matrix&operator*=(const fixed_matrix<T,N,M>&mt2);
     static matrix unit(int n){

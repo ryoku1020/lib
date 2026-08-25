@@ -1,62 +1,22 @@
 #pragma once
 #include "../modular/static-mod-int.hpp"
-#ifndef ATCODER_CONVOLUTION_HPP
-#define ATCODER_CONVOLUTION_HPP 1
-#ifndef ATCODER_MATH_HPP
-#define ATCODER_MATH_HPP 1
-
-#include <algorithm>
-#include <cassert>
-#include <tuple>
-#include <vector>
-#ifndef ATCODER_INTERNAL_MATH_HPP
-#define ATCODER_INTERNAL_MATH_HPP 1
-
 #include <utility>
-
 #ifdef _MSC_VER
 #include <intrin.h>
 #endif
-
 namespace atcoder {
-
 namespace internal {
-
-// @param m `1 <= m`
-// @return x mod m
 constexpr long long safe_mod(long long x, long long m) {
     x %= m;
     if (x < 0) x += m;
     return x;
 }
-
-// Fast modular multiplication by barrett_reduction reduction
-// Reference: https://en.wikipedia.org/wiki/Barrett_reduction
-// NOTE: reconsider after Ice Lake
 struct barrett_reduction {
     unsigned int _m;
     unsigned long long im;
-
-    // @param m `1 <= m`
     explicit barrett_reduction(unsigned int m) : _m(m), im((unsigned long long)(-1) / m + 1) {}
-
-    // @return m
     unsigned int umod() const { return _m; }
-
-    // @param a `0 <= a < m`
-    // @param b `0 <= b < m`
-    // @return `a * b % m`
     unsigned int mul(unsigned int a, unsigned int b) const {
-        // [1] m = 1
-        // a = b = im = 0, so okay
-
-        // [2] m >= 2
-        // im = ceil(2^64 / m)
-        // -> im * m = 2^64 + r (0 <= r < m)
-        // let z = a*b = c*m + d (0 <= c, d < m)
-        // a*b * im = (c*m + d) * im = c*(im*m) + d*im = c*2^64 + c*r + d*im
-        // c*r + d*im < m * m + m * im < m * m + 2^64 + m <= 2^64 + m * (m + 1) < 2^64 * 2
-        // ((ab * im) >> 64) == c or c + 1
         unsigned long long z = a;
         z *= b;
 #ifdef _MSC_VER
@@ -70,10 +30,6 @@ struct barrett_reduction {
         return (unsigned int)(z - y + (z < y ? _m : 0));
     }
 };
-
-// @param n `0 <= n`
-// @param m `1 <= m`
-// @return `(x ** n) % m`
 constexpr long long pow_mod_constexpr(long long x, long long n, int m) {
     if (m == 1) return 0;
     unsigned int _m = (unsigned int)(m);
@@ -86,11 +42,6 @@ constexpr long long pow_mod_constexpr(long long x, long long n, int m) {
     }
     return r;
 }
-
-// Reference:
-// M. Forisek and J. Jancina,
-// Fast Primality Testing for Integers That Fit into a Machine Word
-// @param n `0 <= n`
 constexpr bool is_prime_constexpr(int n) {
     if (n <= 1) return false;
     if (n == 2 || n == 7 || n == 61) return true;
@@ -112,30 +63,15 @@ constexpr bool is_prime_constexpr(int n) {
     return true;
 }
 template <int n> constexpr bool is_prime = is_prime_constexpr(n);
-
-// @param b `1 <= b`
-// @return pair(g, x) s.t. g = gcd(a, b), xa = g (mod b), 0 <= x < b/g
 constexpr std::pair<long long, long long> inv_gcd(long long a, long long b) {
     a = safe_mod(a, b);
     if (a == 0) return {b, 0};
-
-    // Contracts:
-    // [1] s - m0 * a = 0 (mod b)
-    // [2] t - m1 * a = 0 (mod b)
-    // [3] s * |m1| + t * |m0| <= b
     long long s = b, t = a;
     long long m0 = 0, m1 = 1;
-
     while (t) {
         long long u = s / t;
         s -= t * u;
-        m0 -= m1 * u;  // |m1 * u| <= |m1| * s <= b
-
-        // [3]:
-        // (s - t * u) * |m1| + t * |m0 - m1 * u|
-        // <= s * |m1| - t * u * |m1| + t * (|m0| + |m1| * u)
-        // = s * |m1| + t * |m0| <= b
-
+        m0 -= m1 * u;
         auto tmp = s;
         s = t;
         t = tmp;
@@ -143,15 +79,9 @@ constexpr std::pair<long long, long long> inv_gcd(long long a, long long b) {
         m0 = m1;
         m1 = tmp;
     }
-    // by [3]: |m0| <= b/g
-    // by g != b: |m0| < b/g
     if (m0 < 0) m0 += b / s;
     return {s, m0};
 }
-
-// Compile time primitive root
-// @param m must be prime
-// @return primitive root (and minimum in now)
 constexpr int primitive_root_constexpr(int m) {
     if (m == 2) return 1;
     if (m == 167772161) return 3;
@@ -186,10 +116,6 @@ constexpr int primitive_root_constexpr(int m) {
     }
 }
 template <int m> constexpr int primitive_root = primitive_root_constexpr(m);
-
-// @param n `n < 2^32`
-// @param m `1 <= m < 2^32`
-// @return sum_{i=0}^{n-1} floor((ai + b) / m) (mod 2^64)
 unsigned long long floor_sum_unsigned(unsigned long long n,
                                       unsigned long long m,
                                       unsigned long long a,
@@ -204,26 +130,17 @@ unsigned long long floor_sum_unsigned(unsigned long long n,
             ans += n * (b / m);
             b %= m;
         }
-
         unsigned long long y_max = a * n + b;
         if (y_max < m) break;
-        // y_max < m * (n + 1)
-        // floor(y_max / m) <= n
         n = (unsigned long long)(y_max / m);
         b = (unsigned long long)(y_max % m);
         std::swap(m, a);
     }
     return ans;
 }
-
-}  // namespace internal
-
-}  // namespace atcoder
-
-#endif  // ATCODER_INTERNAL_MATH_HPP
-
+}
+}
 namespace atcoder {
-
 long long pow_mod(long long x, long long n, int m) {
     assert(0 <= n && 1 <= m);
     if (m == 1) return 0;
@@ -236,20 +153,16 @@ long long pow_mod(long long x, long long n, int m) {
     }
     return r;
 }
-
 long long inv_mod(long long x, long long m) {
     assert(1 <= m);
     auto z = internal::inv_gcd(x, m);
     assert(z.first == 1);
     return z.second;
 }
-
-// (rem, mod)
 std::pair<long long, long long> crt(const std::vector<long long>& r,
                                     const std::vector<long long>& m) {
     assert(r.size() == m.size());
     int n = int(r.size());
-    // Contracts: 0 <= r0 < m0
     long long r0 = 0, m0 = 1;
     for (int i = 0; i < n; i++) {
         assert(1 <= m[i]);
@@ -262,37 +175,17 @@ std::pair<long long, long long> crt(const std::vector<long long>& r,
             if (r0 % m1 != r1) return {0, 0};
             continue;
         }
-        // assume: m0 > m1, lcm(m0, m1) >= 2 * max(m0, m1)
-
-        // (r0, m0), (r1, m1) -> (r2, m2 = lcm(m0, m1));
-        // r2 % m0 = r0
-        // r2 % m1 = r1
-        // -> (r0 + x*m0) % m1 = r1
-        // -> x*u0*g = r1-r0 (mod u1*g) (u0*g = m0, u1*g = m1)
-        // -> x = (r1 - r0) / g * inv(u0) (mod u1)
-
-        // im = inv(u0) (mod u1) (0 <= im < u1)
         long long g, im;
         std::tie(g, im) = internal::inv_gcd(m0, m1);
-
         long long u1 = (m1 / g);
-        // |r1 - r0| < (m0 + m1) <= lcm(m0, m1)
         if ((r1 - r0) % g) return {0, 0};
-
-        // u1 * u1 <= m1 * m1 / g / g <= m0 * m1 / g = lcm(m0, m1)
         long long x = (r1 - r0) / g % u1 * im % u1;
-
-        // |r0| + |m0 * x|
-        // < m0 + m0 * (u1 - 1)
-        // = m0 + m0 * m1 / g - m0
-        // = lcm(m0, m1)
         r0 += x * m0;
-        m0 *= u1;  // -> lcm(m0, m1)
+        m0 *= u1;
         if (r0 < 0) r0 += m0;
     }
     return {r0, m0};
 }
-
 long long floor_sum(long long n, long long m, long long a, long long b) {
     assert(0 <= n && n < (1LL << 32));
     assert(1 <= m && m < (1LL << 32));
@@ -309,48 +202,26 @@ long long floor_sum(long long n, long long m, long long a, long long b) {
     }
     return ans + internal::floor_sum_unsigned(n, m, a, b);
 }
-
-}  // namespace atcoder
-
-#endif  // ATCODER_MATH_HPP
+}
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <type_traits>
 #include <vector>
-
-#ifndef ATCODER_INTERNAL_BITOP_HPP
-#define ATCODER_INTERNAL_BITOP_HPP 1
-
-#ifdef _MSC_VER
-#include <intrin.h>
-#endif
-
 #if __cplusplus >= 202002L
 #include <bit>
 #endif
-
 namespace atcoder {
-
 namespace internal {
-
 #if __cplusplus >= 202002L
-
 using std::bit_ceil;
-
 #else
-
-// @return same with std::bit::bit_ceil
 unsigned int bit_ceil(unsigned int n) {
     unsigned int x = 1;
     while (x < (unsigned int)(n)) x *= 2;
     return x;
 }
-
 #endif
-
-// @param n `1 <= n`
-// @return same with std::bit::countr_zero
 int countr_zero(unsigned int n) {
 #ifdef _MSC_VER
     unsigned long index;
@@ -360,38 +231,25 @@ int countr_zero(unsigned int n) {
     return __builtin_ctz(n);
 #endif
 }
-
-// @param n `1 <= n`
-// @return same with std::bit::countr_zero
 constexpr int countr_zero_constexpr(unsigned int n) {
     int x = 0;
     while (!(n & (1 << x))) x++;
     return x;
 }
-
-}  // namespace internal
-
-}  // namespace atcoder
-
-#endif  // ATCODER_INTERNAL_BITOP_HPP
-
+}
+}
 namespace atcoder {
-
 namespace internal {
-
 template <class mint,
           int g = internal::primitive_root<mint::get_mod()>>
 struct fast_fourier_transform_info {
     static constexpr int rank2 = countr_zero_constexpr(mint::get_mod() - 1);
-    std::array<mint, rank2 + 1> root;   // root[i]^(2^i) == 1
-    std::array<mint, rank2 + 1> iroot;  // root[i] * iroot[i] == 1
-
+    std::array<mint, rank2 + 1> root;
+    std::array<mint, rank2 + 1> iroot;
     std::array<mint, std::max(0, rank2 - 2 + 1)> rate2;
     std::array<mint, std::max(0, rank2 - 2 + 1)> irate2;
-
     std::array<mint, std::max(0, rank2 - 3 + 1)> rate3;
     std::array<mint, std::max(0, rank2 - 3 + 1)> irate3;
-
     fast_fourier_transform_info() {
         root[rank2] = mint(g).pow((mint::get_mod() - 1) >> rank2);
         iroot[rank2] = root[rank2].inv();
@@ -399,7 +257,6 @@ struct fast_fourier_transform_info {
             root[i] = root[i + 1] * root[i + 1];
             iroot[i] = iroot[i + 1] * iroot[i + 1];
         }
-
         {
             mint prod = 1, iprod = 1;
             for (int i = 0; i <= rank2 - 2; i++) {
@@ -420,15 +277,12 @@ struct fast_fourier_transform_info {
         }
     }
 };
-
 template <class mint>
 void butterfly(std::vector<mint>& a) {
     int n = int(a.size());
     int h = internal::countr_zero((unsigned int)n);
-
     static const fast_fourier_transform_info<mint> info;
-
-    int len = 0;  // a[i, i+(n>>len), i+2*(n>>len), ..] is transformed
+    int len = 0;
     while (len < h) {
         if (h - len == 1) {
             int p = 1 << (h - len - 1);
@@ -446,7 +300,6 @@ void butterfly(std::vector<mint>& a) {
             }
             len++;
         } else {
-            // 4-base
             int p = 1 << (h - len - 2);
             mint rot = 1, imag = info.root[2];
             for (int s = 0; s < (1 << len); s++) {
@@ -474,15 +327,12 @@ void butterfly(std::vector<mint>& a) {
         }
     }
 }
-
 template <class mint>
 void butterfly_inv(std::vector<mint>& a) {
     int n = int(a.size());
     int h = internal::countr_zero((unsigned int)n);
-
     static const fast_fourier_transform_info<mint> info;
-
-    int len = h;  // a[i, i+(n>>len), i+2*(n>>len), ..] is transformed
+    int len = h;
     while (len) {
         if (len == 1) {
             int p = 1 << (h - len);
@@ -503,7 +353,6 @@ void butterfly_inv(std::vector<mint>& a) {
             }
             len--;
         } else {
-            // 4-base
             int p = 1 << (h - len);
             mint irot = 1, iimag = info.iroot[2];
             for (int s = 0; s < (1 << (len - 2)); s++) {
@@ -515,11 +364,9 @@ void butterfly_inv(std::vector<mint>& a) {
                     auto a1 = 1ULL * a[i + offset + 1 * p].val;
                     auto a2 = 1ULL * a[i + offset + 2 * p].val;
                     auto a3 = 1ULL * a[i + offset + 3 * p].val;
-
                     auto a2na3iimag =
                         1ULL *
                         mint((mint::get_mod() + a2 - a3) * iimag.val).val;
-
                     a[i + offset] = a0 + a1 + a2 + a3;
                     a[i + offset + 1 * p] =
                         (a0 + (mint::get_mod() - a1) + a2na3iimag) * irot.val;
@@ -537,7 +384,6 @@ void butterfly_inv(std::vector<mint>& a) {
         }
     }
 }
-
 template <class mint>
 std::vector<mint> convolution_naive(const std::vector<mint>& a,
                                     const std::vector<mint>& b) {
@@ -558,7 +404,6 @@ std::vector<mint> convolution_naive(const std::vector<mint>& a,
     }
     return ans;
 }
-
 template <class mint>
 std::vector<mint> convolution_fft(std::vector<mint> a, std::vector<mint> b) {
     int n = int(a.size()), m = int(b.size());
@@ -576,18 +421,14 @@ std::vector<mint> convolution_fft(std::vector<mint> a, std::vector<mint> b) {
     for (int i = 0; i < n + m - 1; i++) a[i] *= iz;
     return a;
 }
-
-}  // namespace internal
-
+}
 template <class mint>
 requires requires{mint::get_mod();}
 std::vector<mint> convolution(std::vector<mint>&& a, std::vector<mint>&& b) {
     int n = int(a.size()), m = int(b.size());
     if (!n || !m) return {};
-
     int z = (int)internal::bit_ceil((unsigned int)(n + m - 1));
     assert((mint::get_mod() - 1) % z == 0);
-
     if (std::min(n, m) <= 60) return internal::convolution_naive(std::move(a), std::move(b));
     return internal::convolution_fft(std::move(a), std::move(b));
 }
@@ -597,26 +438,20 @@ std::vector<mint> convolution(const std::vector<mint>& a,
                               const std::vector<mint>& b) {
     int n = int(a.size()), m = int(b.size());
     if (!n || !m) return {};
-
     int z = (int)internal::bit_ceil((unsigned int)(n + m - 1));
     assert((mint::get_mod() - 1) % z == 0);
-
     if (std::min(n, m) <= 60) return internal::convolution_naive(a, b);
     return internal::convolution_fft(a, b);
 }
-
 template <unsigned int mod = 998244353,
           class T>
 requires std::is_integral_v<T>
 std::vector<T> convolution(const std::vector<T>& a, const std::vector<T>& b) {
     int n = int(a.size()), m = int(b.size());
     if (!n || !m) return {};
-
     using mint = static_modint<mod>;
-
     int z = (int)internal::bit_ceil((unsigned int)(n + m - 1));
     assert((mint::get_mod() - 1) % z == 0);
-
     std::vector<mint> a2(n), b2(m);
     for (int i = 0; i < n; i++) {
         a2[i] = mint(a[i]);
@@ -631,60 +466,37 @@ std::vector<T> convolution(const std::vector<T>& a, const std::vector<T>& b) {
     }
     return c;
 }
-
 std::vector<long long> convolution_ll(const std::vector<long long>& a,
                                       const std::vector<long long>& b) {
     int n = int(a.size()), m = int(b.size());
     if (!n || !m) return {};
-
-    static constexpr unsigned long long MOD1 = 754974721;  // 2^24
-    static constexpr unsigned long long MOD2 = 167772161;  // 2^25
-    static constexpr unsigned long long MOD3 = 469762049;  // 2^26
+    static constexpr unsigned long long MOD1 = 754974721;
+    static constexpr unsigned long long MOD2 = 167772161;
+    static constexpr unsigned long long MOD3 = 469762049;
     static constexpr unsigned long long M2M3 = MOD2 * MOD3;
     static constexpr unsigned long long M1M3 = MOD1 * MOD3;
     static constexpr unsigned long long M1M2 = MOD1 * MOD2;
     static constexpr unsigned long long M1M2M3 = MOD1 * MOD2 * MOD3;
-
     static constexpr unsigned long long i1 =
         internal::inv_gcd(MOD2 * MOD3, MOD1).second;
     static constexpr unsigned long long i2 =
         internal::inv_gcd(MOD1 * MOD3, MOD2).second;
     static constexpr unsigned long long i3 =
         internal::inv_gcd(MOD1 * MOD2, MOD3).second;
-        
     static constexpr int MAX_AB_BIT = 24;
     static_assert(MOD1 % (1ull << MAX_AB_BIT) == 1, "MOD1 isn't enough to support an array length of 2^24.");
     static_assert(MOD2 % (1ull << MAX_AB_BIT) == 1, "MOD2 isn't enough to support an array length of 2^24.");
     static_assert(MOD3 % (1ull << MAX_AB_BIT) == 1, "MOD3 isn't enough to support an array length of 2^24.");
     assert(n + m - 1 <= (1 << MAX_AB_BIT));
-
     auto c1 = convolution<MOD1>(a, b);
     auto c2 = convolution<MOD2>(a, b);
     auto c3 = convolution<MOD3>(a, b);
-
     std::vector<long long> c(n + m - 1);
     for (int i = 0; i < n + m - 1; i++) {
         unsigned long long x = 0;
         x += (c1[i] * i1) % MOD1 * M2M3;
         x += (c2[i] * i2) % MOD2 * M1M3;
         x += (c3[i] * i3) % MOD3 * M1M2;
-        // B = 2^63, -B <= x, r(real value) < B
-        // (x, x - M, x - 2M, or x - 3M) = r (mod 2B)
-        // r = c1[i] (mod MOD1)
-        // focus on MOD1
-        // r = x, x - M', x - 2M', x - 3M' (M' = M % 2^64) (mod 2B)
-        // r = x,
-        //     x - M' + (0 or 2B),
-        //     x - 2M' + (0, 2B or 4B),
-        //     x - 3M' + (0, 2B, 4B or 6B) (without mod!)
-        // (r - x) = 0, (0)
-        //           - M' + (0 or 2B), (1)
-        //           -2M' + (0 or 2B or 4B), (2)
-        //           -3M' + (0 or 2B or 4B or 6B) (3) (mod MOD1)
-        // we checked that
-        //   ((1) mod MOD1) mod 5 = 2
-        //   ((2) mod MOD1) mod 5 = 3
-        //   ((3) mod MOD1) mod 5 = 4
         long long diff =
             c1[i] - internal::safe_mod((long long)(x), (long long)(MOD1));
         if (diff < 0) diff += MOD1;
@@ -693,10 +505,6 @@ std::vector<long long> convolution_ll(const std::vector<long long>& a,
         x -= offset[diff % 5];
         c[i] = x;
     }
-
     return c;
 }
-
-}  // namespace atcoder
-
-#endif  // ATCODER_CONVOLUTION_HPP
+}

@@ -1,4 +1,5 @@
 #pragma once
+#include"../compress.hpp"
 template<class T>
 struct static_range_mode{
     vc<T>a;

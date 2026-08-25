@@ -2,6 +2,7 @@
 #include "template.hpp"
 
 #include "ds/binary-trie.hpp"
+#include "ds/compress.hpp"
 #include "ds/double-priority-queue.hpp"
 #include "ds/li_chao_tree/compressed-li-chao-tree.hpp"
 #include "ds/li_chao_tree/dynamic-li-chao-tree.hpp"
@@ -63,6 +64,7 @@
 #include "graph/two-sat.hpp"
 #include "math/arithmetic/Number.hpp"
 #include "math/arithmetic/bint.hpp"
+#include "math/arithmetic/characteristic.hpp"
 #include "math/arithmetic/frac.hpp"
 #include "math/arithmetic/sint.hpp"
 #include "math/berlekamp-massey.hpp"

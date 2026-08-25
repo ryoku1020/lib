@@ -1,6 +1,6 @@
 ---
 title: compresser
-documentation_of: ../../template.hpp
+documentation_of: ../../ds/compress.hpp
 ---
 
 # compresser
@@ -60,7 +60,7 @@ documentation_of: ../../template.hpp
 ## 使用例
 
 ```cpp
-#include "template.hpp"
+#include "ds/compress.hpp"
 
 compresser<long long> cp(n);
 for(int i=0;i<n;i++) cp.push(a[i]);
