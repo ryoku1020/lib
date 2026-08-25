@@ -1,6 +1,6 @@
 #pragma once
 template<class mint>
-vc<mint>GcdConvolution(vc<mint>a,vc<mint>b){
+vc<mint>gcd_convolution(vc<mint>a,vc<mint>b){
     int n=max(a.size(),b.size());
     a.resize(n),b.resize(n);
     vc<mint>c(a.size());

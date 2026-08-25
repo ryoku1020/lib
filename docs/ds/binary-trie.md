@@ -10,7 +10,7 @@ documentation_of: ../../ds/binary-trie.hpp
 ## 型
 
 ```cpp
-BinaryTrie<T, depth>
+binary_trie<T, depth>
 ```
 
 - `T` — 要素の型（非負整数型: `int`, `long long` など）
@@ -18,7 +18,7 @@ BinaryTrie<T, depth>
 
 ## コンストラクタ
 
-### `BinaryTrie<T, depth>()`
+### `binary_trie<T, depth>()`
 
 空のトライ木を作成します。
 
@@ -69,7 +69,7 @@ BinaryTrie<T, depth>
 ```cpp
 #include "ds/binary-trie.hpp"
 
-BinaryTrie<int, 20> tr; // [0, 2^20) の非負整数を管理
+binary_trie<int, 20> tr; // [0, 2^20) の非負整数を管理
 
 tr.insert(5);
 tr.insert(3);

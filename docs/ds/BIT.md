@@ -1,29 +1,29 @@
 ---
-title: Binary Indexed Tree
-documentation_of: ../../ds/bit.hpp
+title: Binary Indexed tree
+documentation_of: ../../ds/sequence/bit.hpp
 ---
 
-# Binary Indexed Tree
+# Binary Indexed tree
 
-Fenwick Tree です。
+Fenwick tree です。
 長さ `N` の列に対して、1 点加算と区間和取得を `O(log N)` で行えます。
 
 ## コンストラクタ
 
-### `BinaryIndexedTree()`
+### `binary_indexed_tree()`
 
-空の BIT を作ります。
+空の bit を作ります。
 
 - 計算量: `O(1)`
 
-### `BinaryIndexedTree(int N)`
+### `binary_indexed_tree(int N)`
 
 長さ `N`、初期値 0 の列を作ります。
 
 - 制約: `0<=N`
 - 計算量: `O(N)`
 
-### `BinaryIndexedTree(const vector<T>& a)`
+### `binary_indexed_tree(const vector<T>& a)`
 
 配列 `a` で初期化します。
 
@@ -67,9 +67,9 @@ Fenwick Tree です。
 ## 使用例
 
 ```cpp
-#include "ds/bit.hpp"
+#include "ds/sequence/BIT.hpp"
 
-BinaryIndexedTree<long long> bit(N);
+binary_indexed_tree<long long> bit(N);
 
 bit.add(3,5);
 bit.add(7,2);
@@ -86,4 +86,3 @@ auto t=bit.sum(l,r);
 int k=5; // 1-indexed
 int pos=bit.lower_bound(k);
 ```
-

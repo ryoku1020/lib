@@ -1,6 +1,6 @@
 ---
 title: Convolution
-documentation_of: ../../math/conv.hpp
+documentation_of: ../../math/convolution/conv.hpp
 ---
 
 # Convolution
@@ -24,7 +24,7 @@ modint 上の畳み込みを返します。
 
 ### `vector<long long> convolution_ll(const vector<long long>& a, const vector<long long>& b)`
 
-64bit 整数列の畳み込みを CRT 復元で返します。
+64bit 整数列の畳み込みを crt 復元で返します。
 
 ### `vector<long long> convolution_ll(const vector<long long>& a, const vector<long long>& b, long long MOD)`
 
@@ -59,10 +59,10 @@ modint 上の畳み込みを返します。
 ## 使用例 1: modint 畳み込み
 
 ```cpp
-#include "math/conv.hpp"
-#include "math/static-mod-int.hpp"
+#include "math/convolution/conv.hpp"
+#include "math/modular/static-mod-int.hpp"
 
-using mint=StaticModInt<998244353>;
+using mint=static_modint<998244353>;
 
 vector<mint> a={1,2,3};
 vector<mint> b={4,5,6};
@@ -78,4 +78,3 @@ vector<long long> b={4,5,6};
 auto c=convolution_ll(a,b);
 auto d=convolution_ll(a,b,1000000007LL);
 ```
-

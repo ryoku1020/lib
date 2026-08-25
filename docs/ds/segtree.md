@@ -1,9 +1,9 @@
 ---
-title: Segtree
-documentation_of: ../../ds/segtree.hpp
+title: segtree
+documentation_of: ../../ds/segment_tree/segtree.hpp
 ---
 
-# Segtree
+# segtree
 
 モノイドを載せる通常のセグメント木です。
 1 点更新、区間積取得、`max_right` / `min_left` による二分探索を行えます。
@@ -11,7 +11,7 @@ documentation_of: ../../ds/segtree.hpp
 ## 要件
 
 ```cpp
-struct Info{
+struct info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
@@ -24,7 +24,7 @@ struct Info{
   単位元
 ## コンストラクタ
 
-### `Segtree(int n = 0, value_type leaf = Info::e())`
+### `segtree(int n = 0, value_type leaf = info::e())`
 
 長さ `n` の列を作ります。
 各要素は `leaf` で初期化されます。
@@ -32,7 +32,7 @@ struct Info{
 - 制約: `0<=n`
 - 計算量: `O(n)`
 
-### `template<class F> Segtree(int n, F f)`
+### `template<class F> segtree(int n, F f)`
 
 `a[i]=f(i)` で初期化します。
 
@@ -95,14 +95,14 @@ struct Info{
 ## 境界・注意
 
 - 区間は 0-indexed の半開区間 `[l,r)` です。
-- 初期値を `e()` 以外にしたいときは `Segtree(n, leaf)` で渡します。
+- 初期値を `e()` 以外にしたいときは `segtree(n, leaf)` で渡します。
 
-## 使用例 1: Range Max Query
+## 使用例 1: range Max query
 
 ```cpp
-#include "ds/segtree.hpp"
+#include "ds/segment_tree/segtree.hpp"
 
-struct Info{
+struct info{
     using value_type=long long;
     static value_type op(value_type a,value_type b){
         return max(a,b);
@@ -112,7 +112,7 @@ struct Info{
     }
 };
 
-Segtree<Info> seg(N);
+segtree<info> seg(N);
 seg.set(i,x);
 auto ans=seg.prod(l,r);
 ```
@@ -120,13 +120,13 @@ auto ans=seg.prod(l,r);
 ## 使用例 2: prefix 和が `X` 以下の最大位置
 
 ```cpp
-struct Info{
+struct info{
     using value_type=long long;
     static value_type op(value_type a,value_type b){ return a+b; }
     static value_type e(){ return 0; }
 };
 
-Segtree<Info> seg(N,f);
+segtree<info> seg(N,f);
 long long X=100;
 int r=seg.max_right(0,[&](long long s){ return s<=X; });
 ```

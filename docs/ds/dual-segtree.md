@@ -1,9 +1,9 @@
 ---
-title: DualSegtree
-documentation_of: ../../ds/dual-segtree.hpp
+title: dual_segtree
+documentation_of: ../../ds/segment_tree/dual-segtree.hpp
 ---
 
-# DualSegtree
+# dual_segtree
 
 区間更新・一点取得の dual segment tree です。
 
@@ -23,11 +23,11 @@ struct X{
 
 ## コンストラクタ
 
-### `DualSegtree(int N)`
+### `dual_segtree(int N)`
 
 長さ `N` を `e()` で初期化します。
 
-### `DualSegtree(int N, const vc<value_type>& v)`
+### `dual_segtree(int N, const vc<value_type>& v)`
 
 初期列 `v` で初期化します。
 
@@ -63,7 +63,7 @@ struct X{
 ## 使用例
 
 ```cpp
-#include "ds/dual-segtree.hpp"
+#include "ds/segment_tree/dual-segtree.hpp"
 
 struct X{
     using value_type=long long;
@@ -71,7 +71,7 @@ struct X{
     static value_type e(){ return 0; }
 };
 
-DualSegtree<X> seg(n);
+dual_segtree<X> seg(n);
 seg.apply(l,r,x);
 auto v=seg.get(p);
 ```

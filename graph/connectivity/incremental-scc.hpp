@@ -1,17 +1,17 @@
 #pragma once
-#include"base.hpp"
+#include"../base.hpp"
 #include"scc.hpp"
-#include"../ds/uf.hpp"
-struct IncrementalScc{
+#include"../../ds/union_find/uf.hpp"
+struct incremental_scc{
     int n;
-    DisjointSetUnion dsu1;
+    disjoint_set_union dsu1;
     vc<int>id;
     vc<int>used;
-    IncrementalScc(int n=0):n(n),dsu1(n),id(n),used(n){}
-    using graph=StaticGraph<1>;
-    vc<graph::Edge>es;
-    vc<graph::Edge>ans;
-    void dfs(int l,int r,span<graph::Edge>E){
+    incremental_scc(int n=0):n(n),dsu1(n),id(n),used(n){}
+    using graph=static_graph<1>;
+    vc<graph::edge>es;
+    vc<graph::edge>ans;
+    void dfs(int l,int r,span<graph::edge>E){
         if(l>=r)return;
         int mid=l+r>>1;
         vc<int>roots;
@@ -39,10 +39,10 @@ struct IncrementalScc{
         }
         auto res=scc(g);
         vc<int>last(res.size(),-1);
-        vc<pii>Merger;rep(i,res.size()){
+        vc<pii>merger;rep(i,res.size()){
             int L=last[res[i]];
             if(L!=-1&&!dsu1.same(roots[i],roots[L])){
-                Merger.pb({roots[i],roots[L]});
+                merger.pb({roots[i],roots[L]});
             }
             last[res[i]]=i;
         }
@@ -53,16 +53,16 @@ struct IncrementalScc{
         res.clear(); res.shrink_to_fit();
         last.clear(); last.shrink_to_fit();
         roots.clear(); roots.shrink_to_fit();
-        dfs(l,mid,span<graph::Edge>(E.data(),it-E.begin()));
-        for(auto&x:Merger)dsu1.merge(x.first,x.second),ans.pb({x.first,x.second,mid});
-        dfs(mid+1,r,span<graph::Edge>(E.data()+(it-E.begin()),E.size()-(it-E.begin())));
+        dfs(l,mid,span<graph::edge>(E.data(),it-E.begin()));
+        for(auto&x:merger)dsu1.merge(x.first,x.second),ans.pb({x.first,x.second,mid});
+        dfs(mid+1,r,span<graph::edge>(E.data()+(it-E.begin()),E.size()-(it-E.begin())));
     }
     int pushed=0;
     void push(int a,int b){
         es.pb({a,b,pushed++});
     }
-    vc<graph::Edge> work(){
-        dfs(0,pushed,span<graph::Edge>(es.data(),es.size()));
+    vc<graph::edge> work(){
+        dfs(0,pushed,span<graph::edge>(es.data(),es.size()));
         return ans;
     }
 };

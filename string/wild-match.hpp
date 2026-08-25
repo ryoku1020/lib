@@ -1,10 +1,12 @@
 #pragma once
-#include"../math/fps.hpp"
+#include"../poly/base.hpp"
 
 //s[0,|t|) s[1,|t|+1) ... で match するもの
 template<int TF>
-vc<int>WildMatch(string s,string t,char wild){
+vc<int>wild_match(string s,string t,char wild){
     assert(s.size()>=t.size());
+    using mint=static_modint<998244353>;
+    using poly=fps<mint>;
     vc<int>res(s.size()-t.size()+1,1);
     mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
     rep(t_,TF){

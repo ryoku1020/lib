@@ -1,10 +1,10 @@
 #pragma once
 template<class T,class=void>
-struct FamousHasCommute{
+struct famous_has_commute{
     static constexpr bool value=false;
 };
 template<class T>
-struct FamousHasCommute<T,decltype((void)T::commute,void())>{
+struct famous_has_commute<T,decltype((void)T::commute,void())>{
     static constexpr bool value=T::commute;
 };
 template<class Value_type,Value_type inf>
@@ -55,9 +55,9 @@ struct Prod{
     }
 };
 template<class... Infos>
-struct Merger{
+struct merger{
     using value_type=tuple<typename Infos::value_type...>;
-    static constexpr bool commute=(FamousHasCommute<Infos>::value&&...);
+    static constexpr bool commute=(famous_has_commute<Infos>::value&&...);
     template<size_t... I>
     static value_type op_impl(value_type a,value_type b,index_sequence<I...>){
         return value_type{Infos::op(get<I>(a),get<I>(b))...};
@@ -70,7 +70,7 @@ struct Merger{
     }
 };
 template<class Value_type>
-struct Affine{
+struct affine{
     using value_type=pair<Value_type,Value_type>;
     static value_type op(value_type a,value_type b){
         return {a.first*b.first,a.second*b.first+b.second};
@@ -80,8 +80,8 @@ struct Affine{
     }
 };
 template<class Value_type>
-struct AddMin{
-    struct Info{
+struct add_min{
+    struct info{
         using value_type=Value_type;
         static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
@@ -91,23 +91,23 @@ struct AddMin{
             return numeric_limits<Value_type>::max();
         }
     };
-    struct Tag{
+    struct tag{
         using lazy_type=Value_type;
         static constexpr bool commute=true;
-        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+        static lazy_type merge(lazy_type old_tag,lazy_type new_tag){
             return old_tag+new_tag;
         }
         static lazy_type id(){
             return 0;
         }
-        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+        static typename info::value_type apply(typename info::value_type node,lazy_type lz){
             return node+lz;
         }
     };
 };
 template<class Value_type>
-struct AddMax{
-    struct Info{
+struct add_max{
+    struct info{
         using value_type=Value_type;
         static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
@@ -117,23 +117,23 @@ struct AddMax{
             return numeric_limits<Value_type>::lowest();
         }
     };
-    struct Tag{
+    struct tag{
         using lazy_type=Value_type;
         static constexpr bool commute=true;
-        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+        static lazy_type merge(lazy_type old_tag,lazy_type new_tag){
             return old_tag+new_tag;
         }
         static lazy_type id(){
             return 0;
         }
-        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+        static typename info::value_type apply(typename info::value_type node,lazy_type lz){
             return node+lz;
         }
     };
 };
 template<class Value_type>
-struct AddSum{
-    struct Info{
+struct add_sum{
+    struct info{
         using value_type=pair<Value_type,Value_type>;
         static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
@@ -143,23 +143,23 @@ struct AddSum{
             return {0,0};
         }
     };
-    struct Tag{
+    struct tag{
         using lazy_type=Value_type;
         static constexpr bool commute=true;
-        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+        static lazy_type merge(lazy_type old_tag,lazy_type new_tag){
             return old_tag+new_tag;
         }
         static lazy_type id(){
             return 0;
         }
-        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+        static typename info::value_type apply(typename info::value_type node,lazy_type lz){
             return {node.first+node.second*lz,node.second};
         }
     };
 };
 template<class Value_type>
-struct AssignMin{
-    struct Info{
+struct assign_min{
+    struct info{
         using value_type=Value_type;
         static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
@@ -169,24 +169,24 @@ struct AssignMin{
             return numeric_limits<Value_type>::max();
         }
     };
-    struct Tag{
+    struct tag{
         using lazy_type=pair<bool,Value_type>;
-        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+        static lazy_type merge(lazy_type old_tag,lazy_type new_tag){
             if(new_tag.first)return new_tag;
             return old_tag;
         }
         static lazy_type id(){
             return {false,0};
         }
-        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+        static typename info::value_type apply(typename info::value_type node,lazy_type lz){
             if(lz.first)return lz.second;
             return node;
         }
     };
 };
 template<class Value_type>
-struct AssignMax{
-    struct Info{
+struct assign_max{
+    struct info{
         using value_type=Value_type;
         static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
@@ -196,24 +196,24 @@ struct AssignMax{
             return numeric_limits<Value_type>::lowest();
         }
     };
-    struct Tag{
+    struct tag{
         using lazy_type=pair<bool,Value_type>;
-        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+        static lazy_type merge(lazy_type old_tag,lazy_type new_tag){
             if(new_tag.first)return new_tag;
             return old_tag;
         }
         static lazy_type id(){
             return {false,0};
         }
-        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+        static typename info::value_type apply(typename info::value_type node,lazy_type lz){
             if(lz.first)return lz.second;
             return node;
         }
     };
 };
 template<class Value_type>
-struct AssignSum{
-    struct Info{
+struct assign_sum{
+    struct info{
         using value_type=pair<Value_type,Value_type>;
         static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
@@ -223,24 +223,24 @@ struct AssignSum{
             return {0,0};
         }
     };
-    struct Tag{
+    struct tag{
         using lazy_type=pair<bool,Value_type>;
-        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+        static lazy_type merge(lazy_type old_tag,lazy_type new_tag){
             if(new_tag.first)return new_tag;
             return old_tag;
         }
         static lazy_type id(){
             return {false,0};
         }
-        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+        static typename info::value_type apply(typename info::value_type node,lazy_type lz){
             if(lz.first)return {node.second*lz.second,node.second};
             return node;
         }
     };
 };
 template<class Value_type>
-struct AffineSum{
-    struct Info{
+struct affine_sum{
+    struct info{
         using value_type=pair<Value_type,Value_type>;
         static constexpr bool commute=true;
         static value_type op(value_type a,value_type b){
@@ -250,35 +250,35 @@ struct AffineSum{
             return {0,0};
         }
     };
-    struct Tag{
+    struct tag{
         using lazy_type=pair<Value_type,Value_type>;
-        static lazy_type Merge(lazy_type old_tag,lazy_type new_tag){
+        static lazy_type merge(lazy_type old_tag,lazy_type new_tag){
             return {new_tag.first*old_tag.first,new_tag.first*old_tag.second+new_tag.second};
         }
         static lazy_type id(){
             return {1,0};
         }
-        static typename Info::value_type Apply(typename Info::value_type node,lazy_type lz){
+        static typename info::value_type apply(typename info::value_type node,lazy_type lz){
             return {node.first*lz.first+node.second*lz.second,node.second};
         }
     };
 };
-template<class Info>
-struct Reversed{
-    using value_type=typename Info::value_type;
-    static constexpr bool commute=FamousHasCommute<Info>::value;
+template<class info>
+struct reversed{
+    using value_type=typename info::value_type;
+    static constexpr bool commute=famous_has_commute<info>::value;
     static value_type op(value_type a,value_type b){
-        return Info::op(b,a);
+        return info::op(b,a);
     }
     static value_type e(){
-        return Info::e();
+        return info::e();
     }
 };
 
 
 template<class Key,class Val,int K,Val neg_inf>
-struct MaxK{
-    using DATA=MaxK<Key,Val,K,neg_inf>;
+struct max_k{
+    using DATA=max_k<Key,Val,K,neg_inf>;
     struct T{
         Val val;
         Key key;
@@ -289,7 +289,7 @@ struct MaxK{
         friend T operator+(Val v,const T&a){return a+v;}
     };
     array<T,K> d;
-    MaxK(){d.fill({neg_inf,Key{}});}
+    max_k(){d.fill({neg_inf,Key{}});}
     T&operator[](int i){return d[i];}
     const T&operator[](int i)const{return d[i];}
     bool has(Key key,Val val)const{
@@ -326,8 +326,8 @@ struct MaxK{
     friend DATA operator+(Val v,const DATA&a){return a+v;}
 };
 template<class Key,class Val,Val neg_inf>
-struct MaxK<Key,Val,2,neg_inf>{
-    using DATA=MaxK<Key,Val,2,neg_inf>;
+struct max_k<Key,Val,2,neg_inf>{
+    using DATA=max_k<Key,Val,2,neg_inf>;
     struct T{
         Val val;
         Key key;
@@ -338,7 +338,7 @@ struct MaxK<Key,Val,2,neg_inf>{
         friend T operator+(Val v,const T&a){return a+v;}
     };
     array<T,2> d;
-    MaxK(){d.fill({neg_inf,Key{}});}
+    max_k(){d.fill({neg_inf,Key{}});}
     T&operator[](int i){return d[i];}
     const T&operator[](int i)const{return d[i];}
     bool has(Key key,Val val)const{
@@ -381,8 +381,8 @@ struct MaxK<Key,Val,2,neg_inf>{
     friend DATA operator+(Val v,const DATA&a){return a+v;}
 };
 template<class Key,class Val,int K,Val neg_inf>
-struct MaxKInfo{
-    using value_type=MaxK<Key,Val,K,neg_inf>;
+struct maxk_info{
+    using value_type=max_k<Key,Val,K,neg_inf>;
     static value_type op(const value_type&a,const value_type&b){
         value_type res(a);
         return res.merge_data(b);
@@ -390,8 +390,8 @@ struct MaxKInfo{
     static value_type e(){return value_type();}
 };
 template<class Key,class Val,int K,Val inf>
-struct MinK{
-    using DATA=MinK<Key,Val,K,inf>;
+struct min_k{
+    using DATA=min_k<Key,Val,K,inf>;
     struct T{
         Val val;
         Key key;
@@ -402,7 +402,7 @@ struct MinK{
         friend T operator+(Val v,const T&a){return a+v;}
     };
     array<T,K> d;
-    MinK(){d.fill({inf,Key{}});}
+    min_k(){d.fill({inf,Key{}});}
     T&operator[](int i){return d[i];}
     const T&operator[](int i)const{return d[i];}
     bool has(Key key,Val val)const{
@@ -439,8 +439,8 @@ struct MinK{
     friend DATA operator+(Val v,const DATA&a){return a+v;}
 };
 template<class Key,class Val,Val inf>
-struct MinK<Key,Val,2,inf>{
-    using DATA=MinK<Key,Val,2,inf>;
+struct min_k<Key,Val,2,inf>{
+    using DATA=min_k<Key,Val,2,inf>;
     struct T{
         Val val;
         Key key;
@@ -451,7 +451,7 @@ struct MinK<Key,Val,2,inf>{
         friend T operator+(Val v,const T&a){return a+v;}
     };
     array<T,2> d;
-    MinK(){d.fill({inf,Key{}});}
+    min_k(){d.fill({inf,Key{}});}
     T&operator[](int i){return d[i];}
     const T&operator[](int i)const{return d[i];}
     bool has(Key key,Val val)const{
@@ -494,8 +494,8 @@ struct MinK<Key,Val,2,inf>{
     friend DATA operator+(Val v,const DATA&a){return a+v;}
 };
 template<class Key,class Val,int K,Val inf>
-struct MinKInfo{
-    using value_type=MinK<Key,Val,K,inf>;
+struct mink_info{
+    using value_type=min_k<Key,Val,K,inf>;
     static value_type op(const value_type&a,const value_type&b){
         value_type res(a);
         return res.merge_data(b);

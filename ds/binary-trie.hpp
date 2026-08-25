@@ -1,6 +1,6 @@
 #pragma once
 template<class T,int depth>
-struct BinaryTrie{
+struct binary_trie{
     struct Node{
         Node*l,*r;
         T size;
@@ -9,7 +9,7 @@ struct BinaryTrie{
     T all_size;
     T offset;
     Node*root;
-    BinaryTrie(){
+    binary_trie(){
         root=new Node();
         all_size=0;
         offset=0;

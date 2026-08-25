@@ -1,6 +1,6 @@
 ---
 title: scc
-documentation_of: ../../graph/scc.hpp
+documentation_of: ../../graph/connectivity/scc.hpp
 ---
 
 # scc
@@ -31,9 +31,9 @@ documentation_of: ../../graph/scc.hpp
 
 ```cpp
 #include "graph/base.hpp"
-#include "graph/scc.hpp"
+#include "graph/connectivity/scc.hpp"
 
-StaticGraph<1> g(n);
+static_graph<1> g(n);
 for(auto [u,v]:edges)g.add_edge(u,v);
 
 auto comp=scc(g);
@@ -47,4 +47,3 @@ for(int x:comp)k=max(k,x+1);
 vector<vector<int>> groups(k);
 for(int v=0;v<n;v++)groups[comp[v]].push_back(v);
 ```
-

@@ -1,6 +1,6 @@
 ---
 title: XOR Convolution
-documentation_of: ../../math/xor-convolution.hpp
+documentation_of: ../../math/convolution/xor-convolution.hpp
 ---
 
 # XOR Convolution
@@ -31,9 +31,9 @@ FWHT の順変換・逆変換をインプレースで行います。
 ## 使用例
 
 ```cpp
-#include "math/xor-convolution.hpp"
+#include "math/convolution/xor-convolution.hpp"
 
-using mint = StaticModInt<998244353>;
+using mint = static_modint<998244353>;
 
 vc<mint> a = {1,2,3,4};
 vc<mint> b = {1,0,1,0};
@@ -41,4 +41,3 @@ vc<mint> b = {1,0,1,0};
 auto c = xor_convolution(a, b);
 // c[k] = sum of a[i]*b[j] for all i^j==k
 ```
-

@@ -1,14 +1,14 @@
 #pragma once
-#include"base.hpp"
+#include"../base.hpp"
 template<class Cap>
-struct Flow{
-    struct Edge{
+struct flow{
+    struct edge{
         int from,to,id;
         Cap cost;
     };
-    vc<Edge>edges;
+    vc<edge>edges;
     int n;
-    Flow(int n=0):n(n){
+    flow(int n=0):n(n){
         assert(n>=0);
     }
     void add_edge(int a,int b,Cap cap){
@@ -24,7 +24,7 @@ struct Flow{
         _flow.assign(edges.size(),0);
         Cap res=0;
         while(1){
-            StaticGraph<1,Edge>g(n);
+            static_graph<1,edge>g(n);
             for(auto&e:edges){
                 Cap c1=e.cost-_flow[e.id];
                 Cap c2=_flow[e.id];
@@ -63,7 +63,7 @@ struct Flow{
         }
         return res;
     }
-    vc<tuple<int,int,int,Cap>>Info(){
+    vc<tuple<int,int,int,Cap>>info(){
         assert(_flow.size()==edges.size());
         vc<tuple<int,int,int,Cap>>res;
         rep(i,edges.size())res.push_back({edges[i].from,edges[i].to,edges[i].id,_flow[i]});
@@ -72,7 +72,7 @@ struct Flow{
     vc<bool>min_cut(int s){
         assert(0<=s&&s<n);
         assert(_flow.size()==edges.size());
-        StaticGraph<1,Edge>g(n);
+        static_graph<1,edge>g(n);
         for(auto&e:edges){
             Cap c1=e.cost-_flow[e.id];
             Cap c2=_flow[e.id];

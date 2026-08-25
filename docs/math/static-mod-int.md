@@ -1,21 +1,21 @@
 ---
-title: StaticModInt
-documentation_of: ../../math/static-mod-int.hpp
+title: static_modint
+documentation_of: ../../math/modular/static-mod-int.hpp
 ---
 
-# StaticModInt
+# static_modint
 
 コンパイル時定数 mod の modint です。
 
 ## 型
 
-### `StaticModInt<mod>`
+### `static_modint<mod>`
 
 `mod` をテンプレート引数で与えます。
 `1<=mod<=2^31-1` を満たす必要があります。
 
 ```cpp
-using mint=StaticModInt<998244353>;
+using mint=static_modint<998244353>;
 ```
 
 ## 主なメソッド
@@ -55,12 +55,11 @@ mod を返します。
 ## 使用例
 
 ```cpp
-#include "math/static-mod-int.hpp"
+#include "math/modular/static-mod-int.hpp"
 
-using mint=StaticModInt<998244353>;
+using mint=static_modint<998244353>;
 
 mint a=3,b=7;
 mint c=a*b+b.inv();
 cout<<c<<"\n";
 ```
-

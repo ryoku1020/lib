@@ -1,32 +1,32 @@
 #pragma  once
 #include "../tree/base.hpp"
 /*
-struct Reroot{
+struct reroot{
     using V=Value;
     using E=Value;
-    using Edge=Tree<>::Edge;
+    using edge=tree<>::edge;
     static E merge(E a,E b){
     }
     static V put_vertex(E a,int v){
 
     }
-    static E put_edge(V a,Edge e){
+    static E put_edge(V a,edge e){
 
     }
     static E id(){
 
     }
 };*/
-template<class Reroot,class T=Unweighted>
-struct Redp{
-    using E=Reroot::E;
-    using V=Reroot::V;
-    using Edge=typename Tree<T>::Edge;
-    using cost_t=typename Tree<T>::cost_t;
-    Tree<T>t;
+template<class reroot,class T=unweighted>
+struct redp{
+    using E=reroot::E;
+    using V=reroot::V;
+    using edge=typename tree<T>::edge;
+    using cost_t=typename tree<T>::cost_t;
+    tree<T>t;
     vc<V>dp,ans;
-    Redp(int n):t(n),dp(n),ans(n){assert(n>=0);}
-    void add_edge(const Edge&e){
+    redp(int n):t(n),dp(n),ans(n){assert(n>=0);}
+    void add_edge(const edge&e){
         t.add_edge(e);
     }
     void add_edge(int a,int b,cost_t cost=1,int id=-1){
@@ -36,13 +36,13 @@ struct Redp{
         int n=t.n;
         if(n==0)return {};
         auto dfs=[&](auto&dfs,int u,int v)->void{
-            E tmp=Reroot::id();
+            E tmp=reroot::id();
             for(auto&e:t[u]){
                 if(e.to==v)continue;
                 dfs(dfs,e.to,u);
-                tmp=Reroot::merge(tmp,Reroot::put_edge(dp[e.to],e));
+                tmp=reroot::merge(tmp,reroot::put_edge(dp[e.to],e));
             }
-            dp[u]=Reroot::put_vertex(tmp,u);
+            dp[u]=reroot::put_vertex(tmp,u);
         };
         dfs(dfs,0,-1);
         auto dfs2=[&](auto&dfs2,int u,int v,E par)->void{
@@ -50,22 +50,22 @@ struct Redp{
             int sz=s.size();
             vc<E>dps(sz);
             rep(i,sz){
-                if(s[i].to!=v)dps[i]=Reroot::put_edge(dp[s[i].to],s[i]);
+                if(s[i].to!=v)dps[i]=reroot::put_edge(dp[s[i].to],s[i]);
                 else dps[i]=par;
             }
-            vc<E>pref(sz+1,Reroot::id()),suff(sz+1,Reroot::id());
-            rep(i,sz)pref[i+1]=Reroot::merge(pref[i],dps[i]);
-            drep(i,sz)suff[i]=Reroot::merge(suff[i+1],dps[i]);
-            ans[u]=Reroot::put_vertex(pref[sz],u);
+            vc<E>pref(sz+1,reroot::id()),suff(sz+1,reroot::id());
+            rep(i,sz)pref[i+1]=reroot::merge(pref[i],dps[i]);
+            drep(i,sz)suff[i]=reroot::merge(suff[i+1],dps[i]);
+            ans[u]=reroot::put_vertex(pref[sz],u);
             rep(i,sz){
                 if(s[i].to!=v)
                     dfs2(dfs2,s[i].to,u,
-                        Reroot::put_edge(
-                            Reroot::put_vertex(Reroot::merge(pref[i],suff[i+1]),u),
+                        reroot::put_edge(
+                            reroot::put_vertex(reroot::merge(pref[i],suff[i+1]),u),
                             s[i]));
             }
         };
-        dfs2(dfs2,0,-1,Reroot::id());
+        dfs2(dfs2,0,-1,reroot::id());
         return ans;
     }
 };

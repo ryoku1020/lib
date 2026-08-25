@@ -2,16 +2,16 @@
 #include"base.hpp"
 #include"multipoint-evaluation.hpp"
 template<class mint>
-fps<mint>Interpolate(vc<mint>x,vc<mint>y){
+fps<mint>interpolate(vc<mint>x,vc<mint>y){
     assert(mint::get_mod());
     assert(x.size()==y.size());
     int n=x.size();
     int sz=1;
     while(sz<n)sz*=2;
     vc<fps<mint>>tree(sz*2,{1});
-    rep(i,n)tree[sz+i]={-x[i],1};
+    rep(i,n)tree[sz+i]=fps<mint>{-x[i],1};
     DREP(i,sz-1,1)tree[i]=tree[i*2]*tree[i*2+1];
-    auto gdeval=MultipointEvaluation(tree[1].diff(),x);
+    auto gdeval=multipoint_evaluation(tree[1].diff(),x);
     vc<mint>a(n);rep(i,n)a[i]=y[i]/gdeval[i];
     auto dfs=[&](auto&dfs,int l,int r,int idx)->fps<mint>{
         if(r-l==1){

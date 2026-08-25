@@ -11,7 +11,7 @@ DP の高速化に使います。
 ## 型
 
 ```cpp
-SlopeTrick<T, MAXVALUE = numeric_limits<T>::max() / 2>
+slope_trick<T, MAXVALUE = numeric_limits<T>::max() / 2>
 ```
 
 - `T` — 座標・値の型（`long long` など）
@@ -19,7 +19,7 @@ SlopeTrick<T, MAXVALUE = numeric_limits<T>::max() / 2>
 
 ## コンストラクタ
 
-### `SlopeTrick()`
+### `slope_trick()`
 
 $f(x) = 0$（定数関数）で初期化します。
 
@@ -41,13 +41,13 @@ $f(x) = 0$（定数関数）で初期化します。
 
 - 注意: これらはオフセット補正前の生の値です。実際の傾き変化点とは異なります。通常は `min_value` と `slide_min` の組み合わせで結果を得てください。
 
-### `void st.add_R(T a)`
+### `void st.add_r(T a)`
 
 $f(x) \leftarrow f(x) + \max(x - a, 0)$ を適用します（$x \geq a$ の傾きを $+1$）。
 
 - 計算量: `O(log n)`
 
-### `void st.add_L(T a)`
+### `void st.add_l(T a)`
 
 $f(x) \leftarrow f(x) + \max(a - x, 0)$ を適用します（$x \leq a$ の傾きを $-1$）。
 
@@ -56,7 +56,7 @@ $f(x) \leftarrow f(x) + \max(a - x, 0)$ を適用します（$x \leq a$ の傾�
 ### `void st.add_both(T a)`
 
 $f(x) \leftarrow f(x) + |x - a|$ を適用します。
-`add_L(a)` と `add_R(a)` の両方を呼ぶ等価な操作です。
+`add_l(a)` と `add_r(a)` の両方を呼ぶ等価な操作です。
 
 - 計算量: `O(log n)`
 
@@ -81,10 +81,10 @@ $g(x) = \min_{x-R \leq a \leq x-L} f(a)$ に更新します。
 ```cpp
 #include "ds/slope-trick.hpp"
 
-SlopeTrick<long long> st;
+slope_trick<long long> st;
 
 for (int i = 0; i < n; i++) {
-    st.add_L(a[i]);  // f(x) += max(a[i]-x, 0)
+    st.add_l(a[i]);  // f(x) += max(a[i]-x, 0)
 }
 
 cout << st.min_value << "\n"; // 最小コスト
@@ -93,10 +93,9 @@ cout << st.min_value << "\n"; // 最小コスト
 ## 使用例: スライド最小値（区間 DP 高速化）
 
 ```cpp
-SlopeTrick<long long> st;
+slope_trick<long long> st;
 
 // 何らかの DP を構築後...
 st.slide_min(0, K); // 右方向に K だけ拡張
 // min_value はそのままで、最小値区間が広がる
 ```
-

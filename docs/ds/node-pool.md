@@ -1,9 +1,9 @@
 ---
-title: NodePool
-documentation_of: ../../ds/node-pool.hpp
+title: node_pool
+documentation_of: ../../ds/utility/node-pool.hpp
 ---
 
-# NodePool
+# node_pool
 
 ノードのメモリプールです。
 `new` / `delete` の代わりに使うことで、動的確保の定数倍を削減できます。
@@ -19,7 +19,7 @@ documentation_of: ../../ds/node-pool.hpp
 
 ## コンストラクタ
 
-### `NodePool(int s = 4)`
+### `node_pool(int s = 4)`
 
 初期容量 `s` のプールを作ります。
 確保したノード数が容量を超えると自動的に 2 倍に拡張します（`grow()`）。
@@ -70,15 +70,15 @@ documentation_of: ../../ds/node-pool.hpp
 ## 使用例
 
 ```cpp
-#include "ds/node-pool.hpp"
+#include "ds/utility/node-pool.hpp"
 
-struct Node {
+struct node {
     int val, left, right;
-    Node() : val(0), left(0), right(0) {}
-    Node(int v) : val(v), left(0), right(0) {}
+    node() : val(0), left(0), right(0) {}
+    node(int v) : val(v), left(0), right(0) {}
 };
 
-NodePool<Node> pool(1 << 20);
+node_pool<node> pool(1 << 20);
 
 // 新ノードを確保
 int root = pool.get_new(42);
@@ -91,4 +91,3 @@ pool[root].left = 0;
 // 再確保（解放したスロットが再利用される）
 int new_node = pool.get_new(99);
 ```
-

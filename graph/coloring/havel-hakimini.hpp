@@ -1,5 +1,5 @@
 #pragma once
-optional<vc<pair<int,int>>>HavelHakimi(vc<int>d){
+optional<vc<pair<int,int>>>havel_hakimi(vc<int>d){
     int n=d.size();
     if(n==0)return vc<pair<int,int>>{};
     if(max(d)>n-1||min(d)<0)return nullopt;

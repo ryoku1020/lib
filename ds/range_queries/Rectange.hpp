@@ -1,15 +1,15 @@
-#include"wavelet-matrix.hpp"
-#include"bit.hpp"
+#include"../sequence/wavelet-matrix.hpp"
+#include"../sequence/bit.hpp"
 template<class T,int D>
-struct DynamicRectangleSum{
-    WMbase<ll,D>wm;
-    array<BIT<T>,D>f;
+struct dynamic_rectangle_sum{
+    wm_base<ll,D>wm;
+    array<bit<T>,D>f;
     array<vc<int>,D>inv;
     vc<array<ll,3>>ps;
     vc<ll>xs;
     vc<ll>ys;
 
-    void AddPoint(ll x,ll y,T w){
+    void add_point(ll x,ll y,T w){
         xs.pb(x);
         ys.pb(y);
         ps.pb({x,y,(ll)w});
@@ -39,13 +39,13 @@ struct DynamicRectangleSum{
         });
     }
 
-    void Add(ll x,ll y,T w){
+    void add(ll x,ll y,T w){
         y=lower_bound(all(ys),y)-ys.begin();
         int itr=lower_bound(all(ps),array<ll,3>{x,y,numeric_limits<ll>::min()})-ps.begin();
         rep(i,D)f[i].add(inv[i][itr],w);
     }
 
-    T Iquery(int l,int r,ll d)const{
+    T iquery(int l,int r,ll d)const{
         if(d<=0)return 0;
         T ans=0;
         wm.walk(l,r,[&](auto node,auto child,auto go){
@@ -65,23 +65,23 @@ struct DynamicRectangleSum{
         int xr=lower_bound(all(xs),r)-xs.begin();
         ll yd=lower_bound(all(ys),d)-ys.begin();
         ll yu=lower_bound(all(ys),u)-ys.begin();
-        return Iquery(xl,xr,yu)-Iquery(xl,xr,yd);
+        return iquery(xl,xr,yu)-iquery(xl,xr,yd);
     }
 };
 template<class T,int D>
-struct DynamicRectangleAdd{
-    DynamicRectangleSum<T,D>rs;
-    void AddRec(ll l,ll r,ll d,ll u,T w){
-        rs.AddPoint(l,d,w);
-        rs.AddPoint(l,u,-w);
-        rs.AddPoint(r,d,-w);
-        rs.AddPoint(r,u,w);
+struct dynamic_rectangle_add{
+    dynamic_rectangle_sum<T,D>rs;
+    void add_rec(ll l,ll r,ll d,ll u,T w){
+        rs.add_point(l,d,w);
+        rs.add_point(l,u,-w);
+        rs.add_point(r,d,-w);
+        rs.add_point(r,u,w);
     }
-    void Add(ll l,ll r,ll d,ll u,T w){
-        rs.Add(l,d,w);
-        rs.Add(l,u,-w);
-        rs.Add(r,d,-w);
-        rs.Add(r,u,w);
+    void add(ll l,ll r,ll d,ll u,T w){
+        rs.add(l,d,w);
+        rs.add(l,u,-w);
+        rs.add(r,d,-w);
+        rs.add(r,u,w);
     }
     T query(ll x,ll y){
         return rs.query(0,x+1,0,y+1);
@@ -91,12 +91,12 @@ struct DynamicRectangleAdd{
     }
 };
 template<class T,int D>
-struct RectangleSum{
-    WMbase<ll,D>wm;
+struct rectangle_sum{
+    wm_base<ll,D>wm;
     vc<array<ll,3>>ps;
     vc<ll>xs;
     vc<ll>ys;
-    void AddPoint(ll x,ll y,T w){
+    void add_point(ll x,ll y,T w){
         xs.pb(x);
         ys.pb(y);
         ps.pb({x,y,w});
@@ -121,6 +121,6 @@ struct RectangleSum{
         ll xr=lower_bound(all(xs),r)-xs.begin();
         ll yd=lower_bound(all(ys),d)-ys.begin();
         ll yu=lower_bound(all(ys),u)-ys.begin();
-        return wm.template LowerSum<T>(xl,xr,yd,yu);
+        return wm.template lower_sum<T>(xl,xr,yd,yu);
     }
 };

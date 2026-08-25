@@ -1,9 +1,9 @@
 #pragma once
-#include"base.hpp"
+#include"../base.hpp"
 template<class G>
-struct GraphComponents{
+struct graph_components{
     const G&g;
-    GraphComponents(const G&g):g(g){
+    graph_components(const G&g):g(g){
         assert(G::directed()==false);
     }
     vc<int>edgec2()const{

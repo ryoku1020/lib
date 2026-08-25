@@ -1,5 +1,5 @@
 template<int N>
-struct Ninfo{
+struct ninfo{
     array<int,N>mf_;
     bool built_=0;
 

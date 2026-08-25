@@ -2,7 +2,7 @@
 #include"base.hpp"
 //f(a)=y_0 f(ar)=y_1 .... 
 template<class mint>
-vc<mint>GeoInterporate(mint a,mint r,vc<mint>y){
+vc<mint>geo_interporate(mint a,mint r,vc<mint>y){
     assert(mint::get_mod());
     int n=y.size();
     if(n==0)return {};
@@ -21,9 +21,9 @@ vc<mint>GeoInterporate(mint a,mint r,vc<mint>y){
         return res;
     };
     auto all_mul=get(get,n);
-    auto gdeval=ChirpZ(all_mul.diff(),a,r,n);
+    auto gdeval=chirp_z(all_mul.diff(),a,r,n);
     fps<mint>A(n);rep(i,n)A[i]=y[i]/gdeval[i];
-    auto coef=ChirpZ(-A,r.inv(),r.inv(),n);
+    auto coef=chirp_z(-A,r.inv(),r.inv(),n);
     fps<mint>C(n);rep(i,n)C[i]=coef[i];
     C=C.substitute(1/a);C/=a;
     return (C*all_mul).pre(n);

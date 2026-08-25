@@ -13,7 +13,7 @@ int find_target(T w){
 }
 //find-min Comp(a,b) が true で一番強い a を返す tie-break は idx で（小さい方を優先）
 template<class T,class G,class F,class Compare=less<G>>
-pair<G,T> GoldenSearch(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
+pair<G,T> golden_search(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
     assert(l<=r);
     if(r-l==0){
         return {get_value(l),l};
@@ -29,34 +29,34 @@ pair<G,T> GoldenSearch(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
     }
     int fib_idx=find_target(r-l+2);
     T L=l-1,R=L+fib[fib_idx];
-    G value_L,value_L1,value_R1,value_R;
-    bool done_L1=0,done_R1=0,done_L=0,done_R=0;
+    G value_l,value_l1,value_r1,value_r;
+    bool done_l1=0,done_r1=0,done_l=0,done_r=0;
     auto Get_value=[&](T a){
         if(a<l||r<a)return weakest;
         return get_value(a);
     };
     while(R-L>2){
         T L1=L+fib[fib_idx-2],R1=L+fib[fib_idx-1];
-        if(chmax(done_L1,1))value_L1=Get_value(L1);
-        if(chmax(done_R1,1))value_R1=Get_value(R1);
-        if(!Comp(value_R1,value_L1)){ 
+        if(chmax(done_l1,1))value_l1=Get_value(L1);
+        if(chmax(done_r1,1))value_r1=Get_value(R1);
+        if(!Comp(value_r1,value_l1)){ 
             R=R1;
-            value_R=value_R1;
-            value_R1=value_L1;
-            done_R1=done_R=1;
-            done_L1=0;
+            value_r=value_r1;
+            value_r1=value_l1;
+            done_r1=done_r=1;
+            done_l1=0;
         }else{
             L=L1;
-            value_L=value_L1;
-            value_L1=value_R1;
-            done_L1=done_L=1;
-            done_R1=0;
+            value_l=value_l1;
+            value_l1=value_r1;
+            done_l1=done_l=1;
+            done_r1=0;
         }
         fib_idx--;
     }   
-    G Lvalue=done_L?value_L:Get_value(L);
-    G L1value=(done_L1?value_L1:done_R1?value_R1:Get_value(L+1));
-    G Rvalue=done_R?value_R:Get_value(R);
+    G Lvalue=done_l?value_l:Get_value(L);
+    G L1value=(done_l1?value_l1:done_r1?value_r1:Get_value(L+1));
+    G Rvalue=done_r?value_r:Get_value(R);
     T idx=L;
     if(Comp(L1value,Lvalue)){Lvalue=L1value;idx=L+1;}
     if(Comp(Rvalue,Lvalue)){ Lvalue=Rvalue;idx=R;}
@@ -64,6 +64,6 @@ pair<G,T> GoldenSearch(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
 }
 }
 template<class T,class G,class F,class Compare=less<G>>
-auto GoldenSearch(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
-    return GOLDENSEARCH::GoldenSearch<T,G,F,Compare>(l,r,get_value,weakest,Comp);
+auto golden_search(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
+    return GOLDENSEARCH::golden_search<T,G,F,Compare>(l,r,get_value,weakest,Comp);
 }

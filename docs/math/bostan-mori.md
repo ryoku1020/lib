@@ -1,15 +1,15 @@
 ---
-title: BostanMori
+title: bostan_mori
 documentation_of: ../../poly/bostan-mori.hpp
 ---
 
-# BostanMori
+# bostan_mori
 
 有理型母関数 `P(x) / Q(x)` の `x^n` 係数を高速に求めます。
 
 ## 関数
 
-### `mint BostanMori(fps<mint> p, fps<mint> q, long long n)`
+### `mint bostan_mori(fps<mint> p, fps<mint> q, long long n)`
 
 `P(x)/Q(x)` の `x^n` 係数を返します。
 
@@ -19,7 +19,7 @@ documentation_of: ../../poly/bostan-mori.hpp
 
 ## 境界・注意
 
-- `fps.hpp` と NTT 環境に依存します。
+- `poly/base.hpp` と NTT 環境に依存します。
 - `q[0] != 0` が必要です（アサートあり）。
 - `n >= 0` が必要です（アサートあり）。
 - `p` と `q` が空なら `0` を返します。
@@ -30,11 +30,11 @@ documentation_of: ../../poly/bostan-mori.hpp
 ```cpp
 #include "poly/bostan-mori.hpp"
 
-using mint=StaticModInt<998244353>;
+using mint=static_modint<998244353>;
 using FPS=fps<mint>;
 
 FPS p={0,1};    // x
 FPS q={1,-1,-1}; // 1-x-x^2
 
-mint fn=BostanMori(p,q,n);
+mint fn=bostan_mori(p,q,n);
 ```

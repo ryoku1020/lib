@@ -1,4 +1,6 @@
 #pragma once
+#ifndef FLOORS_FUNCTION
+#define FLOORS_FUNCTION
 vc<ll>floors(ll n){
     assert(n>=0);
     vc<ll>res;
@@ -16,6 +18,7 @@ vc<ll>floors(ll n){
     reverse(all(res));
     return res;
 }
+#endif
 template<class T,class F,class G>
 tuple<vc<T>,vc<int>,vc<ll>>lucy_dp(ll n,F f,G g){
     assert(n>=0);
@@ -81,11 +84,11 @@ mint black_algorithm(ll n,F f,G g,H h){
 }
 /*
 mint A,B; 
-struct Data{
+struct data{
     mint cnt,sum;
-    Data operator+(const Data&o)const{return{cnt+o.cnt,sum+o.sum};}
-    Data operator-(const Data&o)const{return{cnt-o.cnt,sum-o.sum};}
-    Data&operator-=(const Data&o){cnt-=o.cnt;sum-=o.sum;return*this;}
-    Data operator*(ll x)const{return{cnt,sum*mint(x)};}
+    data operator+(const data&o)const{return{cnt+o.cnt,sum+o.sum};}
+    data operator-(const data&o)const{return{cnt-o.cnt,sum-o.sum};}
+    data&operator-=(const data&o){cnt-=o.cnt;sum-=o.sum;return*this;}
+    data operator*(ll x)const{return{cnt,sum*mint(x)};}
     operator mint()const{return A*cnt+B*sum;} 
 };*/

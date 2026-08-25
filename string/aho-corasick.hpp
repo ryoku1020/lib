@@ -1,6 +1,6 @@
 #pragma once
 template<int sigma,auto give_order>
-struct AhoCorasick{
+struct aho_corasick{
     vc<array<int,sigma>>child;
     vc<int>suffix;
     vc<int>depth;
@@ -15,7 +15,7 @@ struct AhoCorasick{
         depth.push_back(0);
         return id;
     }
-    AhoCorasick(){
+    aho_corasick(){
         root=new_node();
     }
     template<class String>

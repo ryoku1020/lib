@@ -1,20 +1,20 @@
 ---
-title: Compresser
+title: compresser
 documentation_of: ../../template.hpp
 ---
 
-# Compresser
+# compresser
 
 座標圧縮ユーティリティです。
 値の集合を `0, 1, ..., k-1` の整数に圧縮します。
 
 ## コンストラクタ
 
-### `Compresser<T>(int n)`
+### `compresser<T>(int n)`
 
 `n` 要素を事前確保して初期化します。
 
-### `Compresser<T>(const vc<T>& xs)`
+### `compresser<T>(const vc<T>& xs)`
 
 配列 `xs` を初期値として初期化します。
 内部で `build` は自動で行われます。
@@ -62,7 +62,7 @@ documentation_of: ../../template.hpp
 ```cpp
 #include "template.hpp"
 
-Compresser<long long> cp(n);
+compresser<long long> cp(n);
 for(int i=0;i<n;i++) cp.push(a[i]);
 
 // 圧縮後インデックス取得
@@ -75,4 +75,3 @@ long long orig = cp[id];
 // lower_bound 相当
 int lb = cp.find_next(x); // x 以上の最小要素のインデックス
 ```
-

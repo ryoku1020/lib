@@ -1,12 +1,12 @@
 #pragma once
 
 template<class X>
-struct PotentializedUnionFind{
+struct potentialized_union_find{
     using value_type=X::value_type;
     vc<int>par;
     //val[par[x]]=val[x]*w[x]
     vc<value_type>w;
-    PotentializedUnionFind(int n){
+    potentialized_union_find(int n){
         assert(n>=0);
         par.assign(n,-1);
         w.assign(n,X::e());

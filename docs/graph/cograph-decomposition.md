@@ -1,6 +1,6 @@
 ---
 title: Cograph Decomposition (非辺リストによる連結成分分解)
-documentation_of: ../../graph/cograph-decomposition.hpp
+documentation_of: ../../graph/coloring/cograph-decomposition.hpp
 ---
 
 # Cograph Decomposition
@@ -26,7 +26,7 @@ vvc<int> cographdecomposition(int n, vc<pair<int, int>> non_edge);
 
 ### 計算量
 - $O(N + M \log M)$ ($M$ は `non_edge` のサイズ)
-内部で `FastSet` を用いてまだ訪問していない頂点を管理し、非辺を二分探索で判定しているため、高速に動作します。
+内部で `fast_set` を用いてまだ訪問していない頂点を管理し、非辺を二分探索で判定しているため、高速に動作します。
 
 ## 境界・注意
 
@@ -39,7 +39,7 @@ vvc<int> cographdecomposition(int n, vc<pair<int, int>> non_edge);
 完全グラフから一部の辺だけが欠けているグラフの連結成分を求めます。
 
 ```cpp
-#include "graph/cograph-decomposition.hpp"
+#include "graph/coloring/cograph-decomposition.hpp"
 
 int n=5;
 vc<pair<int,int>> non_edge={

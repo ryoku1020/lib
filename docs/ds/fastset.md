@@ -1,16 +1,16 @@
 ---
-title: FastSet
-documentation_of: ../../ds/fastset.hpp
+title: fast_set
+documentation_of: ../../ds/ordered/fastset.hpp
 ---
 
-# FastSet
+# fast_set
 
 `[0,n)` 上の整数集合を管理する高速 bitset 木です。
 挿入、削除、存在判定、次要素・前要素探索ができます。
 
 ## コンストラクタ
 
-### `FastSet(int n)`
+### `fast_set(int n)`
 
 宇宙集合を `[0,n)` として初期化します。
 
@@ -53,13 +53,12 @@ documentation_of: ../../ds/fastset.hpp
 ## 使用例
 
 ```cpp
-#include "ds/fastset.hpp"
+#include "ds/ordered/fastset.hpp"
 
-FastSet fs(n);
+fast_set fs(n);
 fs.insert(3);
 fs.insert(10);
 
 int a=fs.next(4);  // 10
 int b=fs.prev(9);  // 3
 ```
-

@@ -2,7 +2,7 @@
 #include"base.hpp"
 template<class mint>using spfs=vc<pair<int,mint>>;
 template<class mint>
-fps<mint>InvSparse(int n,spfs<mint>sp){
+fps<mint>inv_sparse(int n,spfs<mint>sp){
     if(n==0)return{};
     mint iv;
     fps<mint>res(n);
@@ -26,9 +26,9 @@ fps<mint>InvSparse(int n,spfs<mint>sp){
     return res;
 }
 template<class mint>
-fps<mint>LogSparse(int n,spfs<mint>sp){
+fps<mint>log_sparse(int n,spfs<mint>sp){
     if(n==0)return{};
-    fps<mint>ds=InvSparse(n-1,sp);
+    fps<mint>ds=inv_sparse(n-1,sp);
     fps<mint>nds(n-1);
     rep(i,sp.size()){
         if(sp[i].first==0)continue;
@@ -40,11 +40,11 @@ fps<mint>LogSparse(int n,spfs<mint>sp){
     }
     ds=move(nds);
     ds.insert(ds.begin(),0);
-    REP(i,1,ds.size())ds[i]*=Binom<mint>::inv(i);
+    REP(i,1,ds.size())ds[i]*=binom<mint>::inv(i);
     return ds;
 }
 template<class mint>
-fps<mint>ExpSparse(int n,spfs<mint>sp){
+fps<mint>exp_sparse(int n,spfs<mint>sp){
 
     if(n==0)return {};
     fps<mint>f(n);f[0]=1;
@@ -55,12 +55,12 @@ fps<mint>ExpSparse(int n,spfs<mint>sp){
                 ri+=sp[j].second*f[i-(sp[j].first-1)]*sp[j].first;
             }
         }
-        f[i+1]=ri*Binom<mint>::inv(i+1);
+        f[i+1]=ri*binom<mint>::inv(i+1);
     }   
     return f;
 }
 template<class mint>
-fps<mint>PowSparse(int n,spfs<mint>sp,ll m){
+fps<mint>pow_sparse(int n,spfs<mint>sp,ll m){
     if(n==0)return {};
     if(m==0){
         fps<mint>res(n);res[0]=1;
@@ -77,7 +77,7 @@ fps<mint>PowSparse(int n,spfs<mint>sp,ll m){
             return fps<mint>(n);
         }
         auto nsp=sp;for(auto&x:nsp)x.first-=sp[i].first;
-        auto res=PowSparse(n-sp[i].first*m,nsp,m);
+        auto res=pow_sparse(n-sp[i].first*m,nsp,m);
         vc<mint>zero(sp[i].first*m);
         zero.insert(zero.end(),res.begin(),res.end());
         return zero;
@@ -92,12 +92,12 @@ fps<mint>PowSparse(int n,spfs<mint>sp,ll m){
                 gj+=m*F[j-x.first+1]*x.first*x.second;
             }
         }   
-        F[j+1]=gj*Binom<mint>::inv(j+1)*sp0;
+        F[j+1]=gj*binom<mint>::inv(j+1)*sp0;
     }
     return F;
 }
 template<class mint>
-optional<fps<mint>>SqrtSparse(int n,spfs<mint>sp){
+optional<fps<mint>>sqrt_sparse(int n,spfs<mint>sp){
     if(sp.empty())return fps<mint>(n);
     int mini=[&](){
         int i;
@@ -111,16 +111,16 @@ optional<fps<mint>>SqrtSparse(int n,spfs<mint>sp){
         for(auto&x:sp){
             x.first-=mindeg;
         }
-        auto res=SqrtSparse(n-mindeg/2,sp);if(!res.has_value())return nullopt;
+        auto res=sqrt_sparse(n-mindeg/2,sp);if(!res.has_value())return nullopt;
         vc<mint>zero(mindeg/2);
         zero.insert(zero.end(),res.value().begin(),res.value().end());
         return zero;
     }
     if(sp[mini].second!=1){
-        ll coef=ModSqrt(sp[mini].second.val,mint::get_mod());
+        ll coef=mod_sqrt(sp[mini].second.val,mint::get_mod());
         if(coef==-1)return nullopt;
         mint v=1/sp[mini].second;for(auto&x:sp)x.second*=v;
-        auto res=SqrtSparse(n,sp);if(!res.has_value())return nullopt;
+        auto res=sqrt_sparse(n,sp);if(!res.has_value())return nullopt;
         res.value()*=(mint)coef;
         return res;
     }
@@ -135,7 +135,7 @@ optional<fps<mint>>SqrtSparse(int n,spfs<mint>sp){
             }
         }
         sm*=inv2;
-        F[i+1]=sm*Binom<mint>::inv(i+1);
+        F[i+1]=sm*binom<mint>::inv(i+1);
     }
     return F;
 }

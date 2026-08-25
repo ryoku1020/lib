@@ -1,16 +1,16 @@
 ---
-title: BipartiteMatching
+title: bipartite_matching
 documentation_of: ../../graph/bipartite-match.hpp
 ---
 
-# BipartiteMatching
+# bipartite_matching
 
 Hopcroft-Karp 法による二部マッチングです。
 左側 `l` 頂点、右側 `r` 頂点の二部グラフに対して最大マッチングを求めます。
 
 ## コンストラクタ
 
-### `BipartiteMatching(int l, int r)`
+### `bipartite_matching(int l, int r)`
 
 左側サイズ `l`、右側サイズ `r` で初期化します。
 
@@ -46,7 +46,7 @@ Hopcroft-Karp 法による二部マッチングです。
 ```cpp
 #include "graph/bipartite-match.hpp"
 
-BipartiteMatching bm(L,R);
+bipartite_matching bm(L,R);
 for(auto [a,b]:edges)bm.add_edge(a,b);
 
 auto match=bm.work();
@@ -62,4 +62,3 @@ for(int a=0;a<L;a++){
     }
 }
 ```
-

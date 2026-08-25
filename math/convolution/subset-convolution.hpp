@@ -1,6 +1,6 @@
 #pragma once
 template<class mint,int N=32>
-vc<mint>SubsetConvolution(vc<mint>f,vc<mint>g){
+vc<mint>subset_convolution(vc<mint>f,vc<mint>g){
     assert(f.size()==g.size());
     assert((1<<tbit(f.size()))==f.size());
     if constexpr(N<32){
@@ -80,30 +80,30 @@ vc<mint>SubsetConvolution(vc<mint>f,vc<mint>g){
     }else{
         vc<mint>ans;
         switch(tbit(f.size())){
-            case 0:ans=SubsetConvolution<mint,0>(f,g);break;
-            case 1:ans=SubsetConvolution<mint,1>(f,g);break;
-            case 2:ans=SubsetConvolution<mint,2>(f,g);break;
-            case 3:ans=SubsetConvolution<mint,3>(f,g);break;
-            case 4:ans=SubsetConvolution<mint,4>(f,g);break;
-            case 5:ans=SubsetConvolution<mint,5>(f,g);break;
-            case 6:ans=SubsetConvolution<mint,6>(f,g);break;
-            case 7:ans=SubsetConvolution<mint,7>(f,g);break;
-            case 8:ans=SubsetConvolution<mint,8>(f,g);break;
-            case 9:ans=SubsetConvolution<mint,9>(f,g);break;
-            case 10:ans=SubsetConvolution<mint,10>(f,g);break;
-            case 11:ans=SubsetConvolution<mint,11>(f,g);break;
-            case 12:ans=SubsetConvolution<mint,12>(f,g);break;
-            case 13:ans=SubsetConvolution<mint,13>(f,g);break;
-            case 14:ans=SubsetConvolution<mint,14>(f,g);break;
-            case 15:ans=SubsetConvolution<mint,15>(f,g);break;
-            case 16:ans=SubsetConvolution<mint,16>(f,g);break;
-            case 17:ans=SubsetConvolution<mint,17>(f,g);break;
-            case 18:ans=SubsetConvolution<mint,18>(f,g);break;
-            case 19:ans=SubsetConvolution<mint,19>(f,g);break;
-            case 20:ans=SubsetConvolution<mint,20>(f,g);break;
-            case 21:ans=SubsetConvolution<mint,21>(f,g);break;
-            case 22:ans=SubsetConvolution<mint,22>(f,g);break;
-            case 23:ans=SubsetConvolution<mint,23>(f,g);break;
+            case 0:ans=subset_convolution<mint,0>(f,g);break;
+            case 1:ans=subset_convolution<mint,1>(f,g);break;
+            case 2:ans=subset_convolution<mint,2>(f,g);break;
+            case 3:ans=subset_convolution<mint,3>(f,g);break;
+            case 4:ans=subset_convolution<mint,4>(f,g);break;
+            case 5:ans=subset_convolution<mint,5>(f,g);break;
+            case 6:ans=subset_convolution<mint,6>(f,g);break;
+            case 7:ans=subset_convolution<mint,7>(f,g);break;
+            case 8:ans=subset_convolution<mint,8>(f,g);break;
+            case 9:ans=subset_convolution<mint,9>(f,g);break;
+            case 10:ans=subset_convolution<mint,10>(f,g);break;
+            case 11:ans=subset_convolution<mint,11>(f,g);break;
+            case 12:ans=subset_convolution<mint,12>(f,g);break;
+            case 13:ans=subset_convolution<mint,13>(f,g);break;
+            case 14:ans=subset_convolution<mint,14>(f,g);break;
+            case 15:ans=subset_convolution<mint,15>(f,g);break;
+            case 16:ans=subset_convolution<mint,16>(f,g);break;
+            case 17:ans=subset_convolution<mint,17>(f,g);break;
+            case 18:ans=subset_convolution<mint,18>(f,g);break;
+            case 19:ans=subset_convolution<mint,19>(f,g);break;
+            case 20:ans=subset_convolution<mint,20>(f,g);break;
+            case 21:ans=subset_convolution<mint,21>(f,g);break;
+            case 22:ans=subset_convolution<mint,22>(f,g);break;
+            case 23:ans=subset_convolution<mint,23>(f,g);break;
 
         }
         return ans;

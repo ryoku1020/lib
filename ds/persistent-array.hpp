@@ -1,6 +1,6 @@
 #pragma once
 template<class T,int B>
-struct PersistentArray{
+struct persistent_array{
     struct Node{
         array<Node*,B>child;
         T*val;
@@ -12,7 +12,7 @@ struct PersistentArray{
     };
     int b_;
     int n_;
-    PersistentArray():b_(0),n_(0){}
+    persistent_array():b_(0),n_(0){}
     Node*build(int n,T x){
         assert(n>=0);
         n_=n;

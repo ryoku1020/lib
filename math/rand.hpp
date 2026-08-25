@@ -1,7 +1,7 @@
 #pragma once
-struct Rand{
+struct randf{
     mt19937 mt;
-    Rand():mt(chrono::steady_clock::now().time_since_epoch().count()){}
+    randf():mt(chrono::steady_clock::now().time_since_epoch().count()){}
     ll operator()(){
         return mt();
     }

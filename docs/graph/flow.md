@@ -1,23 +1,23 @@
 ---
-title: Flow
-documentation_of: ../../graph/flow.hpp
+title: flow
+documentation_of: ../../graph/network_flow/flow.hpp
 ---
 
-# Flow
+# flow
 
 Dinic 法による最大流です。
 
 ## 型
 
 ```cpp
-Flow<T>
+flow<T>
 ```
 
 - `T` — 容量・流量の型（`int`, `long long` など）
 
 ## コンストラクタ
 
-### `Flow<T>(int n)`
+### `flow<T>(int n)`
 
 頂点数 `n` のフローネットワークを作ります。
 
@@ -47,9 +47,9 @@ Flow<T>
 ## 使用例
 
 ```cpp
-#include "graph/flow.hpp"
+#include "graph/network_flow/flow.hpp"
 
-Flow<long long> mf(n);
+flow<long long> mf(n);
 mf.add_edge(s, a, 3);
 mf.add_edge(s, b, 4);
 mf.add_edge(a, t, 2);
@@ -58,4 +58,3 @@ mf.add_edge(a, b, 1);
 
 auto ans = mf.run(s, t); // 最大流値
 ```
-

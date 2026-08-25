@@ -1,25 +1,25 @@
 ---
-title: ContourAdd
+title: contour_add
 documentation_of: ../../tree/contour.hpp
 ---
 
-# ContourAdd
+# contour_add
 
 木上の各頂点に値を持たせ、ある頂点から距離制約付きで和を取るための構造体です。
-内部では `centroid_decomposition13` と `BinaryIndexedTree` を使って、更新と距離範囲クエリを処理します。
+内部では `centroid_decomposition13` と `binary_indexed_tree` を使って、更新と距離範囲クエリを処理します。
 
-## `ContourAdd<T>`
+## `contour_add<T>`
 
 ### 使い方
 
 ```cpp
 #include "tree/contour.hpp"
 
-Tree tree(n);
+tree tree(n);
 // 辺を追加
 
 vector<long long> init(n);
-ContourAdd<long long> ds(tree);
+contour_add<long long> ds(tree);
 ds.work(init);
 
 long long within_r=ds.prod(v,r);
@@ -31,11 +31,11 @@ ds.add(v,x);
 「頂点 `v` から距離 2 以下にある頂点重みの総和」を何度も聞かれる問題を想定すると、次のように使えます。
 
 ```cpp
-Tree tree(n);
+tree tree(n);
 // 辺を追加
 
 vector<long long> a(n);
-ContourAdd<long long> ds(tree);
+contour_add<long long> ds(tree);
 ds.work(a);
 
 long long ans=ds.prod(v,3); // 距離 0,1,2 の総和
@@ -44,7 +44,7 @@ ds.add(v,5);                // a[v]+=5
 
 ### コンストラクタ
 
-- `ContourAdd(Tree& tree)`
+- `contour_add(tree& tree)`
   対象となる木を参照で保持します。
 
 ### メソッド
@@ -69,18 +69,18 @@ ds.add(v,5);                // a[v]+=5
 - `work` を呼ぶ前に `prod` や `add` を呼ぶことはできません。
 - `prod` の距離は辺数で数えます。
 - 構築後に木構造を変更することは想定されていません。
-- 構造体名は実装に合わせて `ContourAdd` です。
+- 構造体名は実装に合わせて `contour_add` です。
 
 ## 使用例
 
 頂点 `v` から距離 `K` 以下にある頂点値の総和を求めます。
 
 ```cpp
-Tree tree(n);
+tree tree(n);
 // 辺を追加
 
 vc<long long> a(n);
-ContourAdd<long long> contour(tree);
+contour_add<long long> contour(tree);
 contour.work(a);
 
 int v,K;

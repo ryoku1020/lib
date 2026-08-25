@@ -1,9 +1,9 @@
 ---
-title: StaticRangeMode
-documentation_of: ../../ds/static-mode.hpp
+title: static_range_mode
+documentation_of: ../../ds/sequence/static-mode.hpp
 ---
 
-# StaticRangeMode
+# static_range_mode
 
 静的配列に対する区間最頻値クエリです。
 一度前計算したあと、各区間 `[l,r)` の mode とその出現回数を返します。
@@ -11,29 +11,29 @@ documentation_of: ../../ds/static-mode.hpp
 ## 使い方
 
 ```cpp
-#include "ds/static-mode.hpp"
+#include "ds/sequence/static-mode.hpp"
 
-StaticRangeMode<int> rmq(7);
+static_range_mode<int> rmq(7);
 vector<int> a={1,2,1,3,1,2,2};
 for(int i=0;i<7;i++)rmq.set(i,a[i]);
 rmq.precalc();
 
-auto [cnt,val]=rmq.Query(0,7);
+auto [cnt,val]=rmq.query(0,7);
 // val は最頻値, cnt はその出現回数
 ```
 
 ## メソッド
 
-- `StaticRangeMode(int n)`
+- `static_range_mode(int n)`
   長さ `n` で初期化します。
 
 - `void set(int i,T x)`
   `a[i]=x` を設定します。
 
 - `void precalc()`
-  前計算を行います。`Query` の前に必須です。
+  前計算を行います。`query` の前に必須です。
 
-- `pair<int,T> Query(int l,int r)`
+- `pair<int,T> query(int l,int r)`
   区間 `[l,r)` の最頻値を `{出現回数,値}` で返します。
 
 ## 境界・注意
@@ -45,9 +45,8 @@ auto [cnt,val]=rmq.Query(0,7);
 ## 典型例
 
 ```cpp
-auto [cnt,val]=rmq.Query(l,r);
+auto [cnt,val]=rmq.query(l,r);
 if(cnt>(r-l)/2){
     // val は majority
 }
 ```
-

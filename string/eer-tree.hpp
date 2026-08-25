@@ -1,6 +1,6 @@
 #pragma once
 template<int sigma>
-struct EerTree{
+struct eer_tree{
     vc<array<int,sigma>>child;
     vc<int>suffix;
     vc<int>suffix_tree_depth;

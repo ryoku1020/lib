@@ -1,64 +1,64 @@
 #pragma once
 #include "barrett.hpp"
 template<int id>
-struct DynamicModInt{
+struct dynamic_modint{
     using u32=uint32_t;
     using u64=uint64_t;
     u32 val;
-    DynamicModInt():val(0){}
-    DynamicModInt(ll x){
+    dynamic_modint():val(0){}
+    dynamic_modint(ll x){
         ll v=x%get_mod();
         if(v<0)v+=get_mod();
         val=v;
     }
-    static DynamicModInt raw(int v){
+    static dynamic_modint raw(int v){
         assert(v>=0);
-        DynamicModInt mi;
+        dynamic_modint mi;
         mi.val=v;
         return mi;
     }
-    DynamicModInt &operator+=(const DynamicModInt&m){
+    dynamic_modint &operator+=(const dynamic_modint&m){
         if((val+=m.val)>=get_mod())val-=get_mod();
         return *this;
     }
-    DynamicModInt &operator-=(const DynamicModInt&m){
+    dynamic_modint &operator-=(const dynamic_modint&m){
         if((val+=(get_mod()-m.val))>=get_mod())val-=get_mod();
         return *this;
     }
-    DynamicModInt &operator*=(const DynamicModInt&m){
+    dynamic_modint &operator*=(const dynamic_modint&m){
         val=rem(u64(val)*m.val);
         return *this;
     }
-    DynamicModInt &operator/=(const DynamicModInt&m){
+    dynamic_modint &operator/=(const dynamic_modint&m){
         val=rem(u64(val)*m.inv().val);
         return *this;
     }
-    DynamicModInt operator-() const{
-        return DynamicModInt(val?get_mod()-val:0);
+    dynamic_modint operator-() const{
+        return dynamic_modint(val?get_mod()-val:0);
     }
-    DynamicModInt operator+() const {
+    dynamic_modint operator+() const {
         return *this;
     }
-    friend DynamicModInt operator+(DynamicModInt lhs, const DynamicModInt& rhs){
+    friend dynamic_modint operator+(dynamic_modint lhs, const dynamic_modint& rhs){
         return lhs+=rhs;
     }
-    friend DynamicModInt operator-(DynamicModInt lhs, const DynamicModInt& rhs){
+    friend dynamic_modint operator-(dynamic_modint lhs, const dynamic_modint& rhs){
         return lhs-=rhs;
     }
-    friend DynamicModInt operator*(DynamicModInt lhs, const DynamicModInt& rhs){
+    friend dynamic_modint operator*(dynamic_modint lhs, const dynamic_modint& rhs){
         return lhs*=rhs;
     }
-    friend DynamicModInt operator/(DynamicModInt lhs,const DynamicModInt&rhs){
+    friend dynamic_modint operator/(dynamic_modint lhs,const dynamic_modint&rhs){
         return lhs/=rhs;
     }
-    bool operator==(const DynamicModInt&p) const{
+    bool operator==(const dynamic_modint&p) const{
         return p.val==val;
     }
-    bool operator!=(const DynamicModInt&p) const{
+    bool operator!=(const dynamic_modint&p) const{
         return p.val!=val;
     }
-    DynamicModInt pow(int64_t n) const{
-        DynamicModInt res(1),mul(val);
+    dynamic_modint pow(int64_t n) const{
+        dynamic_modint res(1),mul(val);
         while(n){
             if(n%2)res*=mul;
             mul*=mul;
@@ -67,17 +67,17 @@ struct DynamicModInt{
         return res;
     }
 
-    friend ostream&operator<<(ostream&os,const DynamicModInt&p){
+    friend ostream&operator<<(ostream&os,const dynamic_modint&p){
         os<<p.val;
         return os;
     }
-    friend istream&operator>>(istream&is,DynamicModInt&p){
+    friend istream&operator>>(istream&is,dynamic_modint&p){
         int64_t x;
         is>>x;
-        p=DynamicModInt(x);
+        p=dynamic_modint(x);
         return is;
     }
-    DynamicModInt inv()const{
+    dynamic_modint inv()const{
         int64_t a=val,b=get_mod(),u=1,v=0,t;
         #ifdef LOCAL
         assert(gcd(a,b)==1);
@@ -87,9 +87,9 @@ struct DynamicModInt{
             swap(a-=t*b,b);
             swap(u-=t*v,v);
         }
-        return DynamicModInt(u);
+        return dynamic_modint(u);
     }
-    inline static u32 rem(u64 x){return BarrettReduction().reduce(x);}
+    inline static u32 rem(u64 x){return barrett_reduction().reduce(x);}
     static inline int &get_mod(){
         static int mod=0;
         return mod;
@@ -97,12 +97,11 @@ struct DynamicModInt{
     static void set_mod(int md){
         assert(0<md&&md<=(1ll<<31)-1);
         get_mod()=md;
-        BarrettReduction().set(md);
+        barrett_reduction().set(md);
     }
-    static inline Barrett&BarrettReduction(){
-        static Barrett b;
+    static inline barrett&barrett_reduction(){
+        static barrett b;
         return b;
     }
 };
 
-#include "mod.hpp"

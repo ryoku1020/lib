@@ -1,7 +1,7 @@
 #pragma once
 //0,1,..,M-1
 template<class mint>
-vc<mint>LcmConvolution(vc<mint>a,vc<mint>b,int M){
+vc<mint>lcm_convolution(vc<mint>a,vc<mint>b,int M){
     a.resize(M),b.resize(M);
     vc<mint>c(M);
     rep(i,M){

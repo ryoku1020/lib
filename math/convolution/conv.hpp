@@ -1,5 +1,5 @@
 #pragma once
-#include "static-mod-int.hpp"
+#include "../modular/static-mod-int.hpp"
 #ifndef ATCODER_CONVOLUTION_HPP
 #define ATCODER_CONVOLUTION_HPP 1
 #ifndef ATCODER_MATH_HPP
@@ -30,15 +30,15 @@ constexpr long long safe_mod(long long x, long long m) {
     return x;
 }
 
-// Fast modular multiplication by BarrettReduction reduction
+// Fast modular multiplication by barrett_reduction reduction
 // Reference: https://en.wikipedia.org/wiki/Barrett_reduction
 // NOTE: reconsider after Ice Lake
-struct BarrettReduction {
+struct barrett_reduction {
     unsigned int _m;
     unsigned long long im;
 
     // @param m `1 <= m`
-    explicit BarrettReduction(unsigned int m) : _m(m), im((unsigned long long)(-1) / m + 1) {}
+    explicit barrett_reduction(unsigned int m) : _m(m), im((unsigned long long)(-1) / m + 1) {}
 
     // @return m
     unsigned int umod() const { return _m; }
@@ -227,7 +227,7 @@ namespace atcoder {
 long long pow_mod(long long x, long long n, int m) {
     assert(0 <= n && 1 <= m);
     if (m == 1) return 0;
-    internal::BarrettReduction bt((unsigned int)(m));
+    internal::barrett_reduction bt((unsigned int)(m));
     unsigned int r = 1, y = (unsigned int)(internal::safe_mod(x, m));
     while (n) {
         if (n & 1) r = bt.mul(r, y);
@@ -381,7 +381,7 @@ namespace internal {
 
 template <class mint,
           int g = internal::primitive_root<mint::get_mod()>>
-struct FastFourierTransformInfo {
+struct fast_fourier_transform_info {
     static constexpr int rank2 = countr_zero_constexpr(mint::get_mod() - 1);
     std::array<mint, rank2 + 1> root;   // root[i]^(2^i) == 1
     std::array<mint, rank2 + 1> iroot;  // root[i] * iroot[i] == 1
@@ -392,7 +392,7 @@ struct FastFourierTransformInfo {
     std::array<mint, std::max(0, rank2 - 3 + 1)> rate3;
     std::array<mint, std::max(0, rank2 - 3 + 1)> irate3;
 
-    FastFourierTransformInfo() {
+    fast_fourier_transform_info() {
         root[rank2] = mint(g).pow((mint::get_mod() - 1) >> rank2);
         iroot[rank2] = root[rank2].inv();
         for (int i = rank2 - 1; i >= 0; i--) {
@@ -426,7 +426,7 @@ void butterfly(std::vector<mint>& a) {
     int n = int(a.size());
     int h = internal::countr_zero((unsigned int)n);
 
-    static const FastFourierTransformInfo<mint> info;
+    static const fast_fourier_transform_info<mint> info;
 
     int len = 0;  // a[i, i+(n>>len), i+2*(n>>len), ..] is transformed
     while (len < h) {
@@ -480,7 +480,7 @@ void butterfly_inv(std::vector<mint>& a) {
     int n = int(a.size());
     int h = internal::countr_zero((unsigned int)n);
 
-    static const FastFourierTransformInfo<mint> info;
+    static const fast_fourier_transform_info<mint> info;
 
     int len = h;  // a[i, i+(n>>len), i+2*(n>>len), ..] is transformed
     while (len) {
@@ -580,6 +580,7 @@ std::vector<mint> convolution_fft(std::vector<mint> a, std::vector<mint> b) {
 }  // namespace internal
 
 template <class mint>
+requires requires{mint::get_mod();}
 std::vector<mint> convolution(std::vector<mint>&& a, std::vector<mint>&& b) {
     int n = int(a.size()), m = int(b.size());
     if (!n || !m) return {};
@@ -591,6 +592,7 @@ std::vector<mint> convolution(std::vector<mint>&& a, std::vector<mint>&& b) {
     return internal::convolution_fft(std::move(a), std::move(b));
 }
 template <class mint>
+requires requires{mint::get_mod();}
 std::vector<mint> convolution(const std::vector<mint>& a,
                               const std::vector<mint>& b) {
     int n = int(a.size()), m = int(b.size());
@@ -605,11 +607,12 @@ std::vector<mint> convolution(const std::vector<mint>& a,
 
 template <unsigned int mod = 998244353,
           class T>
+requires std::is_integral_v<T>
 std::vector<T> convolution(const std::vector<T>& a, const std::vector<T>& b) {
     int n = int(a.size()), m = int(b.size());
     if (!n || !m) return {};
 
-    using mint = StaticModInt<mod>;
+    using mint = static_modint<mod>;
 
     int z = (int)internal::bit_ceil((unsigned int)(n + m - 1));
     assert((mint::get_mod() - 1) % z == 0);

@@ -2,14 +2,14 @@
 
 #include <iostream>
 #include <vector>
-#include "../../ds/segtree.hpp"
-#include "../../math/static-mod-int.hpp"
+#include "../../ds/segment_tree/segtree.hpp"
+#include "../../math/modular/static-mod-int.hpp"
 
 using namespace std;
 
-using mint = StaticModInt<998244353>;
+using mint = static_modint<998244353>;
 
-struct Info {
+struct info {
     using value_type = pair<mint, mint>; // a, b for ax+b
     static value_type op(value_type a, value_type b) {
         // b(a(x)) = b.a * a.a * x + b.a * a.b + b.b
@@ -26,7 +26,7 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    Segtree<Info> seg(N);
+    segtree<info> seg(N);
     for (int i = 0; i < N; i++) {
         long long a, b;
         cin >> a >> b;

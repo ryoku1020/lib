@@ -1,6 +1,6 @@
 ---
 title: FormalPowerSeries
-documentation_of: ../../math/fps.hpp
+documentation_of: ../../poly/base.hpp
 ---
 
 # FormalPowerSeries
@@ -13,10 +13,10 @@ NTT を使って積、逆数、対数、指数、冪、平方根などを高速�
 ### `FormalPowerSeries<mint>`
 
 `vector<mint>` を継承した多項式型です。
-通常は NTT friendly mod の `StaticModInt` と組み合わせます。
+通常は NTT friendly mod の `static_modint` と組み合わせます。
 
 ```cpp
-using mint=StaticModInt<998244353>;
+using mint=static_modint<998244353>;
 using FPS=FormalPowerSeries<mint>;
 ```
 
@@ -115,7 +115,7 @@ using FPS=FormalPowerSeries<mint>;
 
 複数の多項式の総積を `O(N log^2 N)` で返します（divide and conquer）。
 
-### `SubproductTree`
+### `subproduct_tree`
 
 多点評価・補間のための積木です。クエリ点が多い場合に利用します。
 
@@ -128,10 +128,10 @@ using FPS=FormalPowerSeries<mint>;
 ## 使用例
 
 ```cpp
-#include "math/fps.hpp"
-#include "math/static-mod-int.hpp"
+#include "poly/base.hpp"
+#include "math/modular/static-mod-int.hpp"
 
-using mint=StaticModInt<998244353>;
+using mint=static_modint<998244353>;
 using FPS=FormalPowerSeries<mint>;
 
 FPS f={1,2,3}; // 1 + 2x + 3x^2
@@ -149,4 +149,3 @@ auto sq=f.sqrt(5);   // g^2 ≡ f mod x^5 となる g (optional)
 auto [quot,rem]=f.div_only_with_remainder(g);
 // または div_only で商だけ
 ```
-

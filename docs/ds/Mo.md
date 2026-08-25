@@ -1,16 +1,16 @@
 ---
-title: Mo
-documentation_of: ../../ds/mo.hpp
+title: mo
+documentation_of: ../../ds/sequence/mo.hpp
 ---
 
-# Mo
+# mo
 
-Mo's algorithm の順序付けと実行部分をまとめた構造体です。
+mo's algorithm の順序付けと実行部分をまとめた構造体です。
 この実装ではクエリ区間は半開ではなく閉区間 `[l,r]` です。
 
 ## コンストラクタ
 
-### `Mo(int N, int Q)`
+### `mo(int N, int Q)`
 
 長さ `N` の列に対する、`Q` 個程度のクエリを処理するための順序付け器を作ります。
 ブロック幅は内部で自動決定されます。
@@ -24,9 +24,9 @@ Mo's algorithm の順序付けと実行部分をまとめた構造体です。
 
 - 制約: `0<=l<=r<N`
 
-### `void mo.Sort()`
+### `void mo.sort()`
 
-クエリ順を Mo 順に並べ替えます。
+クエリ順を mo 順に並べ替えます。
 通常は `run` が内部で呼ぶので、明示的に呼ばなくても構いません。
 
 ### `void mo.run(addleft, addright, eraseleft, eraseright, answer)`
@@ -52,9 +52,9 @@ Mo's algorithm の順序付けと実行部分をまとめた構造体です。
 ## 使用例
 
 ```cpp
-#include "ds/mo.hpp"
+#include "ds/sequence/Mo.hpp"
 
-Mo mo(n,q);
+mo mo(n,q);
 for(int i=0;i<q;i++){
     mo.push(l[i],r[i]); // [l,r]
 }
@@ -68,4 +68,3 @@ mo.run(
     [&](int id){ ans[id]=cur; }
 );
 ```
-

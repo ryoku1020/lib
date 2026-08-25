@@ -1,9 +1,9 @@
 ---
-title: SparseTable
-documentation_of: ../../ds/sparse-table.hpp
+title: sparse_table
+documentation_of: ../../ds/sequence/sparse-table.hpp
 ---
 
-# SparseTable
+# sparse_table
 
 冪等なモノイドに対する静的 RMQ 用データ構造です。
 前計算 `O(n log n)`、区間クエリ `O(1)` で処理できます。
@@ -22,7 +22,7 @@ struct X{
 
 ## コンストラクタ
 
-### `SparseTable(int N)`
+### `sparse_table(int N)`
 
 長さ `N` のテーブルを作ります。
 `set` で値を入れたあと `build` します。
@@ -57,7 +57,7 @@ struct X{
 ## 使用例
 
 ```cpp
-#include "ds/sparse-table.hpp"
+#include "ds/sequence/sparse-table.hpp"
 
 struct X{
     using value_type=int;
@@ -69,10 +69,9 @@ struct X{
     }
 };
 
-SparseTable<X> st(n);
+sparse_table<X> st(n);
 for(int i=0;i<n;i++)st.set(i,a[i]);
 st.build();
 
 auto mn=st.prod(l,r);
 ```
-

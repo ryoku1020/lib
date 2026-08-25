@@ -1,10 +1,10 @@
 #pragma once
 template<class T,class ptr_t=int>
-struct NodePool{
+struct node_pool{
     vector<T>pool;
     vector<ptr_t>st;
     int idx,cap;
-    NodePool(int s=4):idx(1),cap(s){assert(s>0);pool.resize(s);}
+    node_pool(int s=4):idx(1),cap(s){assert(s>0);pool.resize(s);}
     inline T&operator[](ptr_t i){assert(0<=int(i)&&int(i)<idx);return pool[int(i)];}
     void grow(){
         cap*=2;

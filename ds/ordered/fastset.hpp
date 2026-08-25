@@ -1,16 +1,16 @@
 #pragma once
 
 
-struct FastSet{
+struct fast_set{
     using u64=uint64_t;
     static inline constexpr int B=64;
     int n;
     vc<vc<u64>>val;
     int N;
     int size;
-    //FastSet for val in [0,n)
-    FastSet():n(0),N(0),size(0){}
-    FastSet(int n_):size(0){
+    //fast_set for val in [0,n)
+    fast_set():n(0),N(0),size(0){}
+    fast_set(int n_):size(0){
         assert(n_>=0);
         n=n_;
         N=B;

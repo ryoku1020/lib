@@ -1,22 +1,22 @@
 ---
-title: RollingHash
+title: rolling_hash
 documentation_of: ../../string/rolling-hash.hpp
 ---
 
-# RollingHash
+# rolling_hash
 
-`Mod261Int` と `Hash` を使うローリングハッシュです。
+`mod261_int` と `hash` を使うローリングハッシュです。
 
 ```cpp
-#include "math/mod261.hpp"
+#include "math/modular/mod261.hpp"
 #include "string/rolling-hash.hpp"
 
-RollingHash<> rh(s);
+rolling_hash<> rh(s);
 auto h=rh.get(l,r); // [l,r)
 ```
 
-`RollingHash<N>` とすると `N` 本の base を並列に使い、返り値は
-`Hash<Mod261Int,N>` になります。
+`rolling_hash<N>` とすると `N` 本の base を並列に使い、返り値は
+`hash<mod261_int,N>` になります。
 
 ## 静的メソッド
 

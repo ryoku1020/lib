@@ -1,12 +1,12 @@
 ---
 title: prefix-multicative helpers
-documentation_of: ../../math/prefix-multicative.hpp
+documentation_of: ../../math/combinatorics/prefix-multicative.hpp
 ---
 
 # prefix-multicative helpers
 
 $n$ 以下の整数に関わる積性関数の総和を $O(n^{2/3})$ または $O(n^{3/4}/\log n)$ で計算する補助関数群です。
-内部では **Lucy DP (Min-25 篩の前半)** を利用しています。
+内部では **Lucy DP (min_info-25 篩の前半)** を利用しています。
 
 ## 関数
 
@@ -22,7 +22,7 @@ auto v = floors(12);
 
 ### `tuple<vc<T>,vc<int>,vc<ll>> lucy_dp(ll n, F f, G g)`
 
-Min-25 篩の前半（Lucy DP）を実行します。
+min_info-25 篩の前半（Lucy DP）を実行します。
 
 - `f(x)` : $x$ が素数のとき素数への寄与の「初期値」（例: $x$ 自身や $x^k$）
 - `g(x)` : 素数の寄与が 1 段階上に伝播するときの乗数（例: 倍数除去の係数）
@@ -33,7 +33,7 @@ Min-25 篩の前半（Lucy DP）を実行します。
 
 ### `mint black_algorithm<DP>(ll n, F f, G g, H h)`
 
-Min-25 篩の後半（Black algorithm）を実行し、積性関数 $\sum_{i=1}^{n} f(i)$ を計算します。
+min_info-25 篩の後半（Black algorithm）を実行し、積性関数 $\sum_{i=1}^{n} f(i)$ を計算します。
 
 - テンプレート引数 `DP` : Lucy DP の型
 - `f(x)` / `g(x)` : Lucy DP と同じ
@@ -48,8 +48,8 @@ Min-25 篩の後半（Black algorithm）を実行し、積性関数 $\sum_{i=1}^
 ## 使用例: $n$ 以下の素数の個数
 
 ```cpp
-#include "math/prefix-multicative.hpp"
-#include "math/enumerate-floor.hpp"
+#include "math/combinatorics/prefix-multicative.hpp"
+#include "math/number_theory/enumerate-floor.hpp"
 
 // prime_counting(n) を直接使う方が楽
 ll cnt = prime_counting(n);
@@ -61,9 +61,9 @@ ll cnt = prime_counting(n);
 ## 使用例: $n$ 以下の素数の和
 
 ```cpp
-#include "math/prefix-multicative.hpp"
+#include "math/combinatorics/prefix-multicative.hpp"
 
-using mint = StaticModInt<998244353>;
+using mint = static_modint<998244353>;
 
 // f(x) = x (素数 x の寄与は x 自身)
 // g(x) = 1 (係数は 1)
@@ -79,4 +79,3 @@ auto [dp, primes, QN] = lucy_dp<mint>(
 // dp.back() が「n 以下の素数の和」
 mint sum_of_primes = dp.back() - mint(1); // 1 を除く
 ```
-

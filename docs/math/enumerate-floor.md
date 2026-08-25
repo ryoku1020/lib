@@ -1,6 +1,6 @@
 ---
 title: enumerate-floor
-documentation_of: ../../math/enumerate-floor.hpp
+documentation_of: ../../math/number_theory/enumerate-floor.hpp
 ---
 
 # enumerate-floor
@@ -11,7 +11,7 @@ documentation_of: ../../math/enumerate-floor.hpp
 ## 使い方
 
 ```cpp
-#include "math/enumerate-floor.hpp"
+#include "math/number_theory/enumerate-floor.hpp"
 
 auto xs=floors(10);
 // {1,2,3,5,10}

@@ -1,16 +1,18 @@
 #pragma once
 #include"uf.hpp"
-struct SuperDisjointSetUnion{
+#ifndef SUPER_DISJOINT_SET_UNION_STRUCT
+#define SUPER_DISJOINT_SET_UNION_STRUCT
+struct super_disjoint_set_union{
     int n;
     int lg;
-    vc<DisjointSetUnion>ds;
-    SuperDisjointSetUnion(int n):n(n){
+    vc<disjoint_set_union>ds;
+    super_disjoint_set_union(int n):n(n){
         assert(n>=0);
         lg=1;
         while((1<<lg)<=n)lg++;
-        ds=vc<DisjointSetUnion>(lg,1);
+        ds=vc<disjoint_set_union>(lg,1);
         rep(i,lg){
-            ds[i]=DisjointSetUnion(n-(1<<i)+1);
+            ds[i]=disjoint_set_union(n-(1<<i)+1);
         }
     }
     int root(int x){
@@ -38,3 +40,4 @@ struct SuperDisjointSetUnion{
         dfs(dfs,LOG,l+L-(1<<LOG),l+L,r+L-(1<<LOG),r+L);
     }
 };
+#endif

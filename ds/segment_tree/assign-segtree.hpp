@@ -1,7 +1,7 @@
 #pragma once
-template<class Info>
-struct AssignSegtree{
-    using value_type=Info::value_type;
+template<class info>
+struct assign_segtree{
+    using value_type=info::value_type;
     vc<value_type>node;
     vc<int>lazy;
     int N,lg;
@@ -13,15 +13,15 @@ struct AssignSegtree{
         node=vc<value_type>(N*2);
         lazy=vc<int>(N,-1);
     }
-    AssignSegtree(int n,value_type leaf=Info::e()){
+    assign_segtree(int n,value_type leaf=info::e()){
         build(n);
         REP(i,N,N+n)node[i]=leaf;
-        REP(i,N+n,N*2)node[i]=Info::e();
+        REP(i,N+n,N*2)node[i]=info::e();
         DREP(i,N-1,1)update(i);
     }
     void update(int i){
         assert(0<i&&i<N);
-        node[i]=Info::op(node[i*2],node[i*2+1]);
+        node[i]=info::op(node[i*2],node[i*2+1]);
         lazy[i]=-1;
     }
     void reset(){
@@ -48,7 +48,7 @@ struct AssignSegtree{
     void assign(int l,int r,value_type x){
         assert(0<=l&&l<=r&&r<=N);
         vc<value_type>push_{x};
-        rep(i,lg)push_.push_back(Info::op(push_.back(),push_.back()));
+        rep(i,lg)push_.push_back(info::op(push_.back(),push_.back()));
         mul.push_back(push_);
         l+=N,r+=N;
         for(int i=lg;i;i--){
@@ -75,13 +75,13 @@ struct AssignSegtree{
             if(((l>>i)<<i)!=l)push(l>>i);
             if(((r>>i)<<i)!=r)push((r-1)>>i);
         }
-        value_type sml=Info::e(),smr=Info::e();
+        value_type sml=info::e(),smr=info::e();
         while(l<r){
-            if(l&1)sml=Info::op(sml,node[l++]);
-            if(r&1)smr=Info::op(node[--r],smr);
+            if(l&1)sml=info::op(sml,node[l++]);
+            if(r&1)smr=info::op(node[--r],smr);
             l/=2,r/=2;
         }
-        return Info::op(sml,smr);
+        return info::op(sml,smr);
     }
     void set(int i,value_type x){
         assert(0<=i&&i<N);

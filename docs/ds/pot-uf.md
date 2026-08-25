@@ -1,9 +1,9 @@
 ---
-title: PotentializedUnionFind
-documentation_of: ../../ds/pot-uf.hpp
+title: potentialized_union_find
+documentation_of: ../../ds/union_find/pot-uf.hpp
 ---
 
-# PotentializedUnionFind
+# potentialized_union_find
 
 重み付き Union-Find です。
 各頂点の「ポテンシャル差」をグループ管理します。
@@ -38,7 +38,7 @@ struct X {
 
 ## コンストラクタ
 
-### `PotentializedUnionFind<X>(int n)`
+### `potentialized_union_find<X>(int n)`
 
 要素数 `n` で初期化します。初期状態では全要素が独立した成分です。
 
@@ -82,7 +82,7 @@ struct X {
 ## 使用例：各クエリで「差が W」という条件を追加
 
 ```cpp
-#include "ds/pot-uf.hpp"
+#include "ds/union_find/pot-uf.hpp"
 
 // 加法群（差分 val[y] - val[x] = W を管理）
 struct X {
@@ -92,7 +92,7 @@ struct X {
     static value_type e() { return 0; }
 };
 
-PotentializedUnionFind<X> uf(n);
+potentialized_union_find<X> uf(n);
 
 // val[y] - val[x] = 5 という条件を追加
 int res = uf.merge(x, y, 5);
@@ -105,4 +105,3 @@ if (uf.same(x, z)) {
     long long d = uf.diff(x, z); // val[z] - val[x]
 }
 ```
-

@@ -1,16 +1,16 @@
 ---
-title: DoublePriorityQueue
+title: double_priority_queue
 documentation_of: ../../ds/double-priority-queue.hpp
 ---
 
-# DoublePriorityQueue
+# double_priority_queue
 
 最小値と最大値を両方取り出せる priority queue です。
 遅延削除で実装されています。
 
 ## コンストラクタ
 
-### `DoublePriorityQueue<T>()`
+### `double_priority_queue<T>()`
 
 空のキューを作成します。
 
@@ -66,7 +66,7 @@ documentation_of: ../../ds/double-priority-queue.hpp
 ```cpp
 #include "ds/double-priority-queue.hpp"
 
-DoublePriorityQueue<int> pq;
+double_priority_queue<int> pq;
 pq.push(3);
 pq.push(10);
 pq.push(1);
@@ -77,4 +77,3 @@ auto lo = pq.pop_front(); // 1 を取り出す
 auto hi = pq.pop_back();  // 10 を取り出す
 // 残りは {3}
 ```
-

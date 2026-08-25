@@ -1,6 +1,6 @@
 #pragma  once
 template<class X>
-struct DualSegtree{
+struct dual_segtree{
     using value_type=X::value_type;
     template<class T,class=void>
     struct has_commute{
@@ -15,14 +15,14 @@ struct DualSegtree{
     vc<value_type>node;
     int n;
     int lg;
-    DualSegtree(int N){
+    dual_segtree(int N){
         assert(N>=0);
         lg=0;while((1<<lg)<N)lg++;
         n=1<<lg;
         lazy=vc<value_type>(n,X::e());
         node=vc<value_type>(n*2,X::e());
     }
-    DualSegtree(int N,const vc<value_type>&v){
+    dual_segtree(int N,const vc<value_type>&v){
         assert(N>=0);
         lg=0;while((1<<lg)<N)lg++;
         n=1<<lg;

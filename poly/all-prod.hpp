@@ -1,6 +1,6 @@
 #include"base.hpp"
 template<class mint>
-fps<mint>AllProd(vc<fps<mint>>v){
+fps<mint>all_prod(vc<fps<mint>>v){
     assert(mint::get_mod());
     using fps=fps<mint>;
     if(v.empty())return {1};

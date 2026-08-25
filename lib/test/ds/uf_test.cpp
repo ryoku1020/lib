@@ -1,4 +1,4 @@
-#include "../../../ds/uf.hpp"
+#include "../../../ds/union_find/uf.hpp"
 #include <cassert>
 #include <iostream>
 #include <vector>
@@ -7,10 +7,10 @@
 #include <algorithm>
 
 // Naive implementation for comparison
-struct NaiveDSU {
+struct naive_dsu {
     std::vector<int> group;
     int n;
-    NaiveDSU(int n) : n(n) {
+    naive_dsu(int n) : n(n) {
         group.resize(n);
         std::iota(group.begin(), group.end(), 0);
     }
@@ -40,11 +40,11 @@ struct NaiveDSU {
 };
 
 template<class T, auto op>
-struct NaiveExtraDSU {
+struct naive_extra_dsu {
     std::vector<int> group;
     std::vector<T> data;
     int n;
-    NaiveExtraDSU(int n, T e) : n(n), data(n, e) {
+    naive_extra_dsu(int n, T e) : n(n), data(n, e) {
         group.resize(n);
         std::iota(group.begin(), group.end(), 0);
     }
@@ -83,8 +83,8 @@ struct NaiveExtraDSU {
 int add_op(int a, int b) { return a + b; }
 
 void random_test(int n, int q) {
-    DisjointSetUnion uf(n);
-    NaiveDSU naive(n);
+    disjoint_set_union uf(n);
+    naive_dsu naive(n);
 
     std::mt19937 rng(42);
     std::uniform_int_distribution<int> dist_n(0, n - 1);
@@ -108,8 +108,8 @@ void random_test(int n, int q) {
 }
 
 void random_test_extra(int n, int q) {
-    ExtraDisjointSetUnion<int, add_op> uf(n, 1);
-    NaiveExtraDSU<int, add_op> naive(n, 1);
+    extra_disjoint_set_union<int, add_op> uf(n, 1);
+    naive_extra_dsu<int, add_op> naive(n, 1);
 
     std::mt19937 rng(43);
     std::uniform_int_distribution<int> dist_n(0, n - 1);
@@ -146,9 +146,9 @@ int main() {
 
     const int N2 = 1000;
     const int Q2 = 100000; // 1000 * 100000 = 1e8
-    std::cout << "Running random tests for ExtraDisjointSetUnion (N=" << N2 << ", Q=" << Q2 << ")..." << std::endl;
+    std::cout << "Running random tests for extra_disjoint_set_union (N=" << N2 << ", Q=" << Q2 << ")..." << std::endl;
     random_test_extra(N2, Q2);
-    std::cout << "ExtraDisjointSetUnion random tests passed!" << std::endl;
+    std::cout << "extra_disjoint_set_union random tests passed!" << std::endl;
 
     std::cout << "All tests passed!" << std::endl;
     return 0;

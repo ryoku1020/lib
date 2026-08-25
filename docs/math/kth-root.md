@@ -1,6 +1,6 @@
 ---
 title: kth-root
-documentation_of: ../../math/kth-root.hpp
+documentation_of: ../../math/number_theory/kth-root.hpp
 ---
 
 # kth-root
@@ -11,7 +11,7 @@ documentation_of: ../../math/kth-root.hpp
 ## 使い方
 
 ```cpp
-#include "math/kth-root.hpp"
+#include "math/number_theory/kth-root.hpp"
 
 auto x=kth_root(1000,3); // 10
 auto y=kth_root(15,2);   // 3

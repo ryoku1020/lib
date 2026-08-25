@@ -1,14 +1,14 @@
 #pragma once
 template<class T=long long>
-struct BinaryIndexedTree{
+struct binary_indexed_tree{
     int n;
     std::vector<T>data;
-    BinaryIndexedTree():n(0),data(0){}
-    BinaryIndexedTree(int N):n(N){
+    binary_indexed_tree():n(0),data(0){}
+    binary_indexed_tree(int N):n(N){
         assert(N>=0);
         data.assign(N,0);
     }
-    BinaryIndexedTree(const std::vector<T>& a):n(a.size()),data(a){
+    binary_indexed_tree(const std::vector<T>& a):n(a.size()),data(a){
         for(int i=1;i<=n;i++){
             int j=i+(i&-i);
             if(j<=n)data[j-1]+=data[i-1];
@@ -42,4 +42,4 @@ struct BinaryIndexedTree{
     }
 };
 template<class T=long long>
-using BIT=BinaryIndexedTree<T>;
+using bit=binary_indexed_tree<T>;

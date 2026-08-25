@@ -1,38 +1,38 @@
 ---
-title: Noninfo / Nontag
-documentation_of: ../../ds/noninfo.hpp
+title: noninfo / nontag
+documentation_of: ../../ds/utility/noninfo.hpp
 ---
 
-# Noninfo / Nontag
+# noninfo / nontag
 
-値を持たないデータ構造テンプレート用のダミー `Info` / `Tag` です。
+値を持たないデータ構造テンプレート用のダミー `info` / `tag` です。
 
-## `Noninfo`
+## `noninfo`
 
 `value_type = monostate` で、`op`, `e`, `leaf` を何もしない形で定義しています。
 
-## `Nontag<Info>`
+## `nontag<info>`
 
-遅延作用が不要なときのダミー `Tag` です。
+遅延作用が不要なときのダミー `tag` です。
 
 ## 用途
 
-- 汎用 Treap
+- 汎用 treap
 - 汎用 segment tree
 - 値を持たないが構造だけ使いたいテンプレート
 
 ## 境界・注意
 
-- `Noninfo` の値は `monostate` なので、値そのものを読み出して意味のある計算をする用途には向きません。
-- `Nontag<Info>` は遅延作用を使わないことを明示するための型です。
+- `noninfo` の値は `monostate` なので、値そのものを読み出して意味のある計算をする用途には向きません。
+- `nontag<info>` は遅延作用を使わないことを明示するための型です。
 
 ## 使用例
 
-遅延を使わない Treap を、`Tag` だけダミーにして宣言します。
+遅延を使わない treap を、`tag` だけダミーにして宣言します。
 
 ```cpp
-#include "ds/noninfo.hpp"
-#include "ds/treap.hpp"
+#include "ds/utility/noninfo.hpp"
+#include "ds/ordered/treap.hpp"
 
-Treap<Info,Nontag<Info>> tr(max_nodes);
+treap<info,nontag<info>> tr(max_nodes);
 ```

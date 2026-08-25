@@ -2,9 +2,9 @@
 
 //(頂点列,edge 列)
 template<class Graph>
-optional<pair<vc<int>,vc<typename Graph::Edge>>>eulerian(const Graph&g){
+optional<pair<vc<int>,vc<typename Graph::edge>>>eulerian(const Graph&g){
     if(g.edge_size()==0){
-        return make_pair(vc<int>{0},vc<typename Graph::Edge>{});
+        return make_pair(vc<int>{0},vc<typename Graph::edge>{});
     }
     int n=g.size();
     int S;
@@ -45,7 +45,7 @@ optional<pair<vc<int>,vc<typename Graph::Edge>>>eulerian(const Graph&g){
         }
     }
     {
-        vc<typename Graph::Edge>trail;
+        vc<typename Graph::edge>trail;
         vc<int>used(g.edge_size());
         vc<int>front_edge(n);
         auto dfs=[&](auto&dfs,int u)->void{

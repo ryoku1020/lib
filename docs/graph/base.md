@@ -1,20 +1,20 @@
 ---
-title: StaticGraph
+title: static_graph
 documentation_of: ../../graph/base.hpp
 ---
 
-# StaticGraph
+# static_graph
 
 CSR 形式をベースにしたグラフ構造です。
 有向・無向、重み付き・重みなしの両方を扱えます。
 
 ## 型
 
-### `Unweighted`
+### `unweighted`
 
 重みなしグラフ用のダミー重み型です。
 
-### `Edge<T>`
+### `edge<T>`
 
 辺は次のメンバを持ちます。
 
@@ -25,22 +25,22 @@ CSR 形式をベースにしたグラフ構造です。
 
 ## クラス
 
-### `StaticGraph<is_directed, T>`
+### `static_graph<is_directed, T>`
 
 - `is_directed=true`
   有向グラフ
 - `is_directed=false`
   無向グラフ
 - `T`
-  辺重み型です。省略時は `Unweighted`
+  辺重み型です。省略時は `unweighted`
 
 ## コンストラクタ
 
-### `StaticGraph(int n)`
+### `static_graph(int n)`
 
 頂点数 `n` のグラフを作ります。
 
-### `StaticGraph(int n, int m)`
+### `static_graph(int n, int m)`
 
 頂点数 `n`、辺数 `m` を想定して reserve 付きで作ります。
 追加辺数がちょうど `m` に達すると内部で `build()` が走ります。
@@ -55,7 +55,7 @@ CSR 形式をベースにしたグラフ構造です。
 - 制約: `0<=a,b<n`
 - 計算量: amortized `O(1)`
 
-### `void g.add_edge(const Edge& e)`
+### `void g.add_edge(const edge& e)`
 
 辺オブジェクトを直接追加します。
 
@@ -66,7 +66,7 @@ CSR 形式をベースにしたグラフ構造です。
 
 - 計算量: `O(n+m)`
 
-### `void g.build_inv() const`
+### `void g.buildinv() const`
 
 有向グラフで逆辺 CSR を構築します。
 通常は `inv(u)` を呼んだとき自動で行われます。
@@ -88,7 +88,7 @@ for(auto&e:g[u]){
 頂点 `u` に入る辺の列を返します。
 無向グラフでは `g[u]` と同じです。
 
-### `const vc<Edge>& g.all_edges() const`
+### `const vc<edge>& g.all_edges() const`
 
 追加した元辺列を返します。
 
@@ -96,7 +96,7 @@ for(auto&e:g[u]){
 
 元辺数を返します。
 
-### `Edge g.get_edge(int id) const`
+### `edge g.get_edge(int id) const`
 
 id 番目の元辺を返します。
 
@@ -141,7 +141,7 @@ id 番目の元辺を返します。
 ```cpp
 #include "graph/base.hpp"
 
-StaticGraph<1> g(n);
+static_graph<1> g(n);
 g.add_edge(u,v);
 g.add_edge(v,w);
 
@@ -153,11 +153,10 @@ for(auto&e:g[u]){
 ## 使用例 2: 重み付き無向グラフ
 
 ```cpp
-StaticGraph<0,long long> g(n);
+static_graph<0,long long> g(n);
 g.add_edge(u,v,cost);
 
 for(auto&e:g[u]){
     long long c=e.cost;
 }
 ```
-

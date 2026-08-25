@@ -1,11 +1,11 @@
 ---
-title: SuperDisjointSetUnion
-documentation_of: ../../ds/super-dsu.hpp
+title: super_disjoint_set_union
+documentation_of: ../../ds/union_find/super-dsu.hpp
 ---
 
-# SuperDisjointSetUnion
+# super_disjoint_set_union
 
-`ds/range-uf.hpp` と同じ実装です。
+`ds/union_find/range-uf.hpp` と同じ実装です。
 詳しくは [range-uf.md](range-uf.md) を参照してください。
 
 長さ `L` の区間どうしをまとめて同一視する Union-Find 拡張です。
@@ -33,7 +33,7 @@ documentation_of: ../../ds/super-dsu.hpp
 2 つの部分文字列が等しい、という条件をまとめて Union-Find に入れます。
 
 ```cpp
-SuperDisjointSetUnion uf(n);
+super_disjoint_set_union uf(n);
 
 // [2,5) と [7,10) の対応位置を同一視
 uf.merge(2,7,3);

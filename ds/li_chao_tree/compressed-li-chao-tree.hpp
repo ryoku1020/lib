@@ -1,12 +1,12 @@
 #pragma once
-template<class Info,bool ismin,class T>
-struct CompressedLiChaoTree{
+template<class info,bool ismin,class T>
+struct compressed_li_chao_tree{
     int coef;
-    using Line=Info::value_type;
+    using Line=info::value_type;
     vc<Line>best_line;
-    Compresser<T>cp;
+    compresser<T>cp;
     int n;
-    CompressedLiChaoTree(int n=0):cp(n){
+    compressed_li_chao_tree(int n=0):cp(n){
         if(ismin)coef=1;
         else coef=-1;
     }
@@ -21,15 +21,15 @@ struct CompressedLiChaoTree{
         n=1;while(cp.size()>n)n*=2;
         if(cp.size()==0)cp.push(0);
         while(cp.size()<n)cp.x.push_back(cp.x.back());
-        best_line.assign(n*2,Info::e());
+        best_line.assign(n*2,info::e());
     }
 private:
     void add_line_(Line a,int now,int L,int R){
         build();
         while(now<n*2){
             int mid=L+R>>1;
-            if(Info::eval(a,cp[mid])*coef<Info::eval(best_line[now],cp[mid])*coef)swap(best_line[now],a);
-            if(Info::eval(a,cp[L])*coef<Info::eval(best_line[now],cp[L])*coef){
+            if(info::eval(a,cp[mid])*coef<info::eval(best_line[now],cp[mid])*coef)swap(best_line[now],a);
+            if(info::eval(a,cp[L])*coef<info::eval(best_line[now],cp[L])*coef){
                 now=now*2;
                 R=mid;
             }else{
@@ -64,7 +64,7 @@ public:
         xi+=n;
         T res=inf<T>;
         while(xi){
-            chmin(res,Info::eval(best_line[xi],x)*coef);
+            chmin(res,info::eval(best_line[xi],x)*coef);
             xi/=2;
         }
         return res*coef;

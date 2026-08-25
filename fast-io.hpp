@@ -4,7 +4,7 @@
 
 static constexpr int BUF_SIZE = 1 << 17;
 
-struct FastRead {
+struct fast_read {
 private:
     FILE *stream_;
     array<char, BUF_SIZE> buf_;
@@ -63,17 +63,17 @@ private:
     
 public:
     // constructor
-    FastRead() : FastRead(stdin) {}
-    explicit FastRead(const filesystem::path& p) : FastRead(fopen(p.c_str(), "r")) {}
-    explicit FastRead(FILE *stream)
+    fast_read() : fast_read(stdin) {}
+    explicit fast_read(const filesystem::path& p) : fast_read(fopen(p.c_str(), "r")) {}
+    explicit fast_read(FILE *stream)
     : stream_(stream), begin_(buf_.data()), end_(begin_ + BUF_SIZE), ptr_(end_) { 
         read(); 
     }
-    ~FastRead() { 
+    ~fast_read() { 
         if (stream_ != stdin) fclose(stream_); 
     }
-    FastRead(const FastRead&) = delete;
-    FastRead &operator = (const FastRead&) = delete;
+    fast_read(const fast_read&) = delete;
+    fast_read &operator = (const fast_read&) = delete;
     
     // operators
     template<unsigned_integral T> void operator () (T &x) {
@@ -113,10 +113,10 @@ public:
     template<class... Ts> requires(sizeof...(Ts) != 1) void operator () (Ts&... xs) {
         ((*this)(xs), ...);
     }
-    template<class T> FastRead& operator >> (T &x) { (*this)(x); return *this; }
+    template<class T> fast_read& operator >> (T &x) { (*this)(x); return *this; }
 };
 
-class FastWrite {
+class fast_write {
 private:
     FILE *stream_;
     array<char, BUF_SIZE> buf_;
@@ -198,16 +198,16 @@ private:
     
 public:
     // constructor
-    FastWrite() : FastWrite(stdout) {}
-    explicit FastWrite(const filesystem::path& p) : FastWrite(fopen(p.c_str(), "w")) {}
-    explicit FastWrite(FILE* stream)
+    fast_write() : fast_write(stdout) {}
+    explicit fast_write(const filesystem::path& p) : fast_write(fopen(p.c_str(), "w")) {}
+    explicit fast_write(FILE* stream)
     : stream_(stream), begin_(buf_.data()), end_(begin_ + BUF_SIZE), ptr_(begin_) {}
-    ~FastWrite() {
+    ~fast_write() {
         flush();
         if (stream_ != stdout) { fclose(stream_); }
     }
-    FastWrite(const FastWrite&) = delete;
-    FastWrite& operator = (const FastWrite&) = delete;
+    fast_write(const fast_write&) = delete;
+    fast_write& operator = (const fast_write&) = delete;
     
     // operators
     template<unsigned_integral T> void operator () (T x) {
@@ -252,5 +252,5 @@ public:
             ln<End, Sep>(std::forward<Ts>(xs)...);
         }
     }
-    template<class T> FastWrite& operator << (T x) { (*this)(x); return *this; }
+    template<class T> fast_write& operator << (T x) { (*this)(x); return *this; }
 };

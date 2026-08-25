@@ -1,17 +1,17 @@
 ---
-title: EerTree
+title: eer_tree
 documentation_of: ../../string/eer-tree.hpp
 ---
 
-# EerTree (Palindrome Tree)
+# eer_tree (Palindrome tree)
 
-回文部分文字列を管理するトライ木（Palindrome Tree / Eertree）です。
+回文部分文字列を管理するトライ木（Palindrome tree / Eertree）です。
 文字列を左から 1 文字ずつ追加しながら、最長回文接尾辞や各回文の情報を追えます。
 
 ## 型
 
 ```cpp
-EerTree<sigma>
+eer_tree<sigma>
 ```
 
 - `sigma` — アルファベットサイズ（英小文字なら `26`）
@@ -20,7 +20,7 @@ EerTree<sigma>
 
 ### `void et.build(string s, char CHRMIN)`
 
-文字列 `s` を左から順に追加し、Palindrome Tree を構築します。
+文字列 `s` を左から順に追加し、Palindrome tree を構築します。
 
 - 各文字は `s[i] - CHRMIN` で `[0, sigma)` に写す必要があります
 - 計算量: `O(|s|)`
@@ -51,7 +51,7 @@ int distinct_palindromes = et.child.size() - 2; // 2 つの根を除く
 - `child[v][c]` の「存在しない」状態は `-1e9`（整数として大きな負の値）です。
   存在判定は `child[v][c] >= 0` で行えます。
 - `sigma` は実際に使う文字数に合わせて設定してください。大きすぎるとメモリを消費します。
-- `build` は内部で `static int id` を使うため、複数の `EerTree` インスタンスを作ると id が累積します。
+- `build` は内部で `static int id` を使うため、複数の `eer_tree` インスタンスを作ると id が累積します。
   単一インスタンスで使う想定です。
 
 ## 使用例
@@ -60,7 +60,7 @@ int distinct_palindromes = et.child.size() - 2; // 2 つの根を除く
 #include "string/eer-tree.hpp"
 
 string s = "abacaba";
-EerTree<26> et;
+eer_tree<26> et;
 et.build(s, 'a');
 
 // 各位置 i での最長回文接尾辞の長さ
@@ -78,4 +78,3 @@ for (int i = 0; i < (int)s.size(); i++) {
     int k = et.suffix_tree_depth[node]; // s[0..i] に出現する異なる回文接尾辞の個数
 }
 ```
-

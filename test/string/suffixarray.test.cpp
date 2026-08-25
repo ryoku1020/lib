@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/suffixarray"
 
-#include "../../string/lcpsuf.hpp"
+#include "../../string/suffix-array.hpp"
 #include <iostream>
 #include <string>
 
@@ -13,7 +13,7 @@ int main() {
     string S;
     cin >> S;
 
-    auto sa = sf_array(S);
+    auto sa = suffix_array(S);
     for (int i = 0; i < sa.size(); i++) {
         cout << sa[i] << (i == sa.size() - 1 ? "" : " ");
     }

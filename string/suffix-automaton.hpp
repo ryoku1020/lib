@@ -1,19 +1,19 @@
 #pragma once
-#include"tree/base.hpp"
+#include"../tree/base.hpp"
 int give(char c){
     return c-'a';
 }
 const int sigma=26;
-struct SuffixAutomaton{
-    struct Node{
+struct suffix_automaton{
+    struct node{
         int len;
         int link;
         array<int,sigma>nxt;
-        Node():len(0),link(-1){
+        node():len(0),link(-1){
             nxt.fill(-1);
         }
     };
-    vc<Node>nodes;
+    vc<node>nodes;
     pii get_segment(int nv){
         auto&target=nodes[nv];
         pii res;res.second=target.len;
@@ -27,20 +27,20 @@ struct SuffixAutomaton{
     int front=0;
     vc<int>prefix;
     vc<int>Esize;
-    Tree<Unweighted>g;
+    tree<unweighted>g;
     int nw(){
-        nodes.push_back(Node());
+        nodes.push_back(node());
         return front++;
     }
-    SuffixAutomaton():g(1){
+    suffix_automaton():g(1){
         prefix.pb(nw());
     }
-    SuffixAutomaton(string s):g(1){
+    suffix_automaton(string s):g(1){
         prefix.pb(nw());
         for(auto&x:s){
             add(give(x));
         }
-        auto res=TopoSort();
+        auto res=topo_sort();
         reverse(all(res));
         Esize.assign(nodes.size(),0);
         rep(i,prefix.size()){
@@ -51,7 +51,7 @@ struct SuffixAutomaton{
                 Esize[nodes[x].link]+=Esize[x];
             }
         }
-        g=Tree(nodes.size());
+        g=tree(nodes.size());
         rep(i,nodes.size()){
             if(nodes[i].link>=0){
                 g.add_edge(i,nodes[i].link);
@@ -85,7 +85,7 @@ struct SuffixAutomaton{
             }
         }
     }
-    ll NumberSubstring(){
+    ll number_substring(){
         ll res=0;
         rep(i,nodes.size()){
             res+=nodes[i].len;
@@ -96,7 +96,7 @@ struct SuffixAutomaton{
         return res;
     }
 
-    int InSubstring(string s){
+    int in_substring(string s){
         int now=0;
         rep(i,s.size()){
             if(nodes[now].nxt[give(s[i])]==-1)return 0;
@@ -104,7 +104,7 @@ struct SuffixAutomaton{
         }
         return Esize[now];
     }
-    vc<int>TopoSort(){
+    vc<int>topo_sort(){
         int n=nodes.size();
         vc<int>in_deg(n);
         rep(i,n)rep(j,sigma){
@@ -127,10 +127,10 @@ struct SuffixAutomaton{
     }
     //'a',~,'z' を仮定してる
     //空文字は含まない
-    string KthSubstring(ll k){
+    string kth_substring(ll k){
         k++;
         vc<ll>dp(nodes.size(),1);
-        vc<int>ord=TopoSort();
+        vc<int>ord=topo_sort();
         drep(i,ord.size()){
             rep(j,sigma){
                 if(nodes[ord[i]].nxt[j]>=0)dp[ord[i]]+=dp[nodes[ord[i]].nxt[j]];
@@ -153,7 +153,7 @@ struct SuffixAutomaton{
         }
         return res;
     }
-    string LCSusbstring(string t){
+    string lcsusbstring(string t){
         int now=0,len=0,nb=0,nl=0;
         rep(i,t.size()){
             char x=t[i];

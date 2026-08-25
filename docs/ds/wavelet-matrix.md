@@ -1,16 +1,16 @@
 ---
-title: Wavelet Matrix
-documentation_of: ../../ds/wavelet-matrix.hpp
+title: Wavelet matrix
+documentation_of: ../../ds/sequence/wavelet-matrix.hpp
 ---
 
-# Wavelet Matrix
+# Wavelet matrix
 
 整数列に対する区間クエリ（k番目最小値・値の個数・値の個数）を高速に処理するデータ構造です。
 
 ## 型
 
 ```cpp
-WaveletMatrix<T, depth>
+wavelet_matrix<T, depth>
 ```
 
 - `T` — 要素の型（整数型: `int`, `long long` など）
@@ -18,7 +18,7 @@ WaveletMatrix<T, depth>
 
 ## コンストラクタ
 
-### `WaveletMatrix<T, depth>(int n = 0)`
+### `wavelet_matrix<T, depth>(int n = 0)`
 
 要素数 `n` で初期化します。
 
@@ -59,12 +59,12 @@ WaveletMatrix<T, depth>
 - 制約: `0<=l<=r<=n`, **`x>=1`**（`x==0` で `T` が符号なし整数のとき `x-1` がアンダーフローする）
 - 計算量: `O(depth)`
 
-## BitVector
+## bit_vector
 
-`WaveletMatrix` が内部で使う簡潔ビットベクトルです。
+`wavelet_matrix` が内部で使う簡潔ビットベクトルです。
 
 ```cpp
-BitVector(const vc<int>& v) // 0/1 配列から構築 O(N)
+bit_vector(const vc<int>& v) // 0/1 配列から構築 O(N)
 int rank1(int r)              // [0,r) の 1 の個数 O(1)
 int rank1(int l, int r)       // [l,r) の 1 の個数 O(1)
 int rank0(int r)              // [0,r) の 0 の個数 O(1)
@@ -81,9 +81,9 @@ int rank0(int l, int r)       // [l,r) の 0 の個数 O(1)
 ## 使用例
 
 ```cpp
-#include "ds/wavelet-matrix.hpp"
+#include "ds/sequence/wavelet-matrix.hpp"
 
-WaveletMatrix<int, 20> wm(n); // [0, 2^20) の範囲の整数
+wavelet_matrix<int, 20> wm(n); // [0, 2^20) の範囲の整数
 for(int i=0;i<n;i++) wm.set(i, a[i]);
 wm.build();
 
@@ -96,4 +96,3 @@ auto cnt_le5 = wm.count_lower(l, r, 5);
 // [l,r) に含まれる値 7 の個数（7>=1 なので OK）
 auto cnt7 = wm.count(l, r, 7);
 ```
-

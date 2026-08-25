@@ -1,9 +1,9 @@
 #pragma once
-struct CsrGraph{
+struct csr_graph{
     vc<int>row_ptr;
     vc<int>col_indices;
     vc<pair<int,int>>edges;
-    struct RowView{
+    struct row_view{
         int*ptr_b;
         int*ptr_e;
         int*begin(){return ptr_b;}
@@ -13,7 +13,7 @@ struct CsrGraph{
         size_t size()const{return ptr_e-ptr_b;}
         bool empty()const{return ptr_b==ptr_e;}    
     };
-    CsrGraph(int n):row_ptr(n+1,0){
+    csr_graph(int n):row_ptr(n+1,0){
         assert(n>=0);
     }
     void add_edge(int u,int v){
@@ -39,7 +39,7 @@ struct CsrGraph{
         build();
         return row_ptr[u+1]==row_ptr[u];
     }
-    RowView operator[](int u){
+    row_view operator[](int u){
         assert(0<=u&&u+1<(int)row_ptr.size());
         build();
         return{&col_indices[row_ptr[u]],&col_indices[row_ptr[u+1]]};

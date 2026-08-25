@@ -1,13 +1,13 @@
 #pragma once
 //n<=2^32
-struct BitVector{
+struct bit_vector{
     using u64=uint64_t;
     vc<u64>big_block;
     vc<u64>pattern;
     constexpr static inline int B=64;
     int n;
-    BitVector()=default;
-    BitVector(const vc<int>&v):n(v.size()){
+    bit_vector()=default;
+    bit_vector(const vc<int>&v):n(v.size()){
         big_block.assign((n+B-1)/B+1,0);
         pattern.assign(big_block.size()+1,0);
         REP(i,1,big_block.size()){

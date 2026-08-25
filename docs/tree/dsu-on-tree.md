@@ -1,24 +1,24 @@
 ---
-title: DSU on Tree
+title: DSU on tree
 documentation_of: ../../tree/dsu-on-tree.hpp
 ---
 
-# DSU on Tree
+# DSU on tree
 
-いわゆる Sack / DSU on Tree を行うための薄いラッパーです。
-`Tree` の heavy-light 情報を利用して、light な部分木を先に捨て、heavy な部分木だけを保持する順で DFS を進めます。
+いわゆる Sack / DSU on tree を行うための薄いラッパーです。
+`tree` の heavy-light 情報を利用して、light な部分木を先に捨て、heavy な部分木だけを保持する順で DFS を進めます。
 
-## `DsuOnTree<Tree>`
+## `dsu_on_tree<tree>`
 
 ### 使い方
 
 ```cpp
 #include "tree/dsu-on-tree.hpp"
 
-Tree tree(n);
+tree tree(n);
 // 辺を追加
 
-DsuOnTree solver(tree);
+dsu_on_tree solver(tree);
 
 auto add=[&](int v){
     // 頂点 v を現在のデータ構造に追加
@@ -52,14 +52,14 @@ auto reset=[&](){
     kind=0;
 };
 
-DsuOnTree solver(tree);
+dsu_on_tree solver(tree);
 solver.run(add,query,reset);
 ```
 
 ### メソッド
 
-- `void run(Add add,Query query,Reset reset,int root=0)`
-  頂点 `root` を根として DSU on Tree を実行します。
+- `void run(add_func add,query query,reset_func reset,int root=0)`
+  頂点 `root` を根として DSU on tree を実行します。
 
   各頂点 `u` について概ね次の順で処理されます。
 
@@ -81,7 +81,7 @@ solver.run(add,query,reset);
 
 ### 境界・注意
 
-- `Tree::build(root)` が内部で呼ばれるため、事前に `build` していなくても構いません。
+- `tree::build(root)` が内部で呼ばれるため、事前に `build` していなくても構いません。
 - `reset()` は対象部分木の全消去を自前で行う想定です。
 - `add` を逆操作付きで書く実装ではなく、不要になったときにまとめて `reset` する設計です。
 
@@ -104,6 +104,6 @@ auto reset=[&](){
     kind=0;
 };
 
-DsuOnTree solver(tree);
+dsu_on_tree solver(tree);
 solver.run(add,query,reset);
 ```

@@ -1,6 +1,6 @@
 #pragma once
 #include"z-algorithm.hpp"
-vc<array<int,3>>RunEnumerate(string s){
+vc<array<int,3>>run_enumerate(string s){
     assert(s.size()<=numeric_limits<int>::max());
     if(s.empty())return {};
     unordered_map<ll,int>ma;
@@ -21,8 +21,8 @@ vc<array<int,3>>RunEnumerate(string s){
             dfs(dfs,mid,r);
             string s1=string(s.begin()+l,s.begin()+mid);reverse(all(s1));
             string s2=string(s.begin()+mid,s.begin()+r);s2+='#';s2+=string(s.begin()+l,s.begin()+r);
-            auto z1=ZAlgorithm(s1);
-            auto z2=ZAlgorithm(s2);
+            auto z1=z_algorithm(s1);
+            auto z2=z_algorithm(s2);
             for(int w=1;w<=mid-l;w++){
                 int L=mid-w;//[L,mid)
                 int left=L;if(w!=mid-l)left-=z1[w];

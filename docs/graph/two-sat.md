@@ -1,16 +1,16 @@
 ---
-title: TwoSatisfiability
+title: two_satisfiability
 documentation_of: ../../graph/two-sat.hpp
 ---
 
-# TwoSatisfiability
+# two_satisfiability
 
 2-SAT を解くための構造体です。
 変数 `i` ごとに真偽値を 1 つ持ち、OR 節や含意を追加して充足可能性を判定します。
 
 ## コンストラクタ
 
-### `TwoSatisfiability(int n)`
+### `two_satisfiability(int n)`
 
 変数数 `n` で初期化します。
 
@@ -63,7 +63,7 @@ documentation_of: ../../graph/two-sat.hpp
 ```cpp
 #include "graph/two-sat.hpp"
 
-TwoSatisfiability sat(n);
+two_satisfiability sat(n);
 sat.add_clause(0,true,1,false); // x0 or !x1
 sat.if_then(2,true,3,true);     // x2 => x3
 sat.set_value(4,false);         // !x4
@@ -72,4 +72,3 @@ if(sat.satisfiable()){
     auto ans=sat.answer();
 }
 ```
-

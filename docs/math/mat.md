@@ -1,9 +1,9 @@
 ---
-title: Matrix
+title: matrix
 documentation_of: ../../math/mat.hpp
 ---
 
-# Matrix
+# matrix
 
 行列ライブラリです。
 加減乗算、転置、累乗、行列式、階数、逆行列を持ちます。
@@ -11,32 +11,32 @@ documentation_of: ../../math/mat.hpp
 ## 型
 
 ```cpp
-Matrix<T>
+matrix<T>
 ```
 
 - `T` — 要素の型（`long long`, `mint` など四則演算と `0/1` 判定ができる型）
 
 ## コンストラクタ
 
-### `Matrix(vvc<T> a)`
+### `matrix(vvc<T> a)`
 
 二次元配列から行列を作ります。
 
-### `Matrix(int n, int m)`
+### `matrix(int n, int m)`
 
 `n × m` のゼロ行列を作ります。
 
 ## メソッド
 
-### `static Matrix Matrix::unit(int n)`
+### `static matrix matrix::unit(int n)`
 
 `n × n` 単位行列を返します。
 
-### `Matrix trans() const`
+### `matrix trans() const`
 
 転置行列を返します。`n × m` → `m × n`。
 
-### `Matrix pow(long long k)`
+### `matrix pow(long long k)`
 
 行列累乗 $A^k$ を返します。
 
@@ -56,9 +56,9 @@ Matrix<T>
 
 - 計算量: `O(n^2 m)`（`n × m` 行列）
 
-### `optional<Matrix> inverse() const`
+### `optional<matrix> inverse() const`
 
-逆行列が存在すれば `optional<Matrix>` に包んで返します。
+逆行列が存在すれば `optional<matrix>` に包んで返します。
 存在しないとき（行列式が 0 のとき）は `nullopt` を返します。
 
 - 制約: 正方行列であること
@@ -79,8 +79,8 @@ Matrix<T>
 ```cpp
 #include "math/mat.hpp"
 
-using mint = StaticModInt<1000000007>;
-using Mat = Matrix<mint>;
+using mint = static_modint<1000000007>;
+using Mat = matrix<mint>;
 
 Mat A({{1,1},{1,0}});
 Mat res = A.pow(n); // F(n), F(n-1) が res[0][0], res[0][1]
@@ -96,4 +96,3 @@ if (inv) {
     // 逆行列なし（行列式 == 0）
 }
 ```
-

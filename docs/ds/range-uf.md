@@ -1,16 +1,16 @@
 ---
-title: SuperDisjointSetUnion
-documentation_of: ../../ds/range-uf.hpp
+title: super_disjoint_set_union
+documentation_of: ../../ds/union_find/range-uf.hpp
 ---
 
-# SuperDisjointSetUnion
+# super_disjoint_set_union
 
 長さ `L` の区間どうしをまとめて同一視する Union-Find 拡張です。
 `merge(l, r, L)` で `[l, l+L)` と `[r, r+L)` の対応位置をすべて同一視します。
 
 ## コンストラクタ
 
-### `SuperDisjointSetUnion(int n)`
+### `super_disjoint_set_union(int n)`
 
 長さ `n` の列に対して初期化します。
 
@@ -34,16 +34,16 @@ documentation_of: ../../ds/range-uf.hpp
 
 ## 境界・注意
 
-- `ds/super-dsu.hpp` と同じ実装です。
+- `ds/union_find/super-dsu.hpp` と同じ実装です。
 - 内部で複数サイズの Union-Find を持ちます。
 - `root(x)` は 0-indexed です。
 
 ## 使用例
 
 ```cpp
-#include "ds/range-uf.hpp"
+#include "ds/union_find/range-uf.hpp"
 
-SuperDisjointSetUnion uf(n);
+super_disjoint_set_union uf(n);
 
 // [3, 6) と [7, 10) の対応要素を同一視
 // 3↔7, 4↔8, 5↔9
@@ -53,4 +53,3 @@ if (uf.root(3) == uf.root(7)) {
     // true: 対応位置が同一視されている
 }
 ```
-

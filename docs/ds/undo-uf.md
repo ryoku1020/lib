@@ -1,6 +1,6 @@
 ---
 title: Undo UnionFind (Rollback付きUnion-Find)
-documentation_of: ../../ds/undo-uf.hpp
+documentation_of: ../../ds/union_find/undo-uf.hpp
 ---
 
 # Undo UnionFind (Rollback付きUnion-Find)
@@ -11,9 +11,9 @@ documentation_of: ../../ds/undo-uf.hpp
 ## 使い方
 
 ```cpp
-#include "ds/undo-uf.hpp"
+#include "ds/union_find/undo-uf.hpp"
 
-UndoableUnionFind uf(N);
+undoable_union_find uf(N);
 
 // 要素 0 と 1 を併合
 uf.merge(0, 1);
@@ -30,7 +30,7 @@ uf.rollback();
 
 ## メソッド
 
-### `UndoableUnionFind(int n)`
+### `undoable_union_find(int n)`
 要素数 $n$ で初期化します。
 - 計算量: $O(N)$
 
@@ -79,7 +79,7 @@ uf.rollback();
 DFS 中だけ辺を追加し、戻るときに直前の状態へ戻します。
 
 ```cpp
-UndoableUnionFind uf(n);
+undoable_union_find uf(n);
 
 auto dfs=[&](auto&dfs,int v)->void{
     uf.save();

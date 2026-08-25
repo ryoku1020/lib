@@ -1,16 +1,16 @@
 ---
-title: RectangleUnion
-documentation_of: ../../ds/rectangle-union.hpp
+title: rectangle_union
+documentation_of: ../../ds/range_queries/rectangle-union.hpp
 ---
 
-# RectangleUnion
+# rectangle_union
 
 軸平行長方形の和集合の面積をスイープラインで計算します。
 
 ## 型
 
 ```cpp
-RectangleUnion<T>
+rectangle_union<T>
 ```
 
 - `T` — 座標の型（`long long` など）
@@ -43,12 +43,11 @@ RectangleUnion<T>
 ## 使用例
 
 ```cpp
-#include "ds/rectangle-union.hpp"
+#include "ds/range_queries/rectangle-union.hpp"
 
-RectangleUnion<long long> ru;
+rectangle_union<long long> ru;
 ru.add_rectangle(0, 3, 0, 2); // [0,3)×[0,2)
 ru.add_rectangle(1, 4, 1, 3); // [1,4)×[1,3)
 
 auto area = ru.calc<long long>(); // 和集合の面積
 ```
-

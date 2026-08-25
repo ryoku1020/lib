@@ -1,12 +1,12 @@
 #pragma once
 //max で eval されるので注意
-template<class Info,bool ismin,class T>
-struct DynamicLiChaoTree{
-    using Line=typename Info::value_type;
+template<class info,bool ismin,class T>
+struct dynamic_li_chao_tree{
+    using Line=typename info::value_type;
     struct Node{
         Line line;
         Node*l,*r;
-        Node():line(Info::e()),l(nullptr),r(nullptr){}
+        Node():line(info::e()),l(nullptr),r(nullptr){}
         ~Node(){
             if(l)delete l;
             if(r)delete r;
@@ -15,22 +15,22 @@ struct DynamicLiChaoTree{
     Node*root;
     T n,N;
     int coef;
-    DynamicLiChaoTree(T n_):root(nullptr),n(n_){
+    dynamic_li_chao_tree(T n_):root(nullptr),n(n_){
         assert(n_>=0);
         N=1;
         while(N<n_)N*=2;
         if(ismin)coef=1;
         else coef=-1;
     }
-    ~DynamicLiChaoTree(){if(root)delete root;}
+    ~dynamic_li_chao_tree(){if(root)delete root;}
     void add_line_(Line a,Node*&t_ref,T L,T R){
         Node**t=&t_ref;
         while(1){
             if(!(*t))*t=new Node();
             T mid=L+R>>1;
-            if(Info::eval(a,mid)*coef<Info::eval((*t)->line,mid)*coef)swap((*t)->line,a);
+            if(info::eval(a,mid)*coef<info::eval((*t)->line,mid)*coef)swap((*t)->line,a);
             if(L+1==R)break;
-            if(Info::eval(a,L)*coef<Info::eval((*t)->line,L)*coef){
+            if(info::eval(a,L)*coef<info::eval((*t)->line,L)*coef){
                 t=&((*t)->l);R=mid;
             }else{
                 t=&((*t)->r);L=mid;
@@ -57,10 +57,10 @@ struct DynamicLiChaoTree{
         assert(0<=x&&x<n);
         Node*t=root;
         T L=0,R=N;
-        using R_t=decltype(Info::eval(Info::e(),x));
+        using R_t=decltype(info::eval(info::e(),x));
         R_t res=inf<R_t>;
         while(t){
-            chmin(res,Info::eval(t->line,x));
+            chmin(res,info::eval(t->line,x));
             T mid=L+R>>1;
             if(x<mid)t=t->l,R=mid;
             else t=t->r,L=mid;

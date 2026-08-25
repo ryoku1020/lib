@@ -1,38 +1,38 @@
 ---
 title: Mod Math
-documentation_of: ../../math/mod.hpp
+documentation_of: ../../math/modular/mod-utillity.hpp
 ---
 
 # Mod Math
 
 組み合わせ計算・合同方程式・mod 平方根をまとめた補助ライブラリです。
 
-## `Binom<mint>`
+## `binom<mint>`
 
 `mint` 型上で二項係数・順列・重複組合せを計算します。
 
-### `static void Binom<mint>::build(int n)`
+### `static void binom<mint>::build(int n)`
 
 `0!` から `n!` までの階乗と逆階乗を前計算します。
 
 - 計算量: `O(n)`
 
-### `static mint Binom<mint>::C(int a, int b)`
+### `static mint binom<mint>::C(int a, int b)`
 
 `aCb`（二項係数）を返します。
 `b < 0`, `b > a`, `a < 0` のとき `0` を返します。
 
-### `static mint Binom<mint>::iC(int a, int b)`
+### `static mint binom<mint>::iC(int a, int b)`
 
 `1 / aCb`（二項係数の逆数）を返します。
 `b < 0`, `b > a`, `a < 0` のとき `0` を返します。
 
-### `static mint Binom<mint>::P(int a, int b)`
+### `static mint binom<mint>::P(int a, int b)`
 
 `aPb`（順列）を返します。
 `b < 0`, `b > a`, `a < 0` のとき `0` を返します。
 
-### `static mint Binom<mint>::H(int a, int b)`
+### `static mint binom<mint>::H(int a, int b)`
 
 `aHb`（重複組合せ、= `C(a+b-1, b)`）を返します。
 
@@ -78,20 +78,20 @@ if (r != -1) {
 
 ## 境界・注意
 
-- `Binom<mint>::C` / `P` / `H` は `build` で前計算したサイズを超えると動作未定義です。十分大きく `build` してください。
-- `Binom<mint>::C` は内部テーブルを自動拡張する実装になっています（必要なら `build` を省略可能）。
+- `binom<mint>::C` / `P` / `H` は `build` で前計算したサイズを超えると動作未定義です。十分大きく `build` してください。
+- `binom<mint>::C` は内部テーブルを自動拡張する実装になっています（必要なら `build` を省略可能）。
 
 ## 使用例
 
 ```cpp
-#include "math/mod.hpp"
-#include "math/static-mod-int.hpp"
+#include "math/modular/mod-utillity.hpp"
+#include "math/modular/static-mod-int.hpp"
 
-using mint = StaticModInt<998244353>;
+using mint = static_modint<998244353>;
 
-Binom<mint>::build(2000000); // 必要な最大値を渡す
-auto c = Binom<mint>::C(n, k); // nCk
-auto ic = Binom<mint>::iC(n, k); // 1 / nCk
-auto p = Binom<mint>::P(n, k); // nPk
-auto h = Binom<mint>::H(n, k); // nHk
+binom<mint>::build(2000000); // 必要な最大値を渡す
+auto c = binom<mint>::C(n, k); // nCk
+auto ic = binom<mint>::iC(n, k); // 1 / nCk
+auto p = binom<mint>::P(n, k); // nPk
+auto h = binom<mint>::H(n, k); // nHk
 ```

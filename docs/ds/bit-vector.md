@@ -1,20 +1,20 @@
 ---
-title: BitVector
-documentation_of: ../../ds/bit-vector.hpp
+title: bit_vector
+documentation_of: ../../ds/sequence/bit-vector.hpp
 ---
 
-# BitVector
+# bit_vector
 
 0/1 列に対する `rank` クエリ専用の軽量 bit vector です。
-Wavelet Matrix などの下請けとして使うことを想定した実装です。
+Wavelet matrix などの下請けとして使うことを想定した実装です。
 
 ## 使い方
 
 ```cpp
-#include "ds/bit-vector.hpp"
+#include "ds/sequence/bit-vector.hpp"
 
 vector<int> bits={1,0,1,1,0,0,1};
-BitVector bv(bits);
+bit_vector bv(bits);
 
 int x=bv.rank1(5);    // [0,5) にある 1 の個数
 int y=bv.rank0(2,7);  // [2,7) にある 0 の個数
@@ -22,7 +22,7 @@ int y=bv.rank0(2,7);  // [2,7) にある 0 の個数
 
 ## メソッド
 
-- `BitVector(const vc<int>& v)`
+- `bit_vector(const vc<int>& v)`
   `0/1` 配列 `v` から構築します。
 
 - `int rank1(int r)`
@@ -53,7 +53,7 @@ int y=bv.rank0(2,7);  // [2,7) にある 0 の個数
 
 ```cpp
 vc<int> bit={1,0,1,1,0};
-BitVector bv(bit);
+bit_vector bv(bit);
 
 int ones=bv.rank1(1,4);  // bit[1,4) にある 1 の個数
 int zeros=bv.rank0(0,5); // 全体にある 0 の個数

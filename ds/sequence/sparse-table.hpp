@@ -1,12 +1,12 @@
 #pragma once
 template<class X>
-struct SparseTable{
+struct sparse_table{
     using V=typename X::value_type;
     int lg;
     int n;
     vvc<V>table;
     bool built=false;
-    SparseTable(int N){
+    sparse_table(int N){
         assert(N>=0);
         lg=0;
         while((1<<lg)<=N)lg++;

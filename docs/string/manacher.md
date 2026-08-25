@@ -1,16 +1,16 @@
 ---
-title: Manacher
+title: manacher
 documentation_of: ../../string/manacher.hpp
 ---
 
-# Manacher
+# manacher
 
 各位置を中心とする回文の半径を `O(|s|)` で求めます。
 奇数長・偶数長の両方を 1 本の配列で扱います。
 
 ## 関数
 
-### `vc<int> Manacher(String& s)`
+### `vc<int> manacher(String& s)`
 
 長さ `2*|s|-1` の配列 `rad` を返します。
 空文字列なら空配列、長さ 1 なら `{1}` を返します。
@@ -51,7 +51,7 @@ bool is_palindrome(int l, int r) {
 #include "string/manacher.hpp"
 
 string s = "abacaba";
-auto rad = Manacher(s);
+auto rad = manacher(s);
 
 // 各文字中心の最長回文長
 for (int i = 0; i < (int)s.size(); i++) {
@@ -69,4 +69,3 @@ for (int c = 0; c < (int)rad.size(); c++) {
     ans = max(ans, rad[c] * 2 - (c % 2 == 0 ? 1 : 0));
 }
 ```
-

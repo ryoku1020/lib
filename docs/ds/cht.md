@@ -1,8 +1,8 @@
 ---
-title: Li Chao Tree（CHT）
+title: Li Chao tree（CHT）
 ---
 
-# Li Chao Tree（CHT）
+# Li Chao tree（CHT）
 
 `ds/cht.hpp` は削除されました。代わりに用途に応じて以下の 3 つのファイルを使ってください。
 
@@ -24,11 +24,11 @@ title: Li Chao Tree（CHT）
 
 ```cpp
 // x が 0 <= x < N に収まる場合
-#include "ds/li-chao-tree.hpp"
+#include "ds/li_chao_tree/li-chao-tree.hpp"
 
 // x が 10^18 など大きい場合
-#include "ds/dynamic-li-chao-tree.hpp"
+#include "ds/li_chao_tree/dynamic-li-chao-tree.hpp"
 
 // クエリする x がすべて事前に分かる場合
-#include "ds/compressed-li-chao-tree.hpp"
+#include "ds/li_chao_tree/compressed-li-chao-tree.hpp"
 ```

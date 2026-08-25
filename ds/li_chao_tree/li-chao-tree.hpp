@@ -1,25 +1,25 @@
 #pragma once
-template<class Info,bool ismin>
-struct LiChaoTree{
+template<class info,bool ismin>
+struct li_chao_tree{
     int coef;
-    using Line=Info::value_type;
+    using Line=info::value_type;
     vc<Line>best_line;
     int n;
     int in;
-    LiChaoTree(int n_):in(n_){
+    li_chao_tree(int n_):in(n_){
         assert(n_>=0);
         int N=1;
         while(N<n_)N*=2;
         n=N;
-        best_line=vc<Line>(N*2,Info::e());
+        best_line=vc<Line>(N*2,info::e());
         if(ismin)coef=1;
         else coef=-1;
     }
     void add_line_(Line a,int now,int L,int R){
         while(now<n*2){
             int mid=L+R>>1;
-            if(Info::eval(a,mid)*coef<Info::eval(best_line[now],mid)*coef)swap(best_line[now],a);
-            if(Info::eval(a,L)*coef<Info::eval(best_line[now],L)*coef){
+            if(info::eval(a,mid)*coef<info::eval(best_line[now],mid)*coef)swap(best_line[now],a);
+            if(info::eval(a,L)*coef<info::eval(best_line[now],L)*coef){
                 now=now*2;
                 R=mid;
             }else{
@@ -49,7 +49,7 @@ struct LiChaoTree{
         x+=n;
         T res=inf<T>*coef;
         while(x){
-            chmin(res,Info::eval(best_line[x],X)*coef);
+            chmin(res,info::eval(best_line[x],X)*coef);
             x/=2;
         }
         return res*coef;

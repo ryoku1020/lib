@@ -214,7 +214,7 @@ bool OnSegment(Segment<Point>s,Point p){
 
 //整数形で扱ってほしい
 template<class Point>
-vc<Point>ConvexHull(vc<Point>points,bool containboundary=false){
+vc<Point>convex_hull(vc<Point>points,bool containboundary=false){
     sort(all(points),[&](auto a,auto b){
         if(a.x!=b.x)return a.x<b.x;
         return a.y<b.y;
@@ -265,7 +265,7 @@ vc<Point>ConvexHull(vc<Point>points,bool containboundary=false){
 }
 
 template<class Point>
-vc<pair<Point,int>>ConvexHull(vc<pair<Point,int>>points,bool containboundary=false){
+vc<pair<Point,int>>convex_hull(vc<pair<Point,int>>points,bool containboundary=false){
     sort(all(points),[&](auto a,auto b){
         if(a.first.x!=b.first.x)return a.first.x<b.first.x;
         if(a.first.y!=b.first.y)return a.first.y<b.first.y;
@@ -324,7 +324,7 @@ template<class Point>
 vc<pair<Point,int>>ConvexHullIndex(vc<Point>points,bool containboundary=false){
     vc<pair<Point,int>>P(points.size());
     rep(i,points.size())P[i]={points[i],i};
-    return ConvexHull(P,containboundary);
+    return convex_hull(P,containboundary);
 }
  
 template<class Point>

@@ -1,5 +1,7 @@
 #pragma once
-#include"../math/conv.hpp"
+#include"../math/convolution/conv.hpp"
+#include"../math/modular/binom.hpp"
+
 #ifndef FPS_STRUCT
 #define FPS_STRUCT
 template<class mint>
@@ -90,7 +92,7 @@ struct fps:vc<mint>{
     }
     fps integral()const{
         fps res(this->size()+1);
-        rep(i,this->size())res[i+1]=(*this)[i]*Binom<mint>::inv(i+1);
+        rep(i,this->size())res[i+1]=(*this)[i]*binom<mint>::inv(i+1);
         return res;
     }
     fps log(int deg=-1)const{
@@ -123,7 +125,7 @@ struct fps:vc<mint>{
             IBF(w_prime);w_prime*=inv;
             DREP(i,nxt-1,len){
                 mint fi=(i<(int)this->size())?(*this)[i]:0;
-                w_prime[i]=fi-w_prime[i-1]*Binom<mint>::inv(i);
+                w_prime[i]=fi-w_prime[i-1]*binom<mint>::inv(i);
             }
             rep(i,len)w_prime[i]=0;
             BF(w_prime);
@@ -205,7 +207,7 @@ struct fps:vc<mint>{
             }
             return fps(deg);
         }
-        ll s=ModSqrt((*this)[0].val,mint::get_mod());
+        ll s=mod_sqrt((*this)[0].val,mint::get_mod());
         if(s==-1)return nullopt;
         fps res{s};
         mint inv=1/mint(2);

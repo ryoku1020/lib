@@ -1,8 +1,8 @@
 #pragma once
-#include"static-mod-int.hpp"
-struct SINT{
-    using mint1=StaticModInt<2147483629>;
-    using mint2=StaticModInt<2147483647>;
+#include"../modular/static-mod-int.hpp"
+struct sint{
+    using mint1=static_modint<2147483629>;
+    using mint2=static_modint<2147483647>;
     using ull=unsigned long long;
     static constexpr ull M1=2147483629ULL;
     static constexpr ull M2=2147483647ULL;
@@ -10,9 +10,9 @@ struct SINT{
     static constexpr ull INV_M1_MOD_M2=119304647ULL;
     mint1 a;
     mint2 b;
-    SINT():a(0),b(0){}
+    sint():a(0),b(0){}
     template<class T>
-    SINT(T x):a(x),b(x){}
+    sint(T x):a(x),b(x){}
     static ull modpow(ull a,ull e,ull mod){
         ull r=1;
         while(e){
@@ -30,64 +30,64 @@ struct SINT{
         return x+M1*t;
     }
 
-    SINT inv()const{
+    sint inv()const{
         assert(a.val!=0&&b.val!=0);
-        SINT r;
+        sint r;
         r.a=mint1(modpow(a.val,M1-2,M1));
         r.b=mint2(modpow(b.val,M2-2,M2));
         return r;
     }
 
-    SINT& operator+=(const SINT& r){
+    sint& operator+=(const sint& r){
         a+=r.a,b+=r.b;
         return *this;
     }
-    SINT& operator-=(const SINT& r){
+    sint& operator-=(const sint& r){
         a-=r.a,b-=r.b;
         return *this;
     }
-    SINT& operator*=(const SINT& r){
+    sint& operator*=(const sint& r){
         a*=r.a,b*=r.b;
         return *this;
     }
-    SINT& operator/=(const SINT& r){
+    sint& operator/=(const sint& r){
         return *this*=r.inv();
     }
 
-    SINT operator+()const{return *this;}
-    SINT operator-()const{
-        SINT r;
+    sint operator+()const{return *this;}
+    sint operator-()const{
+        sint r;
         r.a=-a,r.b=-b;
         return r;
     }
 
-    friend SINT operator+(SINT l,const SINT& r){return l+=r;}
-    friend SINT operator-(SINT l,const SINT& r){return l-=r;}
-    friend SINT operator*(SINT l,const SINT& r){return l*=r;}
-    friend SINT operator/(SINT l,const SINT& r){return l/=r;}
+    friend sint operator+(sint l,const sint& r){return l+=r;}
+    friend sint operator-(sint l,const sint& r){return l-=r;}
+    friend sint operator*(sint l,const sint& r){return l*=r;}
+    friend sint operator/(sint l,const sint& r){return l/=r;}
 
-    friend bool operator==(const SINT& l,const SINT& r){
+    friend bool operator==(const sint& l,const sint& r){
         return l.a==r.a&&l.b==r.b;
     }
-    friend bool operator!=(const SINT& l,const SINT& r){
+    friend bool operator!=(const sint& l,const sint& r){
         return !(l==r);
     }
-    friend bool operator<(const SINT& l,const SINT& r){
+    friend bool operator<(const sint& l,const sint& r){
         return l.val()<r.val();
     }
-    friend bool operator>(const SINT& l,const SINT& r){return r<l;}
-    friend bool operator<=(const SINT& l,const SINT& r){return !(r<l);}
-    friend bool operator>=(const SINT& l,const SINT& r){return !(l<r);}
+    friend bool operator>(const sint& l,const sint& r){return r<l;}
+    friend bool operator<=(const sint& l,const sint& r){return !(r<l);}
+    friend bool operator>=(const sint& l,const sint& r){return !(l<r);}
 
     explicit operator ull()const{return val();}
 
-    friend ostream& operator<<(ostream& os,const SINT& x){
+    friend ostream& operator<<(ostream& os,const sint& x){
         return os<<x.val();
     }
-    friend istream& operator>>(istream& is,SINT& x){
+    friend istream& operator>>(istream& is,sint& x){
         ull v;
         is>>v;
-        x=SINT(v);
+        x=sint(v);
         return is;
     }
 };

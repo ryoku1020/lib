@@ -1,13 +1,12 @@
 #pragma once
-#include "mod.hpp"
 template<uint32_t mod>
-struct StaticModInt{
+struct static_modint{
     static_assert(0<mod&&mod<=(1u<<31)-1);
     using u32=uint32_t;
     using u64=uint64_t;
     u32 val;
-    StaticModInt():val(0){}
-    StaticModInt(ll x){
+    static_modint():val(0){}
+    static_modint(ll x){
         ll v=x%mod;
         if(v<0)v+=mod;
         val=v;
@@ -15,54 +14,54 @@ struct StaticModInt{
     constexpr static uint32_t get_mod(){
         return mod;
     }
-    static StaticModInt raw(int v){
+    static static_modint raw(int v){
         assert(v>=0);
-        StaticModInt mi;
+        static_modint mi;
         mi.val=v;
         return mi;
     }
-    StaticModInt &operator+=(const StaticModInt&m){
+    static_modint &operator+=(const static_modint&m){
         if((val+=m.val)>=mod)val-=mod;
         return *this;
     }
-    StaticModInt &operator-=(const StaticModInt&m){
+    static_modint &operator-=(const static_modint&m){
         if((val+=(mod-m.val))>=mod)val-=mod;
         return *this;
     }
-    StaticModInt &operator*=(const StaticModInt&m){
+    static_modint &operator*=(const static_modint&m){
         val=u64(val)*m.val%mod;
         return *this;
     }
-    StaticModInt &operator/=(const StaticModInt&m){
+    static_modint &operator/=(const static_modint&m){
         val=u64(val)*m.inv().val%mod;
         return *this;
     }
-    StaticModInt operator-() const{
-        return StaticModInt(mod-val);
+    static_modint operator-() const{
+        return static_modint(mod-val);
     }
-    StaticModInt operator+() const {
+    static_modint operator+() const {
         return *this;
     }
-    friend StaticModInt operator+(StaticModInt lhs, const StaticModInt& rhs){
+    friend static_modint operator+(static_modint lhs, const static_modint& rhs){
         return lhs+=rhs;
     }
-    friend StaticModInt operator-(StaticModInt lhs, const StaticModInt& rhs){
+    friend static_modint operator-(static_modint lhs, const static_modint& rhs){
         return lhs-=rhs;
     }
-    friend StaticModInt operator*(StaticModInt lhs, const StaticModInt& rhs){
+    friend static_modint operator*(static_modint lhs, const static_modint& rhs){
         return lhs*=rhs;
     }
-    friend StaticModInt operator/(StaticModInt lhs,const StaticModInt&rhs){
+    friend static_modint operator/(static_modint lhs,const static_modint&rhs){
         return lhs/=rhs;
     }
-    bool operator==(const StaticModInt&p) const{
+    bool operator==(const static_modint&p) const{
         return p.val==val;
     }
-    bool operator!=(const StaticModInt&p) const{
+    bool operator!=(const static_modint&p) const{
         return p.val!=val;
     }
-    StaticModInt pow(int64_t n) const{
-        StaticModInt res(1),mul(val);
+    static_modint pow(int64_t n) const{
+        static_modint res(1),mul(val);
         while(n){
             if(n%2)res*=mul;
             mul*=mul;
@@ -71,17 +70,17 @@ struct StaticModInt{
         return res;
     }
 
-    friend ostream&operator<<(ostream&os,const StaticModInt&p){
+    friend ostream&operator<<(ostream&os,const static_modint&p){
         os<<p.val;
         return os;
     }
-    friend istream&operator>>(istream&is,StaticModInt&p){
+    friend istream&operator>>(istream&is,static_modint&p){
         int64_t x;
         is>>x;
-        p=StaticModInt(x);
+        p=static_modint(x);
         return is;
     }
-    StaticModInt inv()const{
+    static_modint inv()const{
         int64_t a=val,b=mod,u=1,v=0,t;
         #ifdef LOCAL
         assert(gcd(a,b)==1);
@@ -91,6 +90,6 @@ struct StaticModInt{
             swap(a-=t*b,b);
             swap(u-=t*v,v);
         }
-        return StaticModInt(u);
+        return static_modint(u);
     }
 };

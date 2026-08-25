@@ -1,10 +1,10 @@
 #pragma once
-#include"mat.hpp"
+#include"../mat.hpp"
 template<class mint,class Graph>
-mint CountingSpanningTree(const Graph&g){
+mint counting_spanning_tree(const Graph&g){
     assert(Graph::directed()==false);
     int n=g.size();
-    Matrix<mint>mt(n-1,n-1);
+    matrix<mint>mt(n-1,n-1);
     REP(i,1,n){
         mt[i-1][i-1]=g[i].size();
         for(auto&e:g[i]){

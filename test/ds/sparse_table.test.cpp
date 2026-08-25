@@ -3,11 +3,11 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "../../ds/sparse-table.hpp"
+#include "../../ds/sequence/sparse-table.hpp"
 
 using namespace std;
 
-struct Info {
+struct info {
     using value_type = long long;
     static value_type op(value_type a, value_type b) {
         return min(a, b);
@@ -23,7 +23,7 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    SparseTable<Info> st(N);
+    sparse_table<info> st(N);
     for (int i = 0; i < N; i++) {
         long long a;
         cin >> a;

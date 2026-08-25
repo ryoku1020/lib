@@ -1,6 +1,5 @@
 #pragma once
-#include "mod.hpp"
-struct Mod261Int{
+struct mod261_int{
     using u64=uint64_t;
     using u32=uint32_t;
     u64 val;
@@ -14,75 +13,75 @@ struct Mod261Int{
         if(res>=mod)res-=mod;
         return res;
     }
-    Mod261Int():val(0){}
-    Mod261Int(ll x){
+    mod261_int():val(0){}
+    mod261_int(ll x){
         x%=mod;
         if(x<0)x+=mod;
         val=x;
     }
-    static Mod261Int raw(const ll&v){
+    static mod261_int raw(const ll&v){
         assert(v>=0);
-        Mod261Int mi;
+        mod261_int mi;
         mi.val=v;
         return mi;
     }
-    Mod261Int&operator+=(const Mod261Int&m){
+    mod261_int&operator+=(const mod261_int&m){
         if((val+=m.val)>=mod)val-=mod;
         return*this;
     }
-    Mod261Int&operator-=(const Mod261Int&m){
+    mod261_int&operator-=(const mod261_int&m){
         if((val+=(mod-m.val))>=mod)val-=mod;
         return*this;
     }
-    Mod261Int&operator*=(const Mod261Int&m){
+    mod261_int&operator*=(const mod261_int&m){
         u64 au=val>>31,ad=val&MASK31;
         u64 bu=m.val>>31,bd=m.val&MASK31;
         u64 mid=ad*bu+au*bd;
         u64 midu=mid>>30;
         u64 midd=mid&MASK30;
-        return*this=Mod261Int::raw(rem(au*bu*2+midu+(midd<<31)+ad*bd));
+        return*this=mod261_int::raw(rem(au*bu*2+midu+(midd<<31)+ad*bd));
     }
-    Mod261Int&operator/=(const Mod261Int&m){
+    mod261_int&operator/=(const mod261_int&m){
         return*this*=m.inv();
     }
-    Mod261Int operator-()const{
-        return Mod261Int(mod-val);
+    mod261_int operator-()const{
+        return mod261_int(mod-val);
     }
-    Mod261Int operator+()const{
+    mod261_int operator+()const{
         return*this;
     }
-    friend Mod261Int operator+(Mod261Int lhs,const Mod261Int&rhs){
+    friend mod261_int operator+(mod261_int lhs,const mod261_int&rhs){
         return lhs+=rhs;
     }
-    friend Mod261Int operator-(Mod261Int lhs,const Mod261Int&rhs){
+    friend mod261_int operator-(mod261_int lhs,const mod261_int&rhs){
         return lhs-=rhs;
     }
-    friend Mod261Int operator*(Mod261Int lhs,const Mod261Int&rhs){
+    friend mod261_int operator*(mod261_int lhs,const mod261_int&rhs){
         return lhs*=rhs;
     }
-    friend Mod261Int operator/(Mod261Int lhs,const Mod261Int&rhs){
+    friend mod261_int operator/(mod261_int lhs,const mod261_int&rhs){
         return lhs/=rhs;
     }
-    bool operator==(const Mod261Int&p)const{
+    bool operator==(const mod261_int&p)const{
         return val==p.val;
     }
-    bool operator!=(const Mod261Int&p)const{
+    bool operator!=(const mod261_int&p)const{
         return val!=p.val;
     }
-    bool operator<(const Mod261Int&p)const{
+    bool operator<(const mod261_int&p)const{
         return val<p.val;
     }
-    bool operator<=(const Mod261Int&p)const{
+    bool operator<=(const mod261_int&p)const{
         return val<=p.val;
     }
-    bool operator>(const Mod261Int&p)const{
+    bool operator>(const mod261_int&p)const{
         return val>p.val;
     }
-    bool operator>=(const Mod261Int&p)const{
+    bool operator>=(const mod261_int&p)const{
         return val>=p.val;
     }
-    Mod261Int pow(u64 n)const{
-        Mod261Int res(1),mul(val);
+    mod261_int pow(u64 n)const{
+        mod261_int res(1),mul(val);
         while(n){
             if(n%2)res*=mul;
             mul*=mul;
@@ -90,17 +89,17 @@ struct Mod261Int{
         }
         return res;
     }
-    Mod261Int inv()const{
+    mod261_int inv()const{
         return pow(mod-2);
     }
-    friend ostream&operator<<(ostream&os,const Mod261Int&p){
+    friend ostream&operator<<(ostream&os,const mod261_int&p){
         os<<p.val;
         return os;
     }
-    friend istream&operator>>(istream&is,Mod261Int&p){
+    friend istream&operator>>(istream&is,mod261_int&p){
         int64_t x;
         is>>x;
-        p=Mod261Int(x);
+        p=mod261_int(x);
         return is;
     }
 };

@@ -1,21 +1,21 @@
 ---
-title: PersistentLazySegtree
-documentation_of: ../../ds/persistent-lazy-segtree.hpp
+title: persistent_lazy_segtree
+documentation_of: ../../ds/segment_tree/persistent-lazy-segtree.hpp
 ---
 
-# PersistentLazySegtree
+# persistent_lazy_segtree
 
 永続遅延セグメント木です。
 各更新が「新しい root インデックス」を返し、過去のバージョンをすべて保持します。
 
 ## 要件
 
-`Info` と `Tag` は通常の `LazySegtree` と同様ですが、追加で次が必要です。
+`info` と `tag` は通常の `lazy_segtree` と同様ですが、追加で次が必要です。
 
-### `Info` の追加要件
+### `info` の追加要件
 
 ```cpp
-struct Info{
+struct info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
@@ -24,19 +24,19 @@ struct Info{
 
 未生成ノードの値は、`build` で渡した `leaf` から内部で計算されます。
 
-### `Tag` の要件
+### `tag` の要件
 
-通常の `LazySegtree` と同じ（`Apply`, `Merge`, `id`）。
+通常の `lazy_segtree` と同じ（`apply`, `merge`, `id`）。
 
 ## コンストラクタ
 
-### `PersistentLazySegtree()`
+### `persistent_lazy_segtree()`
 
 初期化するだけで、まだ木は作られていません。
 
 ## メソッド
 
-### `int seg.build(int n, value_type leaf = Info::e())`
+### `int seg.build(int n, value_type leaf = info::e())`
 
 長さ `n` の初期状態の木を作成し、root インデックスを返します。
 未生成ノードを含む各要素の初期値は `leaf` です。
@@ -82,22 +82,22 @@ struct Info{
 ## 使用例: クエリ時刻ごとの版管理
 
 ```cpp
-#include "ds/persistent-lazy-segtree.hpp"
+#include "ds/segment_tree/persistent-lazy-segtree.hpp"
 
 // 区間加算・区間最小値 の例
-struct Info{
+struct info{
     using value_type = ll;
     static value_type op(value_type a,value_type b){ return min(a,b); }
     static value_type e(){ return (ll)4e18; }
 };
-struct Tag{
+struct tag{
     using lazy_type = ll;
-    static value_type Apply(value_type x, lazy_type f){ return x+f; }
-    static lazy_type Merge(lazy_type a, lazy_type b){ return a+b; }
+    static value_type apply(value_type x, lazy_type f){ return x+f; }
+    static lazy_type merge(lazy_type a, lazy_type b){ return a+b; }
     static lazy_type id(){ return 0; }
 };
 
-PersistentLazySegtree<Info,Tag> seg;
+persistent_lazy_segtree<info,tag> seg;
 vc<int> roots;
 roots.push_back(seg.build(n)); // バージョン 0
 

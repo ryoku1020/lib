@@ -1,22 +1,22 @@
 ---
 title: AHU Algorithm (根付き木の同型判定)
-documentation_of: ../../../not_lib/tree/ahu.hpp
+documentation_of: ../../../.not_lib/tree/ahu.hpp
 ---
 
 # AHU Algorithm
 
-Aho, Hopcroft, Ullman によって提案された、根付き木の同型判定（Tree Isomorphism）を行うためのアルゴリズムの実装です。
+Aho, Hopcroft, Ullman によって提案された、根付き木の同型判定（tree Isomorphism）を行うためのアルゴリズムの実装です。
 与えられた根付き木の構造を括弧の列 `(...)` で表現し、この文字列が一致するかどうかで木の同型判定が可能です。
-※この実装はSuffix Array (`sf_array`) を用いて部分木のソートを高速に行う工夫がされています。
+※この実装はSuffix Array (`suffix_array`) を用いて部分木のソートを高速に行う工夫がされています。
 
 ## ahu
 
 ```cpp
-string ahu(const Tree& tree_, int root);
+string ahu(const tree& tree_, int root);
 ```
 
 ### 制約・引数
-- `const Tree& tree_`: 対象の木。
+- `const tree& tree_`: 対象の木。
 - `int root`: 木の根とする頂点のインデックス。
 
 ### 戻り値
@@ -29,14 +29,14 @@ string ahu(const Tree& tree_, int root);
 ## 境界・注意
 
 - 根付き木として比較します。根を変えると同じ無根木でも表現が変わることがあります。
-- `Tree` は木であることを仮定します。
+- `tree` は木であることを仮定します。
 
 ## 使用例
 
 2 つの根付き木が同型かどうかを、括弧列を比較して判定します。
 
 ```cpp
-Tree t1(n),t2(n);
+tree t1(n),t2(n);
 // 辺を追加
 
 string a=ahu(t1,0);

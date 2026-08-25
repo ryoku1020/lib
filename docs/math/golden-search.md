@@ -1,9 +1,9 @@
 ---
-title: GoldenSearch
+title: golden_search
 documentation_of: ../../math/golden-search.hpp
 ---
 
-# GoldenSearch
+# golden_search
 
 離散区間 `[l,r]` で単峰な関数の最良値を探索するための関数です。
 最小化・最大化のどちらにも使え、返り値は `{best_value,best_index}` です。
@@ -17,7 +17,7 @@ auto f=[&](long long x){
     return (x-7)*(x-7);
 };
 
-auto [val,arg]=GoldenSearch<long long,long long>(0,20,f,(long long)4e18);
+auto [val,arg]=golden_search<long long,long long>(0,20,f,(long long)4e18);
 // arg=7, val=0
 ```
 
@@ -25,12 +25,12 @@ auto [val,arg]=GoldenSearch<long long,long long>(0,20,f,(long long)4e18);
 
 ```cpp
 auto g=[&](long long x){ return -1LL*(x-7)*(x-7); };
-auto [val,arg]=GoldenSearch<long long,long long>(0,20,g,(long long)-4e18,greater<long long>());
+auto [val,arg]=golden_search<long long,long long>(0,20,g,(long long)-4e18,greater<long long>());
 ```
 
 ## メソッド
 
-- `auto GoldenSearch(T l,T r,F& get_value,G weakest,Compare Comp=Compare())`
+- `auto golden_search(T l,T r,F& get_value,G weakest,Compare Comp=Compare())`
   区間 `[l,r]` 上で最良の値とその位置を返します。
 
 ## 引数
@@ -58,6 +58,6 @@ auto cost=[&](long long x){
     return (x-a)*(x-a)+b;
 };
 
-auto [best,arg]=GoldenSearch<long long,long long>(0,1000000,cost,(long long)4e18);
+auto [best,arg]=golden_search<long long,long long>(0,1000000,cost,(long long)4e18);
 cout<<arg<<" "<<best<<"\n";
 ```

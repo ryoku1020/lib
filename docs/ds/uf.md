@@ -1,18 +1,18 @@
 ---
 title: Disjoint Set Union
-documentation_of: ../../ds/uf.hpp
+documentation_of: ../../ds/union_find/uf.hpp
 ---
 
 # Disjoint Set Union
 
 Union-Find です。
-通常版 `DisjointSetUnion` と、成分ごとにデータを乗せられる `ExtraDisjointSetUnion` があります。
+通常版 `disjoint_set_union` と、成分ごとにデータを乗せられる `extra_disjoint_set_union` があります。
 
-## `DisjointSetUnion`
+## `disjoint_set_union`
 
 ### コンストラクタ
 
-#### `DisjointSetUnion(int n)`
+#### `disjoint_set_union(int n)`
 
 要素数 `n` で初期化します。初期状態では全要素が独立した成分です。
 
@@ -48,14 +48,14 @@ Union-Find です。
 - 制約: `0 <= x < n`
 - 計算量: ならし `O(alpha(n))`
 
-## `ExtraDisjointSetUnion<T, op>`
+## `extra_disjoint_set_union<T, op>`
 
 各連結成分に値を乗せる Union-Find です。
 成分を併合するとき、代表元の値が `op(data[a], data[b])` に更新されます。
 
 ### コンストラクタ
 
-#### `ExtraDisjointSetUnion<T, op>(int n, T e)`
+#### `extra_disjoint_set_union<T, op>(int n, T e)`
 
 各成分データを初期値 `e` で初期化します。
 
@@ -68,13 +68,13 @@ Union-Find です。
 
 - 計算量: ならし `O(alpha(n))`
 
-`merge`/`same`/`root`/`size` は `DisjointSetUnion` と同じです。
+`merge`/`same`/`root`/`size` は `disjoint_set_union` と同じです。
 
 ### 使用例
 
 ```cpp
 auto add_op = [](long long a, long long b) { return a + b; };
-ExtraDisjointSetUnion<long long, add_op> uf(n, 0);
+extra_disjoint_set_union<long long, add_op> uf(n, 0);
 
 uf[0] = 10;
 uf[1] = 20;
@@ -89,15 +89,15 @@ cout << uf[0]; // 30 (op(10, 20))
 ## 境界・注意
 
 - 頂点番号は 0-indexed です。
-- `ExtraDisjointSetUnion` の `operator[]` は常にその時点の代表元のデータを返します。
+- `extra_disjoint_set_union` の `operator[]` は常にその時点の代表元のデータを返します。
   `merge` 後は代表元が変わる可能性があるので、インデックスではなく `uf[i]` で常に参照してください。
 
 ## 使用例
 
 ```cpp
-#include "ds/uf.hpp"
+#include "ds/union_find/uf.hpp"
 
-DisjointSetUnion uf(n);
+disjoint_set_union uf(n);
 uf.merge(0, 1); // true
 uf.merge(1, 2); // true
 uf.merge(0, 2); // false (すでに同じ成分)

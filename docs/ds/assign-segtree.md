@@ -1,28 +1,28 @@
 ---
-title: AssignSegtree
-documentation_of: ../../ds/assign-segtree.hpp
+title: assign_segtree
+documentation_of: ../../ds/segment_tree/assign-segtree.hpp
 ---
 
-# AssignSegtree
+# assign_segtree
 
 区間代入と区間積取得を行うセグメント木です。
-`LazySegtree` で「代入作用」を実現するより効率的に動作します。
+`lazy_segtree` で「代入作用」を実現するより効率的に動作します。
 
 ## 要件
 
 ```cpp
-struct Info{
+struct info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
     static value_type e();
 };
 ```
 
-通常の `Segtree` と同じ `Info` を使えます。
+通常の `segtree` と同じ `info` を使えます。
 
 ## コンストラクタ
 
-### `AssignSegtree<Info>(int n, value_type leaf = Info::e())`
+### `assign_segtree<info>(int n, value_type leaf = info::e())`
 
 長さ `n` で初期化します。
 各要素は `leaf` で初期化されます。
@@ -59,21 +59,21 @@ struct Info{
 
 ## 境界・注意
 
-- 区間代入専用です。「加算」や「affine 変換」のような一般遅延作用には `LazySegtree` を使ってください。
+- 区間代入専用です。「加算」や「affine 変換」のような一般遅延作用には `lazy_segtree` を使ってください。
 - 内部で代入テーブルが蓄積されるため、大量の代入後は `reset()` を呼ぶとメモリ効率が改善することがあります（コメントアウト中の自動化コードあり）。
 
 ## 使用例: 区間代入・区間最大値
 
 ```cpp
-#include "ds/assign-segtree.hpp"
+#include "ds/segment_tree/assign-segtree.hpp"
 
-struct Info{
+struct info{
     using value_type = long long;
     static value_type op(value_type a,value_type b){ return max(a,b); }
     static value_type e(){ return -(ll)4e18; }
 };
 
-AssignSegtree<Info> seg(n);
+assign_segtree<info> seg(n);
 
 seg.assign(l, r, x);        // [l,r) を全部 x に
 auto ans = seg.prod(l, r);  // [l,r) の最大値
@@ -82,7 +82,7 @@ auto ans = seg.prod(l, r);  // [l,r) の最大値
 ## 使用例: 区間代入・区間和
 
 ```cpp
-struct Info{
+struct info{
     using value_type = pair<long long,int>; // {sum, len}
     static value_type op(value_type a,value_type b){
         return {a.first+b.first, a.second+b.second};
@@ -90,7 +90,7 @@ struct Info{
     static value_type e(){ return {0,0}; }
 };
 
-AssignSegtree<Info> seg(N,{0,1});
+assign_segtree<info> seg(N,{0,1});
 
 // assign(l,r,{x,1}) で [l,r) を全部 x にしたとき
 // sum はセグ木が自動で len * x を計算してくれる

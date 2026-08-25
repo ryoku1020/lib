@@ -1,7 +1,7 @@
 #pragma once
 template<class T>
-struct DoublePriorityQueue{
-    struct RemovalPriorityQueue1{
+struct double_priority_queue{
+    struct removal_priority_queue_1{
         smpq<T> q,rq;
         void push(T x){q.push(x);}
         void remove(T x){rq.push(x);}
@@ -20,7 +20,7 @@ struct DoublePriorityQueue{
             return q.size()-rq.size();
         }
     };
-    struct RemovalPriorityQueue2{
+    struct removal_priority_queue_2{
         bipq<T> q,rq;
         void push(T x){q.push(x);}
         void remove(T x){rq.push(x);}
@@ -36,8 +36,8 @@ struct DoublePriorityQueue{
             }
         }
     };
-    RemovalPriorityQueue1 left;
-    RemovalPriorityQueue2 right;
+    removal_priority_queue_1 left;
+    removal_priority_queue_2 right;
     void push(T x){
         left.push(x);
         right.push(x);

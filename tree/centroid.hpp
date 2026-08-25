@@ -1,6 +1,6 @@
 #pragma once
 template<class F1,class F2>
-void internal_centroid_decomposition13(vvc<int>&g,vc<int>&is_virtual,vc<int>&is_alive,vc<int>&size,int root,vvc<int>&send,vc<int>&col,F1&Callnonvirtual,F2&Callvirtual){
+void internal_centroid_decomposition13(vvc<int>&g,vc<int>&is_virtual,vc<int>&is_alive,vc<int>&size,int root,vvc<int>&send,vc<int>&col,F1&callnonvirtual,F2&callvirtual){
     assert(0<=root&&root<(int)g.size());
     vc<int>alives;
     int non_virtual=0;
@@ -52,33 +52,33 @@ void internal_centroid_decomposition13(vvc<int>&g,vc<int>&is_virtual,vc<int>&is_
             dfs(dfs,e,centroid);
         }
     
-        Callvirtual(centroid,col,send,is_virtual);
+        callvirtual(centroid,col,send,is_virtual);
         for(auto&x:alives)send[x].clear();
         for(auto&x:alives)if( col[x])is_alive[x]=0;
         is_alive[centroid]=1;
         auto GCFIRST=g[centroid];g[centroid].clear();
         for(auto&x:GCFIRST)if(!col[x])g[centroid].pb(x);
-        internal_centroid_decomposition13<F1,F2>(g,is_virtual,is_alive,size,centroid,send,col,Callnonvirtual,Callvirtual);
+        internal_centroid_decomposition13<F1,F2>(g,is_virtual,is_alive,size,centroid,send,col,callnonvirtual,callvirtual);
         for(auto&x:alives)if( col[x])is_alive[x]=1;
         for(auto&x:alives)if(!col[x])is_alive[x]=0;
         is_alive[centroid]=1;
         g[centroid].clear();
         for(auto&x:GCFIRST)if(col[x]==1)g[centroid].pb(x);
-        internal_centroid_decomposition13<F1,F2>(g,is_virtual,is_alive,size,centroid,send,col,Callnonvirtual,Callvirtual);
+        internal_centroid_decomposition13<F1,F2>(g,is_virtual,is_alive,size,centroid,send,col,callnonvirtual,callvirtual);
         g[centroid]=move(GCFIRST);
         for(auto&x:alives)if(!col[x])is_alive[x]=1;
         for(auto&[a,b]:hist)col[a]=b;
     }else{
-        Callnonvirtual(centroid,send,is_virtual);
+        callnonvirtual(centroid,send,is_virtual);
         for(auto&x:alives)send[x].clear();
         is_virtual[centroid]=1;
-        internal_centroid_decomposition13<F1,F2>(g,is_virtual,is_alive,size,centroid,send,col,Callnonvirtual,Callvirtual);
+        internal_centroid_decomposition13<F1,F2>(g,is_virtual,is_alive,size,centroid,send,col,callnonvirtual,callvirtual);
         is_virtual[centroid]=0;
     }
 }
 //copy して受け取ると死ぬので注意！！！
 template<class F1,class F2>
-void centroid_decomposition13(vvc<int>&g,F1&Callnonvirtual,F2&Callvirutal){
+void centroid_decomposition13(vvc<int>&g,F1&callnonvirtual,F2&Callvirutal){
     int n=g.size();
     if(n==0)return;
     vc<int>is_virtual(n);
@@ -86,15 +86,15 @@ void centroid_decomposition13(vvc<int>&g,F1&Callnonvirtual,F2&Callvirutal){
     vc<int>size(n);
     vvc<int>send(n);
     vc<int>col(n);
-    internal_centroid_decomposition13<F1,F2>(g,is_virtual,is_alive,size,0,send,col,Callnonvirtual,Callvirutal);
+    internal_centroid_decomposition13<F1,F2>(g,is_virtual,is_alive,size,0,send,col,callnonvirtual,Callvirutal);
 }
 //copy して受け取ると死ぬので注意！！！
-template<class Tree,class F1,class F2>
-void centroid_decomposition13(Tree&g,F1&Callnonvirtual,F2&Callvirutal){
+template<class tree,class F1,class F2>
+void centroid_decomposition13(tree&g,F1&callnonvirtual,F2&Callvirutal){
     int n=g.size();
     if(n==0)return;
     vvc<int>G(n);rep(i,n)for(auto&x:g[i]){
         G[i].pb(x.to);
     }
-    centroid_decomposition13(G,Callnonvirtual,Callvirutal);
+    centroid_decomposition13(G,callnonvirtual,Callvirutal);
 }   

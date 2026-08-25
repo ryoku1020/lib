@@ -1,9 +1,9 @@
 ---
-title: Redp (Rerooting DP)
+title: redp (Rerooting DP)
 documentation_of: ../../ds/reroot.hpp
 ---
 
-# Redp (Rerooting DP)
+# redp (Rerooting DP)
 
 全方位木 DP（再根付き DP）のテンプレートです。
 まず根 0 で部分木 DP をし、その後各頂点を根とした仮想的な DP 値を `O(N)` で計算します。
@@ -11,7 +11,7 @@ documentation_of: ../../ds/reroot.hpp
 ## 要件
 
 ```cpp
-struct Reroot{
+struct reroot{
     using V = ...; // 頂点のDP値の型
     using E = ...; // 辺のDP値の型（マージ対象）
 
@@ -36,7 +36,7 @@ struct Reroot{
 
 ## コンストラクタ
 
-### `Redp<Reroot>(int n)`
+### `redp<reroot>(int n)`
 
 頂点数 `n` で初期化します。
 
@@ -69,7 +69,7 @@ struct Reroot{
 ```cpp
 #include "ds/reroot.hpp"
 
-struct Reroot{
+struct reroot{
     using V = int; // 頂点からの最大距離
     using E = int; // 辺を通した後の最大距離候補
 
@@ -79,7 +79,7 @@ struct Reroot{
     static E id(){ return 0; }
 };
 
-Redp<Reroot> dp(n);
+redp<reroot> dp(n);
 for(int i=0;i<n-1;i++){
     dp.add_edge(u,v,i,i); // 辺番号は使わないので同じでも OK
 }
@@ -89,7 +89,7 @@ auto ans = dp.calc(); // ans[v] = 頂点 v から最も遠い頂点への距離
 ## 使用例: 部分木サイズ（全方向）
 
 ```cpp
-struct Reroot{
+struct reroot{
     using V = int; // 仮想根のときの部分木サイズ
     using E = int;
 
@@ -99,4 +99,3 @@ struct Reroot{
     static E id(){ return 0; }
 };
 ```
-

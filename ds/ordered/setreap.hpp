@@ -1,7 +1,7 @@
 #pragma once
 #include <random>
 template<class T>
-struct SetTreap{
+struct set_treap{
     struct Node{
         Node*lc,*rc;
         T val;
@@ -58,7 +58,7 @@ struct SetTreap{
     }
     static mt19937 mt;
     Node*root;
-    SetTreap(){
+    set_treap(){
         mt.seed(random_device{}());
         root=NULL;
     }
@@ -188,4 +188,4 @@ struct SetTreap{
     }
 };
 template<class T>
-mt19937 SetTreap<T>::mt(random_device{}());
+mt19937 set_treap<T>::mt(random_device{}());

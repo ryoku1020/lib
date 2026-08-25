@@ -1,9 +1,9 @@
 #pragma once
-#include "persistent-array.hpp"
+#include "../persistent-array.hpp"
 template<int B>
-struct PersistentUnionFind{
-    PersistentArray<int,B> par;
-    using node=PersistentArray<int,B>::Node*;
+struct persistent_union_find{
+    persistent_array<int,B> par;
+    using node=persistent_array<int,B>::Node*;
     node build(int n){
         assert(n>=0);
         return par.build(n,-1);

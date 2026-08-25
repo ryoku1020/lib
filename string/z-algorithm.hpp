@@ -1,6 +1,6 @@
 #pragma once
 template<class String>
-vc<int>ZAlgorithm(String&s){
+vc<int>z_algorithm(String&s){
     int N=s.size();
     vc<int>dp(N);
     dp[0]=N;

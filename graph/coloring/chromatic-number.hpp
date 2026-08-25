@@ -1,7 +1,7 @@
 #pragma once
-#include"../math/dynamic-mod-int.hpp"
+#include"../../math/modular/dynamic-mod-int.hpp"
 template<class Graph>
-int ChromaticNumber(const Graph&g){
+int chromatic_number(const Graph&g){
     assert(Graph::directed()==false);
     int n=g.size();
     assert(n<32);
@@ -28,7 +28,7 @@ int ChromaticNumber(const Graph&g){
     }
 
     int ans=n;
-    using mint=DynamicModInt<20260521>;
+    using mint=dynamic_modint<20260521>;
     mt19937 mt(random_device{}());
     rep(t,3){
         mint::set_mod((mt()%(int)1e9)+1e7);

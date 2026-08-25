@@ -11,7 +11,7 @@ documentation_of: ../../string/aho-corasick.hpp
 ## 型
 
 ```cpp
-AhoCorasick<sigma, give_order>
+aho_corasick<sigma, give_order>
 ```
 
 - `sigma` — アルファベットサイズ（例: `26` for 英小文字）
@@ -80,7 +80,7 @@ suffix link tree の子リストを返します。
 #include "string/aho-corasick.hpp"
 
 auto f = [](char c){ return c - 'a'; };
-AhoCorasick<26, f> ac;
+aho_corasick<26, f> ac;
 
 vc<string> patterns = {"he", "she", "hers"};
 for (auto& p : patterns) ac.add(p);
@@ -106,4 +106,3 @@ for (int i = 0; i < (int)patterns.size(); i++) {
     cout << patterns[i] << ": " << cnt[ac.word[i]] << "\n";
 }
 ```
-

@@ -1,5 +1,5 @@
 #pragma once
-struct Barrett{
+struct barrett{
     using u64=uint64_t;
     using u32=uint32_t;
     using i128=__int128_t;

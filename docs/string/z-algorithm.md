@@ -14,7 +14,7 @@ documentation_of: ../../string/z-algorithm.hpp
 #include "string/z-algorithm.hpp"
 
 string s="aabcaabxaaaz";
-auto z=ZAlgorithm(s);
+auto z=z_algorithm(s);
 
 // z[0]=|s|
 // z[4]=3 ("aab" が一致)
@@ -25,7 +25,7 @@ auto z=ZAlgorithm(s);
 ```cpp
 string p="aba",t="ababa";
 string x=p+'#'+t;
-auto z=ZAlgorithm(x);
+auto z=z_algorithm(x);
 for(int i=0;i<t.size();i++){
     if(z[p.size()+1+i]>=p.size()){
         // t[i..] から p が出現
@@ -35,7 +35,7 @@ for(int i=0;i<t.size();i++){
 
 ## 戻り値
 
-- `vc<int> ZAlgorithm(String& s)`
+- `vc<int> z_algorithm(String& s)`
   長さ `|s|` の配列を返します。
 - `z[0]=|s|`
 - `z[i]`
@@ -59,7 +59,7 @@ string p,t;
 cin>>p>>t;
 
 string s=p+"$"+t;
-auto z=ZAlgorithm(s);
+auto z=z_algorithm(s);
 
 for(int i=0;i<(int)t.size();i++){
     if(z[p.size()+1+i]>=(int)p.size()){

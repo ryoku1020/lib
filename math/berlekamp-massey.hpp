@@ -1,7 +1,7 @@
 #pragma once
 template<class mint>
 //second[i] が a_{n-i} -> a_n への係数に対応する
-pair<int,vc<mint>>BerlekampMassey(vc<mint>S){
+pair<int,vc<mint>>berlekamp_massey(vc<mint>S){
     int N=S.size();
     vc<mint>B{1};
     int n0=-1;

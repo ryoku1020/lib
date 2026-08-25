@@ -3,7 +3,7 @@
 
 //f(a),f(ar),...,f(ar^{m-1})
 template<class mint>
-vc<mint>ChirpZ(fps<mint>f,mint a,mint r,int m){
+vc<mint>chirp_z(fps<mint>f,mint a,mint r,int m){
     assert(mint::get_mod());
     if(m==0)return {};
     if(r==0){

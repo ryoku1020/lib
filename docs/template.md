@@ -30,7 +30,7 @@ PRT("answer",s);
 - 入出力
   `INT`, `LL`, `STR`, `VC`, `VVC`, `PRT`
 - 補助関数
-  `chmin`, `chmax`, `floor`, `ceil`, `bmod`, `divmod`, `isqrt`, `popcount`, `sum`, `presum`, `subset`, `POW`
+  `chmin`, `chmax`, `floor`, `ceil`, `bmod`, `divmod`, `isqrt`, `popcount`, `sum`, `presum`, `subset`, `pow`
 - グラフ入力
   `readgraph`, `readtree`
 

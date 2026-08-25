@@ -1,11 +1,11 @@
 #pragma once
 template<class T>
-struct RangeSet{
+struct range_set{
     T covered;
     using P=pair<T,T>;
     using It=set<P>::iterator;
     set<P>st;
-    RangeSet():covered(0){}
+    range_set():covered(0){}
     //[l,r) を insert
     void insert(T l,T r){
         assert(l<=r);
@@ -103,56 +103,56 @@ struct RangeSet{
 }; 
 
 // 区間ごとに monoid の値を持つ range set
-template<class T,class Info>
-struct RangeSetInfo{
-    using value_type=typename Info::value_type;
+template<class T,class info_type>
+struct range_set_info{
+    using value_type=typename info_type::value_type;
     struct Node{
         T l,r;
         value_type val;
     };
-    struct Cmp{
+    struct cmp{
         bool operator()(const Node&a,const Node&b)const{
             return a.l<b.l;
         }
     };
-    using It=typename set<Node,Cmp>::iterator;
-    using CIt=typename set<Node,Cmp>::const_iterator;
-    set<Node,Cmp>st;
+    using It=typename set<Node,cmp>::iterator;
+    using CIt=typename set<Node,cmp>::const_iterator;
+    set<Node,cmp>st;
 
     It lower_bound(T x){
-        auto it=st.lower_bound({x,x,Info::e()});
+        auto it=st.lower_bound({x,x,info_type::e()});
         if(it!=st.begin()&&prev(it)->r>x)return prev(it);
         return it;
     }
 
     CIt lower_bound(T x)const{
-        auto it=st.lower_bound({x,x,Info::e()});
+        auto it=st.lower_bound({x,x,info_type::e()});
         if(it!=st.begin()&&prev(it)->r>x)return prev(it);
         return it;
     }
 
     void add(vector<Node>&v,T l,T r,const value_type&val){
-        if(l<r&&val!=Info::e())v.pb({l,r,val});
+        if(l<r&&val!=info_type::e())v.pb({l,r,val});
     }
 
     //[l,r) に info を作用させる
     void apply(T l,T r,const value_type&info){
         assert(l<=r);
-        if(l==r||info==Info::e())return;
+        if(l==r||info==info_type::e())return;
         vector<Node>v;
         auto it=lower_bound(l);
         T cur=l;
         while(it!=st.end()&&it->l<r){
             Node x=*it;
             it=st.erase(it);
-            if(cur<x.l)add(v,cur,min(r,x.l),Info::op(Info::e(),info));
+            if(cur<x.l)add(v,cur,min(r,x.l),info_type::op(info_type::e(),info));
             T a=max(l,x.l),b=min(r,x.r);
             add(v,x.l,a,x.val);
-            add(v,a,b,Info::op(x.val,info));
+            add(v,a,b,info_type::op(x.val,info));
             add(v,b,x.r,x.val);
             cur=max(cur,b);
         }
-        if(cur<r)add(v,cur,r,Info::op(Info::e(),info));
+        if(cur<r)add(v,cur,r,info_type::op(info_type::e(),info));
         for(auto&x:v)st.insert(x);
     }
 
@@ -168,12 +168,12 @@ struct RangeSetInfo{
         };
         T cur=l;
         for(auto it=lower_bound(l);it!=st.end()&&it->l<r;it++){
-            if(cur<it->l)add(cur,min(r,it->l),Info::e());
+            if(cur<it->l)add(cur,min(r,it->l),info_type::e());
             T a=max(cur,it->l),b=min(r,it->r);
             add(a,b,it->val);
             cur=max(cur,b);
         }
-        add(cur,r,Info::e());
+        add(cur,r,info_type::e());
         return res;
     }
 

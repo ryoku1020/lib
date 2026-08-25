@@ -1,6 +1,6 @@
 ---
 title: prime-counting
-documentation_of: ../../math/prime-counting.hpp
+documentation_of: ../../math/number_theory/prime-counting.hpp
 ---
 
 # prime-counting
@@ -11,7 +11,7 @@ documentation_of: ../../math/prime-counting.hpp
 ## 使い方
 
 ```cpp
-#include "math/prime-counting.hpp"
+#include "math/number_theory/prime-counting.hpp"
 
 cout<<prime_counting(10)<<"\n";   // 4
 cout<<prime_counting(100)<<"\n";  // 25

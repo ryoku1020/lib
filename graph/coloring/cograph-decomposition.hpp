@@ -1,8 +1,8 @@
 #pragma once
-#include"../ds/fastset.hpp"
+#include"../../ds/ordered/fastset.hpp"
 vvc<int>cographdecomposition(int n,vc<pair<int,int>>non_edge){
     assert(n>=0);
-    FastSet st(n);rep(i,n)st.insert(i);
+    fast_set st(n);rep(i,n)st.insert(i);
     vc<vc<int>>no(n);for(auto&[a,b]:non_edge){
         assert(0<=a&&a<n);
         assert(0<=b&&b<n);

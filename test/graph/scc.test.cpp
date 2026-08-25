@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "../../graph/scc.hpp"
+#include "../../graph/connectivity/scc.hpp"
 #include "../../graph/base.hpp"
 
 using namespace std;
@@ -14,7 +14,7 @@ int main() {
 
     int N, M;
     cin >> N >> M;
-    StaticGraph<1, int> g(N);
+    static_graph<1, int> g(N);
     for (int i = 0; i < M; i++) {
         int u, v;
         cin >> u >> v;

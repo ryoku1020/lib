@@ -1,27 +1,27 @@
 ---
 title: Graph Components (グラフの連結成分分解)
-documentation_of: ../../graph/graph-components.hpp
+documentation_of: ../../graph/connectivity/graph-components.hpp
 ---
 
 # Graph Components
 
-無向グラフに対する二重辺連結成分分解(Two-Edge-Connected Components)および二重頂点連結成分分解(Biconnected Components)を行うための構造体です。
+無向グラフに対する二重辺連結成分分解(Two-edge-Connected Components)および二重頂点連結成分分解(Biconnected Components)を行うための構造体です。
 グラフクラス `G` はLowlinkの計算（`is_bridge`, `ord`, `low` 等）がサポートされている必要があります。
 
-## GraphComponents
+## graph_components
 
 ```cpp
 template<class G>
-struct GraphComponents;
+struct graph_components;
 ```
 
 ### コンストラクタ
-- `GraphComponents(const G& g)`: 対象のグラフ `g` を受け取ります。グラフは無向グラフ（`G::directed() == false`）である必要があります。
+- `graph_components(const G& g)`: 対象のグラフ `g` を受け取ります。グラフは無向グラフ（`G::directed() == false`）である必要があります。
 
 ### メソッド
 
 #### `vc<int> edgec2() const`
-二重辺連結成分分解 (Two-Edge-Connected Components) を行います。
+二重辺連結成分分解 (Two-edge-Connected Components) を行います。
 橋 (bridge) を取り除いたときに残る連結成分です。
 
 - **戻り値**: サイズ $N$ (`g.size()`) の配列。各頂点 $i$ が属する成分のIDを返します。
@@ -49,7 +49,7 @@ struct GraphComponents;
 Lowlink 情報を持つ無向グラフ `g` に対して、橋を取り除いた成分 ID を得ます。
 
 ```cpp
-GraphComponents components(g);
+graph_components components(g);
 
 auto edge_component=components.edgec2();
 auto biconn_vertices=components.vertexc2vertex();

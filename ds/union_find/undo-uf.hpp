@@ -1,8 +1,8 @@
 #pragma once
-struct UndoableUnionFind {
+struct undoable_union_find {
     std::vector<int>par;
     std::stack<std::pair<int, int>>history;
-    UndoableUnionFind(int n) {
+    undoable_union_find(int n) {
         assert(n>=0);
         par.resize(n, -1);
     }

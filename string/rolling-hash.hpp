@@ -1,18 +1,18 @@
 #pragma once
-#include "../ds/hash.hpp"
-#include "../math/mod261.hpp"
+#include "../ds/utility/hash.hpp"
+#include "../math/modular/mod261.hpp"
 
 template<int N=1>
-struct RollingHash{
-    using H=Hash<Mod261Int,N>;
+struct rolling_hash{
+    using H=hash_type<mod261_int,N>;
     inline static const H base=H::get_base();
     inline static vector<H>pows={H(1)};
     inline static vector<H>ipows={H(1)};
     vector<H>sum;
 
-    RollingHash(){}
+    rolling_hash(){}
     template<class Container>
-    RollingHash(const Container&s){build(s);}
+    rolling_hash(const Container&s){build(s);}
 
     static void extend(int n){
         while((int)pows.size()<=n){

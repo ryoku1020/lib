@@ -2,8 +2,8 @@
 #include"base.hpp"
 template<class mint>
 //(0,sample[0])(1,sample[1])... を満たす deg(f)<n なる f について、f(t+0)...f(t+m-1) を列挙
-vc<mint>ShiftofSamplingPoints(int n,int t,int m,vc<mint>sample){
-    using B=Binom<mint>;
+vc<mint>shiftof_sampling_points(int n,int t,int m,vc<mint>sample){
+    using B=binom<mint>;
     using fps=fps<mint>;
     fps a1(n);rep(i,n)a1[i]=sample[i]*(i%2?-1:1)*B::invfact(i);
     fps a2(n);rep(i,n)a2[i]=B::invfact(i);

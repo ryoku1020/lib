@@ -1,6 +1,6 @@
 #pragma once
 
-ull ModMul(ull a,ull b,ull m){
+ull mod_mul(ull a,ull b,ull m){
     return ull(static_cast<u128>(a)*b%m);
 }
 template<class T>
@@ -13,7 +13,7 @@ T modpow(T a,T n,T m){
     }
     return res;
 }
-int IsPrime(ll n){
+int is_prime(ll n){
     if(n<=1)return 0;
     if(n==2)return 1;
     if(n%2==0)return 0;
@@ -44,7 +44,7 @@ int IsPrime(ll n){
         return judge({2,325,9375,28178,450775,9780504,1795265022});
     }
 }
-ll PollardRho(ll n){
+ll pollard_rho(ll n){
     if(n%2==0)return 2;
     if(n%3==0)return 3;
     static mt19937_64 mt(random_device{}());
@@ -52,7 +52,7 @@ ll PollardRho(ll n){
         ull y=mt()%(n-1)+1;
         ull c=mt()%(n-1)+1;
         auto f=[&](ull v){
-            return (ModMul(v,v,n)+c)%n;        };
+            return (mod_mul(v,v,n)+c)%n;        };
         ull r=1,g=1,x=0,ys=0;
         const ull M=128;
         while(g==1){
@@ -64,7 +64,7 @@ ll PollardRho(ll n){
                 rep(i,min(M,r-k)){
                     y=f(y);
                     ull d=x>y?x-y:y-x;
-                    q=ModMul(q,d,n);
+                    q=mod_mul(q,d,n);
                 }
                 g=gcd(q,(ull)n);
             }
@@ -81,19 +81,19 @@ ll PollardRho(ll n){
         if(g!=n)return g;
     }
 }
-void InnerFactorize(ll n,vc<ll>&facts){
+void inner_factorize(ll n,vc<ll>&facts){
     if(n==1)return;
-    if(IsPrime(n)){
+    if(is_prime(n)){
         facts.pb(n);
         return;
     }
-    ll d=PollardRho(n);
-    InnerFactorize(d,facts);
-    InnerFactorize(n/d,facts);
+    ll d=pollard_rho(n);
+    inner_factorize(d,facts);
+    inner_factorize(n/d,facts);
 }
-vc<pair<ll,ll>>Factorize(ll n){
+vc<pair<ll,ll>>factorize(ll n){
     vc<ll> facts;
-    InnerFactorize(n,facts);
+    inner_factorize(n,facts);
     sort(all(facts));
     vc<pair<ll,ll>> res;
     for(auto p:facts){

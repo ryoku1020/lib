@@ -2,7 +2,6 @@
 #else
 #define TEMPLATE
 # pragma GCC optimize("O3")
-using namespace std;
 #include <iostream>
 #include <iomanip>
 #include <cstdio>
@@ -45,6 +44,7 @@ using namespace std;
 #include <tuple>
 #include <type_traits>
 #include <version>
+using namespace std;
 using uint=unsigned;
 using ll=long long;
 using ull=unsigned long long;
@@ -63,7 +63,7 @@ template<class T>using bipq=priority_queue<T>;
 #define DREP(i,n,m) for(ll i=(n);i>=(m);i--)
 #define drep(i,n) for(ll i=((n)-1);i>=0;i--)
 #define rall(x) x.rbegin(),x.rend()
-#define mp make_pair
+#define mp(...) make_pair(__VA_ARGS__)
 #define pb push_back
 #define fi first
 #define se second
@@ -204,10 +204,10 @@ T min(vc<T>&a){
 #ifndef COMPRESSER_STRUCT
 #define COMPRESSER_STRUCT
 template<class T>
-struct Compresser{
+struct compresser{
     vc<T>x;
-    Compresser(int n=0){x.reserve(n);}
-    Compresser(const vc<T>&xs){
+    compresser(int n=0){x.reserve(n);}
+    compresser(const vc<T>&xs){
         x=xs;
     }
     void push(T p){built=false;x.pb(p);}
@@ -259,7 +259,7 @@ vc<T> &operator*=(vc<T>&a,F b){
     return a;
 }
 template<class T=ll>
-constexpr T POW(T a,T b){
+constexpr T pow(T a,T b){
     T res=1;
     while(b){
         if(b&1)res*=a;
@@ -269,7 +269,7 @@ constexpr T POW(T a,T b){
     return res;
 }
 constexpr ll ten(ll a){
-    return POW<ll>(10,a);
+    return pow<ll>(10,a);
 }
 template<typename T>constexpr T inf=numeric_limits<T>::max()/2-1;
 template<class T>
@@ -314,135 +314,20 @@ istream& operator>>(istream&is,i128&x){
 ostream& operator<<(ostream&os,i128 x){
     if(x==0)return os<<0;
     if(x<0)os<<"-";
-    using u128=__uint128_t;
     u128 y=x<0?-(u128)x:(u128)x;
     string s;
     while(y)s.pb('0'+y%10),y/=10;
     reverse(all(s));
     return os<<s;
 }
-#define dbg(...) 1111
-
 #ifdef LOCAL
-#undef dbg
-
-template<class T,class U>
-ostream& operator<<(ostream&os,const pair<T,U>&p){
-    return os<<"("<<p.fi<<", "<<p.se<<")";
-}
-template<class T,size_t N>
-ostream& operator<<(ostream&os,const array<T,N>&a){
-    os<<"[";
-    rep(i,N){
-        if(i)os<<", ";
-        os<<a[i];
-    }
-    return os<<"]";
-}
-template<class T>
-ostream& operator<<(ostream&os,const vc<T>&a){
-    os<<"[";
-    rep(i,a.size()){
-        if(i)os<<", ";
-        os<<a[i];
-    }
-    return os<<"]";
-}
-template<class T>
-ostream& operator<<(ostream&os,const deque<T>&a){
-    os<<"[";
-    rep(i,a.size()){
-        if(i)os<<", ";
-        os<<a[i];
-    }
-    return os<<"]";
-}
-template<class T>
-ostream& operator<<(ostream&os,const set<T>&s){
-    os<<"{";
-    bool f=0;
-    for(auto&x:s){
-        if(f)os<<", ";
-        f=1;
-        os<<x;
-    }
-    return os<<"}";
-}
-template<class T>
-ostream& operator<<(ostream&os,const multiset<T>&s){
-    os<<"{";
-    bool f=0;
-    for(auto&x:s){
-        if(f)os<<", ";
-        f=1;
-        os<<x;
-    }
-    return os<<"}";
-}
-template<class T>
-ostream& operator<<(ostream&os,const unordered_set<T>&s){
-    os<<"{";
-    bool f=0;
-    for(auto&x:s){
-        if(f)os<<", ";
-        f=1;
-        os<<x;
-    }
-    return os<<"}";
-}
-template<class T,class U>
-ostream& operator<<(ostream&os,const map<T,U>&m){
-    os<<"{";
-    bool f=0;
-    for(auto&x:m){
-        if(f)os<<", ";
-        f=1;
-        os<<x;
-    }
-    return os<<"}";
-}
-template<class T,class U>
-ostream& operator<<(ostream&os,const unordered_map<T,U>&m){
-    os<<"{";
-    bool f=0;
-    for(auto&x:m){
-        if(f)os<<", ";
-        f=1;
-        os<<x;
-    }
-    return os<<"}";
-}
-template<class T>
-ostream& operator<<(ostream&os,queue<T>q){
-    vc<T>a;
-    while(q.size())a.pb(q.front()),q.pop();
-    return os<<a;
-}
-template<class T>
-ostream& operator<<(ostream&os,stack<T>s){
-    vc<T>a;
-    while(s.size())a.pb(s.top()),s.pop();
-    return os<<a;
-}
-template<class T,class C,class F>
-ostream& operator<<(ostream&os,priority_queue<T,C,F>q){
-    vc<T>a;
-    while(q.size())a.pb(q.top()),q.pop();
-    return os<<a;
-}
-
-void debug_out(){cout<<endl;}
-template<class T,class... Ts>
-void debug_out(const T&x,const Ts&...xs){
-    cout<<x;
-    if constexpr(sizeof...(xs))cout<<" ",debug_out(xs...);
-    else cout<<endl;
-}
-#define dbg(...) cout<<"["<<#__VA_ARGS__<<"] = ",debug_out(__VA_ARGS__)
+#include "debug/debug.hpp"
+#else
+#define dbg(...) ((void)0)
 #endif
 
-struct TemplateSetup{
-    TemplateSetup(){
+struct template_setup{
+    template_setup(){
         #ifdef LOCAL
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
@@ -457,6 +342,6 @@ struct TemplateSetup{
         #endif
     }
 };
-inline TemplateSetup template_setup;
+inline template_setup template_setup;
 
 #endif

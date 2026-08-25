@@ -7,7 +7,7 @@ constexpr long long safe_mod(long long x, long long m) {
 
 
 //sum_{i=0}^{N-1} |_ (ai+b)/m _| 
-unsigned long long FloorSumUnsigned(unsigned long long n,
+unsigned long long floor_sum_unsigned(unsigned long long n,
                                       unsigned long long m,
                                       unsigned long long a,
                                       unsigned long long b) {
@@ -34,7 +34,7 @@ unsigned long long FloorSumUnsigned(unsigned long long n,
 }
 
 //sum_{i=0}^{N-1} |_ (ai+b)/m _| 
-long long FloorSum(long long n, long long m, long long a, long long b) {
+long long floor_sum(long long n, long long m, long long a, long long b) {
     assert(0 <= n && n < (1LL << 32));
     assert(1 <= m && m < (1LL << 32));
     unsigned long long ans = 0;
@@ -48,6 +48,5 @@ long long FloorSum(long long n, long long m, long long a, long long b) {
         ans -= 1ULL * n * ((b2 - b) / m);
         b = b2;
     }
-    return ans + FloorSumUnsigned(n, m, a, b);
+    return ans + floor_sum_unsigned(n, m, a, b);
 }
-

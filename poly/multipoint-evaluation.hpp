@@ -1,12 +1,12 @@
 #pragma once
 #include"base.hpp"
 template<class mint>
-struct SubproductTree{
+struct subproduct_tree{
     int M;
     vc<mint>queries;
     vc<fps<mint>>T;
     bool built;
-    SubproductTree(int n=0):built(false){
+    subproduct_tree(int n=0):built(false){
         assert(mint::get_mod());
         queries.reserve(n);
     }
@@ -43,9 +43,9 @@ struct SubproductTree{
         atcoder::internal::butterfly(b);
         for(int i=0;i<S;++i)a[i]*=b[i];
         atcoder::internal::butterfly_inv(a);
-        mint invS=mint(1)/mint(S);
+        mint inv_s=mint(1)/mint(S);
         vc<mint>res(n-m+1);
-        rep(i,n-m+1)res[i]=a[i+m-1]*invS;
+        rep(i,n-m+1)res[i]=a[i+m-1]*inv_s;
         return res;
     }
 
@@ -77,11 +77,11 @@ struct SubproductTree{
         rep(i,S)u_r[i]=u_ntt[i]*t_l_ntt[i];
         atcoder::internal::butterfly_inv(u_r);
 
-        mint invS=1/mint(S);
+        mint inv_s=1/mint(S);
         vc<mint>Ul(n-m_r+1);
-        rep(i,n-m_r+1)Ul[i]=u_l[m_r-1+i]*invS;
+        rep(i,n-m_r+1)Ul[i]=u_l[m_r-1+i]*inv_s;
         vc<mint>Ur(n-m_l+1);
-        rep(i,n-m_l+1)Ur[i]=u_r[m_l-1+i]*invS;
+        rep(i,n-m_l+1)Ur[i]=u_r[m_l-1+i]*inv_s;
         evaluate(2*node,l,m,Ul,res);
         evaluate(2*node+1,m,r,Ur,res);
     }
@@ -101,9 +101,9 @@ struct SubproductTree{
 };
 
 template<class mint>
-vc<mint>MultipointEvaluation(fps<mint>f,vc<mint>query){
+vc<mint>multipoint_evaluation(fps<mint>f,vc<mint>query){
     assert(mint::get_mod());
-    SubproductTree<mint> st(query.size());
+    subproduct_tree<mint> st(query.size());
     for(auto&x:query)st.add(x);
     auto ans=st.calc(f);
     return ans;

@@ -47,7 +47,7 @@ auto call_nonvirtual=[&](int cen,vector<vector<int>>&send,vector<int>&is_virtual
 
 - `vvc<int>& g`
   隣接リストで表現された木です。処理中に一時的に書き換えられるため、参照で受け取ります。
-- `F1& Callnonvirtual`
+- `F1& callnonvirtual`
   通常の重心が見つかったときに呼ばれるコールバックです。
   シグネチャは `void(int centroid,vvc<int>& send,vc<int>& is_virtual)` を想定しています。
 - `F2& Callvirutal`
@@ -66,7 +66,7 @@ auto call_nonvirtual=[&](int cen,vector<vector<int>>&send,vector<int>&is_virtual
 
 ### オーバーロード
 
-- `template<class Tree,class F1,class F2> void centroid_decomposition13(Tree& g,F1& Callnonvirtual,F2& Callvirutal)`
+- `template<class tree,class F1,class F2> void centroid_decomposition13(tree& g,F1& callnonvirtual,F2& Callvirutal)`
   `g[i]` から `.to` を持つ辺を列挙できる木構造を受け取る版です。内部で `vector<vector<int>>` に変換してから同じ処理を行います。
 
 ### 境界・注意

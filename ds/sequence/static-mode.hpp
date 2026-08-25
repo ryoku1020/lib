@@ -1,6 +1,6 @@
 #pragma once
 template<class T>
-struct StaticRangeMode{
+struct static_range_mode{
     vc<T>a;
     int n;
     int B;
@@ -9,10 +9,10 @@ struct StaticRangeMode{
     vvc<pair<int,T>>mode;
     vc<int>inv;
     vc<int>Query_cnt;
-    Compresser<T>cp;
+    compresser<T>cp;
     bool built=false;
-    StaticRangeMode()=default;
-    StaticRangeMode(int n):n(n){assert(n>=0);a.resize(n);}
+    static_range_mode()=default;
+    static_range_mode(int n):n(n){assert(n>=0);a.resize(n);}
     void set(int i,T x){assert(!built);assert(0<=i&&i<n);a[i]=x;}
     void precalc(){
         if(built)return;
@@ -47,7 +47,7 @@ struct StaticRangeMode{
         dbg(mode);
     }
     //[l,r) l==r > ng!!!!!!
-    pair<int,T>Query(int l,int r){
+    pair<int,T>query(int l,int r){
         assert(0<=l&&l<r&&r<=n);
         precalc();
         if(l/B==r/B){

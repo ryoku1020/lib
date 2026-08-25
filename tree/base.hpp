@@ -1,16 +1,16 @@
 #pragma once
 #include"../graph/base.hpp" 
-template<class T=Unweighted>
-struct Tree{
-    using Graph=StaticGraph<0,T>;
-    using Edge=typename Graph::Edge;
+template<class T=unweighted>
+struct tree{
+    using Graph=static_graph<0,T>;
+    using edge=typename Graph::edge;
     using cost_t=typename Graph::cost_t;
     mutable Graph g;
     mutable int built_hld=-1;
     int n;
     mutable vc<int>in,out,head,size_,par,depth,ord;
-    Tree(int n):n(n),g(n,n-1){}
-    void add_edge(const Edge&e){
+    tree(int n):n(n),g(n,n-1){}
+    void add_edge(const edge&e){
         g.add_edge(e);
     }
     void add_edge(int a,int b,cost_t cost=1,int id=-1){
@@ -99,7 +99,7 @@ struct Tree{
         rep(u,n){
             auto s=g[u];
             int ce=s.size()-(par[u]!=-1);
-            if(ce>1)sort(s.begin()+1,s.begin()+ce,[&](const Edge&a,const Edge&b){return in[a.to]<in[b.to];});
+            if(ce>1)sort(s.begin()+1,s.begin()+ce,[&](const edge&a,const edge&b){return in[a.to]<in[b.to];});
         }
     }
     auto heavy_edge(int u)const{
@@ -107,16 +107,16 @@ struct Tree{
         build();
         auto s=g[u];
         int sz=s.size(),ce=(par[u]==-1?sz:sz-1);
-        if(ce<=0)return typename Graph::template Span<const Edge>{s.l,s.l};
-        return typename Graph::template Span<const Edge>{s.l,s.l+1};
+        if(ce<=0)return typename Graph::template span<const edge>{s.l,s.l};
+        return typename Graph::template span<const edge>{s.l,s.l+1};
     }
     auto light_edges(int u)const{
         assert(0<=u&&u<n);
         build();
         auto s=g[u];
         int sz=s.size(),ce=(par[u]==-1?sz:sz-1);
-        if(ce<=1)return typename Graph::template Span<const Edge>{s.l,s.l};
-        return typename Graph::template Span<const Edge>{s.l+1,s.l+ce};
+        if(ce<=1)return typename Graph::template span<const edge>{s.l,s.l};
+        return typename Graph::template span<const edge>{s.l+1,s.l+ce};
     }
     int lca(int a,int b)const{
         assert(0<=a&&a<n&&0<=b&&b<n);
@@ -182,7 +182,7 @@ struct Tree{
         }
         return l-1;
     }
-    vc<pair<int,int>>Query(int s,int t,bool edge=false)const{
+    vc<pair<int,int>>query(int s,int t,bool edge=false)const{
         assert(0<=s&&s<n&&0<=t&&t<n);
         build();
         auto&h=head;

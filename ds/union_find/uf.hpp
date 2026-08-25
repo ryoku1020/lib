@@ -1,20 +1,20 @@
 #pragma once
 template<class T,auto op,int extra>
-struct BaseDisjointSetUnion{
+struct base_disjoint_set_union{
         vector<int>par;
         vector<T>data;
-        BaseDisjointSetUnion(int n){
+        base_disjoint_set_union(int n){
             static_assert(!extra,"e is needed");
             assert(n>=0);
             par.assign(n,-1);
         }
-        BaseDisjointSetUnion(int n,T e){
+        base_disjoint_set_union(int n,T e){
             assert(n>=0);
             par.assign(n,-1);
             data.assign(n,e);
         }
         T& operator[](int i){
-            static_assert(extra,"No data");
+            static_assert(extra,"no data");
             return data[leader(i)];
         }
         int root(int x){
@@ -50,6 +50,6 @@ struct BaseDisjointSetUnion{
 
 };
 int tf323(int a,int b){return a;}
-using DisjointSetUnion=BaseDisjointSetUnion<int,tf323,0>;
+using disjoint_set_union=base_disjoint_set_union<int,tf323,0>;
 template<class T,auto op>
-using ExtraDisjointSetUnion=BaseDisjointSetUnion<T,op,1>;
+using extra_disjoint_set_union=base_disjoint_set_union<T,op,1>;

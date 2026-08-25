@@ -1,9 +1,9 @@
 ---
-title: SlidingWindowAggregation
-documentation_of: ../../ds/swag.hpp
+title: sliding_window_aggregation
+documentation_of: ../../ds/sequence/swag.hpp
 ---
 
-# SlidingWindowAggregation
+# sliding_window_aggregation
 
 SWAG (Sliding Window Aggregation) です。
 両端に push/pop しながら、現在の列全体のモノイド積を amortized `O(1)` で取得できます。
@@ -18,7 +18,7 @@ struct X {
 };
 ```
 
-## `SlidingWindowAggregation<X>`
+## `sliding_window_aggregation<X>`
 
 両端キュー版です。左右どちらからでも push/pop できます。
 
@@ -46,13 +46,13 @@ struct X {
 
 - 計算量: `O(1)`
 
-## `OneWaySlidingWindowAggregation<X>`
+## `one_way_sliding_window_aggregation<X>`
 
 片方向（キュー）用途に最適化した版です。
 `push_back` して `pop_front` するだけの場合はこちらが軽量です。
 
 ```cpp
-OneWaySlidingWindowAggregation<X> q;
+one_way_sliding_window_aggregation<X> q;
 q.push_back(x);
 auto cur = q.get_all();
 q.pop_front();
@@ -67,7 +67,7 @@ q.pop_front();
 ## 使用例: 固定幅スライディングウィンドウの最小値
 
 ```cpp
-#include "ds/swag.hpp"
+#include "ds/sequence/swag.hpp"
 
 struct X {
     using value_type = long long;
@@ -75,7 +75,7 @@ struct X {
     static value_type e() { return (long long)4e18; }
 };
 
-SlidingWindowAggregation<X> swag;
+sliding_window_aggregation<X> swag;
 
 // 幅 K のウィンドウを右にずらしながら最小値を取る
 for (int i = 0; i < n; i++) {
@@ -86,4 +86,3 @@ for (int i = 0; i < n; i++) {
     }
 }
 ```
-

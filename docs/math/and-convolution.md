@@ -1,6 +1,6 @@
 ---
 title: AND Convolution
-documentation_of: ../../math/and-convolution.hpp
+documentation_of: ../../math/convolution/and-convolution.hpp
 ---
 
 # AND Convolution
@@ -24,9 +24,9 @@ $C_k = \sum_{i \mathbin{\&} j = k} A_i B_j$ となる数列 $C$ を高速ゼー�
 ## 使用例
 
 ```cpp
-#include "math/and-convolution.hpp"
+#include "math/convolution/and-convolution.hpp"
 
-using mint = StaticModInt<998244353>;
+using mint = static_modint<998244353>;
 
 vc<mint> a = {1,2,3,4}; // A[0..3]
 vc<mint> b = {1,0,1,0}; // B[0..3]
@@ -35,4 +35,3 @@ auto c = and_convolution(a, b);
 // c[k] = sum of a[i]*b[j] for all i&j==k
 // c[0] = a[0]*b[0] + a[1]*b[0] + a[2]*b[0] + ... など
 ```
-

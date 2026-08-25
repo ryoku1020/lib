@@ -1,10 +1,10 @@
 #pragma once
-#include"noninfo.hpp"
+#include"../utility/noninfo.hpp"
 #include <random>
-template<class Info=Noninfo,class Tag=Nontag<Info>>
-struct Treap{
-    using value_type=Info::value_type;
-    using lazy_type=Tag::lazy_type;
+template<class info=noninfo,class tag=nontag<info>>
+struct treap{
+    using value_type=info::value_type;
+    using lazy_type=tag::lazy_type;
     mt19937 mt;
     uint32_t get_rand(){
         return mt();
@@ -19,20 +19,20 @@ struct Treap{
         void push(){
             if(has_lazy){
                 if(lc){
-                    lc->sum=Tag::Apply(lc->sum,lazy);
-                    lc->rev_sum=Tag::Apply(lc->rev_sum,lazy);
-                    lc->lazy=Tag::Merge(lc->lazy,lazy);
-                    lc->val=Tag::Apply(lc->val,lazy);
+                    lc->sum=tag::apply(lc->sum,lazy);
+                    lc->rev_sum=tag::apply(lc->rev_sum,lazy);
+                    lc->lazy=tag::merge(lc->lazy,lazy);
+                    lc->val=tag::apply(lc->val,lazy);
                     lc->has_lazy=1;
                 }
                 if(rc){
-                    rc->sum=Tag::Apply(rc->sum,lazy);
-                    rc->rev_sum=Tag::Apply(rc->rev_sum,lazy);
-                    rc->lazy=Tag::Merge(rc->lazy,lazy);
-                    rc->val=Tag::Apply(rc->val,lazy);
+                    rc->sum=tag::apply(rc->sum,lazy);
+                    rc->rev_sum=tag::apply(rc->rev_sum,lazy);
+                    rc->lazy=tag::merge(rc->lazy,lazy);
+                    rc->val=tag::apply(rc->val,lazy);
                     rc->has_lazy=1;
                 }
-                lazy=Tag::id();
+                lazy=tag::id();
                 has_lazy=0;
             }
             if(rev){
@@ -49,19 +49,19 @@ struct Treap{
             }
         }
         Node*update(){
-            sum=Info::e();
-            rev_sum=Info::e();
+            sum=info::e();
+            rev_sum=info::e();
             size=1;
             if(lc){
-                sum=Info::op(sum,lc->sum);
-                rev_sum=Info::op(lc->rev_sum,rev_sum);
+                sum=info::op(sum,lc->sum);
+                rev_sum=info::op(lc->rev_sum,rev_sum);
                 size+=lc->size;
             }
-            sum=Info::op(sum,val);
-            rev_sum=Info::op(val,rev_sum);
+            sum=info::op(sum,val);
+            rev_sum=info::op(val,rev_sum);
             if(rc){
-                sum=Info::op(sum,rc->sum);
-                rev_sum=Info::op(rc->rev_sum,rev_sum);
+                sum=info::op(sum,rc->sum);
+                rev_sum=info::op(rc->rev_sum,rev_sum);
                 size+=rc->size;
             }
             return this;
@@ -71,7 +71,7 @@ struct Treap{
     int pool_ptr;
     int max_nodes;
     Node*root;
-    Treap(int max_nodes):max_nodes(max_nodes){
+    treap(int max_nodes):max_nodes(max_nodes){
         mt.seed(random_device{}());
         assert(max_nodes>0);
         pool=(Node*)malloc(sizeof(Node)*max_nodes);
@@ -83,8 +83,8 @@ struct Treap{
         assert(pool_ptr<max_nodes);
         Node*res=&pool[pool_ptr++];
         res->lc=res->rc=0;
-        res->val=res->sum=res->rev_sum=Info::e();
-        res->lazy=Tag::id();
+        res->val=res->sum=res->rev_sum=info::e();
+        res->lazy=tag::id();
         res->size=1;
         res->pri=get_rand();
         res->rev=res->has_lazy=0;
@@ -151,17 +151,17 @@ struct Treap{
         if(l==r)return x;
         auto s1=split(x,l);
         auto s2=split(s1.second,r-l);
-        s2.first->lazy=Tag::Merge(s2.first->lazy,v);
-        s2.first->val=Tag::Apply(s2.first->val,v);
-        s2.first->sum=Tag::Apply(s2.first->sum,v);
-        s2.first->rev_sum=Tag::Apply(s2.first->rev_sum,v);
+        s2.first->lazy=tag::merge(s2.first->lazy,v);
+        s2.first->val=tag::apply(s2.first->val,v);
+        s2.first->sum=tag::apply(s2.first->sum,v);
+        s2.first->rev_sum=tag::apply(s2.first->rev_sum,v);
         s2.first->has_lazy=1;
         return merge(s1.first,merge(s2.first,s2.second));
     }
     pair<Node*,value_type>prod(Node*x,int l,int r){
         int sz=x?x->size:0;
         assert(0<=l&&l<=r&&r<=sz);
-        if(l==r)return {x,Info::e()};
+        if(l==r)return {x,info::e()};
         auto s1=split(x,l);
         auto s2=split(s1.second,r-l);
         auto res=s2.first->sum;

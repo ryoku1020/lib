@@ -2,14 +2,14 @@
 
 #include <iostream>
 #include <vector>
-#include "../../ds/lazy-segtree.hpp"
-#include "../../math/static-mod-int.hpp"
+#include "../../ds/segment_tree/lazy-segtree.hpp"
+#include "../../math/modular/static-mod-int.hpp"
 
 using namespace std;
 
-using mint = StaticModInt<998244353>;
+using mint = static_modint<998244353>;
 
-struct Info {
+struct info {
     using value_type = pair<mint, mint>;
 
     static value_type op(value_type a, value_type b) {
@@ -20,16 +20,16 @@ struct Info {
     }
 };
 
-struct Tag {
+struct tag {
     using lazy_type = pair<mint, mint>;
 
-    static lazy_type Merge(lazy_type parent, lazy_type child) {
+    static lazy_type merge(lazy_type parent, lazy_type child) {
         return {child.first * parent.first, child.first * parent.second + child.second};
     }
     static lazy_type id() {
         return {1, 0};
     }
-    static Info::value_type Apply(Info::value_type node, lazy_type lz) {
+    static info::value_type apply(info::value_type node, lazy_type lz) {
         return {node.first * lz.first + node.second * lz.second, node.second};
     }
 };
@@ -48,7 +48,7 @@ int main() {
         A[i] = {x, 1};
     }
 
-    LazySegtree<Info, Tag> seg(N, A);
+    lazy_segtree<info, tag> seg(N, A);
 
     for (int i = 0; i < Q; i++) {
         int type;

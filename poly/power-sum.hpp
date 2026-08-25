@@ -2,7 +2,7 @@
 #include"base.hpp"
 template<class mint>
 //res[k]:= sum c_j a_j^k
-vc<mint>PowerSum(vc<mint>a,vc<mint>c,int K){
+vc<mint>power_sum(vc<mint>a,vc<mint>c,int K){
     using f=fps<mint>;
     int n=a.size();
     if(n==0)return vc<mint>(K+1);

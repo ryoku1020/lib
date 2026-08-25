@@ -1,16 +1,16 @@
 ---
-title: CsrGraph
+title: csr_graph
 documentation_of: ../../graph/csr.hpp
 ---
 
-# CsrGraph
+# csr_graph
 
 整数頂点だけを持つシンプルな CSR グラフです。
 隣接先だけを軽く持ちたいときに使います。
 
 ## コンストラクタ
 
-### `CsrGraph(int n)`
+### `csr_graph(int n)`
 
 頂点数 `n` で初期化します。
 
@@ -38,7 +38,7 @@ documentation_of: ../../graph/csr.hpp
 
 ```cpp
 for(int v:g[u]){
-    // Edge u -> v
+    // edge u -> v
 }
 ```
 
@@ -50,9 +50,9 @@ for(int v:g[u]){
 ## 使用例
 
 ```cpp
-#include "graph/csr.hpp"
+#include "graph/CSR.hpp"
 
-CsrGraph g(n);
+csr_graph g(n);
 for(auto [u,v]:edges)g.add_edge(u,v);
 g.build();
 
@@ -60,4 +60,3 @@ for(int to:g[0]){
     // 0 -> to
 }
 ```
-

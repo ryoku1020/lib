@@ -1,7 +1,7 @@
 #pragma once
-#include"mod.hpp"
+#include"../modular/mod-utillity.hpp"
 //coef*x^k ≡ y mod m なる min k 
-ll DiscreteLog(ll coef,ll x,ll y,ll m){
+ll discrete_log(ll coef,ll x,ll y,ll m){
     x%=m,y%=m,coef%=m;
     if(m==1)return 0;
     if(y==1)return 0;

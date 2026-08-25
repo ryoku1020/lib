@@ -1,15 +1,15 @@
 ---
-title: DynamicModInt
-documentation_of: ../../math/dynamic-mod-int.hpp
+title: dynamic_modint
+documentation_of: ../../math/modular/dynamic-mod-int.hpp
 ---
 
-# DynamicModInt
+# dynamic_modint
 
 実行時に mod を設定する modint です。
 
 ## 型
 
-### `DynamicModInt<id>`
+### `dynamic_modint<id>`
 
 `id` が違えば別の静的領域を使うので、複数 mod を同時に持てます。
 
@@ -21,7 +21,7 @@ documentation_of: ../../math/dynamic-mod-int.hpp
 `1<=md<=2^31-1` を満たす必要があります。
 
 ```cpp
-using mint=DynamicModInt<0>;
+using mint=dynamic_modint<0>;
 mint::set_mod(998244353);
 ```
 
@@ -63,9 +63,9 @@ mint::set_mod(998244353);
 ## 使用例
 
 ```cpp
-#include "math/dynamic-mod-int.hpp"
+#include "math/modular/dynamic-mod-int.hpp"
 
-using mint=DynamicModInt<0>;
+using mint=dynamic_modint<0>;
 mint::set_mod(1000000007);
 
 mint a=2,b=5;
@@ -73,4 +73,3 @@ mint c=a.pow(10)+b;
 mint d=c/b;
 cout<<d<<"\n";
 ```
-

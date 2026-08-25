@@ -13,7 +13,7 @@ title: Library Docs Index
 VSCode では `.vscode/settings.json` と `.clangd` で `template.hpp` を自動 include するようにしています。
 
 ```cpp
-#include "ds/bit.hpp"
+#include "ds/sequence/BIT.hpp"
 #include "tree/base.hpp"
 ```
 
@@ -48,11 +48,11 @@ python3 lib/docs/serve.py --no-open
 
 ## 代表的な入口
 
-- 木: [Tree / HLD](tree/base.md), [重心分解](tree/centroid.md), [DSU on Tree](tree/dsu-on-tree.md), [輪郭クエリ](tree/contour.md), [全方位DP](ds/reroot.md)
-- 文字列: [Suffix Array / LCP](string/lcpsuf.md), [Z Algorithm](string/z-algorithm.md), [Aho-Corasick](string/aho-corasick.md), [Manacher](string/manacher.md), [EerTree](string/eer-tree.md)
-- 数学: [ModInt](math/static-mod-int.md), [FPS](math/fps.md), [畳み込み](math/conv.md), [行列](math/mat.md), [分数](math/frac.md), [素数カウント](math/prime-counting.md), [Stern-Brocot木](math/stern-brocot-tree.md)
-- データ構造: [BIT](ds/bit.md), [Segtree](ds/segtree.md), [LazySegtree](ds/lazy-segtree.md), [Treap](ds/treap.md), [Wavelet行列](ds/wavelet-matrix.md), [SparseTable](ds/sparse-table.md)
-- グラフ: [StaticGraph](graph/base.md), [最大流](graph/flow.md), [最小費用流](graph/min-cost-flow.md), [SCC](graph/scc.md), [2-SAT](graph/two-sat.md), [二部マッチング](graph/bipartite-match.md)
+- 木: [tree / HLD](tree/base.md), [重心分解](tree/centroid.md), [DSU on tree](tree/dsu-on-tree.md), [輪郭クエリ](tree/contour.md), [全方位DP](ds/reroot.md)
+- 文字列: [Suffix Array / LCP](string/lcpsuf.md), [Z Algorithm](string/z-algorithm.md), [Aho-Corasick](string/aho-corasick.md), [manacher](string/manacher.md), [eer_tree](string/eer-tree.md)
+- 数学: [mod_int](math/static-mod-int.md), [FPS](math/fps.md), [畳み込み](math/conv.md), [行列](math/mat.md), [分数](math/frac.md), [素数カウント](math/prime-counting.md), [Stern-Brocot木](math/stern-brocot-tree.md)
+- データ構造: [bit](ds/bit.md), [segtree](ds/segtree.md), [lazy_segtree](ds/lazy-segtree.md), [treap](ds/treap.md), [Wavelet行列](ds/wavelet-matrix.md), [sparse_table](ds/sparse-table.md)
+- グラフ: [static_graph](graph/base.md), [最大流](graph/flow.md), [最小費用流](graph/min-cost-flow.md), [SCC](graph/scc.md), [2-SAT](graph/two-sat.md), [二部マッチング](graph/bipartite-match.md)
 
 ## 境界・注意: 存在しないファイルへの参照
 
@@ -60,13 +60,13 @@ python3 lib/docs/serve.py --no-open
 
 | ドキュメント | 状況 |
 |------------|------|
-| `docs/tree/hld.md` | `tree/hld.hpp` は存在しない。HLD は [`tree/base.hpp`](tree/base.md) の `Tree` クラスに統合済み |
+| `docs/tree/hld.md` | `tree/hld.hpp` は存在しない。HLD は [`tree/base.hpp`](tree/base.md) の `tree` クラスに統合済み |
 | `docs/ds/cht.md` | `ds/cht.hpp` は削除済み。用途別に li-chao-tree / dynamic-li-chao-tree / compressed-li-chao-tree を使う |
 | `docs/other/commute-checker.md` | `other/commute-checker.hpp` は空ファイル |
 
 ## 使用例
 
-木の LCA やパスクエリを調べたいときは、まず [Tree](tree/base.md) を開きます。
+木の LCA やパスクエリを調べたいときは、まず [tree](tree/base.md) を開きます。
 ブラウザで数式付きで読みたい場合は viewer を起動します。
 
 ```sh

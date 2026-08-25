@@ -1,9 +1,9 @@
 ---
-title: Point / ConvexHull
-documentation_of: ../../geometry/point.hpp
+title: Point / convex_hull
+documentation_of: ../../geometry/base.hpp
 ---
 
-# Point / ConvexHull
+# Point / convex_hull
 
 2 次元点、幾何 primitive、凸包です。
 
@@ -55,9 +55,9 @@ Point<Point_type, eps = EPS>
 - `x` が同じなら `y` が小さい点を先に並べます
 - `==` の `eps` 判定は使わないので、`map` や `set` のキーとして使えます
 
-## `ConvexHull`
+## `convex_hull`
 
-### `vc<point>ConvexHull(vc<point>p, bool containboundary=false)`
+### `vc<Point>convex_hull(vc<Point>p, bool containboundary=false)`
 
 点列 `p` の凸包を反時計回りの点列として返します。
 
@@ -71,13 +71,13 @@ Point<Point_type, eps = EPS>
 ## 境界・注意
 
 - 凸包の共線点はデフォルトでは除かれます。辺上の点も含めたい場合は `containboundary=true` を渡してください。
-- `EPS` を変えたい場合は `#define EPS ...` を `#include "geometry/point.hpp"` より前に書いてください。
+- `EPS` を変えたい場合は `#define EPS ...` を `#include "geometry/base.hpp"` より前に書いてください。
 
 ## 使用例
 
 ```cpp
 #define EPS 1e-9L
-#include "geometry/point.hpp"
+#include "geometry/base.hpp"
 
 using P = Point<long long>;
 using Q = Point<ld>;
@@ -88,10 +88,9 @@ long long area2 = (b-a).Cross(c-a); // 三角形面積の 2 倍
 
 // 凸包
 vc<P>pts = {{0,0},{1,0},{0,1},{1,1},{0,0}}; // 重複あり
-auto hull = ConvexHull(pts);
+auto hull = convex_hull(pts);
 
 // 座標の辞書順ソート
 vc<P>dirs = {{1,0},{0,1},{-1,0},{0,-1}};
 sort(all(dirs));
 ```
-

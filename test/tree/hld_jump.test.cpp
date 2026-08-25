@@ -11,7 +11,7 @@ int main() {
 
     int N, Q;
     cin >> N >> Q;
-    Tree hld(N);
+    tree hld(N);
     for (int i = 0; i < N - 1; i++) {
         int u, v;
         cin >> u >> v;

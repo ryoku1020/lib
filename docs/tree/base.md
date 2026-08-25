@@ -1,32 +1,32 @@
 ---
-title: Tree
+title: tree
 documentation_of: ../../tree/base.hpp
 ---
 
-# Tree
+# tree
 
 木に対する基本操作と HLD (Heavy-Light Decomposition) をまとめた構造体です。
 LCA、距離、パス上の k 番目の頂点、パス分解、部分木区間、直径を扱えます。
 
-木 DP や部分木クエリでは `in/out` を使い、パスクエリでは `Query` でパスをいくつかの区間に分けてセグ木などに渡す、という使い方が中心です。
+木 DP や部分木クエリでは `in/out` を使い、パスクエリでは `query` でパスをいくつかの区間に分けてセグ木などに渡す、という使い方が中心です。
 
 ## 使い方
 
 基本の流れは次の通りです。
 
 ```cpp
-Tree tree(n);
+tree tree(n);
 for(auto [u,v]:edges)tree.add_edge(u,v);
 tree.build();
 ```
 
 `root` を省略すると `0` を根にします。
-`lca`、`dist`、`jump`、`Query` などを呼ぶと内部で自動的に `build()` されますが、根を `0` 以外にしたい場合は、最初のクエリを呼ぶ前に `build(root)` してください。
+`lca`、`dist`、`jump`、`query` などを呼ぶと内部で自動的に `build()` されますが、根を `0` 以外にしたい場合は、最初のクエリを呼ぶ前に `build(root)` してください。
 
 辺が 1-indexed で入力される場合は `input<1>()` が使えます。
 
 ```cpp
-Tree tree(n);
+tree tree(n);
 tree.input<1>();
 tree.build();
 ```
@@ -34,13 +34,13 @@ tree.build();
 重み付き木として使いたい場合は、辺の重み型を指定します。
 
 ```cpp
-Tree<long long> tree(n);
+tree<long long> tree(n);
 tree.add_edge(a,b,c);
 ```
 
 ## コンストラクタ
 
-### `Tree(int n)`
+### `tree(int n)`
 
 頂点数 `n` の木を作ります。
 
@@ -57,9 +57,9 @@ tree.add_edge(a,b,c);
 - 制約: `0<=a,b<n`
 - 計算量: `O(1)` amortized
 
-### `void tree.add_edge(const Edge& e)`
+### `void tree.add_edge(const edge& e)`
 
-`Edge` をそのまま追加します。
+`edge` をそのまま追加します。
 辺 ID や重みを自分で管理したい場合に使います。
 
 - 計算量: `O(1)` amortized
@@ -127,7 +127,7 @@ tree.add_edge(a,b,c);
 - 制約: `0<=s,t<n`
 - 計算量: `O(log n)`
 
-### `vc<pair<int,int>> tree.Query(int s, int t, bool edge = false) const`
+### `vc<pair<int,int>> tree.query(int s, int t, bool edge = false) const`
 
 パス `s-t` を HLD 上の区間列に分解して返します。
 パス上の頂点値・辺値をセグ木などで処理するときに使います。
@@ -171,7 +171,7 @@ tree.add_edge(a,b,c);
 - `depth[v]` は `root` からの深さ
 - `par[v]` は根付き木での親で、根の親は `-1`
 
-`Query(s,t,edge)` が返す区間だけは、半開区間ではなく閉区間のペアです。
+`query(s,t,edge)` が返す区間だけは、半開区間ではなく閉区間のペアです。
 各ペア `(l,r)` は `in` 配列上の区間で、返る順番はパス `s -> t` の順です。
 
 - `l<=r` なら `in` の小さい方から大きい方へ進む
@@ -191,7 +191,7 @@ tree.add_edge(a,b,c);
 - 木であることを仮定しています。連結性や閉路の有無は実行時には検査しません。
 - 辺を追加した後、最初のクエリや `build` によって HLD 情報が固定されます。build 後に辺を追加して使い直すことは想定していません。
 - 根を `0` 以外にしたい場合は、自動 build が走る前に `build(root)` を呼んでください。
-- `in/out` の部分木区間は半開区間 `[l,r)`、`Query` の返すパス区間は閉区間 `(l,r)` です。
+- `in/out` の部分木区間は半開区間 `[l,r)`、`query` の返すパス区間は閉区間 `(l,r)` です。
 - `get_diameter` は `build` とは独立に DFS します。
 
 ## 使用例 1: LCA と距離
@@ -201,7 +201,7 @@ tree.add_edge(a,b,c);
 
 int N,Q;
 cin>>N>>Q;
-Tree tree(N);
+tree tree(N);
 rep(i,N-1){
     int u,v;
     cin>>u>>v;
@@ -224,7 +224,7 @@ rep(q,Q){
 頂点値 `A[v]` を `in[v]` 番目に並べてセグ木に載せます。
 
 ```cpp
-Tree tree(N);
+tree tree(N);
 rep(i,N-1){
     int u,v;
     cin>>u>>v;
@@ -232,7 +232,7 @@ rep(i,N-1){
 }
 tree.build(root);
 
-Segtree<Info> seg(N,[&](int i){
+segtree<info> seg(N,[&](int i){
     return A[tree.ord[i]];
 });
 
@@ -241,12 +241,12 @@ auto ans=seg.prod(tree.in[v],tree.out[v]);
 
 ## 使用例 3: 頂点パスクエリ
 
-`Query(u,v)` は、パス `u -> v` を `in` 配列上の閉区間列に分解します。
+`query(u,v)` は、パス `u -> v` を `in` 配列上の閉区間列に分解します。
 和や max のように向きを気にしない演算なら、各区間を半開区間へ直して処理します。
 
 ```cpp
 long long ans=0;
-for(auto [l,r]:tree.Query(u,v)){
+for(auto [l,r]:tree.query(u,v)){
     ans+=seg.prod(min(l,r),max(l,r)+1);
 }
 ```
@@ -255,19 +255,19 @@ for(auto [l,r]:tree.Query(u,v)){
 その場合は、順方向用と逆方向用の値を両方持つセグ木にしておくと扱いやすいです。
 
 ```cpp
-Info ans=Info::e();
-for(auto [l,r]:tree.Query(u,v)){
+info ans=info::e();
+for(auto [l,r]:tree.query(u,v)){
     if(l<=r){
-        ans=Info::op(ans,seg.prod(l,r+1).forward);
+        ans=info::op(ans,seg.prod(l,r+1).forward);
     }else{
-        ans=Info::op(ans,seg.prod(r,l+1).backward);
+        ans=info::op(ans,seg.prod(r,l+1).backward);
     }
 }
 ```
 
 ## 使用例 4: 辺パスクエリ
 
-辺の値を深い側の頂点に置くと、`Query(u,v,true)` で辺パスを処理できます。
+辺の値を深い側の頂点に置くと、`query(u,v,true)` で辺パスを処理できます。
 LCA の頂点は除かれるので、`u==v` のときは空です。
 
 ```cpp
@@ -280,7 +280,7 @@ rep(v,N){
 }
 
 long long ans=0;
-for(auto [l,r]:tree.Query(u,v,true)){
+for(auto [l,r]:tree.query(u,v,true)){
     ans+=seg.prod(min(l,r),max(l,r)+1);
 }
 ```

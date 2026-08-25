@@ -1,18 +1,18 @@
 ---
-title: PersistentUnionFind
-documentation_of: ../../ds/persistent-uf.hpp
+title: persistent_union_find
+documentation_of: ../../ds/union_find/persistent-uf.hpp
 ---
 
-# PersistentUnionFind
+# persistent_union_find
 
 永続 Union-Find です。
 各 `merge` が新しいバージョン（node ポインタ）を返し、過去のバージョンも保持されます。
-内部で `PersistentArray<int, B>` を使っています。
+内部で `persistent_array<int, B>` を使っています。
 
 ## 型
 
 ```cpp
-PersistentUnionFind<B = 2>
+persistent_union_find<B = 2>
 ```
 
 - `B` — 内部 B 分木の分岐数（通常 `2`）
@@ -55,9 +55,9 @@ PersistentUnionFind<B = 2>
 ## 使用例
 
 ```cpp
-#include "ds/persistent-uf.hpp"
+#include "ds/union_find/persistent-uf.hpp"
 
-PersistentUnionFind<2> uf;
+persistent_union_find<2> uf;
 
 auto r0 = uf.build(n);           // バージョン 0
 auto r1 = uf.merge(0, 1, r0);   // 0 と 1 をマージした r1
@@ -67,4 +67,3 @@ bool b1 = uf.same(0, 1, r2); // true
 bool b2 = uf.same(0, 2, r2); // false
 bool b0 = uf.same(0, 1, r0); // false (r0 は元のまま)
 ```
-

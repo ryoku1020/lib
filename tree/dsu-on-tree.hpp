@@ -1,10 +1,10 @@
 #pragma once
-template<class Tree>
-struct DsuOnTree{
-    Tree&g;
-    DsuOnTree(Tree&g):g(g){}
-    template<class Add,class Query,class Reset>
-    void run(Add add,Query query,Reset reset,int root=0){
+template<class tree>
+struct dsu_on_tree{
+    tree&g;
+    dsu_on_tree(tree&g):g(g){}
+    template<class add_func,class query_func,class reset_func>
+    void run(add_func add,query_func query,reset_func reset,int root=0){
         assert(0<=root&&root<g.size());
         g.build(root);
         auto dfs=[&](auto&dfs,int u,int v,int keep,int do_query)->void{

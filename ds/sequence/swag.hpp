@@ -1,11 +1,11 @@
 #pragma once
 
 template<class X>
-struct SlidingWindowAggregation{
+struct sliding_window_aggregation{
     using value_type=typename X::value_type;
     vc<value_type>left,right;
     vc<value_type>left_data,right_data;
-    SlidingWindowAggregation(){
+    sliding_window_aggregation(){
         left_data.push_back(X::e());
         right_data.push_back(X::e());
     }
@@ -64,7 +64,7 @@ struct SlidingWindowAggregation{
 };
 
 template<class X>
-struct OneWaySlidingWindowAggregation{
+struct one_way_sliding_window_aggregation{
     using value_type=typename X::value_type;
     vc<value_type>s1,s2;
     vc<value_type>S1,S2;

@@ -1,13 +1,13 @@
 #pragma once
-#include"../lib/math/barrett.hpp"
-struct ArbitraryBinom{
-    ArbitraryBinom(){}
-    ArbitraryBinom(ll m){build(m);}
-    struct BINOM{
+#include"../modular/barrett.hpp"
+struct arbitrary_binom{
+    arbitrary_binom(){}
+    arbitrary_binom(ll m){build(m);}
+    struct binom{
         ll p,e,q;
         vc<ll>fact,ppow,inv;
         int neg;
-        Barrett bar;
+        barrett bar;
         ll mul(ll a,ll b){
             return bar.reduce((uint64_t)a*b);
         }
@@ -69,7 +69,7 @@ struct ArbitraryBinom{
     };
     ll mod;
     vc<array<ll,3>>ms;
-    vc<BINOM>bs;
+    vc<binom>bs;
     vc<ll>crtcoef;
     ll extgcd(ll a,ll b,ll&x,ll&y){
         if(b==0){
@@ -94,7 +94,7 @@ struct ArbitraryBinom{
         mod=m;
         for(ll i=2;i*i<=m;i++){
             ll cnt=0;while(m%i==0)cnt++,m/=i;
-            if(cnt)ms.pb({i,cnt,POW<ll>(i,cnt)});
+            if(cnt)ms.pb({i,cnt,pow<ll>(i,cnt)});
         }
         if(m>1)ms.pb({m,1,m});
         rep(i,ms.size()){

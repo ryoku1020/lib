@@ -1,10 +1,10 @@
 #pragma once
-struct BipartiteMatching{
+struct bipartite_matching{
     int l,r;
     vc<int>pm,qm;
     vvc<int>g;
     vc<int>dist;
-    BipartiteMatching(int l,int r):l(l),r(r){
+    bipartite_matching(int l,int r):l(l),r(r){
         assert(l>=0&&r>=0);
         pm.assign(l,-1);
         qm.assign(r,-1);

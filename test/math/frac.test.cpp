@@ -1,9 +1,9 @@
 #define IGNORE
 #include <cassert>
-#include "../../math/frac.hpp"
+#include "../../math/arithmetic/frac.hpp"
 
 int main(){
-    using F=Frac<ll>;
+    using F=frac<ll>;
     F a(2,4),b(1,6);
     assert(a.a==1&&a.b==2);
     assert(a+b==F(2,3));
@@ -12,7 +12,7 @@ int main(){
     assert(a/b==F(3));
     assert(F(-1,2)<F(0));
 
-    using G=Frac<ll,false>;
+    using G=frac<ll,false>;
     G c(2,4),d(1,6);
     assert(c.a==2&&c.b==4);
     c+=d;

@@ -1,23 +1,23 @@
 ---
-title: DynamicLiChaoTree
-documentation_of: ../../ds/dynamic-li-chao-tree.hpp
+title: dynamic_li_chao_tree
+documentation_of: ../../ds/li_chao_tree/dynamic-li-chao-tree.hpp
 ---
 
-# DynamicLiChaoTree
+# dynamic_li_chao_tree
 
-動的ノード割り当て版の Li Chao Tree です。
+動的ノード割り当て版の Li Chao tree です。
 x 座標の型を任意にとれるため、x が大きい整数・負の値のときや、全 x 範囲 `[0, n)` の中でクエリが疎なときに有効です。
 
 ノードが必要になった時点だけ `new` で確保するため、空間計算量はクエリ・直線追加の数に比例します。
 
-x 座標が事前にわかっている場合は [CompressedLiChaoTree](compressed-li-chao-tree.md) の方が定数倍が小さいです。
+x 座標が事前にわかっている場合は [compressed_li_chao_tree](compressed-li-chao-tree.md) の方が定数倍が小さいです。
 
-## 要件: `Info`
+## 要件: `info`
 
-[LiChaoTree](li-chao-tree.md) の `Info` と同じ仕様です。
+[li_chao_tree](li-chao-tree.md) の `info` と同じ仕様です。
 
 ```cpp
-struct Info {
+struct info {
     using value_type = /* 直線を表す型 */;
     static value_type e();
     static auto eval(value_type line, auto x);
@@ -26,9 +26,9 @@ struct Info {
 
 ## コンストラクタ
 
-### `DynamicLiChaoTree(T n)`
+### `dynamic_li_chao_tree(T n)`
 
-x 座標の範囲 `[0, n)` で動的 Li Chao Tree を作ります。
+x 座標の範囲 `[0, n)` で動的 Li Chao tree を作ります。
 内部では `n` を 2 のべき乗に切り上げます。
 
 - `T` は x 座標の型（`int`, `long long` など）
@@ -60,14 +60,14 @@ x における最小値（`ismin=true`）または最大値（`ismin=false`）�
 
 - `eval` は `ismin` の場合でも常に「大きい値を返すほど弱い」設計になっています（コンストラクタで `coef` による符号反転はクエリ時のみ適用）。コメントにも `"max で eval される"` と書かれています。
 - ノードのデストラクタが再帰的に `delete` を呼ぶため、非常に深いツリーではスタックオーバーフローの可能性があります。
-- [LiChaoTree](li-chao-tree.md) と違い x 座標は `T` 型なので、`int` 範囲外の座標も扱えます。
+- [li_chao_tree](li-chao-tree.md) と違い x 座標は `T` 型なので、`int` 範囲外の座標も扱えます。
 
 ## 使用例
 
 ```cpp
-#include "ds/dynamic-li-chao-tree.hpp"
+#include "ds/li_chao_tree/dynamic-li-chao-tree.hpp"
 
-struct Info {
+struct info {
     using value_type = pair<long long, long long>;
     static value_type e() { return {0, (long long)4e18}; }
     static long long eval(value_type f, long long x) {
@@ -76,9 +76,8 @@ struct Info {
 };
 
 // x ∈ [0, 1e18) の範囲で最小値クエリ
-DynamicLiChaoTree<Info, true, long long> lct(1e18);
+dynamic_li_chao_tree<info, true, long long> lct(1e18);
 
 lct.add_line({a, b});
 long long ans = lct.query(x);
 ```
-

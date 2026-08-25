@@ -1,9 +1,9 @@
 ---
-title: PersistentArray
+title: persistent_array
 documentation_of: ../../ds/persistent-array.hpp
 ---
 
-# PersistentArray
+# persistent_array
 
 B 分木型の永続配列です。
 `change` のたびに新しいバージョン（root ポインタ）を返し、古いバージョンも保持されます。
@@ -11,7 +11,7 @@ B 分木型の永続配列です。
 ## 型
 
 ```cpp
-PersistentArray<T, B>
+persistent_array<T, B>
 ```
 
 - `T` — 要素の型
@@ -50,7 +50,7 @@ PersistentArray<T, B>
 ```cpp
 #include "ds/persistent-array.hpp"
 
-PersistentArray<int, 2> pa;
+persistent_array<int, 2> pa;
 
 auto r0 = pa.build(n, 0);     // バージョン 0: 全要素 0
 
@@ -61,4 +61,3 @@ int a = pa.get(3, r2); // 10
 int b = pa.get(3, r0); // 0  (r0 は変わっていない)
 int c = pa.get(5, r2); // 7
 ```
-

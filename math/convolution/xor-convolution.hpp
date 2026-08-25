@@ -1,5 +1,5 @@
 #pragma once
-#include"fps.hpp"
+#include"../../poly/base.hpp"
 template<class mint>
 void fwht(vc<mint>&a,bool is_inv){
     assert(mint::get_mod());

@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/number_of_substrings"
 
-#include "../../string/lcpsuf.hpp"
+#include "../../string/suffix-array.hpp"
 #include <iostream>
 #include <string>
 
@@ -13,7 +13,8 @@ int main() {
     string S;
     cin >> S;
 
-    auto lcp = lcp_array(S);
+    auto sa = suffix_array(S);
+    auto lcp = lcp_array(S, sa);
     long long ans = 1LL * S.size() * (S.size() + 1) / 2;
     for (int x : lcp) ans -= x;
     cout << ans << "\n";

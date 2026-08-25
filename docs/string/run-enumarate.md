@@ -14,7 +14,7 @@ documentation_of: ../../string/run-enumarate.hpp
 #include "string/run-enumarate.hpp"
 
 string s="ababababa";
-auto runs=RunEnumerate(s);
+auto runs=run_enumerate(s);
 
 for(auto [t,l,r]:runs){
     // s[l,r) が周期 t を持つ run
@@ -23,7 +23,7 @@ for(auto [t,l,r]:runs){
 
 ## 戻り値
 
-- `vc<array<int,3>> RunEnumerate(string s)`
+- `vc<array<int,3>> run_enumerate(string s)`
   各要素は `{t,l,r}` です。
 
 各成分の意味は次の通りです。
@@ -44,12 +44,12 @@ for(auto [t,l,r]:runs){
 ## 境界・注意
 
 - 戻り値の順序は保証されません。
-- 実装は `ZAlgorithm` を内部で利用しています。
+- 実装は `z_algorithm` を内部で利用しています。
 
 ## 典型例
 
 ```cpp
-for(auto [t,l,r]:RunEnumerate(s)){
+for(auto [t,l,r]:run_enumerate(s)){
     if(t==1){
         // 同じ文字が連続している run
     }
@@ -58,4 +58,3 @@ for(auto [t,l,r]:RunEnumerate(s)){
     }
 }
 ```
-
