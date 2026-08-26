@@ -18,11 +18,15 @@ struct dynamic_modint{
         return mi;
     }
     dynamic_modint &operator+=(const dynamic_modint&m){
-        if((val+=m.val)>=get_mod())val-=get_mod();
+        u32 md=get_mod();
+        u32 x=val+m.val-md;
+        val=x+(md&-(x>>31));
         return *this;
     }
     dynamic_modint &operator-=(const dynamic_modint&m){
-        if((val+=(get_mod()-m.val))>=get_mod())val-=get_mod();
+        u32 md=get_mod();
+        u32 x=val-m.val;
+        val=x+(md&-(x>>31));
         return *this;
     }
     dynamic_modint &operator*=(const dynamic_modint&m){
@@ -104,4 +108,3 @@ struct dynamic_modint{
         return b;
     }
 };
-

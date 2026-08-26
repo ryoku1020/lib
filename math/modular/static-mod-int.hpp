@@ -21,11 +21,13 @@ struct static_modint{
         return mi;
     }
     static_modint &operator+=(const static_modint&m){
-        if((val+=m.val)>=mod)val-=mod;
+        u32 x=val+m.val-mod;
+        val=x+(mod&-(x>>31));
         return *this;
     }
     static_modint &operator-=(const static_modint&m){
-        if((val+=(mod-m.val))>=mod)val-=mod;
+        u32 x=val-m.val;
+        val=x+(mod&-(x>>31));
         return *this;
     }
     static_modint &operator*=(const static_modint&m){

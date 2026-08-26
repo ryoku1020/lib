@@ -1,35 +1,33 @@
-template<int N>
-struct ninfo{
-    array<int,N>mf_;
-    bool built_=0;
-
-    void buildp(){
-        if(built_)return;
-        built_=1;
-        REP(i,1,N)mf_[i]=i;
-        REP(i,2,N){
-            if(mf_[i]==i&&i*i<N)for(int j=i*i;j<N;j+=i){
-                chmin(mf_[j],i);
-            }
+#pragma once
+struct sieve{
+    int n;
+    vc<int>mf;
+    sieve(int n):n(n),mf(n+1){
+        build();
+    }
+    void build(){
+        rep(i,n+1)mf[i]=i;
+        for(int i=2;i<=n/i;i++)if(mf[i]==i){
+            for(int j=i*i;j<=n;j+=i)chmin(mf[j],i);
         }
     }
-    vc<pair<int,int>>factorize(int n){
-        assert(0<n&&n<N);
-        buildp();
+    vc<pair<int,int>>factorize(int x){
+        assert(0<x&&x<=n);
         vc<pair<int,int>>res;
-        while(n>1){
-            int tar=mf_[n];
-            res.pb({tar,0});
-            while(n%tar==0){
-                n/=tar;
+        while(x>1){
+            int p=mf[x];
+            res.pb({p,0});
+            while(x%p==0){
+                x/=p;
                 res.back().second++;
             }
         }
         return res;
     }
-    vc<int>div(int n){
+    vc<int>div(int x){
+        assert(0<x&&x<=n);
         vc<int>res{1};
-        for(auto [p,e]:factorize(n)){
+        for(auto [p,e]:factorize(x)){
             int sz=res.size(),pw=1;
             rep(i,e){
                 pw*=p;
@@ -39,23 +37,23 @@ struct ninfo{
         sort(all(res));
         return res;
     }
-    int mobius(int n){
-        auto pf=factorize(n);
+    int mobius(int x){
+        assert(0<x&&x<=n);
+        auto pf=factorize(x);
         for(auto [p,e]:pf)if(e>1)return 0;
         return pf.size()%2?-1:1;
     }
-    bool is_prime(int n){
-        assert(0<=n&&n<N);
-        buildp();
-        return n>=2&&mf_[n]==n;
+    bool is_prime(int x){
+        assert(0<=x&&x<=n);
+        return x>=2&&mf[x]==x;
     }
-    int phi(int n){
-        ll res=n;
-        while(n>1){
-            res*=mf_[n]-1;
-            res/=mf_[n];
-            int M=mf_[n];
-            while(n%M==0)n/=M;
+    int phi(int x){
+        assert(0<x&&x<=n);
+        int res=x;
+        while(x>1){
+            int p=mf[x];
+            res=res/p*(p-1);
+            while(x%p==0)x/=p;
         }
         return res;
     }

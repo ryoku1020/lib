@@ -105,3 +105,21 @@ vc<pair<ll,ll>>factorize(ll n){
     }
     return res;
 }
+
+template<class T>
+vc<T>divisors(T x){
+    auto f=factorize(x);
+    vc<T>res;
+    auto dfs=[&](auto&dfs,int fr,T v){
+        if(fr==f.size()){
+            res.pb(v);
+            return;
+        }
+        rep(i,f[fr].second+1){
+            dfs(dfs,fr+1,v);
+            v*=f[fr].fi;
+        }
+    };
+    dfs(dfs,0,1);
+    return res;
+}
