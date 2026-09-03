@@ -8,7 +8,7 @@ struct tree{
     mutable Graph g;
     mutable int built_hld=-1;
     int n;
-    mutable vc<int>in,out,head,size_,par,depth,ord;
+    mutable vc<int>in,out,head,size_,par,depth,ord,cp,cp_root;
     tree(int n):n(n),g(n,n-1){}
     void add_edge(const edge&e){
         g.add_edge(e);
@@ -21,6 +21,11 @@ struct tree{
     }
     int size()const{
         return n;
+    }
+    bool same(int a,int b)const{
+        assert(0<=a&&a<n&&0<=b&&b<n);
+        build();
+        return cp[a]==cp[b];
     }
     auto operator[](int u)const{
         assert(0<=u&&u<n);
@@ -53,11 +58,11 @@ struct tree{
         par.resize(n);
         depth.resize(n);
         ord.assign(n*(disjoint+1),-1);
-        par[root]=-1;
-        depth[root]=0;
-        head[root]=root;
+        cp.assign(n,-1);
+        cp_root.clear();
         int timer=0;
-        auto dfs=[&](auto&dfs,int u,int v,int d)->void{
+        auto dfs=[&](auto&dfs,int u,int v,int d,int c)->void{
+            cp[u]=c;
             depth[u]=d++;
             auto s=g[u];
             int heavy=-1,par_id=-1;
@@ -68,7 +73,7 @@ struct tree{
                     continue;
                 }
                 par[e.to]=u;
-                dfs(dfs,e.to,u,d);
+                dfs(dfs,e.to,u,d,c);
                 size_[u]+=size_[e.to];
                 if(heavy==-1||size_[s[heavy].to]<size_[e.to])heavy=i;
             }
@@ -80,7 +85,17 @@ struct tree{
             if(par_id!=-1&&par_id+1!=s.size()){
                 swap(s[par_id],s[s.size()-1]);
             }
-        };dfs(dfs,root,-1,0);
+        };
+        auto visit=[&](int u){
+            int c=cp_root.size();
+            cp_root.pb(u);
+            par[u]=-1;
+            depth[u]=0;
+            head[u]=u;
+            dfs(dfs,u,-1,0,c);
+        };
+        visit(root);
+        rep(u,n)if(cp[u]==-1)visit(u);
         {auto dfs=[&](auto&dfs,int u)->void{
             in[u]=timer;
             ord[timer++]=u;
@@ -95,7 +110,8 @@ struct tree{
             }
             if constexpr(disjoint)out[u]=timer++;
             else out[u]=timer;
-        };dfs(dfs,root);}
+        };
+        for(auto u:cp_root)dfs(dfs,u);}
         rep(u,n){
             auto s=g[u];
             int ce=s.size()-(par[u]!=-1);
@@ -107,16 +123,16 @@ struct tree{
         build();
         auto s=g[u];
         int sz=s.size(),ce=(par[u]==-1?sz:sz-1);
-        if(ce<=0)return typename Graph::template span<const edge>{s.l,s.l};
-        return typename Graph::template span<const edge>{s.l,s.l+1};
+        if(ce<=0)return span<const edge>{s.data(),s.data()};
+        return span<const edge>{s.data(),s.data()+1};
     }
     auto light_edges(int u)const{
         assert(0<=u&&u<n);
         build();
         auto s=g[u];
         int sz=s.size(),ce=(par[u]==-1?sz:sz-1);
-        if(ce<=1)return typename Graph::template span<const edge>{s.l,s.l};
-        return typename Graph::template span<const edge>{s.l+1,s.l+ce};
+        if(ce<=1)return span<const edge>{s.data(),s.data()};
+        return span<const edge>{s.data()+1,s.data()+ce};
     }
     int lca(int a,int b)const{
         assert(0<=a&&a<n&&0<=b&&b<n);
@@ -124,6 +140,7 @@ struct tree{
         auto&h=head;
         auto&d=depth;
         auto&p=par;
+        if(cp[a]!=cp[b])return -1;
         while(1){
             if(h[a]==h[b]){
                 if(d[a]<d[b])return a;
@@ -136,7 +153,9 @@ struct tree{
     int dist(int a,int b)const{
         assert(0<=a&&a<n&&0<=b&&b<n);
         build();
-        return depth[a]+depth[b]-2*depth[lca(a,b)];
+        int L=lca(a,b);
+        if(L==-1)return -1;
+        return depth[a]+depth[b]-2*depth[L];
     }
     int jumpup(int a,int k)const{
         assert(0<=a&&a<n);
@@ -159,8 +178,10 @@ struct tree{
     int jump(int s,int t,int k)const{
         assert(0<=s&&s<n&&0<=t&&t<n);
         build();
+        if(cp[s]!=cp[t]||k<0)return -1;
         int L=lca(s,t);
         int D=depth[s]+depth[t]-2*depth[L];
+        if(D<k)return -1;
         if(depth[s]-depth[L]>=k){
             return jumpup(s,k);
         }else{
@@ -170,6 +191,7 @@ struct tree{
     int to(int x,int y)const{
         assert(0<=x&&x<n&&0<=y&&y<n&&x!=y);
         build();
+        if(cp[x]!=cp[y])return -1;
         if(in[y]<in[x]||out[x]<=in[y])return g[x].size()-1;
         auto s=g[x];
         int ce=s.size()-(par[x]!=-1);
@@ -185,6 +207,7 @@ struct tree{
     vc<pair<int,int>>query(int s,int t,bool edge=false)const{
         assert(0<=s&&s<n&&0<=t&&t<n);
         build();
+        if(cp[s]!=cp[t])return {};
         auto&h=head;
         auto&d=depth;
         auto&I=in;
@@ -210,8 +233,9 @@ struct tree{
         for(auto it=rt.rbegin();it!=rt.rend();++it)rs.push_back(*it);
         return rs;
     }
-    pair<int,int>get_diameter()const{
+    pair<int,int>get_diameter(int v=0)const{
         assert(n>0);
+        assert(0<=v&&v<n);
         auto find_farthest=[&](int from)->int{
             vc<int>d(n),p(n,-2),st(1,from);
             p[from]=-1;
@@ -228,7 +252,7 @@ struct tree{
             }
             return far;
         };
-        int v1=find_farthest(0);
+        int v1=find_farthest(v);
         int v2=find_farthest(v1);
         return {v1,v2};
     }

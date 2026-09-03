@@ -44,8 +44,8 @@ tree.add_edge(a,b,c);
 
 頂点数 `n` の木を作ります。
 
-- 制約: `0<=n`
-- 計算量: `O(n)`
+- 制約: `n>=1`
+- 計算量: `O(n)`（内部配列と辺容量の確保）
 
 ## メソッド
 
@@ -80,7 +80,9 @@ tree.add_edge(a,b,c);
 根を指定したい場合や、`in/out/par/depth/head/ord` を直接使いたい場合は、先に明示的に呼んでください。
 
 - 制約: `0<=root<n`
-- 計算量: `O(n)`
+- 計算量: 最悪 `O(n log n)`
+
+DFS 自体は `O(n)` ですが、最後に各頂点の light child を `in` 順でソートするため、現行実装の最悪上界は `O(n log n)` です。
 
 ### `int tree.size() const`
 
@@ -138,6 +140,13 @@ tree.add_edge(a,b,c);
 - 制約: `0<=s,t<n`
 - 計算量: `O(log n)`
 
+### `int tree.to(int x, int y) const`
+
+`x!=y` とし、`x` の隣接辺のうち単純パス `x->y` の最初の辺が置かれている隣接リスト上の添字を返します。`y` が `x` の部分木外なら、末尾に移された親辺の添字を返します。
+
+- 制約: `0<=x,y<n`, `x!=y`
+- 計算量: `O(log deg(x))`（未構築なら `build()` の時間も必要）
+
 ### `pair<int,int> tree.get_diameter() const`
 
 木の直径の両端を返します。
@@ -160,6 +169,15 @@ tree.add_edge(a,b,c);
   根付き木で見た `v` の部分木サイズです。
 - `ord`
   `ord[in[v]] == v` となる頂点列です。
+
+## 計算量まとめ
+
+- 前計算 `build`: 最悪 `O(n log n)` 時間、`O(n)` 領域
+- `lca`, `dist`, `jumpup`, `jump`, `query`: `O(log n)`
+- `to`: `O(log deg(x))`
+- `get_diameter`: `O(n)`
+
+`build` 内の DFS は再帰的なので、前計算では最悪 `O(n)` の再帰スタックも使います。
 
 ## インデックスと境界
 
@@ -189,10 +207,13 @@ tree.add_edge(a,b,c);
 ## 境界・注意
 
 - 木であることを仮定しています。連結性や閉路の有無は実行時には検査しません。
-- 辺を追加した後、最初のクエリや `build` によって HLD 情報が固定されます。build 後に辺を追加して使い直すことは想定していません。
+- `tree(0)` は内部で辺容量 `-1` を渡して `assert` に失敗するため、`n>=1` が必要です。
+- 辺を追加した後、最初の `tree[u]`, クエリ、`get_diameter`, `build` のいずれかで CSR が構築されます。以後の辺追加は `assert` に失敗します。
 - 根を `0` 以外にしたい場合は、自動 build が走る前に `build(root)` を呼んでください。
 - `in/out` の部分木区間は半開区間 `[l,r)`、`query` の返すパス区間は閉区間 `(l,r)` です。
 - `get_diameter` は `build` とは独立に DFS します。
+- `dist` と `get_diameter` は重み付き木でも辺数だけを数えます。
+- `heavy_edge` と `light_edges` は現行実装で存在しない `Graph::span` 型を参照しており、呼び出すとテンプレートのインスタンス化時にコンパイルエラーになります。その他の上記 HLD API はこの問題の影響を受けません。
 
 ## 使用例 1: LCA と距離
 

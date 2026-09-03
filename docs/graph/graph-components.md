@@ -16,6 +16,7 @@ struct graph_components;
 ```
 
 ### コンストラクタ
+
 - `graph_components(const G& g)`: 対象のグラフ `g` を受け取ります。グラフは無向グラフ（`G::directed() == false`）である必要があります。
 
 ### メソッド
@@ -38,17 +39,34 @@ struct graph_components;
 
 - **戻り値**: `vvc<int>` (頂点リストの配列)。各要素が1つの二重頂点連結成分を構成する頂点の集合を表します。
 
+## 計算量
+
+頂点数を $V$、元辺数を $E$ とし、Lowlink 情報の参照を `O(1)` とします。
+
+- `edgec2()`: `O(V+E)` 時間、`O(V)` 補助領域
+- `vertexc2()`: `O(V+E)` 時間、`O(V+E)` 補助領域
+- `vertexc2vertex()`: `O(V+E)` 時間、`O(V+E)` 補助領域
+
+Lowlink 自体を構築する時間と領域は含みません。各メソッドは再帰 DFS を使うため、補助領域には最大 `O(V)` の再帰スタックも含まれます。
+
 ## 境界・注意
 
 - `G::directed()==false` を仮定します。
 - `G` は `is_bridge(e)`, `ord(u)`, `low(u)` 相当の Lowlink 情報を提供している必要があります。
+- このリポジトリの `static_graph` 単体には上記の Lowlink API がありません。Lowlink を計算してこれらのメソッドを公開する無向グラフ型を別途用意してください。
+- 辺 ID は `0` 以上 `g.edge_size()` 未満の連番で、`g.get_edge(id)` がその辺を返す必要があります。
 - `vertexc2()` は辺 ID ごとの成分 ID を返します。孤立点は辺を持たないため、この戻り値には現れません。
+- `vertexc2()` と `vertexc2vertex()` は自己ループを正しく分類しないため、自己ループのないグラフを渡してください。
+- `V==0` では、どのメソッドも空の配列を返します。辺を持たない非空グラフでは、`vertexc2()` は空、`vertexc2vertex()` は各孤立点を 1 頂点成分として返します。
 
 ## 使用例
 
 Lowlink 情報を持つ無向グラフ `g` に対して、橋を取り除いた成分 ID を得ます。
 
 ```cpp
+#include "graph/connectivity/graph-components.hpp"
+
+// g は is_bridge / ord / low を持つ、構築済みの無向 Lowlink グラフ
 graph_components components(g);
 
 auto edge_component=components.edgec2();

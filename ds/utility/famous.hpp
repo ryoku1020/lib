@@ -88,7 +88,7 @@ struct add_min{
             return min(a,b);
         }
         static value_type e(){
-            return numeric_limits<Value_type>::max();
+            return inf<Value_type>;
         }
     };
     struct tag{
@@ -114,7 +114,7 @@ struct add_max{
             return max(a,b);
         }
         static value_type e(){
-            return numeric_limits<Value_type>::lowest();
+            return -inf<Value_type>;
         }
     };
     struct tag{
@@ -166,7 +166,7 @@ struct assign_min{
             return min(a,b);
         }
         static value_type e(){
-            return numeric_limits<Value_type>::max();
+            return inf<Value_type>;
         }
     };
     struct tag{
@@ -193,7 +193,7 @@ struct assign_max{
             return max(a,b);
         }
         static value_type e(){
-            return numeric_limits<Value_type>::lowest();
+            return -inf<Value_type>;
         }
     };
     struct tag{

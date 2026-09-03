@@ -1,4 +1,7 @@
 
+#pragma once
+#include"mat.hpp"
+
 template<class T,int N,int M>
 struct fixed_matrix{
     static constexpr int n=N,m=M;

@@ -49,20 +49,20 @@ struct X {
 `x` が属する成分の代表元を返します。
 
 - 制約: `0<=x<n`
-- 計算量: ならし `O(alpha(n))`
+- 計算量: ならし `O(log n)`（1 回の最悪は `O(n)`）
 
 ### `bool uf.same(int x, int y)`
 
 `x` と `y` が同じ成分なら `true`、異なれば `false` を返します。
 
-- 計算量: ならし `O(alpha(n))`
+- 計算量: ならし `O(log n)`（1 回の最悪は `O(n)`）
 
 ### `value_type uf.diff(int x, int y)`
 
 `val[x]^{-1} * val[y]` を返します（加法群なら `val[y] - val[x]`）。
 
 - 制約: `same(x, y) == true`（異なる成分で呼ぶと `assert` で停止）
-- 計算量: ならし `O(alpha(n))`
+- 計算量: ならし `O(log n)`（1 回の最悪は `O(n)`）
 
 ### `int uf.merge(int x, int y, value_type W)`
 
@@ -72,19 +72,20 @@ struct X {
   - `1` — 新規に併合した
   - `0` — すでに同じ成分で、条件が矛盾しない
   - `-1` — すでに同じ成分だが、既存の重みと矛盾する
-- 計算量: ならし `O(alpha(n))`
+- 計算量: ならし `O(log n)`（1 回の最悪は `O(n)`）
 
 ## 境界・注意
 
 - `diff(x, y)` は `same(x, y)` のときのみ呼べます。異なる成分で呼ぶと `assert` で停止します。
 - `op` は群の演算（逆元が存在するモノイド）である必要があります。
+- 経路圧縮は行いますが、併合時にサイズ・rank による向きの調整はしません。このため `alpha(n)` 境界ではなく、一連の操作でならし `O(log n)`、単発の最悪 `O(n)` と見積もります。
 
 ## 使用例：各クエリで「差が W」という条件を追加
 
 ```cpp
 #include "ds/union_find/pot-uf.hpp"
 
-// 加法群（差分 val[y] - val[x] = W を管理）
+// 加法群（merge では val[x] - val[y] = W を指定）
 struct X {
     using value_type = long long;
     static value_type op(value_type a, value_type b) { return a + b; }
@@ -94,7 +95,7 @@ struct X {
 
 potentialized_union_find<X> uf(n);
 
-// val[y] - val[x] = 5 という条件を追加
+// val[x] - val[y] = 5 という条件を追加
 int res = uf.merge(x, y, 5);
 if (res == -1) {
     // 矛盾: 既存の条件と違う

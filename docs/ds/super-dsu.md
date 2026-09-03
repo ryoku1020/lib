@@ -10,17 +10,35 @@ documentation_of: ../../ds/union_find/super-dsu.hpp
 
 長さ `L` の区間どうしをまとめて同一視する Union-Find 拡張です。
 
+## コンストラクタ
+
+### `super_disjoint_set_union(int n)`
+
+長さ `n` の列に対して初期化します。
+
+- 制約: `n>=0`
+- 計算量: `O(n log n)`
+
 ## メソッド
 
 ### `int uf.root(int x)`
 
+位置 `x` の代表元を返します。
+
 - 制約: `0<=x<n`
+- 計算量: ならし `O(alpha(n))`
 
 ### `void uf.merge(int l, int r, int L)`
 
 `[l, l+L)` と `[r, r+L)` を対応位置ごとに同一視します。
 
 - 制約: `0<=l,r<=n`, `L>=0`, `l+L<=n`, `r+L<=n`
+- `l==r` または `L==0` のときは何もしません。
+- 計算量: 1 回の最悪は `O(L alpha(n))`
+
+## 計算量
+
+構築時間・メモリは `O(n log n)`、`root` はならし `O(alpha(n))`、`merge(l,r,L)` は 1 回の最悪 `O(L alpha(n))` です。内部で同じ区間ペアがすでに併合済みなら、その下の再帰は打ち切られます。
 
 ## 境界・注意
 

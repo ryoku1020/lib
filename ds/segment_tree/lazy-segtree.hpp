@@ -118,7 +118,7 @@ struct lazy_segtree{
             if(((r>>i)<<i)!=r)update((r-1)>>i);
         }
     }
-    void apply(int i,lazy_type x){
+    void applyat(int i,lazy_type x){
         assert(0<=i&&i<N);
         i+=n;
         if constexpr(!commute)for(int j=lg;j;j--)push(i>>j);

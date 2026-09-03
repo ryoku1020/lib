@@ -13,6 +13,7 @@ documentation_of: ../../tree/contour.hpp
 ### 使い方
 
 ```cpp
+#include "tree/centroid.hpp"
 #include "tree/contour.hpp"
 
 tree tree(n);
@@ -64,11 +65,26 @@ ds.add(v,5);                // a[v]+=5
 - `void add(int v,T x)`
   頂点 `v` の値に `x` を加算します。
 
+## 計算量
+
+頂点数を $N$ とします。
+
+- `work`: `O(N log^2 N)` 時間、`O(N log N)` 領域
+- `prod(v,r)`, `prod(v,l,r)`: `O(log^2 N)` 時間
+- `add(v,x)`: `O(log^2 N)` 時間
+
+各頂点は `O(log N)` 個の重心分解情報を持ち、それぞれで Fenwick Tree の `O(log N)` 操作を行います。
+
 ### 境界・注意
 
-- `work` を呼ぶ前に `prod` や `add` を呼ぶことはできません。
-- `prod` の距離は辺数で数えます。
+- `work` を呼ぶ前に `prod` や `add` を呼ぶことはできません。`work` は同じオブジェクトに対してちょうど 1 回だけ呼んでください。2 回目は内部の所属情報を消して早期 return する実装になっています。
+- 現在の `work` の引数型はテンプレート引数 `T` によらず `vc<ll>&` です。また内部で `vc<T>` へ代入するため、実質的に `T=ll` での利用を想定しています。
+- `tree/contour.hpp` は `centroid_decomposition13` を使いますが `tree/centroid.hpp` を直接 include しません。`all.hpp` を使わない場合は、使用例の順で `tree/centroid.hpp` も先に include してください。
+- `first.size()==tree.size()` が必要ですが、実装内では検査されません。
+- `0<=v<N`, `0<=l<=r<=N` が必要です。`prod(v,r)` は距離の半開区間 `[0,r)`、`prod(v,l,r)` は `[l,r)` を集計します。`r==0` の答えは 0 です。
+- `prod` の距離は辺数で数え、重み付き木でも辺重みを無視します。
 - 構築後に木構造を変更することは想定されていません。
+- 加算と区間和を使うため、`T` には 0、加算、減算が必要です。
 - 構造体名は実装に合わせて `contour_add` です。
 
 ## 使用例

@@ -24,12 +24,13 @@ cout<<prime_counting(100)<<"\n";  // 25
 
 ## 計算量
 
-- おおよそ `O(n^{3/4}/log n)` 系の実用的な高速素数計数です。
+- 時間はおおよそ `O(n^{3/4}/log n)`、メモリは `O(sqrt(n))` です。
 
 ## 境界・注意
 
-- `n` は `ll` で渡します。
-- 内部で [docs/math/enumerate-floor.md](/Users/ryoku_/Desktop/cp/lib/docs/math/enumerate-floor.md) の `floors` を使っています。
+- `n >= 1` の `ll` を渡してください。実装の `assert` は `n >= 0` ですが、`n == 0` では空配列の `back()` を参照します。
+- `sqrt(n)` を添字・配列長に使うため、利用可能メモリに収まる必要があります。
+- 内部で [enumerate-floor](./enumerate-floor.md) の `floors` を使っています。
 
 ## 使用例
 
@@ -39,6 +40,7 @@ cout<<prime_counting(100)<<"\n";  // 25
 long long L,R;
 cin>>L>>R;
 
-long long ans=prime_counting(R)-prime_counting(L);
+long long left_count=(L==0?0:prime_counting(L));
+long long ans=prime_counting(R)-left_count; // R >= 1
 cout<<ans<<"\n";
 ```

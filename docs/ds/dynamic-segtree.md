@@ -16,7 +16,7 @@ dynamic_segtree<info, sztype, is_persistent>
 ```
 
 - `info` — 値モノイドの定義
-- `sztype` — 座標の型（デフォルト `int`）
+- `sztype` — 座標の型。省略不可
 - `is_persistent` — `true` なら永続 (各操作が新 root を返す)
 
 ## info の要件
@@ -44,16 +44,23 @@ struct info{
 
 初期状態の root ノードを返します。
 
+- 計算量: `O(1)`
+
 ### `node* seg.set(node* root, sztype i, value_type x)`
 
 `root` のバージョンで位置 `i` を `x` に更新した新しい root を返します。
 
 - 非永続版: `root` を破壊的に更新します。
 - 永続版: `root` はそのまま保持し、新しい root を返します。
+- 制約: `root!=nullptr`, `0<=i<N`
+- 計算量: `O(log N)`
 
 ### `value_type seg.prod(node* root, int l, int r)`
 
 `root` のバージョンで `op(a[l],...,a[r-1])` を返します。
+
+- 制約: `0<=l<=r<=N`
+- 計算量: `O(log N)`
 
 ### `sztype seg.max_right(node* root, sztype l, F f)`
 
@@ -72,8 +79,10 @@ struct info{
 ## 境界・注意
 
 - 区間は 0-indexed の半開区間 `[l,r)` です。
-- `prod` は `build` 後の root から呼ぶ必要があります（NULL は不可）。
+- `set` は `build` 後の非 null root が必要です。`prod` / `max_right` / `min_left` は null を未生成の初期木として扱えます。
 - 永続版ではノード数が `O(Q log N)` になるのでメモリに注意してください。
+- `N` は `n` を切り上げた 2 冪で、実装の `assert` は `[0,N)` まで許します。論理的な配列としては `[0,n)` だけを使ってください。
+- テンプレートの `sztype` と異なり、コンストラクタ引数と内部の `N` は `int` です。`int` を超える座標範囲には対応していません。
 
 ## 使用例: 非永続・区間最小値
 
@@ -102,9 +111,10 @@ struct info{
     static value_type e(){ return 0; }
 };
 
-dynamic_segtree<info, int, true> seg(n);
+using Seg=dynamic_segtree<info,int,true>;
+Seg seg(n);
 
-vc<info::node*> roots;
+vc<Seg::node*> roots;
 roots.push_back(seg.build()); // version 0
 
 // version i の更新

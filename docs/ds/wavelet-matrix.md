@@ -1,98 +1,94 @@
 ---
-title: Wavelet matrix
+title: wm_base (Wavelet Matrix)
 documentation_of: ../../ds/sequence/wavelet-matrix.hpp
 ---
 
-# Wavelet matrix
+# wm_base (Wavelet Matrix)
 
-整数列に対する区間クエリ（k番目最小値・値の個数・値の個数）を高速に処理するデータ構造です。
+非負整数列に対する k 番目最小値、値域内の個数、重み和を処理する Wavelet Matrix です。
 
 ## 型
 
 ```cpp
-wavelet_matrix<T, depth>
+wm_base<T,D>
 ```
 
-- `T` — 要素の型（整数型: `int`, `long long` など）
-- `depth` — 使用するビット深さ。扱える値の範囲は `[0, 2^depth)` です。
+- `T` — 要素の整数型
+- `D` — 使用する下位ビット数。要素の値域は `[0,2^D)`
 
-## コンストラクタ
+## 構築
 
-### `wavelet_matrix<T, depth>(int n = 0)`
+### `void wm.build(vc<T> a)`
 
-要素数 `n` で初期化します。
+配列 `a` を使って Wavelet Matrix を構築します。長さはこの呼び出しで決まります。
 
-## メソッド
+- 制約: すべての `a[i]` が `0<=a[i]<2^D`
+- 計算量: `O(nD)`
 
-### `void wm.set(int i, T x)`
+### `void wm.buildlowersum<L>(const vc<L>& W)`
 
-インデックス `i` に値 `x` をセットします。`build()` の前に呼ぶ必要があります。
+各位置の重み `W[i]` を使い、値による絞り込みと重み和を組み合わせる前計算を行います。先に `build()` を呼んでください。
 
-- 制約: `0<=i<n`, `0<=x<2^depth`
+- 制約: `W.size()==n`
+- 計算量: `O(nD)`
 
-### `void wm.build()`
+## クエリ
 
-内部データを構築します。すべての `set()` を終えてから必ず呼んでください。
+### `T wm.kth_smallest(int l,int r,int k) const`
 
-- 計算量: `O(n * depth)`
+`a[l,r)` を昇順に並べたときの `k` 番目を返します。`k` は 0-indexed です。
 
-### `T wm.kth_smallest(int l, int r, T k)`
+- 制約: `0<=l<=r<=n`, `0<=k<r-l`
+- 計算量: `O(D)`
 
-`[l, r)` 内の要素を昇順に並べたとき `k` 番目（0-indexed）の値を返します。
+### `long long wm.count_less(int l,int r,T u) const`
 
-- 制約: `0<=l<=r<=n`, `0<=k<r-l`（空区間・範囲外は `assert` で停止）
-- 計算量: `O(depth)`
+`a[l,r)` に含まれる `u` 未満の要素数を返します。
 
-### `int wm.count_lower(int l, int r, T k)`
+- 制約: `0<=l<=r<=n`, `0<=u<2^D`
+- 計算量: `O(D)`
 
-`[l, r)` 内の要素のうち、値が **`k` 以下** のものの個数を返します。
+### `long long wm.count(int l,int r,T d,T u) const`
 
-- 制約: `0<=l<=r<=n`
-- 計算量: `O(depth)`
+`a[l,r)` に含まれる値域 `[d,u)` の要素数を返します。
 
-### `int wm.count(int l, int r, T x)`
+- 制約: `0<=l<=r<=n`, `0<=d<=u<2^D`
+- 計算量: `O(D)`
 
-`[l, r)` 内の要素のうち、値がちょうど `x` であるものの個数を返します。
+### `L wm.lower_sum<L>(int l,int r,T u) const`
+### `L wm.lower_sum<L>(int l,int r,T d,T u) const`
 
-内部では `count_lower(l,r,x) - count_lower(l,r,x-1)` で計算されます。
+それぞれ `a[l,r)` のうち値が `[0,u)`、`[d,u)` に入る位置の重み `W[i]` の総和を返します。先に同じ `L` で `buildlowersum<L>(W)` を呼んでください。
 
-- 制約: `0<=l<=r<=n`, **`x>=1`**（`x==0` で `T` が符号なし整数のとき `x-1` がアンダーフローする）
-- 計算量: `O(depth)`
+- 制約: `0<=l<=r<=n`, `0<=d<=u<2^D`
+- 計算量: `O(D)`
 
-## bit_vector
+## 計算量
 
-`wavelet_matrix` が内部で使う簡潔ビットベクトルです。
-
-```cpp
-bit_vector(const vc<int>& v) // 0/1 配列から構築 O(N)
-int rank1(int r)              // [0,r) の 1 の個数 O(1)
-int rank1(int l, int r)       // [l,r) の 1 の個数 O(1)
-int rank0(int r)              // [0,r) の 0 の個数 O(1)
-int rank0(int l, int r)       // [l,r) の 0 の個数 O(1)
-```
+構築と重み和の前計算はそれぞれ `O(nD)`、各クエリは `O(D)` です。Wavelet Matrix 本体の使用メモリは `O(nD/64+D)`、重み和を構築した場合の prefix 配列は `O(nD)` です。
 
 ## 境界・注意
 
-- `count(l,r,0)` は `T` が符号なし整数のとき `0-1` がアンダーフローするため**使用不可**です。
-  0 の個数が必要な場合は `(r-l) - count_lower(l, r, 0) + count_lower(l, r, 0)` ではなく、
-  `count_lower(l,r,0)` の値をそのまま使ってください（`count_lower(l,r,0)` = 0 以下の個数 = 0 の個数）。
-- 扱う値は `[0, 2^depth)` の範囲でなければなりません。
+- 区間と値域はどちらも 0-indexed の半開区間です。
+- 各クエリは引数を `assert` していません。空区間に `kth_smallest` を呼ぶ、または範囲外の `k` を渡すと正しい結果になりません。
+- `count_less` / `count` / `lower_sum` は `D` より上位のビットを見ません。上端 `u==2^D` は全要素を数える番兵として使えません。全区間の個数は `r-l` を使い、最大値 `2^D-1` の個数は `(r-l)-count_less(l,r,2^D-1)` で求められます。
+- 重み和の prefix 配列は型 `L` ごとの static 領域です。同じ `T,D,L` の別インスタンスで `buildlowersum` を呼ぶと上書きされるため、その型の重み和クエリを同時に使うインスタンスは 1 つにしてください。
 
 ## 使用例
 
 ```cpp
 #include "ds/sequence/wavelet-matrix.hpp"
 
-wavelet_matrix<int, 20> wm(n); // [0, 2^20) の範囲の整数
-for(int i=0;i<n;i++) wm.set(i, a[i]);
-wm.build();
+wm_base<int,20> wm;
+wm.build(a);
 
-// [l,r) の中央値（0-indexed の (r-l)/2 番目）
-auto med = wm.kth_smallest(l, r, (r-l)/2);
+// [l,r) の中央値
+int med=wm.kth_smallest(l,r,(r-l)/2);
 
-// [l,r) に含まれる 5 以下の要素数
-auto cnt_le5 = wm.count_lower(l, r, 5);
+// [l,r) にある [3,8) の値の個数
+long long cnt=wm.count(l,r,3,8);
 
-// [l,r) に含まれる値 7 の個数（7>=1 なので OK）
-auto cnt7 = wm.count(l, r, 7);
+// 値が 10 未満である位置の重みの総和
+wm.buildlowersum<long long>(weight);
+long long sum=wm.lower_sum<long long>(l,r,10);
 ```

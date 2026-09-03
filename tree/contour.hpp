@@ -1,6 +1,6 @@
 #pragma once
 #include"base.hpp"
-#include"../ds/sequence/bit.hpp"
+#include"../ds/sequence/BIT.hpp"
 template<class T,class U=unweighted>
 struct contour_add{
     tree<U>&tree;

@@ -10,14 +10,14 @@ NTT を使って積、逆数、対数、指数、冪、平方根などを高速�
 
 ## 型
 
-### `FormalPowerSeries<mint>`
+### `fps<mint>`
 
 `vector<mint>` を継承した多項式型です。
 通常は NTT friendly mod の `static_modint` と組み合わせます。
 
 ```cpp
 using mint=static_modint<998244353>;
-using FPS=FormalPowerSeries<mint>;
+using FPS=fps<mint>;
 ```
 
 ## 主な演算
@@ -30,7 +30,7 @@ using FPS=FormalPowerSeries<mint>;
 
 ## 主なメソッド
 
-`deg` 引数は「返す多項式の次数の上限」です。`deg=-1` のとき、`f` の現在のサイズに合わせます。
+`deg` 引数は「返す係数の個数」で、`mod x^deg` を意味します。`deg=-1` のとき、`f` の現在のサイズに合わせます。
 
 ### `poly pre(int sz) const`
 
@@ -109,21 +109,35 @@ using FPS=FormalPowerSeries<mint>;
 
 ### `to_fps(vector<mint>)` / `to_vec(FPS)`
 
-`vector<mint>` と `FormalPowerSeries<mint>` を相互変換します。
+`vector<mint>` と `fps<mint>` を相互変換します。
 
 ### `all_prod(vector<poly>)`
 
-複数の多項式の総積を `O(N log^2 N)` で返します（divide and conquer）。
+`poly/all-prod.hpp` で定義され、複数の多項式の総積を `O(N log^2 N)` で返します（divide and conquer）。
 
 ### `subproduct_tree`
 
-多点評価・補間のための積木です。クエリ点が多い場合に利用します。
+`poly/multipoint-evaluation.hpp` で定義される、多点評価・補間のための積木です。クエリ点が多い場合に利用します。
+
+## 計算量
+
+`n` を入力 FPS の長さ、`d` を要求する係数数、`M(d)=O(d log d)` を NTT 畳み込みの計算量とします。
+
+- 加減算、`pre`, `diff`, `integral`, `substitute`: `O(n)`（`pre(sz)` は `O(sz)`）
+- FPS の積: `O(M(n))`（2 入力の長さが同程度の場合）
+- `inv`, `log`, `exp`, `pow`, `sqrt`: `O(M(d)) = O(d log d)`
+- `div`, `div_only`: `O(M(n))`
+- 各 FPS の保持メモリは係数数に比例し、高速演算の一時メモリは `O(d)`
 
 ## 境界・注意
 
-- NTT 可能 mod（`998244353` など）での使用が前提です。任意 mod では `log`, `exp`, `inv` が正しく動きません。
-- `deg=-1` はメソッド呼び出し時の `f` のサイズを上限として使います。明示的に截断したい場合は `deg` を指定してください。
-- `pow(0)` は f がゼロ多項式でも `{1, 0, ..., 0}` を返します。これは `f^0 = 1` の定義通りです。
+- `mint` は `.val`, `get_mod()`, 四則演算、逆元を持つ modint 型を想定しています。必要な変換長の NTT が可能な法（`998244353` など）を使ってください。
+- `deg=-1` はメソッド呼び出し時の `f` のサイズを使います。明示的に截断したい場合は `deg >= 0` を指定してください。
+- `inv` は非空かつ `f[0] != 0`、`log` は非空かつ `f[0] == 1`、`exp` は非空かつ `f[0] == 0` を要求します（`assert` あり）。必要な係数や整数が法上で可逆でなければなりません。
+- `pow(m,deg)` は `m >= 0` が前提です。`m == 0` ではゼロ多項式にも `{1,0,...}` を返しますが、`deg >= 1` が必要です。
+- `sqrt` は通常、奇素数法を前提とします。平方根がなければ `nullopt`、空またはゼロ FPS なら指定長のゼロ FPS を返します。
+- `div` / `div_only` の除数は空でなく、最高次係数が可逆でなければなりません。末尾の余分な 0 は事前に取り除いてください。
+- シフト `f<<k`, `f>>k` と `pre(k)` の `k` は非負でなければなりません。
 
 ## 使用例
 
@@ -132,7 +146,7 @@ using FPS=FormalPowerSeries<mint>;
 #include "math/modular/static-mod-int.hpp"
 
 using mint=static_modint<998244353>;
-using FPS=FormalPowerSeries<mint>;
+using FPS=fps<mint>;
 
 FPS f={1,2,3}; // 1 + 2x + 3x^2
 FPS g={4,5};   // 4 + 5x
@@ -140,12 +154,13 @@ FPS g={4,5};   // 4 + 5x
 auto h=f*g;          // 積 mod x^4
 auto inv=f.inv(5);   // 1/f mod x^5
 auto logf=f.log(5);  // log(f) mod x^5
-FPS q={1,1};
-auto eq=q.exp(5);    // exp(1+x) mod x^5
+FPS q={0,1};
+auto eq=q.exp(5);    // exp(x) mod x^5
 auto pw=f.pow(3,5);  // f^3 mod x^5
 auto sq=f.sqrt(5);   // g^2 ≡ f mod x^5 となる g (optional)
 
 // 多項式除算
-auto [quot,rem]=f.div_only_with_remainder(g);
+auto [quot,rem]=f.div(g);
 // または div_only で商だけ
+auto quot_only=f.div_only(g);
 ```

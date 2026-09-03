@@ -19,7 +19,7 @@ SA-IS で suffix array を、Kasai 法で LCP array を構築します。
 - 返り値の長さは `|s|`
 - `sa[0]` は辞書順最小の suffix の開始位置
 - 整数列版: 値は任意の整数でよい（内部で座標圧縮）
-- 計算量: `O(|s|)`
+- 計算量: 文字列版 `O(|s|)`、任意の整数列版 `O(|s| log |s|)`
 
 ### `vector<int> lcp_array(string s, vector<int> sa)`
 ### `vector<int> lcp_array(vector<int> s, vector<int> sa)`
@@ -27,14 +27,30 @@ SA-IS で suffix array を、Kasai 法で LCP array を構築します。
 LCP 配列を返します。suffix array `sa` を引数に取ります。
 
 - `lcp[i]` — `sa[i]` から始まる suffix と `sa[i+1]` から始まる suffix の最長共通接頭辞の長さ
-- 返り値の長さは `|s| - 1`（空文字列に対しては空配列）
+- 返り値の長さは `|s| - 1`
 - 計算量: `O(|s|)`
+
+### `vector<int> suffix_array(vector<int> s, int upper)`
+
+全要素が `[0,upper]` に収まることが分かっている場合、座標圧縮を省いて SA-IS を実行します。
+
+## 計算量
+
+`n=|s|` とします。
+
+- `suffix_array(string)`: 時間 `O(n)`、メモリ `O(n)`
+- `suffix_array(vector<T>)`: 座標圧縮を含めて時間 `O(n log n)`、メモリ `O(n)`
+- `suffix_array(vector<int>,upper)`: 時間・メモリ `O(n+upper)`
+- `lcp_array`: 時間・メモリ `O(n)`
 
 ## 境界・注意
 
 - `suffix_array` の返り値には空 suffix（位置 `|s|`）は含まれません。
-- `lcp_array` は `suffix_array` の結果を受け取って構築します。
+- `suffix_array` は空列にも対応し、空配列を返します。
+- `lcp_array` は `|s| >= 1` を要求します（空列では `assert`）。`sa` は同じ `s` から作った長さ `|s|` の正しい suffix array を渡してください。
 - 整数列版の `suffix_array` は内部で値を座標圧縮します。
+- `upper` 付き整数列版は `upper >= 0` かつ全要素が `[0,upper]` である必要があります（`assert` あり）。
+- 文字列版は各 `char` を直接整数化します。`char` が signed の環境で負になる非 ASCII バイト列には向かないため、その場合は非負整数列へ変換して整数列版を使ってください。
 
 ## 使用例 1: 接尾辞配列の構築
 

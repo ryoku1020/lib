@@ -36,6 +36,19 @@ documentation_of: ../../graph/two-sat.hpp
 
 `x_a = fa` を強制します。
 
+### `void sat.lessthan(vc<int> v, vc<int> op)`
+
+各 `i` についてリテラル `(x_v[i]=bool(op[i]))` を作り、そのうち高々 1 個だけが真になる制約を逐次カウンタで追加します。内部補助変数を `v.size()-1` 個追加します。
+
+- 制約: `v.size()==op.size()`、各変数番号が有効範囲内
+- 計算量: `O(v.size())`
+
+### `int sat.get_new()`
+
+新しい変数を 1 個追加し、その番号を返します。
+
+- 計算量: amortized `O(1)`
+
 ### `bool sat.satisfiable()`
 
 充足可能なら `true`、不可能なら `false` を返します。
@@ -45,18 +58,24 @@ documentation_of: ../../graph/two-sat.hpp
 
 一つの解を返します。
 各要素は `0/1` です。
+未計算なら内部で `satisfiable()` 相当の計算を行います。
 
 ## 計算量
 
 - 節追加: `O(1)`
-- `satisfiable()`: `O(n+m)`
+- `satisfiable()`, `answer()`: 逆隣接リストの列挙が次数に比例するグラフなら `O(n+m)`
 
 ここで `m` は追加した含意辺数です。
 
+内部の現行 `static_graph` では `inv(u)` ごとに逆 CSR を再構築するため、そのままのコードに対する最悪時間は `O(n(n+m))` です。保持領域は `O(n+m)`、再帰スタックは `O(n)` です。
+
 ## 境界・注意
 
-- `answer()` は `satisfiable()` を呼んだあとに使う想定です。
+- 変数番号は 0-indexed で、各 API に渡す番号はその時点の `0<=i<n` が必要です。
+- すべての制約と補助変数を追加してから、初回の `satisfiable()` または `answer()` を呼んでください。SCC 計算時に内部 CSR が構築されるため、その後の制約追加は `assert` に失敗します。
+- `answer()` 自体も未計算なら解きますが、充足不能時の `ans` 内容は解ではありません。先に `satisfiable()` の戻り値を確認してください。
 - 変数 `i` の値は `answer()[i]` に入ります。
+- `lessthan` という名前ですが、追加するのは数値の大小制約ではなく「指定リテラルのうち高々 1 個」です。空列・1 要素列には何も追加しません。
 
 ## 使用例
 

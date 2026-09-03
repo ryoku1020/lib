@@ -25,6 +25,12 @@ HL分解の API については [`docs/tree/base.md`](base.md) を参照して�
 - HLD の実装と詳しい境界条件は [tree](base.md) にまとめています。
 - `tree.query(s,t)` の返り値は閉区間ベースです。セグ木に渡すときは `[min(l,r),max(l,r)+1)` に変換します。
 
+## 計算量
+
+このページが指していた `tree/hld.hpp` には利用可能な実装が存在しないため、同ファイルの API としての計算量は定義されません。
+
+代替となる `tree/base.hpp` の `tree` クラスでは、現在の実装上、`build` は隣接辺の整列を含めて最悪 `O(N log N)`、`lca`, `dist`, `jumpup`, `jump`, `query` はそれぞれ `O(log N)` です。HLD 配列の保持領域は `O(N)` です。
+
 ## 使用例
 
 ```cpp

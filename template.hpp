@@ -308,4 +308,8 @@ struct template_setup{
 };
 inline template_setup template_setup;
 
+#if defined(LOCAL)&&!defined(CP_NO_AUTO_ALL)&&!defined(CP_BUNDLED_SOURCE)
+#include <all.hpp>
+#endif
+
 #endif

@@ -9,7 +9,7 @@ Li Chao tree です。
 `[0, n)` の整数 x 座標に対して、直線（または線分）の追加と、指定した x での最小値（または最大値）クエリを `O(log n)` で行えます。
 
 座標範囲が固定でよい場合はこれを使ってください。
-座標が大きい・実数の場合は [dynamic_li_chao_tree](dynamic-li-chao-tree.md)、
+座標が大きい非負整数の場合は [dynamic_li_chao_tree](dynamic-li-chao-tree.md)、
 クエリ座標が事前にわかっている場合は [compressed_li_chao_tree](compressed-li-chao-tree.md) が使えます。
 
 ## 要件: `info`

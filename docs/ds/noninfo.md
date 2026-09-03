@@ -9,7 +9,7 @@ documentation_of: ../../ds/utility/noninfo.hpp
 
 ## `noninfo`
 
-`value_type = monostate` で、`op`, `e`, `leaf` を何もしない形で定義しています。
+`value_type = monostate` で、`op` と `e` を何もしない形で定義しています。
 
 ## `nontag<info>`
 
@@ -25,6 +25,11 @@ documentation_of: ../../ds/utility/noninfo.hpp
 
 - `noninfo` の値は `monostate` なので、値そのものを読み出して意味のある計算をする用途には向きません。
 - `nontag<info>` は遅延作用を使わないことを明示するための型です。
+- `nontag::apply` は入力値を保存せず `{}` を返します。実値を持つ `info` と組み合わせて作用 API を呼ぶ用途には使えません。
+
+## 計算量
+
+`noninfo::op` / `noninfo::e` と `nontag` の `apply` / `merge` / `id` はすべて `O(1)` です。
 
 ## 使用例
 
@@ -34,5 +39,8 @@ documentation_of: ../../ds/utility/noninfo.hpp
 #include "ds/utility/noninfo.hpp"
 #include "ds/ordered/treap.hpp"
 
-treap<info,nontag<info>> tr(max_nodes);
+treap<noninfo,nontag<noninfo>> tr(max_nodes);
+
+// 値も遅延作用も不要ならデフォルト引数でも同じ
+treap<> tr2(max_nodes);
 ```

@@ -17,18 +17,24 @@ documentation_of: ../../ds/compress.hpp
 ### `compresser<T>(const vc<T>& xs)`
 
 配列 `xs` を初期値として初期化します。
-内部で `build` は自動で行われます。
+最初の `find` / `find_next` / `size` で `build` が自動実行されます。
+
+- 計算量: `O(xs.size())`
 
 ## メソッド
 
 ### `void cp.push(T v)`
 
-値 `v` を追加します。`build` 前に呼ぶ必要があります。
+値 `v` を追加します。構築済みの場合も `built` が解除され、次の `build` / `find` / `find_next` / `size` で再構築されます。
+
+- 計算量: ならし `O(1)`
 
 ### `void cp.build()`
 
 追加した値を sort・unique してインデックスを確定します。
-`find` / `find_next` / `size` / `operator[]` を呼ぶと自動で呼ばれます。
+`find` / `find_next` / `size` を呼ぶと自動で呼ばれます。
+
+- 計算量: `O(k log k)`（未構築の場合）
 
 ### `int cp.find(T v)`
 
@@ -40,6 +46,7 @@ documentation_of: ../../ds/compress.hpp
 ### `int cp.find_next(T v)`
 
 `v` 以上の最小値の圧縮後インデックスを返します（`lower_bound`）。
+該当する値がなければ `size()` を返します。
 
 - 計算量: `O(log k)`
 
@@ -47,15 +54,20 @@ documentation_of: ../../ds/compress.hpp
 
 圧縮後の値の種類数を返します。
 
+- 計算量: 構築済みなら `O(1)`
+
 ### `T cp[int i]`
 
 圧縮後インデックス `i` の元の値を返します。
+
+- 制約: `build()` 済み、`0<=i<size()`
+- 計算量: `O(1)`
 
 ## 境界・注意
 
 - `find` は完全一致でなければ `-1` を返します。"この値以上" を調べたいときは `find_next` を使ってください。
 - 0-indexed です。
-- `operator[]` はアクセス前に `build` が済んでいる必要があります（内部で `build` を呼ぶため、最初にアクセスすれば OK）。
+- `operator[]` は `const` であり、内部では `build` を呼びません。アクセス前に `build()`、`find`、`find_next`、`size` のいずれかで構築を完了してください。
 
 ## 使用例
 

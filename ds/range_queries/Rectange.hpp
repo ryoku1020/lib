@@ -1,5 +1,5 @@
 #include"../sequence/wavelet-matrix.hpp"
-#include"../sequence/bit.hpp"
+#include"../sequence/BIT.hpp"
 template<class T,int D>
 struct dynamic_rectangle_sum{
     wm_base<ll,D>wm;

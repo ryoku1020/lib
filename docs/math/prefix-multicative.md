@@ -20,18 +20,18 @@ auto v = floors(12);
 // → {1, 2, 3, 4, 6, 12}
 ```
 
-### `tuple<vc<T>,vc<int>,vc<ll>> lucy_dp(ll n, F f, G g)`
+### `tuple<vc<T>,vc<int>,vc<ll>> lucy_dp<T>(ll n, F f, G g)`
 
 min_info-25 篩の前半（Lucy DP）を実行します。
 
-- `f(x)` : $x$ が素数のとき素数への寄与の「初期値」（例: $x$ 自身や $x^k$）
-- `g(x)` : 素数の寄与が 1 段階上に伝播するときの乗数（例: 倍数除去の係数）
+- `f(x)` : 篩う前の初期値。典型的には $\sum_{i=1}^{x} i^k$ のような整数全体の前計算可能な累積和
+- `g(p)` : 素数 `p` で倍数を除くときの重み。$i^k$ の素数和なら $p^k$
 - 返り値:
-  - `vc<T> dp` : `dp[i]` = `floors(n)` の `i` 番目の値 $v$ に対して「$\le v$ の素数への寄与の総和」
+  - `vc<T> dp` : `dp[i]` = `floors(n)` の `i` 番目の値 $v$ に対する篩後の累積値。`f(1)` を含むため、素数だけの和が欲しい場合は通常 `f(1)` を引く
   - `vc<int> primes` : $\sqrt{n}$ 以下の素数リスト
   - `vc<ll> QN` : `floors(n)` の値リスト（添字の対応に使う）
 
-### `mint black_algorithm<DP>(ll n, F f, G g, H h)`
+### `mint black_algorithm<DP,F,G,H,mint>(ll n, F f, G g, H h)`
 
 min_info-25 篩の後半（Black algorithm）を実行し、積性関数 $\sum_{i=1}^{n} f(i)$ を計算します。
 
@@ -39,19 +39,34 @@ min_info-25 篩の後半（Black algorithm）を実行し、積性関数 $\sum_{
 - `f(x)` / `g(x)` : Lucy DP と同じ
 - `h(p, e)` : 素数冪 $p^e$ への寄与（例: $p^e - p^{e-1}$、`e=1` なら素数の寄与）
 
+この実装では返り値型 `mint` を関数引数から推論できないため、`DP` だけでなく関数型と `mint` まで明示します。
+
+```cpp
+auto ans=black_algorithm<DP,decltype(f),decltype(g),decltype(h),mint>(n,f,g,h);
+```
+
+## 計算量
+
+- `floors(n)`: 時間・メモリともに `O(sqrt(n))`
+- `lucy_dp`: 時間 `O(n^(3/4)/log n)` 程度、メモリ `O(sqrt(n))`
+- `black_algorithm`: Lucy DP と素数冪の列挙を合わせた Min_25 型の計算量。典型的な積性関数では時間 `O(n^(3/4)/log n)` 程度、メモリ `O(sqrt(n))`
+
+`f`, `g`, `h` 1 回の演算を `O(1)` と数えています。
+
 ## 境界・注意
 
-- かなり高度な実装です。使い方に慣れるまでは `prime_counting` などのラッパーを使う方が無難です。
+- `n >= 0` が必要です（`assert` あり）。`floors(0)` と `lucy_dp(0, ...)` の返す配列は空です。
+- `black_algorithm` は `n >= 4` で使ってください。現在の実装は `n < 4` では素数リストが空のため常に `1` を返します。
+- `sqrt(n)` を `int` で保持し、長さ `O(sqrt(n))` の配列を確保します。`sqrt(n)` が `int` と利用可能メモリに収まる必要があります。
+- かなり高度な実装です。単に素数個数が必要なら `prime_counting` のようなラッパーを使ってください。
 - `f`, `g`, `h` の設計は問題の積性関数に依存します。`h(p, 1)` は素数冪 `p^1 = p` での寄与を返す関数です。
-- `black_algorithm` のテンプレート引数 `<mint>` は戻り値の型で、`DP` 型と分けて指定できます。
+- `DP` は加減算と `g(p)` との乗算を、`mint` は `DP` からの構築と四則演算をサポートする必要があります。
 
 ## 使用例: $n$ 以下の素数の個数
 
 ```cpp
-#include "math/combinatorics/prefix-multicative.hpp"
-#include "math/number_theory/enumerate-floor.hpp"
+#include "math/number_theory/prime-counting.hpp"
 
-// prime_counting(n) を直接使う方が楽
 ll cnt = prime_counting(n);
 ```
 
@@ -65,17 +80,20 @@ ll cnt = prime_counting(n);
 
 using mint = static_modint<998244353>;
 
-// f(x) = x (素数 x の寄与は x 自身)
-// g(x) = 1 (係数は 1)
-// h(p, e) = p^e * (1 - p) ... 等
+auto prefix_sum=[](ll x){
+    return mint(x)*mint(x+1)/2; // 1+2+...+x
+};
+auto prime_weight=[](ll p){
+    return mint(p);
+};
 
 // Lucy DP で「x 以下の素数の和」を求める
 auto [dp, primes, QN] = lucy_dp<mint>(
     n,
-    [](ll x){ return mint(x); }, // 初期値 = x
-    [](ll x){ return mint(1); }  // 係数 = 1
+    prefix_sum,
+    prime_weight
 );
 
-// dp.back() が「n 以下の素数の和」
-mint sum_of_primes = dp.back() - mint(1); // 1 を除く
+// n >= 1。初期値に含めた 1 を除く
+mint sum_of_primes=dp.back()-mint(1);
 ```

@@ -1,6 +1,6 @@
 ---
 title: Binary Indexed tree
-documentation_of: ../../ds/sequence/bit.hpp
+documentation_of: ../../ds/sequence/BIT.hpp
 ---
 
 # Binary Indexed tree

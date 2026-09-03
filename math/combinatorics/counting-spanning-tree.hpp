@@ -11,6 +11,5 @@ mint counting_spanning_tree(const Graph&g){
             if(e.to)mt[i-1][e.to-1]-=1;
         }
     }
-    rep(i,n-1)rep(j,n-1)dbg(mt[i][j]);
     return mt.det();
 }

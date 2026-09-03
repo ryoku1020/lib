@@ -35,7 +35,7 @@ documentation_of: ../../ds/utility/famous.hpp
 ### `Min<Value_type, inf>`
 
 ```cpp
-using info = Min<long long, (long long)4e18>;
+using info = Min<ll, inf<ll>>;
 ```
 
 `inf` は単位元（最大値）。`e() = inf`。
@@ -43,7 +43,7 @@ using info = Min<long long, (long long)4e18>;
 ### `Max<Value_type, neg_inf>`
 
 ```cpp
-using info = Max<long long, -(long long)4e18>;
+using info = Max<ll, -inf<ll>>;
 ```
 
 `neg_inf` は単位元（最小値）。`e() = neg_inf`。
@@ -65,7 +65,7 @@ using info = Prod<long long>; // e() = 1
 ```cpp
 using info = affine<long long>;
 // value_type = pair<V,V> = {a, b}  → f(x) = ax + b
-// op({a1,b1},{a2,b2}) = {a1*a2, b2*a1+b2}（右から左に合成）
+// op({a1,b1},{a2,b2}) = {a1*a2, b1*a2+b2}（後者を後に適用）
 ```
 
 ### `add_min<Value_type>` / `add_max<Value_type>` / `add_sum<Value_type>`
@@ -114,7 +114,7 @@ auto ans = seg.prod(l, r).first;
 複数の `info` を並列に管理します。`value_type` は `tuple`。
 
 ```cpp
-using info = merger<Min<ll,(ll)4e18>, Sum<ll>>;
+using info = merger<Min<ll,inf<ll>>, Sum<ll>>;
 // value_type = tuple<ll, ll>
 // op = (min, sum) を同時に計算
 ```
@@ -156,6 +156,14 @@ seg.set(i, x);
 - ここにある型は、主に `info` として他のデータ構造に渡すための部品です。
 - `Min` / `Max` の `inf` / `neg_inf` は問題の値域より十分外側の値を指定してください。
 - `merger` は複数の情報を同じ区間で同時に持つための型です。片方だけ更新するような用途には向きません。
+- `max_k` / `min_k` の `K` は 1 以上である必要があります。番兵 `inf` / `neg_inf` と同じ値は有効要素として扱われません。
+
+## 計算量
+
+- `Min` / `Max` / `Sum` / `Prod` / `affine` / `reversed` と各 `info` / `tag` の操作: `O(1)`（値型の演算を `O(1)` とする）
+- `merger<info...>` の `op` / `e`: `O(M)`（`M` は統合する `info` の個数）
+- `max_k` / `min_k` の構築・`add_element`・`merge_data`: `O(K)`
+- `maxk_info` / `mink_info` の `op`: `O(K)`
 
 ## 使用例
 
@@ -163,12 +171,12 @@ seg.set(i, x);
 #include "ds/utility/famous.hpp"
 
 // 区間最小値
-segtree<Min<long long, (long long)4e18>> seg(n);
+segtree<Min<ll, inf<ll>>> seg(n);
 seg.set(i, v);
 auto mn = seg.prod(l, r);
 
 // 区間最大・最小を同時に
-using info = merger<Max<ll, -(ll)4e18>, Min<ll, (ll)4e18>>;
+using info = merger<Max<ll, -inf<ll>>, Min<ll, inf<ll>>>;
 segtree<info> seg2(n);
 // value_type = tuple<ll, ll>
 auto [mx, mi] = seg2.prod(l, r);

@@ -76,20 +76,23 @@ uf.rollback();
 
 ## 使用例
 
-DFS 中だけ辺を追加し、戻るときに直前の状態へ戻します。
+DFS 中だけ辺を追加し、戻るときにその頂点で行った `merge` の回数だけ `undo` します。
 
 ```cpp
 undoable_union_find uf(n);
 
 auto dfs=[&](auto&dfs,int v)->void{
-    uf.save();
+    int merged=0;
     for(auto [a,b]:temporary_edges[v]){
         uf.merge(a,b);
+        merged++;
     }
 
     // この節点での連結性を使って処理する
 
     for(int to:children[v])dfs(dfs,to);
-    uf.rollback();
+    while(merged--)uf.undo();
 };
 ```
+
+`save()` はチェックポイントを積む操作ではなく、それ以前の履歴を破棄する操作です。そのため、上のような再帰 DFS の各階層で `save()` / `rollback()` を組にして使うことはできません。

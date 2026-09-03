@@ -7,7 +7,7 @@ documentation_of: ../../ds/segment_tree/dynamic-lazy-segtree.hpp
 
 動的遅延セグメント木です。
 通常の遅延セグメント木と異なり、座標を `sztype`（デフォルト `int`）で指定でき、
-$2^{63}$ 程度の巨大な範囲を「ノードを必要な分だけ生成」しながら扱えます。
+`sztype` に収まる巨大な非負整数範囲を「ノードを必要な分だけ生成」しながら扱えます。
 
 ## 要件
 
@@ -79,6 +79,8 @@ struct tag{
 - 内部の node pool は最大 `1.5e7` ノードで固定されています（`MAX_NODE=1.5e7`）。クエリ数が多い場合はオーバーフローに注意。
 - 区間は 0-indexed の半開区間 `[l,r)` です。
 - `sztype` は座標の型で、デフォルト `int`。`ll` を使う場合は `dynamic_lazy_segtree<info,tag,ll>` のように指定します。
+- 実装は `n` を切り上げた 2 冪 `N` までを保持します。公開メソッドの `assert` は `N` まで許しますが、通常は論理的な範囲 `[0,n)` だけを使ってください。
+- node pool はテンプレート特殊化ごとの static 領域です。同じ `<info,tag,sztype>` の複数インスタンスは同じ pool を先頭から使って互いに上書きするため、同時に保持しないでください。
 
 ## 使用例: 区間加算・区間和（$10^{18}$ 座標）
 
@@ -90,31 +92,30 @@ struct tag{
 using ll = long long;
 
 struct info{
-    using value_type = ll; // {sum}
-    static value_type op(value_type a, value_type b){ return a+b; }
-    static value_type e(){ return 0; }
+    using value_type = pair<ll,ll>; // {sum,len}
+    static value_type op(value_type a, value_type b){
+        return {a.first+b.first,a.second+b.second};
+    }
+    static value_type e(){ return {0,0}; }
 };
 
 struct tag{
     using lazy_type = ll;
-    static value_type apply(value_type x, lazy_type f){ return x+f; }
+    static info::value_type apply(info::value_type x, lazy_type f){
+        return {x.first+x.second*f,x.second};
+    }
     static lazy_type merge(lazy_type a, lazy_type b){ return a+b; }
     static lazy_type id(){ return 0; }
 };
 
-dynamic_lazy_segtree<info,tag,ll> seg(1e18);
+dynamic_lazy_segtree<info,tag,ll> seg((ll)1e18,{0,1});
 seg.apply(l, r, x);          // [l,r) に x を加算
-auto s = seg.prod(l, r);      // [l,r) の和
+auto s = seg.prod(l, r).first; // [l,r) の和
 ```
 
-## 使用例: 葉の初期値が 1（区間和 = 長さ）
+## 使用例: 全要素を 1 で初期化
 
 ```cpp
-struct info{
-    using value_type = ll;
-    static value_type op(value_type a, value_type b){ return a+b; }
-    static value_type e(){ return 0; }
-};
-
-dynamic_lazy_segtree<info,tag,ll> seg(1e18,1);
+dynamic_lazy_segtree<info,tag,ll> seg((ll)1e18,{1,1});
+auto initial_sum=seg.prod(l,r).first; // r-l
 ```
