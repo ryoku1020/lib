@@ -16,16 +16,17 @@ Hopcroft-Karp 法による二部マッチングです。
 
 ## メソッド
 
-### `void bm.add_edge(int a, int b)`
+### `void bm.add_edge(int a, int b, int id=-1)`
 
 左頂点 `a` と右頂点 `b` の間に辺を追加します。
 
 - 制約: `0<=a<l`, `0<=b<r`
+- `id` が `-1` の場合は、追加順に ID が自動で割り当てられます。
 
-### `vc<pii> bm.work()`
+### `vc<static_graph<0>::edge> bm.work()`
 
 最大マッチングを求め、マッチした辺の集合を返します。
-各要素は `{left,right}` です。
+各要素の `from` が左頂点、`to` が右頂点です。
 
 - 計算量: `O(E*sqrt(V))`
 

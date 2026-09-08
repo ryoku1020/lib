@@ -1,30 +1,36 @@
 #pragma once
-template<class T,class ptr_t=int>
+#include"../lib/template.hpp"
+template<class T> 
 struct node_pool{
-    vector<T>pool;
-    vector<ptr_t>st;
-    int idx,cap;
-    node_pool(int s=4):idx(1),cap(s){assert(s>0);pool.resize(s);}
-    inline T&operator[](ptr_t i){assert(0<=int(i)&&int(i)<idx);return pool[int(i)];}
-    void grow(){
-        cap*=2;
-        pool.resize(cap);
+    static constexpr int B=1024;
+    vc<T*>block;
+    int sz=0;
+    node_pool(){}
+    node_pool(const node_pool&)=delete;
+    node_pool& operator=(const node_pool&)=delete;
+    ~node_pool(){
+        clear();
+        for(auto p:block)allocator<T>{}.deallocate(p,B);
     }
-    ptr_t get_new(){
-        if(!st.empty()){
-            ptr_t res=st.back();
-            st.pop_back();
-            return res;
+    template<class...Args>
+    T*alloc(Args&&...args){
+        int b=sz/B;
+        int p=sz%B;
+        if(b==(int)block.size()){
+            block.pb(allocator<T>{}.allocate(B));
         }
-        if(idx==cap)grow();
-        return ptr_t(idx++);
-    }
-    template<typename...Args>
-    ptr_t get_new(Args...args){
-        ptr_t res=get_new();
-        pool[int(res)]=T(args...);
+        T*res=block[b]+p;
+        construct_at(res,forward<Args>(args)...);
+        sz++;
         return res;
     }
-    void del(ptr_t i){assert(0<int(i)&&int(i)<idx);st.push_back(i);}
-    void clear(){idx=1;st.clear();}
+    void clear(){
+        rep(i,sz){
+            destroy_at(block[i/B]+i%B);
+        }
+        sz=0;
+    }
+    int size()const{
+        return sz;
+    }
 };

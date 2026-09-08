@@ -189,6 +189,10 @@
 #define CP_BUNDLE_HEADER_DFBD140B71193A16
 #include "graph/bipartite-match.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_C37B3C695CAA67D8
+#define CP_BUNDLE_HEADER_C37B3C695CAA67D8
+#include "graph/coloring/bipartite-edge-coloring.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_7B061C2B251C63A3
 #define CP_BUNDLE_HEADER_7B061C2B251C63A3
 #include "graph/coloring/chromatic-number.hpp"
@@ -205,6 +209,10 @@
 #define CP_BUNDLE_HEADER_004D50009C0B027D
 #include "graph/coloring/mis.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_E38916FC5261D8EB
+#define CP_BUNDLE_HEADER_E38916FC5261D8EB
+#include "graph/connectivity/all-cycle.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_CC3CE66464FCC321
 #define CP_BUNDLE_HEADER_CC3CE66464FCC321
 #include "graph/connectivity/contraction.hpp"
@@ -212,6 +220,10 @@
 #ifndef CP_BUNDLE_HEADER_99B8E4D925F29824
 #define CP_BUNDLE_HEADER_99B8E4D925F29824
 #include "graph/connectivity/cycle-decomposition.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_B0D804947AB50679
+#define CP_BUNDLE_HEADER_B0D804947AB50679
+#include "graph/connectivity/directed-mst.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_DDD622DE739424A5
 #define CP_BUNDLE_HEADER_DDD622DE739424A5
@@ -228,6 +240,10 @@
 #ifndef CP_BUNDLE_HEADER_0043AB021E76EC29
 #define CP_BUNDLE_HEADER_0043AB021E76EC29
 #include "graph/connectivity/scc.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_780077547522BDEF
+#define CP_BUNDLE_HEADER_780077547522BDEF
+#include "graph/connectivity/st-numbering.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_3BF43BEAF1FB0965
 #define CP_BUNDLE_HEADER_3BF43BEAF1FB0965
@@ -380,6 +396,10 @@
 #ifndef CP_BUNDLE_HEADER_B423E0412FB532D7
 #define CP_BUNDLE_HEADER_B423E0412FB532D7
 #include "math/modular/multi-discrete.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_9E287F68E726E580
+#define CP_BUNDLE_HEADER_9E287F68E726E580
+#include "math/modular/nimber.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_A0D99FD569358663
 #define CP_BUNDLE_HEADER_A0D99FD569358663
