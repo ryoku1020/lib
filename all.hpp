@@ -245,6 +245,10 @@
 #define CP_BUNDLE_HEADER_780077547522BDEF
 #include "graph/connectivity/st-numbering.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_6D43C1CFA09A891F
+#define CP_BUNDLE_HEADER_6D43C1CFA09A891F
+#include "graph/connectivity/take-tree.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_3BF43BEAF1FB0965
 #define CP_BUNDLE_HEADER_3BF43BEAF1FB0965
 #include "graph/csr.hpp"

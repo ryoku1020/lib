@@ -163,19 +163,16 @@ T isqrt(T x){
 template<class T>
 vvc<T>trans(const vvc<T>&a){
     assert(a.size()&&a[0].size());
+    rep(i,a.size())assert(a[i].size()==a[0].size());
     vvc<T>b(a[0].size(),vc<T>(a.size()));
-    rep(i,a.size())rep(j,a[0].size()){
-        b[j][i]=a[i][j];
-    }
+    rep(i,a.size())rep(j,a[0].size())b[j][i]=a[i][j];
     return b;
 }
-template<class T>
 vc<string>trans(const vc<string>&a){
     assert(a.size()&&a[0].size());
+    rep(i,a.size())assert(a[i].size()==a[0].size());
     vc<string>b(a[0].size(),string(a.size(),0));
-    rep(i,a.size())rep(j,a[0].size()){
-        b[j][i]=a[i][j];
-    }
+    rep(i,a.size())rep(j,a[0].size())b[j][i]=a[i][j];
     return b;
 }
 template<class T>
@@ -183,15 +180,29 @@ int popcount(T n){
     return __builtin_popcountll(n);
 }
 template<class T,class L=ll>
-L sum(vc<T>&a){
+L sum(const vc<T>&a){
     return accumulate(all(a),L(0));
 }
 template<class T>
-vc<T>subset(T S){
-    vc<T>ans;
-    for(T x=S;x>0;x=(x-1)&S)ans.pb(x);
-    ans.pb(0);
-    return ans;
+struct subset_view{
+    T s;
+    struct iterator{
+        T s,x;
+        bool done;
+        T operator*()const{return x;}
+        iterator&operator++(){
+            if(x==0)done=true;
+            else x=(x-1)&s;
+            return*this;
+        }
+        bool operator!=(const iterator&r)const{return done!=r.done;}
+    };
+    iterator begin()const{return{s,s,false};}
+    iterator end()const{return{s,0,true};}
+};
+template<class T>
+subset_view<T>subset(T s){
+    return{s};
 }
 template<class T>
 T max(vc<T>&a){
