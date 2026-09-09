@@ -177,6 +177,10 @@
 #define CP_BUNDLE_HEADER_9B586EE7B79C157E
 #include "geometry/base.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_1177B57DB5FB2CAA
+#define CP_BUNDLE_HEADER_1177B57DB5FB2CAA
+#include "geometry/max-rectangle.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_FDD1694CA346F64C
 #define CP_BUNDLE_HEADER_FDD1694CA346F64C
 #include "graph/Eulerian.hpp"
@@ -564,6 +568,10 @@
 #ifndef CP_BUNDLE_HEADER_FEC8FBC24D8DFC3E
 #define CP_BUNDLE_HEADER_FEC8FBC24D8DFC3E
 #include "tree/base.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_0564E9188FA3C570
+#define CP_BUNDLE_HEADER_0564E9188FA3C570
+#include "tree/cartesian-tree.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_A2D1657D5E1CCC6C
 #define CP_BUNDLE_HEADER_A2D1657D5E1CCC6C
