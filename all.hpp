@@ -313,6 +313,10 @@
 #define CP_BUNDLE_HEADER_9131A754B7CFBFBE
 #include "math/combinatorics/aribitrary-binom.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_728F6D0230158343
+#define CP_BUNDLE_HEADER_728F6D0230158343
+#include "math/combinatorics/convolutionp.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_65D86AB9D5CE5ABF
 #define CP_BUNDLE_HEADER_65D86AB9D5CE5ABF
 #include "math/combinatorics/counting-spanning-tree.hpp"
