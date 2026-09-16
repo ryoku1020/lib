@@ -160,6 +160,20 @@ T isqrt(T x){
     while(F*F>x)F--;
     return F;
 }
+
+template<class T>
+vc<T>iota(int n){
+    vc<T>v(n);rep(i,n)v[i]=i;
+    return v;
+}
+template<class T,int minfirst>
+vc<int>argsort(const vc<T>&a){
+    auto idx=iota<int>(a.size());
+    sort(all(idx),[&](int i,int j){
+        return (minfirst?make_pair(a[i],i)<make_pair(a[j],j):make_pair(a[i],i)>make_pair(a[j],j));
+    });
+    return idx;
+}
 template<class T>
 vvc<T>trans(const vvc<T>&a){
     assert(a.size()&&a[0].size());
