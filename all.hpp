@@ -89,6 +89,10 @@
 #define CP_BUNDLE_HEADER_CDF811D72459E465
 #include "ds/segment_tree/persistent-lazy-segtree.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_03A692C5CA83A903
+#define CP_BUNDLE_HEADER_03A692C5CA83A903
+#include "ds/segment_tree/rangeadd-rangemin.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_172FE70EB24EDAC7
 #define CP_BUNDLE_HEADER_172FE70EB24EDAC7
 #include "ds/segment_tree/segtree-2d.hpp"

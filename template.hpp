@@ -89,7 +89,7 @@ template<class Head, class... Tail> void read(Head&head, Tail&... tail) { scan(h
 #define VC(type, name, ...) vector<type> name(__VA_ARGS__); read(name);
 #define VVC(type, name, size, ...) vector<vector<type>> name(size, vector<type>(__VA_ARGS__)); read(name);
 template<class T>void print(T a) { cout << a; }
-template<class T> void print(vector<T>a) { for(int i=0;i<(int)a.size();i++){if(i)cout<<" ";print(a[i]);}cout<<endl;}
+template<class T> void print(vector<T>a) { for(int i=0;i<(int)a.size();i++){if(i)cout<<" ";print(a[i]);}}
 void PRT() { cout <<endl; return ; }
 template<class T> void PRT(T a) { print(a); cout <<endl; return; }
 template<class Head, class... Tail> void PRT(Head head, Tail ... tail) { print(head); cout << " "; PRT(tail...); return; }
@@ -160,7 +160,12 @@ T isqrt(T x){
     while(F*F>x)F--;
     return F;
 }
-
+//n を先頭に持ってくる
+template<class T>
+vc<T>rot(vc<T>v,int n){
+    rotate(v.begin(),v.begin()+n,v.end());
+    return v;
+}
 template<class T>
 vc<T>iota(int n){
     vc<T>v(n);rep(i,n)v[i]=i;

@@ -1,6 +1,7 @@
 #pragma once
 
 //(頂点列,edge 列)
+//euler-路 と euler-閉路の違いに注意すること！ 
 template<class Graph>
 optional<pair<vc<int>,vc<typename Graph::edge>>>eulerian(const Graph&g){
     if(g.edge_size()==0){
