@@ -43,6 +43,12 @@ struct segtree{
         }
         DREP(i,n-1,1)update(i);
     }
+    template<class F>
+    segtree(const vc<F>&val){
+        *this=segtree(val.size(),[&](int i){
+            return val[i];
+        });
+    }
     void push_back(value_type val){
         if(n==N){
             vc<value_type>vs(n+1);rep(i,n)vs[i]=node[i+n];
