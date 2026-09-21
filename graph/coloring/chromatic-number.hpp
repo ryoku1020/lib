@@ -2,6 +2,7 @@
 #include"../../math/modular/dynamic-mod-int.hpp"
 template<class Graph>
 int chromatic_number(const Graph&g){
+    int dbging=1;
     assert(Graph::directed()==false);
     int n=g.size();
     assert(n<32);

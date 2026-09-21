@@ -20,6 +20,7 @@ vector<T>monotone_minima(F&a,int h,int w,int ismax=0){//関数Fに対してmin�
 //
 template<class F>
 ll monge_d_edge_shortest(F&f,int n,int d,ll inf=2e13){
+    int dbging=1;
     ll ac=-inf,wa=inf;
     auto get=[&](ll wj){
         using P=pair<ll,int>;

@@ -16,6 +16,7 @@ struct static_range_mode{
     static_range_mode(int n):n(n){assert(n>=0);a.resize(n);}
     void set(int i,T x){assert(!built);assert(0<=i&&i<n);a[i]=x;}
     void precalc(){
+        int dbging=1;
         if(built)return;
         built=true;
         assert(n>0);

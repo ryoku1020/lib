@@ -94,6 +94,7 @@ struct range_set{
         st.clear();covered=0;
     }
     void debug(){
+        int dbging=1;
         dbg("==========="s);
         for(auto&[l,r]:st){
             dbg(l,r);

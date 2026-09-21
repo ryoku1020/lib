@@ -160,6 +160,11 @@ T isqrt(T x){
     while(F*F>x)F--;
     return F;
 }
+template<class T>
+T tri(T x){return x*(x+1)/2;}
+
+//[l,r)
+template<class T>T tri(T l,T r){return (r-l)*(l+r-1)/2;}
 //n を先頭に持ってくる
 template<class T>
 vc<T>rot(vc<T>v,int n){
@@ -330,6 +335,7 @@ struct template_setup{
         cin.tie(0)->sync_with_stdio(0);
         #ifdef LOCAL
         cout<<fixed<<setprecision(6);
+        int dbging=1;
         dbg("==============="s);
         #else
         cout<<fixed<<setprecision(20);

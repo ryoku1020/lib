@@ -30,6 +30,7 @@ struct graph_components{
     }
     //辺属性の二重頂点連結成分 孤立点に注意
     vc<int>vertexc2()const{
+        int dbging=1;
         int m=g.edge_size();
         int n=g.size();
         vc<int>res(m,-1);

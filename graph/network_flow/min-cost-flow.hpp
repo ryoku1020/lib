@@ -1,5 +1,6 @@
 #pragma once
 #include"../base.hpp"
+
 template<class Cap,class Cost>
 struct min_cost_flow{
     struct edge{
@@ -25,16 +26,16 @@ struct min_cost_flow{
         flow.assign(edges.size(),0);
         vc<Cost>pot(n);
         Cost res=0;
-        Cap flow=0;
+        Cap sent=0;
         while(target){
-            static_graph<1,edge>g(n);
+            vvc<edge>g(n);
             for(auto e:edges){
                 auto e1=e,e2=e;
                 swap(e2.from,e2.to);
                 e1.cap=e.cap-flow[e.id];
                 e2.cap=flow[e.id];e2.cost=-e2.cost;
-                if(e1.cap)g.add_edge(e1);
-                if(e2.cap)g.add_edge(e2);
+                if(e1.cap)g[e1.from].push_back(e1);
+                if(e2.cap)g[e2.from].push_back(e2);
             }
             vc<Cost>md(n,numeric_limits<Cost>::max());
             smpq<pair<Cost,int>>que;que.push({0,s});md[s]=0;
@@ -49,7 +50,7 @@ struct min_cost_flow{
                     }
                 }
             }
-            if(md[t]==numeric_limits<Cost>::max())return {res,flow};
+            if(md[t]==numeric_limits<Cost>::max())return {res,sent};
             int now=t;
             vc<edge>used;
             while(now!=s){
@@ -57,9 +58,7 @@ struct min_cost_flow{
                 now=pre[now].from;
             }
             Cap new_flow=target;
-            for(auto&e:used){
-                chmin(new_flow,e.cap);
-            }
+            for(auto&e:used)chmin(new_flow,e.cap);
             target-=new_flow;
             for(auto&e:used){
                 res+=e.cost*new_flow;
@@ -67,17 +66,15 @@ struct min_cost_flow{
                 if(is_rev)flow[e.id]-=new_flow;
                 else flow[e.id]+=new_flow;
             }
-            flow+=new_flow;
+            sent+=new_flow;
             rep(i,n)if(md[i]!=numeric_limits<Cost>::max())pot[i]+=md[i];
         }
-        return {res,flow};
+        return {res,sent};
     }
     vc<tuple<int,int,int,Cap>>info(){
         assert(flow.size()==edges.size());
         vc<tuple<int,int,int,Cap>>res;
-        rep(i,edges.size()){
-            res.push_back(tuple<int,int,int,Cap>{edges[i].from,edges[i].to,edges[i].id,flow[i]});
-        }
+        rep(i,edges.size())res.push_back(tuple<int,int,int,Cap>{edges[i].from,edges[i].to,edges[i].id,flow[i]});
         return res;
     }
 };

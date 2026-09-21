@@ -605,3 +605,6 @@
 #define CP_BUNDLE_HEADER_9E8115EFDE128055
 #include "tree/virtual-tree.hpp"
 #endif
+#if defined(LOCAL)&&!defined(CP_NO_LOCAL_FORMATTERS)
+#include "debug/local.hpp"
+#endif
