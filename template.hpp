@@ -321,6 +321,7 @@ ostream& operator<<(ostream&os,i128 x){
 }
 #ifdef LOCAL
 #include "debug/debug.hpp"
+inline int dbging=1;
 #else
 #define dbg(...) ((void)0)
 #endif
@@ -335,8 +336,6 @@ struct template_setup{
         cin.tie(0)->sync_with_stdio(0);
         #ifdef LOCAL
         cout<<fixed<<setprecision(6);
-        int dbging=1;
-        dbg("==============="s);
         #else
         cout<<fixed<<setprecision(20);
         #endif
