@@ -121,14 +121,20 @@ int main(){
     lowlink ll(g);dbg(ll);dbg(debug::bcc(ll));
     flow<int>network(3);network.add_edge(0,1,4);network.add_edge(1,2,3);dbg(network);
     persistent_array<int,2>pa;auto root=pa.build(4,0);root=pa.change(2,9,root);dbg(pa,debug::version(pa,root));
-    ostringstream captured;
-    auto output=cerr.rdbuf(captured.rdbuf());
+    ostringstream captured,errors;
+    auto output=cout.rdbuf(captured.rdbuf());
+    auto error=cerr.rdbuf(errors.rdbuf());
     {int dbging=0;dbg(string("hidden"));}
     dbg(123);
     debug::internal::log(__FILE__,__LINE__,__func__,"broken(",1,2);
-    cerr.rdbuf(output);
+    cout<<"ordinary-output\n";
+    cout.rdbuf(output);
+    cerr.rdbuf(error);
     assert(captured.str().find("hidden")==string::npos);
     assert(captured.str().find("123")!=string::npos);
     assert(captured.str().find("arg0 = 1")!=string::npos);
     assert(captured.str().find("arg1 = 2")!=string::npos);
+    assert(captured.str().find("ordinary-output")!=string::npos);
+    assert(captured.str().find("\033[")==string::npos);
+    assert(errors.str().empty());
 }

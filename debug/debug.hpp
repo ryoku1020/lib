@@ -453,10 +453,12 @@ inline expression_parse_result expression_names(string_view source){
     return result;
 }
 
+inline ostream&output_stream(){return cout;}
+
 inline bool use_color(){
     if(!config.color||getenv("NO_COLOR"))return false;
 #if defined(__unix__)||defined(__APPLE__)
-    if(!isatty(fileno(stderr)))return false;
+    if(!isatty(fileno(stdout)))return false;
 #endif
     const char*term=getenv("TERM");
     return term&&string_view(term)!="dumb";
@@ -554,14 +556,15 @@ void log(const char*file,int line,const char*function,string_view source,const T
     for(size_t i=0;i<values.size();i++)compact_width+=visible_width(parsed.names[i])+visible_width(values[i].text)+5;
     compact&=compact_width<=140;
     bool color=use_color();
+    auto&output=output_stream();
     if(compact){
-        cerr<<paint("2","["+location+"]",color)<<' ';
+        output<<paint("2","["+location+"]",color)<<' ';
         for(size_t i=0;i<values.size();i++){
-            if(i)cerr<<"   ";
-            cerr<<paint("36",parsed.names[i],color)<<" = ";
-            styled(cerr,values[i].text,color);
+            if(i)output<<"   ";
+            output<<paint("36",parsed.names[i],color)<<" = ";
+            styled(output,values[i].text,color);
         }
-        cerr<<'\n';
+        output<<'\n';
         return;
     }
     vector<string>labels(values.size());
@@ -570,19 +573,19 @@ void log(const char*file,int line,const char*function,string_view source,const T
         labels[i]=shorten(parsed.names[i]+values[i].suffix,48);
         width=max(width,visible_width(labels[i]));
     }
-    cerr<<paint("2","┌─ "+string(function)+" · "+base_name(file)+":"+to_string(line),color)<<'\n';
+    output<<paint("2","┌─ "+string(function)+" · "+base_name(file)+":"+to_string(line),color)<<'\n';
     for(size_t i=0;i<values.size();i++){
         size_t label_width=visible_width(labels[i]);
         size_t padding=label_width<width?width-label_width:0;
-        cerr<<"│ "<<paint("36",labels[i],color)<<string(padding,' ')<<" =";
+        output<<"│ "<<paint("36",labels[i],color)<<string(padding,' ')<<" =";
         if(values[i].text.find('\n')==string::npos&&!values[i].text.empty()){
-            cerr<<' ';styled(cerr,values[i].text,color);cerr<<'\n';
+            output<<' ';styled(output,values[i].text,color);output<<'\n';
         }else{
-            cerr<<'\n';
-            if(!values[i].text.empty())print_lines(cerr,"│   ",values[i].text,color);
+            output<<'\n';
+            if(!values[i].text.empty())print_lines(output,"│   ",values[i].text,color);
         }
     }
-    cerr<<paint("2","└─",color)<<'\n';
+    output<<paint("2","└─",color)<<'\n';
 }
 
 }
