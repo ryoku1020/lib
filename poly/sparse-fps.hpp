@@ -45,7 +45,6 @@ fps<mint>log_sparse(int n,spfs<mint>sp){
 }
 template<class mint>
 fps<mint>exp_sparse(int n,spfs<mint>sp){
-
     if(n==0)return {};
     fps<mint>f(n);f[0]=1;
     rep(i,n-1){

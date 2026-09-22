@@ -521,6 +521,10 @@
 #define CP_BUNDLE_HEADER_E0B78A4B214A6E7E
 #include "poly/multipoint-evaluation.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_F99E3A3B3D77B828
+#define CP_BUNDLE_HEADER_F99E3A3B3D77B828
+#include "poly/naive-div.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_C342F2302B36E7E7
 #define CP_BUNDLE_HEADER_C342F2302B36E7E7
 #include "poly/power-sum.hpp"

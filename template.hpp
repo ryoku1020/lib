@@ -161,7 +161,7 @@ T isqrt(T x){
     return F;
 }
 template<class T>
-T tri(T x){return x*(x+1)/2;}
+T tri(T x){return x*(x-1)/2;}
 
 //[l,r)
 template<class T>T tri(T l,T r){return (r-l)*(l+r-1)/2;}

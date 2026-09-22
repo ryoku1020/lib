@@ -6,10 +6,10 @@ vc<mint>power_sum(vc<mint>a,vc<mint>c,int K){
     using f=fps<mint>;
     int n=a.size();
     if(n==0)return vc<mint>(K+1);
-    vc<f>fs(n);rep(i,n)fs[i]={1,-a[i]};
+    vc<f>fs(n);rep(i,n)fs[i]=f{1,-a[i]};
     auto dfs=[&](auto&dfs,int l,int r)->pair<f,f>{
         if(r-l==1){
-            return {{c[l]},{1,-a[l]}};
+            return pair<f,f>{f{c[l]},f{1,-a[l]}};
         }
         int mid=l+r>>1;
         auto A=dfs(dfs,l,mid);
