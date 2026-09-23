@@ -413,6 +413,10 @@
 #define CP_BUNDLE_HEADER_13BAAC4DBC4C9F42
 #include "math/modular/mod261.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_022236DE780893E9
+#define CP_BUNDLE_HEADER_022236DE780893E9
+#include "math/modular/modint-vp.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_B423E0412FB532D7
 #define CP_BUNDLE_HEADER_B423E0412FB532D7
 #include "math/modular/multi-discrete.hpp"
@@ -516,6 +520,10 @@
 #ifndef CP_BUNDLE_HEADER_205F3439E8170A57
 #define CP_BUNDLE_HEADER_205F3439E8170A57
 #include "poly/interpolate.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_4D19924C831FCD2A
+#define CP_BUNDLE_HEADER_4D19924C831FCD2A
+#include "poly/linear-interpolate.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_E0B78A4B214A6E7E
 #define CP_BUNDLE_HEADER_E0B78A4B214A6E7E
