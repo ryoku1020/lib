@@ -4,7 +4,17 @@ template<class mint>
 mint bostan_mori(fps<mint>p,fps<mint>q,long long n){
     assert(n>=0);
     if(p.empty()||q.empty())return 0;
-    assert(q[0]!=0);
+    assert(n>=0);
+    p.shrink(),q.shrink();
+    if(p.empty())return 0;
+    assert(q.size()&&q[0]!=0);
+    mint add=0;
+    if(p.size()>=q.size()){
+        auto [d,r]=p.div(q);
+        if(n<(ll)d.size())add=d[n];
+        p=move(r);
+    }
+    if(p.empty())return add;
     int d=q.size();
     if((int)p.size()>=d)p.resize(d-1);
     int ntt_size=1;
@@ -39,5 +49,5 @@ mint bostan_mori(fps<mint>p,fps<mint>q,long long n){
         for(int i=0;i<d;i++)q[i]=nq_half[i]*inv_half;
         n>>=1;
     }
-    return p[0]/q[0];
+    return p[0]/q[0]+add;
 }
