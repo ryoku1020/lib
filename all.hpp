@@ -521,6 +521,10 @@
 #define CP_BUNDLE_HEADER_A355C2261C72D0A5
 #include "poly/cinverse.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_70DA02D4D35EEE3B
+#define CP_BUNDLE_HEADER_70DA02D4D35EEE3B
+#include "poly/fps-frac.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_17F7263405C1982E
 #define CP_BUNDLE_HEADER_17F7263405C1982E
 #include "poly/geo-interpolate.hpp"
