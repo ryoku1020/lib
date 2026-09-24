@@ -433,6 +433,10 @@
 #define CP_BUNDLE_HEADER_8DD6832EF023BDC7
 #include "math/modular/static-mod-int.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_18810B2DE65C275C
+#define CP_BUNDLE_HEADER_18810B2DE65C275C
+#include "math/number_theory/belnui.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_75AD53D9868A2832
 #define CP_BUNDLE_HEADER_75AD53D9868A2832
 #include "math/number_theory/discrete-log.hpp"
@@ -440,6 +444,10 @@
 #ifndef CP_BUNDLE_HEADER_E710C2A393E2A0F5
 #define CP_BUNDLE_HEADER_E710C2A393E2A0F5
 #include "math/number_theory/enumerate-floor.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_0DDAD29700D756C6
+#define CP_BUNDLE_HEADER_0DDAD29700D756C6
+#include "math/number_theory/enumerate-pow.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_01D6A785D0F4E280
 #define CP_BUNDLE_HEADER_01D6A785D0F4E280
@@ -536,6 +544,10 @@
 #ifndef CP_BUNDLE_HEADER_C342F2302B36E7E7
 #define CP_BUNDLE_HEADER_C342F2302B36E7E7
 #include "poly/power-sum.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_569C4C558E4D1ECC
+#define CP_BUNDLE_HEADER_569C4C558E4D1ECC
+#include "poly/prefixsum-poly.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_010344BB15E1C242
 #define CP_BUNDLE_HEADER_010344BB15E1C242
