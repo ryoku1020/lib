@@ -57,6 +57,10 @@
 #define CP_BUNDLE_HEADER_C7D4320A39A52637
 #include "ds/range_queries/Rectange.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_E067EA5101879C7A
+#define CP_BUNDLE_HEADER_E067EA5101879C7A
+#include "ds/range_queries/point-add-01.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_A874C5B62692FFFE
 #define CP_BUNDLE_HEADER_A874C5B62692FFFE
 #include "ds/range_queries/rectangle-union.hpp"
