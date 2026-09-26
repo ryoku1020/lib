@@ -1,4 +1,5 @@
 #pragma once
+
 template<class info,class tag,bool beats=false>
 struct lazy_segtree{
     using value_type=typename info::value_type;

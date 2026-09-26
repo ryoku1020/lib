@@ -3,7 +3,7 @@ template<class T>
 struct range_set{
     T covered;
     using P=pair<T,T>;
-    using It=set<P>::iterator;
+    using It=typename set<P>::iterator;
     set<P>st;
     range_set():covered(0){}
     //[l,r) を insert

@@ -289,6 +289,10 @@
 #define CP_BUNDLE_HEADER_DC92C7909A18DFE1
 #include "graph/network_flow/min-cost-flow.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_2975B7D74AF43064
+#define CP_BUNDLE_HEADER_2975B7D74AF43064
+#include "graph/slow-dijkstra.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_3B852C1ABA780498
 #define CP_BUNDLE_HEADER_3B852C1ABA780498
 #include "graph/two-sat.hpp"
@@ -449,6 +453,10 @@
 #define CP_BUNDLE_HEADER_0DDAD29700D756C6
 #include "math/number_theory/enumerate-pow.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_D73F3EE38D684206
+#define CP_BUNDLE_HEADER_D73F3EE38D684206
+#include "math/number_theory/extgcd-asexp.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_01D6A785D0F4E280
 #define CP_BUNDLE_HEADER_01D6A785D0F4E280
 #include "math/number_theory/factorize.hpp"
@@ -468,6 +476,10 @@
 #ifndef CP_BUNDLE_HEADER_59E07809E5C96626
 #define CP_BUNDLE_HEADER_59E07809E5C96626
 #include "math/number_theory/stern-brocot-tree.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_2124E6E3939420E5
+#define CP_BUNDLE_HEADER_2124E6E3939420E5
+#include "math/number_theory/valid-segment.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_D6374471AA6979BF
 #define CP_BUNDLE_HEADER_D6374471AA6979BF
