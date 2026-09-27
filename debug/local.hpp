@@ -1,7 +1,5 @@
 #pragma once
-
 namespace debug{
-
 template<class T>
 struct raw_view{const T&value;};
 template<class T>
@@ -10,7 +8,6 @@ template<class T,class Root>
 struct version_view{T&value;Root root;};
 template<class T>
 struct bcc_view{const T&value;};
-
 template<class T>
 raw_view<T>raw(const T&value){return{value};}
 template<class T>
@@ -19,17 +16,13 @@ template<class T,class Root>
 version_view<T,Root>version(T&value,Root root){return{value,root};}
 template<class T>
 bcc_view<T>bcc(const T&value){return{value};}
-
 namespace internal{
-
 template<class T>
 struct raw_formatter{
     static void print(ostream&os,const T&value){print_value(os,value,0);}
 };
-
 template<class T>
 struct tree_formatter:raw_formatter<T>{};
-
 template<class F>
 void print_index_values(ostream&os,size_t n,F get){
     auto indices=shown_indices(n,config.max_sequence_elements);
@@ -48,21 +41,17 @@ void print_index_values(ostream&os,size_t n,F get){
     os<<"\nval :";
     for(size_t i=0;i<indices.size();i++){os<<' ';print_right(os,value_text[i],width[i]);}
 }
-
 template<class T>
 void print_index_values(ostream&os,const vector<T>&values){
     print_index_values(os,values.size(),[&](size_t i)->const T&{return values[i];});
 }
-
 inline void print_table_row(ostream&os,const vector<string>&row,const vector<size_t>&width){
     for(size_t i=0;i<row.size();i++){
         if(i)os<<" | ";
         print_right(os,row[i],width[i]);
     }
 }
-
 }
-
 template<class Info>
 struct formatter<assign_segtree<Info>>{
     static void print(ostream&os,const assign_segtree<Info>&seg){
@@ -71,7 +60,6 @@ struct formatter<assign_segtree<Info>>{
         internal::print_index_values(os,copy.N,[&](size_t i){return copy.prod(i,i+1);});
     }
 };
-
 template<class X>
 struct formatter<dual_segtree<X>>{
     static void print(ostream&os,const dual_segtree<X>&seg){
@@ -80,7 +68,6 @@ struct formatter<dual_segtree<X>>{
         internal::print_index_values(os,copy.n,[&](size_t i){return copy.get(i);});
     }
 };
-
 template<class Info,class Size,bool Persistent>
 struct formatter<dynamic_segtree<Info,Size,Persistent>>{
     static void print(ostream&os,const dynamic_segtree<Info,Size,Persistent>&seg){
@@ -88,7 +75,6 @@ struct formatter<dynamic_segtree<Info,Size,Persistent>>{
           <<" (use debug::version(seg, root) to inspect a root)";
     }
 };
-
 template<class Info,class Size,bool Persistent>
 struct formatter<version_view<dynamic_segtree<Info,Size,Persistent>,typename dynamic_segtree<Info,Size,Persistent>::node*>>{
     using seg_type=dynamic_segtree<Info,Size,Persistent>;
@@ -108,25 +94,22 @@ struct formatter<version_view<dynamic_segtree<Info,Size,Persistent>,typename dyn
         if(truncated)os<<"\n  …";
     }
 };
-
-template<class Info,class Tag,class Size>
-struct formatter<dynamic_lazy_segtree<Info,Tag,Size>>{
-    static void print(ostream&os,const dynamic_lazy_segtree<Info,Tag,Size>&seg){
-        os<<"dynamic_lazy_segtree size="<<seg.N<<" allocated_nodes="<<seg.ptr-1<<" root="<<seg.root;
+template<class acted,class Size>
+struct formatter<dynamic_lazy_segtree<acted,Size>>{
+    static void print(ostream&os,const dynamic_lazy_segtree<acted,Size>&seg){
+        os<<"dynamic_lazy_segtree size="<<seg.N<<" allocated_nodes="<<seg.pool.size()<<" root="<<seg.root;
         if(seg.root){
-            os<<"\nroot value=";internal::print_value(os,seg.pool[seg.root].val,0);
-            os<<" lazy=";internal::print_value(os,seg.pool[seg.root].lazy,0);
+            os<<"\nroot value=";internal::print_value(os,seg.root->val,0);
+            os<<" lazy=";internal::print_value(os,seg.root->lazy,0);
         }
     }
 };
-
 template<class Info>
 struct formatter<segtree_2d<Info>>{
     static void print(ostream&os,const segtree_2d<Info>&seg){
         os<<"segtree_2d "<<seg.H<<" x "<<seg.W<<" (use prod() to inspect a rectangle)";
     }
 };
-
 template<class T>
 struct formatter<raw_view<T>>{
     static void print(ostream&os,const raw_view<T>&view){internal::raw_formatter<T>::print(os,view.value);}
@@ -135,7 +118,6 @@ template<class T>
 struct formatter<tree_view<T>>{
     static void print(ostream&os,const tree_view<T>&view){internal::tree_formatter<T>::print(os,view.value);}
 };
-
 template<class T>
 struct formatter<::edge<T>>{
     static void print(ostream&os,const ::edge<T>&e){
@@ -144,7 +126,6 @@ struct formatter<::edge<T>>{
         os<<')';
     }
 };
-
 template<class Info>
 struct formatter<segtree<Info>>{
     static void print(ostream&os,const segtree<Info>&seg){
@@ -152,7 +133,6 @@ struct formatter<segtree<Info>>{
         internal::print_index_values(os,seg.N,[&](size_t i)->const auto&{return seg.node[seg.n+i];});
     }
 };
-
 namespace internal{
 template<class Info>
 struct raw_formatter<segtree<Info>>{
@@ -188,32 +168,31 @@ struct tree_formatter<segtree<Info>>{
     }
 };
 }
-
-template<class Info,class Tag,bool Beats>
-struct formatter<lazy_segtree<Info,Tag,Beats>>{
-    static void print(ostream&os,const lazy_segtree<Info,Tag,Beats>&seg){
+template<class acted,bool Beats>
+struct formatter<lazy_segtree<acted,Beats>>{
+    static void print(ostream&os,const lazy_segtree<acted,Beats>&seg){
         auto copy=seg;
         os<<"lazy_segtree [n="<<seg.N<<"]\n\n";
         internal::print_index_values(os,copy.N,[&](size_t i){return copy.prod(i,i+1);});
     }
 };
-
 namespace internal{
-template<class Info,class Tag,bool Beats>
-struct raw_formatter<lazy_segtree<Info,Tag,Beats>>{
-    static void print(ostream&os,const lazy_segtree<Info,Tag,Beats>&seg){
+template<class acted,bool Beats>
+struct raw_formatter<lazy_segtree<acted,Beats>>{
+    static void print(ostream&os,const lazy_segtree<acted,Beats>&seg){
         os<<"lazy_segtree raw n="<<seg.N<<" size="<<seg.n<<"\nnode = ";
         print_value(os,seg.node,0);
         os<<"\nlazy = ";print_value(os,seg.lazy,0);
     }
 };
-template<class Info,class Tag,bool Beats>
-struct tree_formatter<lazy_segtree<Info,Tag,Beats>>{
-    static void print(ostream&os,const lazy_segtree<Info,Tag,Beats>&seg){
+template<class acted,bool Beats>
+struct tree_formatter<lazy_segtree<acted,Beats>>{
+    static void print(ostream&os,const lazy_segtree<acted,Beats>&seg){
         os<<"lazy_segtree [n="<<seg.N<<"]\n";
         size_t shown=0;
         bool truncated=false;
-        using lazy_type=typename lazy_segtree<Info,Tag,Beats>::lazy_type;
+        using tag=typename lazy_segtree<acted,Beats>::tag;
+        using lazy_type=typename lazy_segtree<acted,Beats>::lazy_type;
         auto dfs=[&](auto&dfs,int k,int l,int r,lazy_type inherited,string prefix,bool last,bool root)->void{
             if(l>=seg.N)return;
             if(shown>=config.max_tree_nodes){truncated=true;return;}
@@ -221,23 +200,22 @@ struct tree_formatter<lazy_segtree<Info,Tag,Beats>>{
             os<<'\n'<<prefix;
             if(!root)os<<(last?"└─ ":"├─ ");
             os<<'['<<l<<','<<min(r,seg.N)<<") value=";
-            print_value(os,Tag::apply(seg.node[k],inherited),0);
+            print_value(os,acted::act(seg.node[k],inherited,seg.len[k]),0);
             if(k<seg.n){os<<"  lazy=";print_value(os,seg.lazy[k],0);}
             if(k<seg.n&&min(r,seg.N)-l>1){
                 int m=(l+r)/2;
                 string child_prefix=prefix+(root?"":last?"   ":"│  ");
                 bool has_right=m<seg.N;
-                auto child_lazy=Tag::merge(seg.lazy[k],inherited);
+                auto child_lazy=tag::op(seg.lazy[k],inherited);
                 dfs(dfs,k*2,l,m,child_lazy,child_prefix,!has_right,false);
                 if(has_right)dfs(dfs,k*2+1,m,r,child_lazy,child_prefix,true,false);
             }
         };
-        if(seg.N)dfs(dfs,1,0,seg.n,Tag::id(),"",true,true);
+        if(seg.N)dfs(dfs,1,0,seg.n,tag::id(),"",true,true);
         if(truncated)os<<"\n…";
     }
 };
 }
-
 template<class T>
 struct formatter<binary_indexed_tree<T>>{
     static void print(ostream&os,const binary_indexed_tree<T>&bit){
@@ -248,7 +226,6 @@ struct formatter<binary_indexed_tree<T>>{
         os<<"\nbit    = ";internal::print_value(os,bit.data,0);
     }
 };
-
 template<>
 struct formatter<bit_vector>{
     static void print(ostream&os,const bit_vector&bv){
@@ -256,7 +233,6 @@ struct formatter<bit_vector>{
         internal::print_bits(os,bv.n,[&](size_t i){return bv.rank1(i,i+1);});
     }
 };
-
 template<class T,int D>
 struct formatter<wm_base<T,D>>{
     static void print(ostream&os,const wm_base<T,D>&wm){
@@ -270,7 +246,6 @@ struct formatter<wm_base<T,D>>{
         }
     }
 };
-
 template<class T,auto Op,int Extra>
 struct formatter<base_disjoint_set_union<T,Op,Extra>>{
     static void print(ostream&os,const base_disjoint_set_union<T,Op,Extra>&uf){
@@ -287,7 +262,6 @@ struct formatter<base_disjoint_set_union<T,Op,Extra>>{
         }
     }
 };
-
 template<>
 struct formatter<undoable_union_find>{
     static void print(ostream&os,const undoable_union_find&uf){
@@ -303,7 +277,6 @@ struct formatter<undoable_union_find>{
         }
     }
 };
-
 template<class X>
 struct formatter<potentialized_union_find<X>>{
     static void print(ostream&os,const potentialized_union_find<X>&uf){
@@ -318,7 +291,6 @@ struct formatter<potentialized_union_find<X>>{
         }
     }
 };
-
 template<bool Directed,class T>
 struct formatter<static_graph<Directed,T>>{
     static void print(ostream&os,const static_graph<Directed,T>&g){
@@ -337,7 +309,6 @@ struct formatter<static_graph<Directed,T>>{
         }
     }
 };
-
 template<class T>
 struct formatter<::tree<T>>{
     static void print(ostream&os,const ::tree<T>&tr){
@@ -359,7 +330,6 @@ struct formatter<::tree<T>>{
         for(size_t i=1;i<rows.size();i++){os<<'\n';internal::print_table_row(os,rows[i],width);}
     }
 };
-
 template<class G>
 struct formatter<lowlink<G>>{
     static void print(ostream&os,const lowlink<G>&ll){
@@ -372,7 +342,6 @@ struct formatter<lowlink<G>>{
         os<<"\nbridges = ";internal::print_value(os,bridges,0);
     }
 };
-
 template<class G>
 struct formatter<bcc_view<lowlink<G>>>{
     static void print(ostream&os,const bcc_view<lowlink<G>>&view){
@@ -385,7 +354,6 @@ struct formatter<bcc_view<lowlink<G>>>{
         os<<"\nblock-cut tree = ";internal::print_value(os,vertex_components.comp,0);
     }
 };
-
 template<class Cap>
 struct formatter<flow<Cap>>{
     static void print(ostream&os,const flow<Cap>&network){
@@ -406,7 +374,6 @@ struct formatter<flow<Cap>>{
         for(size_t i=1;i<rows.size();i++){os<<'\n';internal::print_table_row(os,rows[i],width);}
     }
 };
-
 template<class Cap,class Cost>
 struct formatter<min_cost_flow<Cap,Cost>>{
     static void print(ostream&os,const min_cost_flow<Cap,Cost>&network){
@@ -428,7 +395,6 @@ struct formatter<min_cost_flow<Cap,Cost>>{
         for(size_t i=1;i<rows.size();i++){os<<'\n';internal::print_table_row(os,rows[i],width);}
     }
 };
-
 template<class T,int B>
 struct formatter<persistent_array<T,B>>{
     static void print(ostream&os,const persistent_array<T,B>&array){
@@ -436,7 +402,6 @@ struct formatter<persistent_array<T,B>>{
           <<" (use debug::version(array, root) to inspect a version)";
     }
 };
-
 template<class T,int B>
 struct formatter<version_view<persistent_array<T,B>,typename persistent_array<T,B>::Node*>>{
     using array_type=persistent_array<T,B>;
@@ -446,7 +411,6 @@ struct formatter<version_view<persistent_array<T,B>,typename persistent_array<T,
         internal::print_index_values(os,view.value.n_,[&](size_t i){return view.value.get(i,view.root);});
     }
 };
-
 template<class Info,class Tag>
 struct formatter<persistent_lazy_segtree<Info,Tag>>{
     static void print(ostream&os,const persistent_lazy_segtree<Info,Tag>&seg){
@@ -454,7 +418,6 @@ struct formatter<persistent_lazy_segtree<Info,Tag>>{
           <<" (use debug::version(seg, root) to inspect a version)";
     }
 };
-
 template<class Info,class Tag>
 struct formatter<version_view<persistent_lazy_segtree<Info,Tag>,int>>{
     using seg_type=persistent_lazy_segtree<Info,Tag>;
@@ -463,7 +426,6 @@ struct formatter<version_view<persistent_lazy_segtree<Info,Tag>,int>>{
         internal::print_index_values(os,view.value.N,[&](size_t i){return view.value.prod(i,i+1,view.root);});
     }
 };
-
 template<int B>
 struct formatter<persistent_union_find<B>>{
     static void print(ostream&os,const persistent_union_find<B>&uf){
@@ -471,7 +433,6 @@ struct formatter<persistent_union_find<B>>{
           <<" (use debug::version(uf, root) to inspect a version)";
     }
 };
-
 template<int B>
 struct formatter<version_view<persistent_union_find<B>,typename persistent_union_find<B>::node>>{
     using uf_type=persistent_union_find<B>;
@@ -487,5 +448,4 @@ struct formatter<version_view<persistent_union_find<B>,typename persistent_union
         }
     }
 };
-
 }
