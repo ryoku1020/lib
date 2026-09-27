@@ -1,16 +1,18 @@
 #pragma once
+#include"../utility/node-pool.hpp"
 template<class info,class sztype,bool is_persistent>
 struct dynamic_segtree{
-    using value_type=info::value_type;
+    using value_type=typename info::value_type;
     struct node{
         node*l,*r;
         value_type val;
-        node():l(nullptr),r(nullptr),val(info::e()){}
+        node():l(nullptr),r(nullptr),val(info::id()){}
         node(value_type x):l(nullptr),r(nullptr),val(x){}
     };
+    node_pool<node>pool;
     int N,LOG;
     vc<value_type>db;
-    dynamic_segtree(int n,value_type leaf=info::e()){
+    dynamic_segtree(int n,value_type leaf=info::id()){
         assert(n>=0);
         LOG=0;
         while((1<<LOG)<n)LOG++;
@@ -19,21 +21,21 @@ struct dynamic_segtree{
         db[0]=leaf;
         rep(i,LOG)db[i+1]=info::op(db[i],db[i]);
     }
-    node*build(){return new node(db[LOG]);}
+    node*build(){return pool.alloc(db[LOG]);}
     value_type get(node*x,int depth){return x?x->val:db[depth];}
     sztype common(sztype l1,sztype r1,sztype l2,sztype r2){return max(sztype(0),min(r1,r2)-max(l1,l2));}
     node*set(node*now,sztype i,value_type x){
         assert(now);
         assert(0<=i&&i<N);
         auto dfs=[&](auto&dfs,sztype l,sztype r,int depth,node*cur)->node*{
-            node*next=is_persistent?new node(*cur):cur;
+            node*next=is_persistent?pool.alloc(*cur):cur;
             if(r-l==1){next->val=x;return next;}
             sztype mid=(l+r)>>1;
             if(i<mid){
-                if(!next->l)next->l=new node(db[depth-1]);
+                if(!next->l)next->l=pool.alloc(db[depth-1]);
                 next->l=dfs(dfs,l,mid,depth-1,next->l);
             }else{
-                if(!next->r)next->r=new node(db[depth-1]);
+                if(!next->r)next->r=pool.alloc(db[depth-1]);
                 next->r=dfs(dfs,mid,r,depth-1,next->r);
             }
             next->val=info::op(get(next->l,depth-1),get(next->r,depth-1));
@@ -45,12 +47,12 @@ struct dynamic_segtree{
         assert(0<=L&&L<=R&&R<=N);
         auto dfs=[&](auto&dfs,int l,int r,int depth,node*cur)->value_type{
             if(L<=l&&r<=R)return get(cur,depth);
-            if(R<=l||r<=L)return info::e();
+            if(R<=l||r<=L)return info::id();
             int mid=(l+r)>>1;
             node*lc=cur?cur->l:nullptr,*rc=cur?cur->r:nullptr;
             if(!is_persistent&&cur){
-                if(!lc)lc=cur->l=new node(db[depth-1]);
-                if(!rc)rc=cur->r=new node(db[depth-1]);
+                if(!lc)lc=cur->l=pool.alloc(db[depth-1]);
+                if(!rc)rc=cur->r=pool.alloc(db[depth-1]);
             }
             return info::op(dfs(dfs,l,mid,depth-1,lc),dfs(dfs,mid,r,depth-1,rc));
         };
@@ -59,7 +61,7 @@ struct dynamic_segtree{
     template<class F>
     sztype max_right(node*now,sztype L,F f){
         assert(0<=L&&L<=N);
-        value_type ans=info::e();
+        value_type ans=info::id();
         auto dfs=[&](auto&dfs,sztype l,sztype r,int depth,node*cur)->bool{
             if(r<=L)return true;
             if(L<=l&&f(info::op(ans,get(cur,depth)))){
@@ -78,7 +80,7 @@ struct dynamic_segtree{
     template<class F>
     sztype min_left(node*now,sztype R,F f){
         assert(0<=R&&R<=N);
-        value_type ans=info::e();
+        value_type ans=info::id();
         auto dfs=[&](auto&dfs,sztype l,sztype r,int depth,node*cur)->bool{
             if(R<=l)return true;
             if(r<=R&&f(info::op(get(cur,depth),ans))){

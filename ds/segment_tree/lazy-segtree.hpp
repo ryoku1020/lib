@@ -1,9 +1,11 @@
 #pragma once
 
-template<class info,class tag,bool beats=false>
+template<class acted,bool beats=false>
 struct lazy_segtree{
-    using value_type=typename info::value_type;
-    using lazy_type=typename tag::lazy_type;
+    using info=typename acted::info;
+    using tag=typename acted::tag;
+    using value_type=typename acted::value_type;
+    using lazy_type=typename acted::lazy_type;
     template<class T,class=void>
     struct has_commute{
         static constexpr bool value=false;
@@ -18,23 +20,27 @@ struct lazy_segtree{
     int lg;
     vc<value_type>node;
     vc<lazy_type>lazy;
+    vc<int>len;
     void build(int N_){
         assert(N_>=0);
         N=N_;
         lg=0;
         while((1<<lg)<N)lg++;
         n=1<<lg;
-        node=vc<value_type>(n*2,info::e());
+        node=vc<value_type>(n*2,info::id());
         lazy=vc<lazy_type>(n,tag::id());
+        len=vc<int>(n*2);
+        REP(i,n,n*2)len[i]=(i-n<N);
+        DREP(i,n-1,1)len[i]=len[i*2]+len[i*2+1];
     }
-    lazy_segtree(int N,value_type leaf=info::e()){
+    lazy_segtree(int N,value_type leaf=info::id()){
         build(N);
-        REP(i,n,n*2)node[i]=leaf;
+        REP(i,n,n*2)node[i]=(i-n<N?leaf:info::id());
         DREP(i,n-1,1)update(i);
     }
     lazy_segtree(int N,vc<value_type> A){
         build(N);
-        A.resize(n,info::e());
+        A.resize(n,info::id());
         REP(i,n,n*2)node[i]=A[i-n];
         DREP(i,n-1,1)update(i);
     }
@@ -43,15 +49,15 @@ struct lazy_segtree{
         build(N);
         REP(i,n,n*2){
             if(i-n<N)node[i]=f(i-n);
-            else node[i]=info::e();
+            else node[i]=info::id();
         }
         DREP(i,n-1,1)update(i);
     }
     void all_apply(int k,lazy_type x){
         assert(0<=k&&k<n*2);
-        node[k]=tag::apply(node[k],x);
+        node[k]=acted::act(node[k],x,len[k]);
         if(k<n){
-            lazy[k]=tag::merge(lazy[k],x);
+            lazy[k]=tag::op(lazy[k],x);
             if constexpr(beats){
                 if(node[k].fail())push(k),update(k);
             }
@@ -65,7 +71,7 @@ struct lazy_segtree{
     }
     void update(int i){
         assert(0<=i&&i<n*2);
-        node[i]=tag::apply(info::op(node[i*2],node[i*2+1]),lazy[i]);
+        node[i]=acted::act(info::op(node[i*2],node[i*2+1]),lazy[i],len[i]);
     }
     void set(int i,value_type x){
         assert(0<=i&&i<N);
@@ -78,9 +84,9 @@ struct lazy_segtree{
         assert(0<=l&&l<=r&&r<=N);
         if constexpr(commute){
             auto dfs=[&](auto&dfs,int k,int sl,int sr,lazy_type x)->value_type{
-                if(sr<=l||r<=sl)return info::e();
-                if(l<=sl&&sr<=r)return tag::apply(node[k],x);
-                x=tag::merge(lazy[k],x);
+                if(sr<=l||r<=sl)return info::id();
+                if(l<=sl&&sr<=r)return acted::act(node[k],x,len[k]);
+                x=tag::op(lazy[k],x);
                 int mid=(sl+sr)>>1;
                 return info::op(dfs(dfs,k*2,sl,mid,x),dfs(dfs,k*2+1,mid,sr,x));
             };
@@ -91,7 +97,7 @@ struct lazy_segtree{
             if(((l>>i)<<i)!=l)push(l>>i);
             if(((r>>i)<<i)!=r)push((r-1)>>i);
         }
-        value_type sml=info::e(),smr=info::e();
+        value_type sml=info::id(),smr=info::id();
         while(l<r){
             if(l&1)sml=info::op(sml,node[l++]);
             if(r&1)smr=info::op(node[--r],smr);
@@ -134,7 +140,7 @@ struct lazy_segtree{
         assert(0<=L&&L<=N);
         if(L<N)for(int i=lg;i;i--)push((n+L)>>i);
         int l=n+L,w=1;
-        value_type ansL=info::e();
+        value_type ansL=info::id();
         for(;L+w<=N;l>>=1,w<<=1)if(l&1){
             if(!f(info::op(ansL,node[l])))break;
             ansL=info::op(ansL,node[l++]);
@@ -155,7 +161,7 @@ struct lazy_segtree{
         assert(0<=R&&R<=N);
         if(R>0)for(int i=lg;i;i--)push((n+R-1)>>i);
         int r=n+R,w=1;
-        value_type ansR=info::e();
+        value_type ansR=info::id();
         for(;R-w>=0;r>>=1,w<<=1)if(r&1){
             if(!f(info::op(node[r-1],ansR)))break;
             ansR=info::op(node[--r],ansR);

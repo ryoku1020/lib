@@ -1,7 +1,7 @@
 #pragma once
 template<class info>
 struct assign_segtree{
-    using value_type=info::value_type;
+    using value_type=typename info::value_type;
     vc<value_type>node;
     vc<int>lazy;
     int N,lg;
@@ -13,10 +13,10 @@ struct assign_segtree{
         node=vc<value_type>(N*2);
         lazy=vc<int>(N,-1);
     }
-    assign_segtree(int n,value_type leaf=info::e()){
+    assign_segtree(int n,value_type leaf=info::id()){
         build(n);
         REP(i,N,N+n)node[i]=leaf;
-        REP(i,N+n,N*2)node[i]=info::e();
+        REP(i,N+n,N*2)node[i]=info::id();
         DREP(i,N-1,1)update(i);
     }
     void update(int i){
@@ -75,7 +75,7 @@ struct assign_segtree{
             if(((l>>i)<<i)!=l)push(l>>i);
             if(((r>>i)<<i)!=r)push((r-1)>>i);
         }
-        value_type sml=info::e(),smr=info::e();
+        value_type sml=info::id(),smr=info::id();
         while(l<r){
             if(l&1)sml=info::op(sml,node[l++]);
             if(r&1)smr=info::op(node[--r],smr);

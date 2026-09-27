@@ -1,8 +1,11 @@
 #pragma once
-template<class info,class tag,class sztype=int>
+#include"../utility/node-pool.hpp"
+template<class acted,class sztype=int>
 struct dynamic_lazy_segtree{
-    using value_type=typename info::value_type;
-    using lazy_type=typename tag::lazy_type;
+    using info=typename acted::info;
+    using tag=typename acted::tag;
+    using value_type=typename acted::value_type;
+    using lazy_type=typename acted::lazy_type;
     template<class T,class=void>
     struct has_commute{
         static constexpr bool value=false;
@@ -15,46 +18,41 @@ struct dynamic_lazy_segtree{
     struct node{
         value_type val;
         lazy_type lazy;
-        int l,r;
-        node():val(info::e()),lazy(tag::id()),l(0),r(0){}
-        node(value_type val):val(val),lazy(tag::id()),l(0),r(0){}
+        node*l,*r;
+        node():val(info::id()),lazy(tag::id()),l(nullptr),r(nullptr){}
+        node(value_type val):val(val),lazy(tag::id()),l(nullptr),r(nullptr){}
     };
-    //N=Q=10^5 > about 1.5e7
-    static const int MAX_NODE=1.5e7;
-    static node inline pool[MAX_NODE];
-    int ptr=1;
+    node_pool<node>pool;
     sztype N;
     int LOG;
-    int root;
+    node*root;
     vc<value_type>db;
-    int new_node(const node&n){
-        assert(ptr<MAX_NODE);
-        pool[ptr]=n;
-        return ptr++;
+    node*new_node(const node&n){
+        return pool.alloc(n);
     }
-    int make(int x,int depth){
-        if(!pool[x].l){
-            pool[x].l=new_node({});
-            pool[x].r=new_node({});
-            pool[pool[x].l].val=pool[pool[x].r].val=db[depth-1];
+    node*make(node*x,int depth){
+        if(!x->l){
+            x->l=new_node({});
+            x->r=new_node({});
+            x->l->val=x->r->val=db[depth-1];
         }
         return x;
     }
-    void eval(int x){
-        if(pool[x].lazy==tag::id())return;
-        pool[pool[x].l].lazy=tag::merge(pool[pool[x].l].lazy,pool[x].lazy);
-        pool[pool[x].r].lazy=tag::merge(pool[pool[x].r].lazy,pool[x].lazy);
-        pool[pool[x].l].val=tag::apply(pool[pool[x].l].val,pool[x].lazy);
-        pool[pool[x].r].val=tag::apply(pool[pool[x].r].val,pool[x].lazy);
-        pool[x].lazy=tag::id();
+    void eval(node*x,int depth){
+        if(x->lazy==tag::id())return;
+        x->l->lazy=tag::op(x->l->lazy,x->lazy);
+        x->r->lazy=tag::op(x->r->lazy,x->lazy);
+        x->l->val=acted::act(x->l->val,x->lazy,sztype(1)<<(depth-1));
+        x->r->val=acted::act(x->r->val,x->lazy,sztype(1)<<(depth-1));
+        x->lazy=tag::id();
     }
     value_type init_prod(sztype len){
-        value_type res=info::e();
+        value_type res=info::id();
         for(int i=0;len;i++,len>>=1)if(len&1)res=info::op(res,db[i]);
         return res;
     }
-    dynamic_lazy_segtree(sztype n,value_type leaf=info::e()){build(n,leaf);}
-    void build(sztype n,value_type leaf=info::e()){
+    dynamic_lazy_segtree(sztype n,value_type leaf=info::id()){build(n,leaf);}
+    void build(sztype n,value_type leaf=info::id()){
         assert(n>=0);
         LOG=1;
         while((i128(1)<<LOG)<n)LOG++;
@@ -63,21 +61,21 @@ struct dynamic_lazy_segtree{
         db[0]=leaf;
         rep(i,LOG)db[i+1]=info::op(db[i],db[i]);
         root=new_node({});
-        pool[root].val=db.back();
+        root->val=db.back();
     }
     void set(sztype i,value_type val){
         assert(0<=i&&i<N);
-        auto dfs=[&](auto&dfs,sztype l,sztype r,int root,int depth)->void{
+        auto dfs=[&](auto&dfs,sztype l,sztype r,node*root,int depth)->void{
             if(r-l==1){
-                pool[root].val=val;
+                root->val=val;
                 return;
             }
             make(root,depth);
-            eval(root);
+            eval(root,depth);
             sztype mid=(l+r)>>1;
-            if(l<=i&&i<mid)dfs(dfs,l,mid,pool[root].l,depth-1);
-            else dfs(dfs,mid,r,pool[root].r,depth-1);
-            pool[root].val=info::op(pool[pool[root].l].val,pool[pool[root].r].val);
+            if(l<=i&&i<mid)dfs(dfs,l,mid,root->l,depth-1);
+            else dfs(dfs,mid,r,root->r,depth-1);
+            root->val=info::op(root->l->val,root->r->val);
         };
         return dfs(dfs,0,N,root,LOG);
     }
@@ -86,37 +84,43 @@ struct dynamic_lazy_segtree{
     }
     value_type prod(sztype l,sztype r){
         assert(0<=l&&l<=r&&r<=N);
-        auto dfs=[&](auto&dfs,sztype sl,sztype sr,int root,int depth,lazy_type x)->value_type{
-            if(sr<=l)return info::e();
-            if(r<=sl)return info::e();
-            if(l<=sl&&sr<=r)return tag::apply(pool[root].val,x);
+        auto dfs=[&](auto&dfs,sztype sl,sztype sr,node*root,int depth,lazy_type x)->value_type{
+            if(sr<=l)return info::id();
+            if(r<=sl)return info::id();
+            if(l<=sl&&sr<=r)return acted::act(root->val,x,sr-sl);
             sztype mid=(sl+sr)>>1;
-            value_type res=info::e();
-            x=tag::merge(pool[root].lazy,x);
-            if(pool[root].l)res=info::op(res,dfs(dfs,sl,mid,pool[root].l,depth-1,x));
-            else res=info::op(res,tag::apply(init_prod(common(sl,mid,l,r)),x));
-            if(pool[root].r)res=info::op(res,dfs(dfs,mid,sr,pool[root].r,depth-1,x));
-            else res=info::op(res,tag::apply(init_prod(common(mid,sr,l,r)),x));
+            value_type res=info::id();
+            x=tag::op(root->lazy,x);
+            if(root->l)res=info::op(res,dfs(dfs,sl,mid,root->l,depth-1,x));
+            else{
+                sztype len=common(sl,mid,l,r);
+                res=info::op(res,acted::act(init_prod(len),x,len));
+            }
+            if(root->r)res=info::op(res,dfs(dfs,mid,sr,root->r,depth-1,x));
+            else{
+                sztype len=common(mid,sr,l,r);
+                res=info::op(res,acted::act(init_prod(len),x,len));
+            }
             return res;
         };
         return dfs(dfs,0,N,root,LOG,tag::id());
     }
     void apply(sztype l,sztype r,lazy_type x){
         assert(0<=l&&l<=r&&r<=N);
-        auto dfs=[&](auto&dfs,sztype sl,sztype sr,int root,int depth)->void{
+        auto dfs=[&](auto&dfs,sztype sl,sztype sr,node*root,int depth)->void{
             if(sr<=l)return;
             if(r<=sl)return;
             if(l<=sl&&sr<=r){
-                pool[root].lazy=tag::merge(pool[root].lazy,x);
-                pool[root].val=tag::apply(pool[root].val,x);
+                root->lazy=tag::op(root->lazy,x);
+                root->val=acted::act(root->val,x,sr-sl);
                 return;
             }
             make(root,depth);
-            if constexpr(!commute)eval(root);
+            if constexpr(!commute)eval(root,depth);
             sztype mid=(sl+sr)>>1;
-            dfs(dfs,sl,mid,pool[root].l,depth-1);
-            dfs(dfs,mid,sr,pool[root].r,depth-1);
-            pool[root].val=tag::apply(info::op(pool[pool[root].l].val,pool[pool[root].r].val),pool[root].lazy);
+            dfs(dfs,sl,mid,root->l,depth-1);
+            dfs(dfs,mid,sr,root->r,depth-1);
+            root->val=acted::act(info::op(root->l->val,root->r->val),root->lazy,sr-sl);
         };
         return dfs(dfs,0,N,root,LOG);
     }

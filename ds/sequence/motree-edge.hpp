@@ -1,6 +1,7 @@
 #pragma once
 #include"../../tree/base.hpp"
 #include"Mo.hpp"
+#include"../../graph/base.hpp"
 struct motree_edge{
     tree<unweighted>g;
     int q;

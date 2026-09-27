@@ -1,7 +1,10 @@
-#pragma  once
-template<class X>
+#pragma once
+template<class acted>
 struct dual_segtree{
-    using value_type=X::value_type;
+    using info=typename acted::info;
+    using tag=typename acted::tag;
+    using value_type=typename acted::value_type;
+    using lazy_type=typename acted::lazy_type;
     template<class T,class=void>
     struct has_commute{
         static constexpr bool value=false;
@@ -10,8 +13,8 @@ struct dual_segtree{
     struct has_commute<T,decltype((void)T::commute,void())>{
         static constexpr bool value=T::commute;
     };
-    static constexpr bool commute=has_commute<X>::value;
-    vc<value_type>lazy;
+    static constexpr bool commute=has_commute<tag>::value;
+    vc<lazy_type>lazy;
     vc<value_type>node;
     int n;
     int lg;
@@ -19,20 +22,20 @@ struct dual_segtree{
         assert(N>=0);
         lg=0;while((1<<lg)<N)lg++;
         n=1<<lg;
-        lazy=vc<value_type>(n,X::e());
-        node=vc<value_type>(n*2,X::e());
+        lazy=vc<lazy_type>(n,tag::id());
+        node=vc<value_type>(n*2,info::id());
     }
     dual_segtree(int N,const vc<value_type>&v){
         assert(N>=0);
         lg=0;while((1<<lg)<N)lg++;
         n=1<<lg;
-        lazy=vc<value_type>(n,X::e());
-        node=vc<value_type>(n*2,X::e());
+        lazy=vc<lazy_type>(n,tag::id());
+        node=vc<value_type>(n*2,info::id());
         build(v);
     }
     void build(const vc<value_type>&v){
         assert((int)v.size()<=n);
-        rep(i,n)node[i+n]=v[i];
+        rep(i,v.size())node[i+n]=v[i];
     }
     void set(int p,value_type x,bool is_first=false){
         assert(0<=p&&p<n);
@@ -42,18 +45,18 @@ struct dual_segtree{
             node[p]=x;
         }else node[p+n]=x;
     }
-    void all_apply(int k,value_type x){
+    void all_apply(int k,lazy_type x){
         assert(0<=k&&k<n*2);
-        node[k]=X::op(node[k],x);
-        if(k<n)lazy[k]=X::op(lazy[k],x);
+        if(k<n)lazy[k]=tag::op(lazy[k],x);
+        else node[k]=acted::act(node[k],x,1);
     }
     void push(int k){
         assert(0<k&&k<n);
         all_apply(k*2,lazy[k]);
         all_apply(k*2+1,lazy[k]);
-        lazy[k]=X::e();
+        lazy[k]=tag::id();
     }
-    void apply(int l,int r,value_type x){
+    void apply(int l,int r,lazy_type x){
         assert(0<=l&&l<=r&&r<=n);
         l+=n,r+=n;
         if constexpr(!commute){
@@ -72,9 +75,9 @@ struct dual_segtree{
         assert(0<=p&&p<n);
         p+=n;
         if constexpr(commute){
-            value_type res=node[p];
-            for(int i=lg;i;i--)res=X::op(res,lazy[p>>i]);
-            return res;
+            lazy_type res=tag::id();
+            for(int i=lg;i;i--)res=tag::op(res,lazy[p>>i]);
+            return acted::act(node[p],res,1);
         }
         for(int i=lg;i;i--)push(p>>i);
         return node[p];
