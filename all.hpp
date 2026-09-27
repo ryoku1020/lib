@@ -177,10 +177,6 @@
 #define CP_BUNDLE_HEADER_AFD36674ABEBCBBE
 #include "ds/utility/Hash.hpp"
 #endif
-#ifndef CP_BUNDLE_HEADER_39CB1A41F525304D
-#define CP_BUNDLE_HEADER_39CB1A41F525304D
-#include "ds/utility/famous.hpp"
-#endif
 #ifndef CP_BUNDLE_HEADER_7ACDC293AA00BB3A
 #define CP_BUNDLE_HEADER_7ACDC293AA00BB3A
 #include "ds/utility/node-pool.hpp"
