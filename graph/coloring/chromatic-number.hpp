@@ -2,7 +2,6 @@
 #include"../../math/modular/dynamic-mod-int.hpp"
 template<class Graph>
 int chromatic_number(const Graph&g){
-    int dbging=1;
     assert(Graph::directed()==false);
     int n=g.size();
     assert(n<32);
@@ -20,7 +19,6 @@ int chromatic_number(const Graph&g){
         int add=tbit(i);
         set_ind[i]=set_ind[i^(1<<add)]&((adj[add]&i)==0);
     }
-    dbg(set_ind);
     vc<int>set_ind_zeta=set_ind;
     rep(j,n)rep(i,1<<n){
         if(i>>j&1){
