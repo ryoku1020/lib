@@ -7,8 +7,9 @@ struct mo{
         B=max<int>(1,Q?N/sqrt(Q):1);
     }
     vc<array<int,3>>query;
+    //[l,r] 
     void push(int l,int r){
-        assert(0<=l&&l<=r&&r<=N);
+        assert(0<=l&&l<=r&&r<N);
         query.push_back({l,r,(int)query.size()});
     }
     void sort(){

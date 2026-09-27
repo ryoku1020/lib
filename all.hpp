@@ -117,6 +117,14 @@
 #define CP_BUNDLE_HEADER_CC0000033CFB2E46
 #include "ds/sequence/bit-vector.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_C0B56072BE2E17FB
+#define CP_BUNDLE_HEADER_C0B56072BE2E17FB
+#include "ds/sequence/motree-edge.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_3A941DFCF100AAFF
+#define CP_BUNDLE_HEADER_3A941DFCF100AAFF
+#include "ds/sequence/motree-vertex.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_04B9EE7ACE3A06A1
 #define CP_BUNDLE_HEADER_04B9EE7ACE3A06A1
 #include "ds/sequence/sparse-table.hpp"
