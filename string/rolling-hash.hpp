@@ -1,5 +1,5 @@
 #pragma once
-#include "../ds/utility/hash.hpp"
+#include "../ds/utility/Hash.hpp"
 #include "../math/modular/mod261.hpp"
 
 template<int N=1>

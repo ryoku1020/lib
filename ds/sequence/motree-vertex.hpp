@@ -1,6 +1,6 @@
 #pragma once
 #include"../../tree/base.hpp"
-#include"mo.hpp"
+#include"Mo.hpp"
 struct motree_vertex{
     tree<unweighted>g;
     int q;

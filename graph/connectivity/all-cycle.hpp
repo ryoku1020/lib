@@ -5,7 +5,7 @@ pair<vvc<int>,vvc<int>>all_cycle(Graph&g){
     int m=g.edge_size();
     vc<int>seen(n);
     vc<int>rvs;
-    vc<typename Graph::Edge>pare(n,{-1,-1,-1,-1});
+    vc<typename Graph::edge>pare(n,{-1,-1,-1,-1});
     vc<int>x(n);
     vc<int>fem(m,1);
     auto dfs=[&](auto&dfs,int u,int eid)->void{

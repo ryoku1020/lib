@@ -1,5 +1,5 @@
 #pragma once
-#include"../lib/template.hpp"
+#include"../../template.hpp"
 template<class T> 
 struct node_pool{
     static constexpr int B=1024;

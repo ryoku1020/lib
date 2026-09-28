@@ -171,6 +171,16 @@ vc<T>rot(vc<T>v,int n){
     rotate(v.begin(),v.begin()+n,v.end());
     return v;
 }
+template<class Container>
+auto rle(const Container&cv){
+    using T=typename Container::value_type;
+    vc<pair<T,int>>res;
+    for(const auto&x:cv){
+        if(res.empty()||res.back().fi!=x)res.pb({x,1});
+        else res.back().se++;
+    }
+    return res;
+}
 template<class T>
 vc<T>iota(int n){
     vc<T>v(n);rep(i,n)v[i]=i;

@@ -1,4 +1,4 @@
-#include"../lib/tree/base.hpp"
+#include"../../tree/base.hpp"
 template<class T,class G>
 tree<T>taketree(G g){
     vc<int>seen(g.size());

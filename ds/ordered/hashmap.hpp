@@ -13,6 +13,7 @@ ull hashmap_hash(ull x){
     }();
     return splitmix64(x+seed);
 }
+const double alpha=0.5;
 template<class Key,class Val,auto tohash=hashmap_hash>
 struct hashmap{
     struct Node{
@@ -24,7 +25,6 @@ struct hashmap{
     vc<Node>data;
     vc<uint8_t>used;
     int usedcnt=0;
-    const double alpha=0.5;
     void recap(int new_cap=-1){
         if(new_cap==-1)new_cap=cap*2;
         vc<Node>ndata(new_cap);

@@ -197,17 +197,9 @@
 #define CP_BUNDLE_HEADER_1177B57DB5FB2CAA
 #include "geometry/max-rectangle.hpp"
 #endif
-#ifndef CP_BUNDLE_HEADER_FDD1694CA346F64C
-#define CP_BUNDLE_HEADER_FDD1694CA346F64C
-#include "graph/Eulerian.hpp"
-#endif
 #ifndef CP_BUNDLE_HEADER_A415336C78CC3AB3
 #define CP_BUNDLE_HEADER_A415336C78CC3AB3
 #include "graph/base.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_DFBD140B71193A16
-#define CP_BUNDLE_HEADER_DFBD140B71193A16
-#include "graph/bipartite-match.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_C37B3C695CAA67D8
 #define CP_BUNDLE_HEADER_C37B3C695CAA67D8
@@ -269,25 +261,21 @@
 #define CP_BUNDLE_HEADER_6D43C1CFA09A891F
 #include "graph/connectivity/take-tree.hpp"
 #endif
-#ifndef CP_BUNDLE_HEADER_3BF43BEAF1FB0965
-#define CP_BUNDLE_HEADER_3BF43BEAF1FB0965
-#include "graph/csr.hpp"
+#ifndef CP_BUNDLE_HEADER_645C90887B8FB290
+#define CP_BUNDLE_HEADER_645C90887B8FB290
+#include "graph/misc/enumerate-clique.hpp"
 #endif
-#ifndef CP_BUNDLE_HEADER_C65484EFFC22C909
-#define CP_BUNDLE_HEADER_C65484EFFC22C909
-#include "graph/enumerate-clique.hpp"
+#ifndef CP_BUNDLE_HEADER_B7C68B45FFF92143
+#define CP_BUNDLE_HEADER_B7C68B45FFF92143
+#include "graph/misc/enumerate-tri.hpp"
 #endif
-#ifndef CP_BUNDLE_HEADER_3AAFE47F04046DA5
-#define CP_BUNDLE_HEADER_3AAFE47F04046DA5
-#include "graph/enumerate-triangle.hpp"
+#ifndef CP_BUNDLE_HEADER_2D9B588576A6C53F
+#define CP_BUNDLE_HEADER_2D9B588576A6C53F
+#include "graph/misc/two-sat.hpp"
 #endif
-#ifndef CP_BUNDLE_HEADER_493D0B6DC6A67315
-#define CP_BUNDLE_HEADER_493D0B6DC6A67315
-#include "graph/find-neg-cycle.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_6F9E122FCE5B9242
-#define CP_BUNDLE_HEADER_6F9E122FCE5B9242
-#include "graph/graph-utillity.hpp"
+#ifndef CP_BUNDLE_HEADER_030B44EFAF75B7C6
+#define CP_BUNDLE_HEADER_030B44EFAF75B7C6
+#include "graph/network_flow/biparate-match.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_824E10340725728A
 #define CP_BUNDLE_HEADER_824E10340725728A
@@ -297,13 +285,37 @@
 #define CP_BUNDLE_HEADER_DC92C7909A18DFE1
 #include "graph/network_flow/min-cost-flow.hpp"
 #endif
-#ifndef CP_BUNDLE_HEADER_2975B7D74AF43064
-#define CP_BUNDLE_HEADER_2975B7D74AF43064
-#include "graph/slow-dijkstra.hpp"
+#ifndef CP_BUNDLE_HEADER_F081F6FD622ED3A8
+#define CP_BUNDLE_HEADER_F081F6FD622ED3A8
+#include "graph/path/cycle-detection.hpp"
 #endif
-#ifndef CP_BUNDLE_HEADER_3B852C1ABA780498
-#define CP_BUNDLE_HEADER_3B852C1ABA780498
-#include "graph/two-sat.hpp"
+#ifndef CP_BUNDLE_HEADER_CB7C1E1168C22ABE
+#define CP_BUNDLE_HEADER_CB7C1E1168C22ABE
+#include "graph/path/dijkstra.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_E32357142C863117
+#define CP_BUNDLE_HEADER_E32357142C863117
+#include "graph/path/eulerian.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_4C8DC64D0EAA2590
+#define CP_BUNDLE_HEADER_4C8DC64D0EAA2590
+#include "graph/path/find-neg-cycle.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_8B0EECE86992266E
+#define CP_BUNDLE_HEADER_8B0EECE86992266E
+#include "graph/path/kth-shortest-walk.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_0931DAFC923DF4A1
+#define CP_BUNDLE_HEADER_0931DAFC923DF4A1
+#include "graph/path/restore-path.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_059E61E0C498B3A2
+#define CP_BUNDLE_HEADER_059E61E0C498B3A2
+#include "graph/path/shortest-path.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_9ED67E810391DBC5
+#define CP_BUNDLE_HEADER_9ED67E810391DBC5
+#include "graph/path/slow-dijkstra.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_9EAC80DF1143CBB4
 #define CP_BUNDLE_HEADER_9EAC80DF1143CBB4
@@ -476,6 +488,10 @@
 #ifndef CP_BUNDLE_HEADER_E105B016491F425B
 #define CP_BUNDLE_HEADER_E105B016491F425B
 #include "math/number_theory/kth-root.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_E76B60A37CEF8526
+#define CP_BUNDLE_HEADER_E76B60A37CEF8526
+#include "math/number_theory/multiple-divisor-zeta.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_4A77DBB794AAC6DB
 #define CP_BUNDLE_HEADER_4A77DBB794AAC6DB
