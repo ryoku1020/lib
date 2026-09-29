@@ -417,6 +417,10 @@
 #define CP_BUNDLE_HEADER_A6B953E391A1A42F
 #include "math/combinatorics/big-binom.hpp"
 #endif
+#ifndef CP_BUNDLE_HEADER_9595F02778C1F75B
+#define CP_BUNDLE_HEADER_9595F02778C1F75B
+#include "math/combinatorics/binom-as2d.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_728F6D0230158343
 #define CP_BUNDLE_HEADER_728F6D0230158343
 #include "math/combinatorics/convolutionp.hpp"
@@ -436,6 +440,14 @@
 #ifndef CP_BUNDLE_HEADER_56763AA41CDE94E9
 #define CP_BUNDLE_HEADER_56763AA41CDE94E9
 #include "math/combinatorics/prefix-multicative.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_E847A76086A83878
+#define CP_BUNDLE_HEADER_E847A76086A83878
+#include "math/combinatorics/stirling1-as2d.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_7E20BEDA30607E04
+#define CP_BUNDLE_HEADER_7E20BEDA30607E04
+#include "math/combinatorics/stirling2-as2d.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_39F7574744423B20
 #define CP_BUNDLE_HEADER_39F7574744423B20

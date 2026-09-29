@@ -1,6 +1,7 @@
 #pragma once
 #include"../math/convolution/conv.hpp"
 #include"../math/modular/binom.hpp"
+#include"../math/modular/mod-utillity.hpp"
 
 #ifndef FPS_STRUCT
 #define FPS_STRUCT
