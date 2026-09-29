@@ -281,6 +281,12 @@ constexpr ll ten(ll a){
     return pow<ll>(10,a);
 }
 template<typename T>constexpr T inf=numeric_limits<T>::max()/2-1;
+template<>
+constexpr pll inf<pll> ={inf<ll>,inf<ll>};
+template<class T>
+constexpr T neg_inf=-inf<T>;
+template<>
+constexpr pll neg_inf<pll> ={-inf<ll>,-inf<ll>};
 template<class T>
 int tbit(T x){
     using U=make_unsigned_t<T>;

@@ -1,6 +1,30 @@
 #pragma once
 #include "template.hpp"
 
+#ifndef CP_BUNDLE_HEADER_F30FB22D69200095
+#define CP_BUNDLE_HEADER_F30FB22D69200095
+#include "ds/act/add-extreme-k.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_4167C74A4097E789
+#define CP_BUNDLE_HEADER_4167C74A4097E789
+#include "ds/act/add.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_6DB7364454F992E5
+#define CP_BUNDLE_HEADER_6DB7364454F992E5
+#include "ds/act/assign.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_1120177A3C0EBF31
+#define CP_BUNDLE_HEADER_1120177A3C0EBF31
+#include "ds/act/chmin-chmax.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_F5C6B6EBAD72BA4A
+#define CP_BUNDLE_HEADER_F5C6B6EBAD72BA4A
+#include "ds/act/mul-affine.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_9A9B919B28A44BCD
+#define CP_BUNDLE_HEADER_9A9B919B28A44BCD
+#include "ds/act/range-linear-range-sum.hpp"
+#endif
 #ifndef CP_BUNDLE_HEADER_F0620C4F24D4C1C1
 #define CP_BUNDLE_HEADER_F0620C4F24D4C1C1
 #include "ds/binary-trie.hpp"
@@ -24,6 +48,50 @@
 #ifndef CP_BUNDLE_HEADER_7339C970C4B618F0
 #define CP_BUNDLE_HEADER_7339C970C4B618F0
 #include "ds/li_chao_tree/li-chao-tree.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_D26FE83F21D4DB20
+#define CP_BUNDLE_HEADER_D26FE83F21D4DB20
+#include "ds/monoid/assign-affine.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_0A74AED9ABE103EC
+#define CP_BUNDLE_HEADER_0A74AED9ABE103EC
+#include "ds/monoid/bitwise.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_24FB997ECE72B07A
+#define CP_BUNDLE_HEADER_24FB997ECE72B07A
+#include "ds/monoid/commute.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_68E75C3C381BAF46
+#define CP_BUNDLE_HEADER_68E75C3C381BAF46
+#include "ds/monoid/extreme-k.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_F1D1D56AE73B6F77
+#define CP_BUNDLE_HEADER_F1D1D56AE73B6F77
+#include "ds/monoid/gcd-lcm.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_51735EEDC6B7EC90
+#define CP_BUNDLE_HEADER_51735EEDC6B7EC90
+#include "ds/monoid/merger.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_79898D0C5CC19C32
+#define CP_BUNDLE_HEADER_79898D0C5CC19C32
+#include "ds/monoid/min-max.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_C1E799AEC9540733
+#define CP_BUNDLE_HEADER_C1E799AEC9540733
+#include "ds/monoid/minmax-count.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_F12CE3E62B2BB05D
+#define CP_BUNDLE_HEADER_F12CE3E62B2BB05D
+#include "ds/monoid/pair-sum.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_34C1B5AD9FABD27C
+#define CP_BUNDLE_HEADER_34C1B5AD9FABD27C
+#include "ds/monoid/reversed.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_1F800944849DBDC1
+#define CP_BUNDLE_HEADER_1F800944849DBDC1
+#include "ds/monoid/sum-prod.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_623A31C12095663B
 #define CP_BUNDLE_HEADER_623A31C12095663B
@@ -344,6 +412,10 @@
 #ifndef CP_BUNDLE_HEADER_9131A754B7CFBFBE
 #define CP_BUNDLE_HEADER_9131A754B7CFBFBE
 #include "math/combinatorics/aribitrary-binom.hpp"
+#endif
+#ifndef CP_BUNDLE_HEADER_A6B953E391A1A42F
+#define CP_BUNDLE_HEADER_A6B953E391A1A42F
+#include "math/combinatorics/big-binom.hpp"
 #endif
 #ifndef CP_BUNDLE_HEADER_728F6D0230158343
 #define CP_BUNDLE_HEADER_728F6D0230158343
