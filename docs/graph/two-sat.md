@@ -1,6 +1,6 @@
 ---
 title: two_satisfiability
-documentation_of: ../../graph/two-sat.hpp
+documentation_of: ../../graph/misc/two-sat.hpp
 ---
 
 # two_satisfiability

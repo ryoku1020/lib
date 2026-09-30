@@ -1,6 +1,6 @@
 ---
 title: enumerate-triangle
-documentation_of: ../../graph/enumerate-triangle.hpp
+documentation_of: ../../graph/misc/enumerate-tri.hpp
 ---
 
 # enumerate-triangle

@@ -1,121 +1,50 @@
 ---
-title: dynamic_lazy_segtree
+title: 動的遅延セグメント木 | dynamic_lazy_segtree
 documentation_of: ../../ds/segment_tree/dynamic-lazy-segtree.hpp
+keywords: 巨大座標, 区間更新, 区間和, dynamic_lazy_segtree
 ---
 
-# dynamic_lazy_segtree
+# 動的遅延セグメント木 (`dynamic_lazy_segtree`)
 
-動的遅延セグメント木です。
-通常の遅延セグメント木と異なり、座標を `sztype`（デフォルト `int`）で指定でき、
-`sztype` に収まる巨大な非負整数範囲を「ノードを必要な分だけ生成」しながら扱えます。
-
-## 要件
-
-`info` と `tag` は通常の `lazy_segtree` と同様ですが、追加で次が必要です。
-
-### `info` の追加要件
+巨大な整数範囲を必要なノードだけ生成して扱う遅延セグメント木です。座標範囲 `[0,n)` を宣言し、区間更新・区間集約を行います。通常サイズなら [`lazy_segtree`](lazy-segtree.md) の方が簡潔です。
 
 ```cpp
-struct info{
-    using value_type=...;
-    static value_type op(value_type a,value_type b);
-    static value_type e();
-};
-```
-
-未生成ノードの値は、コンストラクタで渡した `leaf` から内部で計算されます。
-
-### `tag` の要件
-
-通常の `lazy_segtree` と同じです。
-
-```cpp
-struct tag{
-    using lazy_type=...;
-    static value_type apply(value_type x, lazy_type f);
-    static lazy_type merge(lazy_type old_tag, lazy_type new_tag);
-    static lazy_type id();
-    static constexpr bool commute=false; // optional
-};
-```
-
-`tag::commute` を `true` にすると、任意の 2 つのタグが可換であることを表します。
-この場合、部分区間更新で親の遅延を子へ伝播せずに処理します。省略時は従来どおり伝播します。
-
-## コンストラクタ
-
-### `dynamic_lazy_segtree(sztype n, value_type leaf = info::e())`
-
-長さ `n` の領域を作ります（内部で最小の 2 冪に切り上げ）。
-未生成ノードを含む各要素の初期値は `leaf` です。
-
-- 計算量: `O(log n)`
-
-## メソッド
-
-### `void seg.set(sztype i, value_type x)`
-
-位置 `i` を値 `x` に更新します。
-
-- 制約: `0<=i<n`
-- 計算量: `O(log n)` amortized（ノード生成含む）
-
-### `value_type seg.prod(sztype l, sztype r)`
-
-`op(a[l], ..., a[r-1])` を返します。
-
-- 制約: `0<=l<=r<=n`
-- 計算量: `O(log n)`
-
-### `void seg.apply(sztype l, sztype r, lazy_type x)`
-
-`l<=i<r` の各要素に作用素 `x` を適用します。
-
-- 制約: `0<=l<=r<=n`
-- 計算量: `O(log n)` amortized
-
-## 境界・注意
-
-- 内部の node pool は最大 `1.5e7` ノードで固定されています（`MAX_NODE=1.5e7`）。クエリ数が多い場合はオーバーフローに注意。
-- 区間は 0-indexed の半開区間 `[l,r)` です。
-- `sztype` は座標の型で、デフォルト `int`。`ll` を使う場合は `dynamic_lazy_segtree<info,tag,ll>` のように指定します。
-- 実装は `n` を切り上げた 2 冪 `N` までを保持します。公開メソッドの `assert` は `N` まで許しますが、通常は論理的な範囲 `[0,n)` だけを使ってください。
-- node pool はテンプレート特殊化ごとの static 領域です。同じ `<info,tag,sztype>` の複数インスタンスは同じ pool を先頭から使って互いに上書きするため、同時に保持しないでください。
-
-## 使用例: 区間加算・区間和（$10^{18}$ 座標）
-
-葉の初期値を 0 とし、区間加算・区間和を $[0, 10^{18})$ の範囲で行う例です。
-
-```cpp
+#include "ds/act/add.hpp"
 #include "ds/segment_tree/dynamic-lazy-segtree.hpp"
 
 using ll = long long;
-
-struct info{
-    using value_type = pair<ll,ll>; // {sum,len}
-    static value_type op(value_type a, value_type b){
-        return {a.first+b.first,a.second+b.second};
-    }
-    static value_type e(){ return {0,0}; }
-};
-
-struct tag{
-    using lazy_type = ll;
-    static info::value_type apply(info::value_type x, lazy_type f){
-        return {x.first+x.second*f,x.second};
-    }
-    static lazy_type merge(lazy_type a, lazy_type b){ return a+b; }
-    static lazy_type id(){ return 0; }
-};
-
-dynamic_lazy_segtree<info,tag,ll> seg((ll)1e18,{0,1});
-seg.apply(l, r, x);          // [l,r) に x を加算
-auto s = seg.prod(l, r).first; // [l,r) の和
+using A = add_sum<ll>;
+dynamic_lazy_segtree<A,ll> seg((ll)1e18, 0LL);
+seg.apply(10, 20, 3LL);       // [10,20) を +3
+ll sum = seg.prod(0, 100);    // 30
 ```
 
-## 使用例: 全要素を 1 で初期化
+## 型と構築
 
-```cpp
-dynamic_lazy_segtree<info,tag,ll> seg((ll)1e18,{1,1});
-auto initial_sum=seg.prod(l,r).first; // r-l
-```
+テンプレートは `dynamic_lazy_segtree<acted,sztype=int>`。`acted` は `lazy_segtree` と同様、`info`, `tag`, `value_type`, `lazy_type`, `act(value,tag,length)` をまとめた型です。
+
+- `info::op(a,b)` は結合的、`info::id()` は単位元。
+- `tag::op(old,new)` は新しい作用を古い作用の後に適用した合成。`tag::id()` は恒等作用。
+- `acted::act(value,f,length)` は集約値に作用。区間和なら区間長が必要です。
+- `tag::commute=true` は作用タグが可換の場合のみ。省略時は `false`。
+- `dynamic_lazy_segtree<acted,sztype>(n, leaf=info::id())` は長さ `n`、葉初期値 `leaf` で構築。高さ・初期集約表を作るため `O(log n)` 時間・領域、各操作が必要なノードを確保します。`n>=0`。
+
+`n` は座標の上限（排他的）です。内部では `n` 以上の最小 2 冪に切り上げます。`sztype` は `int` または十分な幅の符号付き整数型を指定します。
+
+## 操作
+
+| 呼び出し | 動作・返り値 | 計算量 |
+|---|---|---|
+| `seg.set(i,x)` | `a[i]=x` に上書き | `O(log n)` |
+| `seg.prod(l,r)` | `[l,r)` の `info::op` 集約値。空区間は `info::id()` | `O(log n)` |
+| `seg.apply(l,r,f)` | `[l,r)` へ作用 `f` を適用 | `O(log n)` |
+
+すべて 0-indexed 半開区間。`0<=i<n`, `0<=l<=r<=n` を守ります。
+
+## メモリ・注意
+
+- 1 操作あたり `O(log n)` 個を上限とする新規ノードが必要になるため、`q` 回の更新に `O(q log n)` 領域が目安です。上限固定の node pool はなく、メモリは利用可能領域に依存します。
+- node pool はインスタンスごとに持つため、同じ型の複数の木を同時に使えます。
+- 実装上の assert は切り上げ後の 2 冪サイズまで許す箇所がありますが、必ず論理範囲 `[0,n)` 内で操作します。
+- `leaf` は各要素の値です。区間集約値ではありません。例えば和なら値 `0`、作用時の長さは内部で管理されます。
+- 合成順・作用条件の詳細は [`lazy_segtree`](lazy-segtree.md) と [monoid/action](algebra.md) を参照。

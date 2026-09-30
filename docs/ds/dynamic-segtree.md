@@ -25,13 +25,13 @@ dynamic_segtree<info, sztype, is_persistent>
 struct info{
     using value_type=...;
     static value_type op(value_type a,value_type b);
-    static value_type e();
+    static value_type id();
 };
 ```
 
 ## コンストラクタ
 
-### `dynamic_segtree(int n, value_type leaf = info::e())`
+### `dynamic_segtree(int n, value_type leaf = info::id())`
 
 長さ `n` の領域を作ります（内部で最小の 2 冪に切り上げ）。
 未生成ノードを含む各要素の初期値は `leaf` です。
@@ -61,25 +61,26 @@ struct info{
 
 - 制約: `0<=l<=r<=N`
 - 計算量: `O(log N)`
+- 非永続版では未生成の通過ノードを割り当てるため、値を変えなくても root と pool の状態・メモリ使用量が変わります。永続版は割り当てず、値も root も変更しません。
 
 ### `sztype seg.max_right(node* root, sztype l, F f)`
 
 `f(prod(l,r))` が真となる最大の `r` を返します。
-`f(info::e())` は真である必要があります。
+`f(info::id())` は真である必要があります。
 
 - 計算量: `O(log n)`
 
 ### `sztype seg.min_left(node* root, sztype r, F f)`
 
 `f(prod(l,r))` が真となる最小の `l` を返します。
-`f(info::e())` は真である必要があります。
+`f(info::id())` は真である必要があります。
 
 - 計算量: `O(log n)`
 
 ## 境界・注意
 
 - 区間は 0-indexed の半開区間 `[l,r)` です。
-- `set` は `build` 後の非 null root が必要です。`prod` / `max_right` / `min_left` は null を未生成の初期木として扱えます。
+- `set` は `build` 後の非 null root が必要です。`prod` / `max_right` / `min_left` は null を未生成の初期木として扱えます。非永続版の `prod` は必要な子 node を作りますが、`max_right` / `min_left` は作りません。
 - 永続版ではノード数が `O(Q log N)` になるのでメモリに注意してください。
 - `N` は `n` を切り上げた 2 冪で、実装の `assert` は `[0,N)` まで許します。論理的な配列としては `[0,n)` だけを使ってください。
 - テンプレートの `sztype` と異なり、コンストラクタ引数と内部の `N` は `int` です。`int` を超える座標範囲には対応していません。
@@ -92,7 +93,7 @@ struct info{
 struct info{
     using value_type = long long;
     static value_type op(value_type a, value_type b){ return min(a,b); }
-    static value_type e(){ return (ll)4e18; }
+    static value_type id(){ return inf<ll>; }
 };
 
 dynamic_segtree<info, int, false> seg(1e9); // [0, 1e9) の範囲
@@ -108,7 +109,7 @@ auto ans = seg.prod(root, l, r);      // 区間最小値
 struct info{
     using value_type = long long;
     static value_type op(value_type a, value_type b){ return a+b; }
-    static value_type e(){ return 0; }
+    static value_type id(){ return 0; }
 };
 
 using Seg=dynamic_segtree<info,int,true>;

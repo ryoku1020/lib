@@ -520,7 +520,7 @@
     function renderSidebar() {
       const query = el.search.value.trim().toLowerCase();
       const files = state.files.filter(file => {
-        const haystack = `${file.title} ${file.path}`.toLowerCase();
+        const haystack = `${file.title} ${file.path} ${file.search || ""}`;
         return haystack.includes(query);
       });
 

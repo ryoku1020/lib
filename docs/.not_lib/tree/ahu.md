@@ -1,6 +1,5 @@
 ---
 title: AHU Algorithm
-documentation_of: ../../../.not_lib/tree/ahu.hpp
 ---
 
 # AHU Algorithm

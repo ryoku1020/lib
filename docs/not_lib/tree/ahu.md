@@ -1,6 +1,5 @@
 ---
 title: AHU Algorithm (根付き木の同型判定)
-documentation_of: ../../../.not_lib/tree/ahu.hpp
 ---
 
 # AHU Algorithm

@@ -213,7 +213,7 @@ DFS 自体は `O(n)` ですが、最後に各頂点の light child を `in` 順�
 - `in/out` の部分木区間は半開区間 `[l,r)`、`query` の返すパス区間は閉区間 `(l,r)` です。
 - `get_diameter` は `build` とは独立に DFS します。
 - `dist` と `get_diameter` は重み付き木でも辺数だけを数えます。
-- `heavy_edge` と `light_edges` は現行実装で存在しない `Graph::span` 型を参照しており、呼び出すとテンプレートのインスタンス化時にコンパイルエラーになります。その他の上記 HLD API はこの問題の影響を受けません。
+- `heavy_edge(v)` は heavy child への辺を最大 1 本、`light_edges(v)` は light child への辺を span で返します。いずれも `build()` 後に `dsu_on_tree` が利用します。
 
 ## 使用例 1: LCA と距離
 

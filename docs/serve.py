@@ -49,10 +49,14 @@ def docs_index():
         if any(part.startswith(".") for part in relative.parts):
             continue
         rel = relative.as_posix()
+        text = path.read_text(encoding="utf-8")
         files.append({
             "path": rel,
             "title": read_title(path),
             "group": rel.split("/", 1)[0] if "/" in rel else "root",
+            # Index the complete page so Japanese use cases and API spellings
+            # in headings, signatures, examples, and prose are searchable.
+            "search": text.lower(),
         })
     files.sort(key=lambda x: (x["path"] != "README.md", x["path"]))
     return files

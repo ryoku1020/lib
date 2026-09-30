@@ -10,8 +10,6 @@ documentation_of: ../../tree/dsu-on-tree.hpp
 
 ## `dsu_on_tree<tree>`
 
-> **現行実装の互換性**: `dsu_on_tree` 自体は `build`, `heavy_edge`, `light_edges` を持つ木型に対するテンプレートです。しかし同じリポジトリの `tree/base.hpp` にある `tree::heavy_edge` と `tree::light_edges` は、存在しない `Graph::span` を参照するため、以下の `tree` を使った例は現状のままではコンパイルできません。
-
 ### 使い方
 
 ```cpp

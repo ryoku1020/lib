@@ -1,6 +1,6 @@
 ---
 title: enumerate-clique
-documentation_of: ../../graph/enumerate-clique.hpp
+documentation_of: ../../graph/misc/enumerate-clique.hpp
 ---
 
 # enumerate-clique

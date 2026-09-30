@@ -5,7 +5,7 @@ mint bostan_mori(fps<mint>p,fps<mint>q,long long n){
     assert(n>=0);
     if(p.empty()||q.empty())return 0;
     assert(n>=0);
-    p.shrink(),q.shrink();
+    p=p.shrink(),q=q.shrink();
     if(p.empty())return 0;
     assert(q.size()&&q[0]!=0);
     mint add=0;

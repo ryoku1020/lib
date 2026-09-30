@@ -1,6 +1,6 @@
 ---
 title: bipartite_matching
-documentation_of: ../../graph/bipartite-match.hpp
+documentation_of: ../../graph/network_flow/biparate-match.hpp
 ---
 
 # bipartite_matching
@@ -45,7 +45,7 @@ Hopcroft-Karp 法による二部マッチングです。
 ## 使用例
 
 ```cpp
-#include "graph/bipartite-match.hpp"
+#include "graph/network_flow/biparate-match.hpp"
 
 bipartite_matching bm(L,R);
 for(auto [a,b]:edges)bm.add_edge(a,b);
