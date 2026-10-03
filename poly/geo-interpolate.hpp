@@ -1,5 +1,6 @@
 #pragma once
 #include"base.hpp"
+#include"chirp-z.hpp"
 //f(a)=y_0 f(ar)=y_1 .... 
 template<class mint>
 vc<mint>geo_interporate(mint a,mint r,vc<mint>y){

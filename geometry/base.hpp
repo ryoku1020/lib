@@ -477,17 +477,6 @@ Point Reflecton(Line<Point>l,Point p){
     return 2*m-p;
 }
 template<class Point>
-//時計回りなら負になる
-typename Point::Ptype Area(vc<Point>p){
-    if(p.size()<=2)return 0;
-    typename Point::Ptype res=0;
-    rep(i,p.size()){
-        res+=p[i].Cross(p[(i+1)%p.size()]);
-    }
-    res/=2;
-    return res;
-}
-template<class Point>
 int Contain(vc<Point>g,Point p){
     assert(g.size()>=2);
     int in=0;

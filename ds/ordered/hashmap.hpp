@@ -101,7 +101,7 @@ struct hashmap{
         hashmap*m;
         int i;
         iterator(hashmap*mp,int i):m(mp),i(i){
-            while(i<mp->cap&&!mp->used[i])++i;
+            while(this->i<mp->cap&&!mp->used[this->i])++this->i;
         }
         iterator&operator++(){
             do ++i;while(i<m->cap&&!m->used[i]);

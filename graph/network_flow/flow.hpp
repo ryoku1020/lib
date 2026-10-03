@@ -1,9 +1,8 @@
 #pragma once
-#include"../base.hpp"
 template<class Cap>
 struct flow{
     struct edge{
-        int from,to,id;
+        int from,to,id,rev;
         Cap cost;
     };
     vc<edge>edges;
@@ -15,22 +14,22 @@ struct flow{
         assert(0<=a&&a<n);
         assert(0<=b&&b<n);
         assert(cap>=0);
-        if(a!=b)edges.push_back({a,b,(int)edges.size(),cap});
+        if(a!=b)edges.push_back({a,b,(int)edges.size(),-1,cap});
     }
     vc<Cap>_flow;
+    vvc<edge>g;
     Cap run(int s,int t){
         assert(0<=s&&s<n);
         assert(0<=t&&t<n);
         _flow.assign(edges.size(),0);
+        g.assign(n,{});
+        for(auto&e:edges){
+            int a=g[e.from].size(),b=g[e.to].size();
+            g[e.from].push_back({e.from,e.to,e.id,b,e.cost});
+            g[e.to].push_back({e.to,e.from,e.id,a,0});
+        }
         Cap res=0;
         while(1){
-            static_graph<1,edge>g(n);
-            for(auto&e:edges){
-                Cap c1=e.cost-_flow[e.id];
-                Cap c2=_flow[e.id];
-                if(c1>0)g.add_edge({e.from,e.to,e.id,c1});
-                if(c2>0)g.add_edge({e.to,e.from,e.id,c2});
-            }
             vc<int>level(n,-1);
             queue<int>que;que.push(s);level[s]=0;
             while(que.size()){
@@ -44,13 +43,13 @@ struct flow{
             vc<int>itr(n,0);
             auto dfs=[&](auto self,int v,Cap f)->Cap{
                 if(v==t)return f;
-                int sz=g[v].size();
-                for(int&i=itr[v];i<sz;i++){
+                for(int&i=itr[v];i<(int)g[v].size();i++){
                     auto&e=g[v][i];
                     if(level[v]<level[e.to]&&e.cost>0){
                         Cap d=self(self,e.to,min(f,e.cost));
-                            if(d>0){
-                                e.cost-=d;
+                        if(d>0){
+                            e.cost-=d;
+                            g[e.to][e.rev].cost+=d;
                             if(v==edges[e.id].from)_flow[e.id]+=d;
                             else _flow[e.id]-=d;
                             return d;
@@ -72,13 +71,6 @@ struct flow{
     vc<bool>min_cut(int s){
         assert(0<=s&&s<n);
         assert(_flow.size()==edges.size());
-        static_graph<1,edge>g(n);
-        for(auto&e:edges){
-            Cap c1=e.cost-_flow[e.id];
-            Cap c2=_flow[e.id];
-            if(c1>0)g.add_edge({e.from,e.to,e.id,c1});
-            if(c2>0)g.add_edge({e.to,e.from,e.id,c2});
-        }
         vc<bool>res(n,false);
         queue<int>que;que.push(s);
         res[s]=true;

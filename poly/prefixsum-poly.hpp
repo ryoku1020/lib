@@ -1,5 +1,6 @@
 #pragma once
 #include"base.hpp"
+#include"../math/number_theory/belnui.hpp"
 template<class mint>
 fps<mint>prefixsum_poly(fps<mint>f){
     int n=f.size();

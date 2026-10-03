@@ -89,7 +89,7 @@ CSR 形式をベースにしたグラフ構造です。
 
 - 計算量: `O(n+m)`
 
-現行実装では完了時に `inv_built=true` を設定していないため、`buildinv()`, `inv(u)`, `in_deg(u)` を呼ぶたびに逆辺 CSR を再構築します。
+逆辺 CSR は初回に構築され、以降の `buildinv()` は何もしません。構築後に `inv(u)` の view 取得と `in_deg(u)` は `O(1)`、辺の走査は `O(in_deg(u))` です。逆辺 CSR 構築後は `add_edge` と `resize` ができません。
 
 ### `auto g[u]`
 
@@ -108,7 +108,7 @@ for(auto&e:g[u]){
 頂点 `u` に入る辺の列を返します。
 無向グラフでは `g[u]` と同じです。
 
-- 計算量: 現行実装では view 取得ごとに `O(n+m)`、走査はさらに `O(in_deg(u))`
+- 計算量: 初回は逆辺 CSR 構築に `O(n+m)`、以降の view 取得は `O(1)`、走査は `O(in_deg(u))`
 
 ### `const vc<edge>& g.all_edges() const`
 

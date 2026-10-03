@@ -20,8 +20,6 @@ documentation_of: ../../graph/connectivity/scc.hpp
 
 `g[u]` と `g.inv(u)` の全走査がそれぞれ出次数・入次数に比例するグラフ型なら、Kosaraju 法により `O(N+M)` 時間、`O(N)` 補助領域です。2 回の DFS は再帰実装なので、最大 `O(N)` の再帰スタックも使います。
 
-現行の `static_graph` は `buildinv()` の完了フラグを設定せず、`inv(u)` ごとに `O(N+M)` で逆 CSR を再構築します。そのまま渡した場合の現行実装上の最悪時間は `O(N(N+M))` です。
-
 ## 戻り値
 
 - `res[v]`

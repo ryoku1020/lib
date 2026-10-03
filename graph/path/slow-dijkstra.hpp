@@ -20,7 +20,7 @@ vc<T>slow_dijkstra(const Graph&g,const vc<F>&starts){
     }
     return md;
 }
-template<class T,class Graph,class F>
+template<class T,class Graph>
 vc<T>slow_dijkstra(const Graph&g,int s){
     return slow_dijkstra<T,Graph,int>(g,vc<int>{s});
 }

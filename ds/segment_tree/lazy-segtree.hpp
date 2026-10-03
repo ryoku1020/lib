@@ -44,7 +44,7 @@ struct lazy_segtree{
         REP(i,n,n*2)node[i]=A[i-n];
         DREP(i,n-1,1)update(i);
     }
-    template<class F>
+    template<class F>requires is_invocable_r_v<value_type,F&,int>
     lazy_segtree(int N,F f){
         build(N);
         REP(i,n,n*2){
@@ -64,13 +64,13 @@ struct lazy_segtree{
         }
     }
     void push(int k){
-        assert(0<=k&&k<n*2);
+        assert(0<k&&k<n);
         all_apply(k*2,lazy[k]);
         all_apply(k*2+1,lazy[k]);
         lazy[k]=tag::id();
     }
     void update(int i){
-        assert(0<=i&&i<n*2);
+        assert(0<i&&i<n);
         node[i]=acted::act(info::op(node[i*2],node[i*2+1]),lazy[i],len[i]);
     }
     void set(int i,value_type x){
@@ -82,6 +82,7 @@ struct lazy_segtree{
     }
     value_type prod(int l,int r){
         assert(0<=l&&l<=r&&r<=N);
+        if(l==r)return info::id();
         if constexpr(commute){
             auto dfs=[&](auto&dfs,int k,int sl,int sr,lazy_type x)->value_type{
                 if(sr<=l||r<=sl)return info::id();
@@ -107,6 +108,7 @@ struct lazy_segtree{
     }
     void apply(int l,int r,lazy_type x){
         assert(0<=l&&l<=r&&r<=N);
+        if(l==r)return;
         l+=n,r+=n;
         if constexpr(!commute){
             for(int i=lg;i;i--){

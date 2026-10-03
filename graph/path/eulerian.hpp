@@ -3,10 +3,11 @@
 //euler-路 と euler-閉路の違いに注意すること！ 
 template<class Graph>
 optional<pair<vc<int>,vc<typename Graph::edge>>>eulerian(const Graph&g){
+    int n=g.size();
     if(g.edge_size()==0){
+        if(n==0)return make_pair(vc<int>{},vc<typename Graph::edge>{});
         return make_pair(vc<int>{0},vc<typename Graph::edge>{});
     }
-    int n=g.size();
     int S;
     bool is_cycle=false;
     if(Graph::directed()==false){

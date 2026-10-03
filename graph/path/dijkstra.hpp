@@ -17,7 +17,7 @@ vc<T>dijkstra(const Graph&g,const vc<F>&starts){
     }
     return md;
 }
-template<class T,class Graph,class F>
+template<class T,class Graph>
 vc<T>dijkstra(const Graph&g,int s){
     return dijkstra<T,Graph,int>(g,vc<int>{s});
 }
