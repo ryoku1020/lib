@@ -1,7 +1,9 @@
 #pragma once
+#include"../../template.hpp"
 #include"../base.hpp"
 #include"scc.hpp"
 #include"../../ds/union_find/uf.hpp"
+namespace ryoku{
 struct incremental_scc{
     int n;
     disjoint_set_union dsu1;
@@ -66,3 +68,5 @@ struct incremental_scc{
         return ans;
     }
 };
+
+}

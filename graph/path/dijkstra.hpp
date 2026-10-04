@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T,class Graph,class F>
 vc<T>dijkstra(const Graph&g,const vc<F>&starts){
     int n=g.size();
@@ -20,4 +22,6 @@ vc<T>dijkstra(const Graph&g,const vc<F>&starts){
 template<class T,class Graph>
 vc<T>dijkstra(const Graph&g,int s){
     return dijkstra<T,Graph,int>(g,vc<int>{s});
+}
+
 }

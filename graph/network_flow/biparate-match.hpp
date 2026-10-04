@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../base.hpp"
+namespace ryoku{
 struct bipartite_matching{
     using graph=static_graph<0>;
     int l,r;
@@ -70,3 +72,5 @@ struct bipartite_matching{
         return ans;
     }
 };
+
+}

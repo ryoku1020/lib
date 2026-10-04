@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 //N=2 に注意
+namespace ryoku{
 template<class Graph>
 vc<int>stnumbering(Graph&g,int s,int t){
     assert(Graph::directed()==false);
@@ -56,4 +58,5 @@ vc<int>stnumbering(Graph&g,int s,int t){
         res[x]=i++;
     }
     return res;
+}
 }

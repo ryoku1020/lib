@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class T,T MAXVALUE=numeric_limits<T>::max()/2>
 struct slope_trick{
     T min_value=0;
@@ -40,3 +42,5 @@ struct slope_trick{
         Roffset+=R;
     }
 };
+
+}

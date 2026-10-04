@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>
 struct subproduct_tree{
     int M;
@@ -107,4 +109,6 @@ vc<mint>multipoint_evaluation(fps<mint>f,vc<mint>query){
     for(auto&x:query)st.add(x);
     auto ans=st.calc(f);
     return ans;
+}
+
 }

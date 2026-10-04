@@ -1,10 +1,12 @@
 #pragma once
+#include"../../template.hpp"
 #include <cassert>
 #include <random>
 #include <vector>
 
 #include "random-tree.hpp"
 
+namespace ryoku{
 inline std::vector<int> randomsequence(int n,int m){
     assert(n>=0);
     assert(n==0||m>0);
@@ -13,4 +15,6 @@ inline std::vector<int> randomsequence(int n,int m){
     std::uniform_int_distribution<int> dist(0,m-1);
     for(auto&x:res)x=dist(generator_engine());
     return res;
+}
+
 }

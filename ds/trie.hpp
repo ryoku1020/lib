@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"../ds/utility/node-pool.hpp"
+namespace ryoku{
 template<int sigma>
 struct Trie{
     struct Node{
@@ -28,3 +30,4 @@ struct Trie{
         return root->cnt;
     }
 };
+}

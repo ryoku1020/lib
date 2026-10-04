@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"z-algorithm.hpp"
+namespace ryoku{
 vc<array<int,3>>run_enumerate(string s){
     assert(s.size()<=numeric_limits<int>::max());
     if(s.empty())return {};
@@ -39,4 +41,6 @@ vc<array<int,3>>run_enumerate(string s){
         res.push_back({y,int(x/(1ll<<32)),int(x%(1ll<<32))});
     }
     return res;
+}
+
 }

@@ -1,4 +1,6 @@
 #pragma  once
+#include"../../template.hpp"
+namespace ryoku{
 #ifndef FLOORS_FUNCTION
 #define FLOORS_FUNCTION
 vc<ll>floors(ll n){
@@ -22,4 +24,6 @@ vc<array<ll,3>>segment_floor(ll N,ll m){
     }
     ret.pb({N/res.back()+1,m+1,0});
     return ret;
+}
+
 }

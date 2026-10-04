@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class mint>
 vc<mint>enumerate_pow(int N,ll k){
     vc<mint>f(N+1);
@@ -19,4 +21,5 @@ vc<mint>enumerate_pow(int N,ll k){
         }
     }
     return f;
+}
 }

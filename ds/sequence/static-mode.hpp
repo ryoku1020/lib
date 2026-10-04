@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../compress.hpp"
+namespace ryoku{
 template<class T>
 struct static_range_mode{
     vc<T>a;
@@ -84,3 +86,5 @@ struct static_range_mode{
         return now_mode;
     }
 };
+
+}

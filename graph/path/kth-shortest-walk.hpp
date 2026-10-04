@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T>
 struct leftist_heap{
     leftist_heap*l,*r;
@@ -88,4 +90,6 @@ vc<T>kthshortestwalk(G g,int s,int t,int k){
     }
     while(k)len.pb(-1),--k;
     return len;
+}
+
 }

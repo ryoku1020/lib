@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../compress.hpp"
+namespace ryoku{
 template<class info,bool ismin,class T>
 struct compressed_li_chao_tree{
     int coef;
@@ -71,3 +73,5 @@ public:
         return res*coef;
     }
 };
+
+}

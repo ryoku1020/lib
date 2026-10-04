@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class G>
 vc<int>scc(const G& g){
     assert(G::directed()==true);
@@ -17,4 +19,6 @@ vc<int>scc(const G& g){
     };
     for(int x:ord)if(!v2[x]){dfs2(dfs2,x);++cnt;}
     return res;
+}
+
 }

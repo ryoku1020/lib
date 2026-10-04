@@ -1,6 +1,8 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
 //{F/G,F mod G}
+namespace ryoku{
 template<class mint>
 pair<fps<mint>,fps<mint>>naive_div(fps<mint>F,fps<mint>G){
     while(G.back()==0)G.pop_back();
@@ -26,4 +28,5 @@ fps<mint>naive_mul(fps<mint>F,fps<mint>G){
     fps<mint>FG(F.size()+G.size()-1);
     rep(i,F.size())rep(j,G.size())FG[i+j]+=F[i]*G[j];
     return FG;
+}
 }

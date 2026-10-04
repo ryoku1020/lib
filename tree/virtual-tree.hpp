@@ -1,5 +1,8 @@
 #pragma once
+#include"../graph/base.hpp"
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class T>
 struct virtualtree{
     tree<T>g;
@@ -58,3 +61,4 @@ struct virtualtree{
         active.clear();
     }
 };
+}

@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>
 //(0,sample[0])(1,sample[1])... を満たす deg(f)<n なる f について、f(t+0)...f(t+m-1) を列挙
 vc<mint>shiftof_sampling_points(int n,int t,int m,vc<mint>sample){
@@ -28,4 +30,6 @@ vc<mint>shiftof_sampling_points(int n,int t,int m,vc<mint>sample){
     vc<mint>res(m);
     rep(i,m)res[i]=g[i]*B::fact(i);
     return res;
+}
+
 }

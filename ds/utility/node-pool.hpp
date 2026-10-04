@@ -1,5 +1,6 @@
 #pragma once
 #include"../../template.hpp"
+namespace ryoku{
 template<class T> 
 struct node_pool{
     static constexpr int B=1024;
@@ -34,3 +35,5 @@ struct node_pool{
         return sz;
     }
 };
+
+}

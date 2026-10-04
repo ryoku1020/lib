@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 
+namespace ryoku{
 template<class X>
 struct sliding_window_aggregation{
     using value_type=typename X::value_type;
@@ -102,3 +104,5 @@ struct one_way_sliding_window_aggregation{
         return X::op(t1,t2);
     }
 };
+
+}

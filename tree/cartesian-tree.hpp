@@ -1,5 +1,8 @@
 #pragma once
+#include"../graph/base.hpp"
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<int mintop,class T>
 pair<tree<unweighted>,int>cartesian_tree(const vc<T>&v){
     assert(v.size());
@@ -19,4 +22,6 @@ pair<tree<unweighted>,int>cartesian_tree(const vc<T>&v){
     }
     REP(i,1,st.size())t.add_edge(st[i-1],st[i]);
     return{t,st[0]};
+}
+
 }

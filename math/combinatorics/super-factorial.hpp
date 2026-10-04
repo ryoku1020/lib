@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../../poly/shift-of-sampling-points.hpp"
+namespace ryoku{
 template<class mint>
 struct super_factorial{
     static const int mod=mint::get_mod();
@@ -32,3 +34,5 @@ struct super_factorial{
         return now;
     }
 };
+
+}

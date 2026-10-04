@@ -1,7 +1,9 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
 
 //f(a),f(ar),...,f(ar^{m-1})
+namespace ryoku{
 template<class mint>
 vc<mint>chirp_z(fps<mint>f,mint a,mint r,int m){
     assert(mint::get_mod());
@@ -43,4 +45,6 @@ vc<mint>chirp_z(fps<mint>f,mint a,mint r,int m){
         ans[i]=res[i+f.size()-1]*ir[i];
     }
     return ans;
+}
+
 }

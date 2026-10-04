@@ -2,6 +2,7 @@
 #include "../../template.hpp"
 #include "../monoid/pair-sum.hpp"
 
+namespace ryoku{
 template<class T>
 struct range_linear_range_sum{
     using info=PairSum<T>;
@@ -12,3 +13,5 @@ struct range_linear_range_sum{
     static value_type make(ll i,T x){return {x,T(i)};}
     static lazy_type make_tag(ll l,T a,T b){return {a,b-a*l};}
 };
+
+}

@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 #include"../base.hpp"
 //https://www.slideshare.net/slideshow/trianguler/38443802
+namespace ryoku{
 template<template<bool,typename...>class G,typename T,typename F>
 void enumerate_triangle(const G<0,T>&g,F f){
     static_assert(G<0,T>::directed()==false);
@@ -29,4 +31,6 @@ void enumerate_triangle(const G<0,T>&g,F f){
             seen[e.to]=0;
         } 
     }
+}
+
 }

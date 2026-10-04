@@ -1,7 +1,9 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
 #include"chirp-z.hpp"
 //f(a)=y_0 f(ar)=y_1 .... 
+namespace ryoku{
 template<class mint>
 vc<mint>geo_interporate(mint a,mint r,vc<mint>y){
     assert(mint::get_mod());
@@ -28,4 +30,6 @@ vc<mint>geo_interporate(mint a,mint r,vc<mint>y){
     fps<mint>C(n);rep(i,n)C[i]=coef[i];
     C=C.substitute(1/a);C/=a;
     return (C*all_mul).pre(n);
+}
+
 }

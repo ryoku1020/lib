@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"bit-vector.hpp"
+namespace ryoku{
 template<class T,int D>
 struct wm_base{
     using U=make_unsigned_t<T>;
@@ -117,3 +119,9 @@ struct wm_base{
         return lower_sum<L>(l,r,u)-lower_sum<L>(l,r,d);
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--sequence--wavelet-matrix.hpp"
+#endif

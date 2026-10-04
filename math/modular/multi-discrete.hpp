@@ -1,7 +1,9 @@
 #pragma once
+#include"../../template.hpp"
 #include"dynamic-modint64.hpp"
 #include"../../ds/ordered/hashmap.hpp"
 
+namespace ryoku{
 vc<ll>multidiscrete(ll p,ll g,vc<ll>a){
     using mint=dynamic_modint64<20260827>;
     if(a.empty())return {};
@@ -32,4 +34,5 @@ vc<ll>multidiscrete(ll p,ll g,vc<ll>a){
         eg*=iig;
     }
     return ans;
+}
 }

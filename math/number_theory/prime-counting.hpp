@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"enumerate-floor.hpp"
+namespace ryoku{
 ll prime_counting(ll n){
     assert(n>=0);
     auto QN=floors(n);
@@ -24,4 +26,6 @@ ll prime_counting(ll n){
         }
     }
     return dp.back()-1;
+}
+
 }

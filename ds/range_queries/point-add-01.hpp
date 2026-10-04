@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T>
 struct pointaddO1{
     vc<T>block;
@@ -35,3 +37,4 @@ struct pointaddO1{
         return res;
     }
 };
+}

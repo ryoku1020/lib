@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../modular/static-mod-int.hpp"
+namespace ryoku{
 struct sint{
     using mint1=static_modint<2147483629>;
     using mint2=static_modint<2147483647>;
@@ -91,3 +93,5 @@ struct sint{
         return is;
     }
 };
+
+}

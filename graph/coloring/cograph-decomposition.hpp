@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../../ds/ordered/fastset.hpp"
+namespace ryoku{
 vvc<int>cographdecomposition(int n,vc<pair<int,int>>non_edge){
     assert(n>=0);
     fast_set st(n);rep(i,n)st.insert(i);
@@ -37,4 +39,6 @@ vvc<int>cographdecomposition(int n,vc<pair<int,int>>non_edge){
         }
     }
     return res;
+}
+
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 constexpr long long safe_mod(long long x, long long m) {
     x %= m;
     if (x < 0) x += m;
@@ -49,4 +51,6 @@ long long floor_sum(long long n, long long m, long long a, long long b) {
         b = b2;
     }
     return ans + floor_sum_unsigned(n, m, a, b);
+}
+
 }

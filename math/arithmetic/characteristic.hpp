@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 #include"../mat.hpp"
 #include"../../poly/base.hpp"
+namespace ryoku{
 template<class T>
 matrix<T>hessenberg(matrix<T>mt){
     int n=mt.size();
@@ -48,4 +50,5 @@ fps<T>characteristic(matrix<T>mt){
         }
     }
     return res[n];
+}
 }

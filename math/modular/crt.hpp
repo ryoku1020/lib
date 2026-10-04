@@ -1,7 +1,9 @@
 #pragma once
+#include"../../template.hpp"
 #include"mod-utillity.hpp"
 //x ≡ r0.first (mod r0.second)
 //x ≡ r1.first (mod r1.second)
+namespace ryoku{
 template<class T>
 pair<T,T>crt(pair<T,T>r0,pair<T,T>r1){
     r0.second=abs(r0.second),r1.second=abs(r1.second);
@@ -35,4 +37,6 @@ pair<T,T>crt(vc<pair<T,T>>vs){
         if(ans.first==-1)return ans;
     }
     return ans;
+}
+
 }

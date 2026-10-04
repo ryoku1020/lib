@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class String>
 vc<int>z_algorithm(String&s){
     int N=s.size();
@@ -17,4 +19,6 @@ vc<int>z_algorithm(String&s){
         l+=k,r-=k;
     }
     return dp;
+}
+
 }

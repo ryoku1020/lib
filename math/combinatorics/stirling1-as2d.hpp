@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 //符号付きでないことに注意すること
+namespace ryoku{
 template<class mint>
 vvc<mint>stirling1_as2d(int n,int m){
     vvc<mint>res(n+1,vc<mint>(m+1));
@@ -10,4 +12,5 @@ vvc<mint>stirling1_as2d(int n,int m){
         }
     }
     return res;
+}
 }

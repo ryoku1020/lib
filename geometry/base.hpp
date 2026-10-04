@@ -1,7 +1,9 @@
 #pragma once
+#include"../template.hpp"
 #ifndef EPS
 #define EPS 0
 #endif
+namespace ryoku{
 template<class T>
 int sign(T x);
 
@@ -769,4 +771,6 @@ vc<Point>CutPolygon(vc<Point>Polygon,Line<Point>l){
         }
     }
     return res;
+}
+
 }

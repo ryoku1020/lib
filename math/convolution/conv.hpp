@@ -1,4 +1,5 @@
 #pragma once
+#include"../../template.hpp"
 #include "../modular/static-mod-int.hpp"
 #include <utility>
 #ifdef _MSC_VER
@@ -449,7 +450,7 @@ requires std::is_integral_v<T>
 std::vector<T> convolution(const std::vector<T>& a, const std::vector<T>& b) {
     int n = int(a.size()), m = int(b.size());
     if (!n || !m) return {};
-    using mint = static_modint<mod>;
+    using mint = ryoku::static_modint<mod>;
     int z = (int)internal::bit_ceil((unsigned int)(n + m - 1));
     assert((mint::get_mod() - 1) % z == 0);
     std::vector<mint> a2(n), b2(m);

@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../utility/node-pool.hpp"
+namespace ryoku{
 template<class info>
 struct segtree_2d{
     using value_type=typename info::value_type;
@@ -87,3 +89,8 @@ struct segtree_2d{
         return res;
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--segment_tree--segtree-2d.hpp"
+#endif

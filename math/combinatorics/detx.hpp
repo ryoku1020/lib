@@ -1,8 +1,10 @@
 #pragma once
+#include"../../template.hpp"
 #include"../mat.hpp"
 #include"../../poly/base.hpp"
 #include"../rand.hpp"
 //det(m0+m1x)
+namespace ryoku{
 template<class T>
 fps<T>detx(matrix<T>m0,matrix<T>m1){
     randf rn; 
@@ -21,4 +23,5 @@ fps<T>detx(matrix<T>m0,matrix<T>m1){
         return ans;
     }
     return fps<T>(m0.size()+1);
+}
 }

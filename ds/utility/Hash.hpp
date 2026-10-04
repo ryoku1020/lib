@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<typename T,size_t N>
 struct hash_type{
     array<T,N>v;
@@ -60,3 +62,5 @@ struct hash_type{
         return res;
     }
 };
+
+}

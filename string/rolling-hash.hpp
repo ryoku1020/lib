@@ -1,7 +1,9 @@
 #pragma once
+#include"../template.hpp"
 #include "../ds/utility/Hash.hpp"
 #include "../math/modular/mod261.hpp"
 
+namespace ryoku{
 template<int N=1>
 struct rolling_hash{
     using H=hash_type<mod261_int,N>;
@@ -43,3 +45,5 @@ struct rolling_hash{
         return hash+x*pow(len);
     }
 };
+
+}

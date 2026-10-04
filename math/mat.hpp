@@ -1,5 +1,7 @@
 #pragma  once
+#include"../template.hpp"
 
+namespace ryoku{
 namespace MATMAT{
 template <typename T, typename = void>
 struct is_mint : std::false_type {};
@@ -218,3 +220,5 @@ struct matrix{
         return res;
     }
 };
+
+}

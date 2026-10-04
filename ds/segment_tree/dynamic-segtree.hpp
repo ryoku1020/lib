@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../utility/node-pool.hpp"
+namespace ryoku{
 template<class info,class sztype,bool is_persistent>
 struct dynamic_segtree{
     using value_type=typename info::value_type;
@@ -97,3 +99,8 @@ struct dynamic_segtree{
         return R;
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--segment_tree--dynamic-segtree.hpp"
+#endif

@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../base.hpp"
+namespace ryoku{
 template<class G,class F>
 void enumerate_clique(const G&g,F f){
     static_assert(G::directed()==false);
@@ -36,4 +38,5 @@ void enumerate_clique(const G&g,F f){
         }
         alive[target]=0;
     }
+}
 }

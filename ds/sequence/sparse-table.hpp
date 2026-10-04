@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class X>
 struct sparse_table{
     using V=typename X::value_type;
@@ -37,3 +39,5 @@ struct sparse_table{
         return X::op(table[i][l],table[i][r-(1<<i)]);
     }
 };
+
+}

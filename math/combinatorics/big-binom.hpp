@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../modular/binom.hpp"
+namespace ryoku{
 template<class mint>
 struct big_binom{
     struct agg_stack{
@@ -94,3 +96,4 @@ struct big_binom{
         --k;
     }
 };
+}

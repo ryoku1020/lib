@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class Graph>
 pair<vvc<int>,vvc<int>>all_cycle(Graph&g){
     int n=g.size();
@@ -68,4 +70,5 @@ pair<vvc<int>,vvc<int>>all_cycle(Graph&g){
         }
     }
     return{vps,eps};
+}
 }

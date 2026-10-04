@@ -1,7 +1,9 @@
 #pragma once
+#include"../../template.hpp"
 #include"../../ds/union_find/uf.hpp"
 #include"../base.hpp"
 #include"../network_flow/biparate-match.hpp"
+namespace ryoku{
 vc<int>bipatite_edge_coloring(vc<pii>edge,int L,int R){
     //D regular graph part
     vc<int>d1(L),d2(R);
@@ -136,4 +138,5 @@ vc<int>bipatite_edge_coloring(vc<pii>edge,int L,int R){
     vc<int>ans(edge.size());
     rep(i,M)if(ord[i]<edge.size())ans[ord[i]]=i/N;
     return ans;
+}
 }

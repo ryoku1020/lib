@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 //at+b \in [l,r] なる t の閉区間
+namespace ryoku{
 template<class T>
 pair<T,T>validsegment(T a,T b,T l,T r){
     if(a==0){
@@ -11,4 +13,5 @@ pair<T,T>validsegment(T a,T b,T l,T r){
     }else{
         return {ceil<T>(r-b,a),floor<T>(l-b,a)};
     }
+}
 }

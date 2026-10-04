@@ -7,5 +7,3 @@ CompileFlags:
     - "-I/Users/ryoku_/Desktop/cp/lib"
     - "-include"
     - "/Users/ryoku_/Desktop/cp/lib/template.hpp"
-    - "-include"
-    - "/Users/ryoku_/Desktop/cp/debug/debug.hpp"

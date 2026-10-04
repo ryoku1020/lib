@@ -1,4 +1,7 @@
+#pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>
 fps<mint>all_prod(vc<fps<mint>>v){
     assert(mint::get_mod());
@@ -13,4 +16,6 @@ fps<mint>all_prod(vc<fps<mint>>v){
         pq.push(std::move(p1*p2));
     }
     return pq.top();
+}
+
 }

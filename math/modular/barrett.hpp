@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 struct barrett{
     using u64=uint64_t;
     using u32=uint32_t;
@@ -16,3 +18,5 @@ struct barrett{
         return x<mod?x:x-mod;
     }
 };
+
+}

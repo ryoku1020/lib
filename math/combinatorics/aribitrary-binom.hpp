@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../modular/barrett.hpp"
+namespace ryoku{
 struct arbitrary_binom{
     arbitrary_binom(){}
     arbitrary_binom(ll m){build(m);}
@@ -117,3 +119,5 @@ struct arbitrary_binom{
         return ans;
     }
 };
+
+}

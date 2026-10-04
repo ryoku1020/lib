@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 struct nimber{
     static const int B=256;
     using u64=ull;
@@ -68,3 +70,4 @@ struct nimberinit{
         nimber::init();
     }
 }nimberinit;
+}

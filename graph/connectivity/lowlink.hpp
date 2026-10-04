@@ -1,5 +1,8 @@
 #pragma once
+#include"../base.hpp"
+#include"../../template.hpp"
 #include"../../tree/base.hpp"
+namespace ryoku{
 template<class G_>
 struct lowlink{
     G_ g;
@@ -110,3 +113,8 @@ struct lowlink{
         return{egs,G};
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/graph--connectivity--lowlink.hpp"
+#endif

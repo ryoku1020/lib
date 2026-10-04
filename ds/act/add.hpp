@@ -3,6 +3,7 @@
 #include "../monoid/min-max.hpp"
 #include "../monoid/sum-prod.hpp"
 
+namespace ryoku{
 template<class T>
 struct add_min{
     using info=Min<T>;
@@ -27,3 +28,5 @@ struct add_sum{
     using lazy_type=typename tag::value_type;
     static value_type act(value_type x,lazy_type f,ll len){return x+f*len;}
 };
+
+}

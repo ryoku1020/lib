@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<uint32_t mod>
 struct static_modint{
     static_assert(0<mod&&mod<=(1u<<31)-1);
@@ -95,3 +97,5 @@ struct static_modint{
         return static_modint(u);
     }
 };
+
+}

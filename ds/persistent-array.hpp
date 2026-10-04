@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class T,int B>
 struct persistent_array{
     struct Node{
@@ -70,3 +72,9 @@ struct persistent_array{
         return dfs(dfs,0,n_,root,b);
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../debug/formatters/ds--persistent-array.hpp"
+#endif

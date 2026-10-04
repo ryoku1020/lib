@@ -1,4 +1,7 @@
+#pragma once
+#include"../../template.hpp"
 
+namespace ryoku{
 template<class G>
 vc<int>mis(G g){
     int n=g.size();
@@ -72,4 +75,6 @@ vc<int>mis(G g){
     };  
     dfs(dfs,{});
     return ans;
+}
+
 }

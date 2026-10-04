@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 
 
+namespace ryoku{
 struct fast_set{
     using u64=uint64_t;
     static inline constexpr int B=64;
@@ -122,3 +124,5 @@ struct fast_set{
         return 0;
     }
 };
+
+}

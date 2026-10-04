@@ -1,3 +1,4 @@
+#pragma once
 #ifdef TEMPLATE
 #else
 #define TEMPLATE
@@ -45,6 +46,7 @@
 #include <type_traits>
 #include <version>
 using namespace std;
+namespace ryoku{}
 using uint=unsigned;
 using ll=long long;
 using ull=unsigned long long;
@@ -336,7 +338,7 @@ ostream& operator<<(ostream&os,i128 x){
     return os<<s;
 }
 #ifdef LOCAL
-#include "debug/debug.hpp"
+#include "debug/local.hpp"
 inline int dbging=1;
 #else
 #define dbg(...) ((void)0)
@@ -359,8 +361,5 @@ struct template_setup{
 };
 inline template_setup template_setup;
 
-#if defined(LOCAL)&&!defined(CP_NO_AUTO_ALL)&&!defined(CP_BUNDLED_SOURCE)
-#include <all.hpp>
-#endif
 
 #endif

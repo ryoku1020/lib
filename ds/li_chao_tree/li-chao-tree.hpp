@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class info,bool ismin>
 struct li_chao_tree{
     int coef;
@@ -55,3 +57,5 @@ struct li_chao_tree{
         return res*coef;
     }
 };
+
+}

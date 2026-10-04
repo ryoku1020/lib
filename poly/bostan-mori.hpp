@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>
 mint bostan_mori(fps<mint>p,fps<mint>q,long long n){
     assert(n>=0);
@@ -50,4 +52,6 @@ mint bostan_mori(fps<mint>p,fps<mint>q,long long n){
         n>>=1;
     }
     return p[0]/q[0]+add;
+}
+
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class G>
 pair<G,vc<int>>contraction(G g,vc<int>group){
     map<int,int>mp;
@@ -15,4 +17,5 @@ pair<G,vc<int>>contraction(G g,vc<int>group){
         }
     }
     return {res,group};
+}
 }

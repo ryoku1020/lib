@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T=ll,bool reduce_always=true>
 struct frac{
     T gcd(T a,T b){
@@ -142,4 +144,6 @@ template<class frac>
 frac abs(frac a){
     if(a<0)return -a;
     return a;
+}
+
 }

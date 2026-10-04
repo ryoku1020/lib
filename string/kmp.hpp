@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class string>
 vc<int>prefix_function(const string&s){
     vc<int>pi(s.size());
@@ -28,4 +30,6 @@ vc<int>find_pattern(const string&s,const string&pattern){
         }
     }
     return ans;
+}
+
 }

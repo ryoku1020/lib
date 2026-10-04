@@ -1,8 +1,10 @@
 #pragma once
+#include"../template.hpp"
 #include"../math/convolution/conv.hpp"
 #include"../math/modular/binom.hpp"
 #include"../math/modular/mod-utillity.hpp"
 
+namespace ryoku{
 #ifndef FPS_STRUCT
 #define FPS_STRUCT
 template<class mint>
@@ -228,3 +230,5 @@ struct fps:vc<mint>{
     }
 };
 #endif
+
+}

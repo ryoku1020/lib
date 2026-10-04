@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<int sigma>
 struct eer_tree{
     vc<array<int,sigma>>child;
@@ -75,3 +77,5 @@ struct eer_tree{
         rep(i,s.size())add(i);
     }
 };
+
+}

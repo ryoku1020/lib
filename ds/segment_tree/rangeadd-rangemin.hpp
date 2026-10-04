@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"segtree.hpp"
+namespace ryoku{
 template<class T>
 struct rangeadd_rangemin{
     struct Info{
@@ -46,3 +48,4 @@ struct rangeadd_rangemin{
         return seg.prod(0,l).sum+seg.prod(l,r).min;
     }
 };
+}

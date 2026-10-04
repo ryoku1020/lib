@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class info>
 struct assign_segtree{
     using value_type=typename info::value_type;
@@ -91,3 +93,8 @@ struct assign_segtree{
         for(int j=1;j<=lg;j++)update(i>>j);
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--segment_tree--assign-segtree.hpp"
+#endif

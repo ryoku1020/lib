@@ -1,8 +1,10 @@
 #pragma once
+#include"../../template.hpp"
 #include"multi-discrete.hpp"
 #include"../../math/rand.hpp"
 #include"../arithmetic/Number.hpp"
 #include"dynamic-modint64.hpp"
+namespace ryoku{
 vc<ll>findlog(ll p,ll g,vc<ll>a){
     if(p<5e6)return multidiscrete(p,g,a);
     using mint1=dynamic_modint64<202608271>;
@@ -84,4 +86,6 @@ vc<ll>findlog(ll p,ll g,vc<ll>a){
     vc<ll>res(a.size());
     rep(i,a.size())res[i]=getlog(a[i],R+1);
     return res;
+}
+
 }

@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include <random>
+namespace ryoku{
 struct randf{
     mt19937_64 mt;
     randf():mt(chrono::steady_clock::now().time_since_epoch().count()){}
@@ -11,3 +13,5 @@ struct randf{
         return uniform_int_distribution<ll>(l,r-1)(mt);
     }
 };
+
+}

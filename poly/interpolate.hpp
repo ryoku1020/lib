@@ -1,6 +1,8 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
 #include"multipoint-evaluation.hpp"
+namespace ryoku{
 template<class mint>
 fps<mint>interpolate(vc<mint>x,vc<mint>y){
     assert(mint::get_mod());
@@ -25,4 +27,6 @@ fps<mint>interpolate(vc<mint>x,vc<mint>y){
     };
     auto ans=dfs(dfs,0,sz,1);
     return ans;
+}
+
 }

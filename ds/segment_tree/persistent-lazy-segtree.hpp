@@ -1,4 +1,6 @@
 #pragma  once
+#include"../../template.hpp"
+namespace ryoku{
 template<class info,class tag>
 struct persistent_lazy_segtree{
     using value_type=typename info::value_type;
@@ -134,3 +136,9 @@ struct persistent_lazy_segtree{
         return dfs(dfs,0,N,r1,r2,LOG);
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--segment_tree--persistent-lazy-segtree.hpp"
+#endif

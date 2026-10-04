@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>
 //res[k]:= sum c_j a_j^k
 vc<mint>power_sum(vc<mint>a,vc<mint>c,int K){
@@ -22,4 +24,6 @@ vc<mint>power_sum(vc<mint>a,vc<mint>c,int K){
     res.first*=res.second.inv(K+1);
     res.first.resize(K+1);
     return res.first;
+}
+
 }

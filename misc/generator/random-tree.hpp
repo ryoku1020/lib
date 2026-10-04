@@ -1,10 +1,12 @@
 #pragma once
+#include"../../template.hpp"
 #include <algorithm>
 #include <cassert>
 #include <random>
 #include <utility>
 #include <vector>
 
+namespace ryoku{
 inline std::mt19937_64& generator_engine(){
     static std::mt19937_64 engine(std::random_device{}());
     return engine;
@@ -20,4 +22,6 @@ inline std::vector<std::pair<int,int>> randomtree(int n){
     }
     std::shuffle(res.begin(),res.end(),generator_engine());
     return res;
+}
+
 }

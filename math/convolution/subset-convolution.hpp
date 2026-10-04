@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class mint,int N=32>
 vc<mint>subset_convolution(vc<mint>f,vc<mint>g){
     assert(f.size()==g.size());
@@ -108,4 +110,6 @@ vc<mint>subset_convolution(vc<mint>f,vc<mint>g){
         }
         return ans;
     }
+}
+
 }

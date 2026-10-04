@@ -2,6 +2,7 @@
 #include "../../template.hpp"
 #include "commute.hpp"
 
+namespace ryoku{
 template<class info>
 struct reversed{
     using value_type=typename info::value_type;
@@ -10,3 +11,5 @@ struct reversed{
     static value_type id(){return info::id();}
     static value_type e(){return id();}
 };
+
+}

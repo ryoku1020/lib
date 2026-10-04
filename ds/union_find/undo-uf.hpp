@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 struct undoable_union_find {
     std::vector<int>par;
     std::stack<std::pair<int, int>>history;
@@ -47,3 +49,9 @@ struct undoable_union_find {
         return -par[root(x)];
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--union_find--undo-uf.hpp"
+#endif

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class,class=void>
 struct binom_has_get_mod:false_type{};
 template<class mint>
@@ -88,3 +90,4 @@ public:
     }
 
 };
+}

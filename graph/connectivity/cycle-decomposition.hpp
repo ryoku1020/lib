@@ -1,4 +1,7 @@
+#pragma once
+#include"../../template.hpp"
 
+namespace ryoku{
 vvc<int>cycle_decomposition(vc<int>p){
     int n=p.size();
     vc<int>seen(n);
@@ -14,4 +17,5 @@ vvc<int>cycle_decomposition(vc<int>p){
         }
     }
     return res;
+}
 }

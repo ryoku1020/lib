@@ -1,5 +1,8 @@
+#pragma once
+#include"../../template.hpp"
 #include"../sequence/wavelet-matrix.hpp"
 #include"../sequence/BIT.hpp"
+namespace ryoku{
 template<class T,int D>
 struct dynamic_rectangle_sum{
     wm_base<ll,D>wm;
@@ -124,3 +127,5 @@ struct rectangle_sum{
         return wm.template lower_sum<T>(xl,xr,yd,yu);
     }
 };
+
+}

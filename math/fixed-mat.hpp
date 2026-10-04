@@ -1,7 +1,9 @@
 
+#include"../template.hpp"
 #pragma once
 #include"mat.hpp"
 
+namespace ryoku{
 template<class T,int N,int M>
 struct fixed_matrix{
     static constexpr int n=N,m=M;
@@ -169,3 +171,5 @@ struct fixed_matrix{
         return res;
     }
 };
+
+}

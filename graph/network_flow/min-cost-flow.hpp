@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 #include"../base.hpp"
 
+namespace ryoku{
 template<class Cap,class Cost>
 struct min_cost_flow{
     struct edge{
@@ -78,3 +80,8 @@ struct min_cost_flow{
         return res;
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/graph--network_flow--min-cost-flow.hpp"
+#endif

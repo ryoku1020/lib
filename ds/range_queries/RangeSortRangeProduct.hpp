@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 #include"../ordered/fastset.hpp"
 #include"../segment_tree/segtree.hpp"
+namespace ryoku{
 template<class info,int D>
 struct range_sort_range_product{
     using V=info::value_type;
@@ -170,3 +172,5 @@ struct range_sort_range_product{
         set(i,nnode,false);
     }
 };
+
+}

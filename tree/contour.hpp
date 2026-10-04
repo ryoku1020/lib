@@ -1,10 +1,13 @@
 #pragma once
+#include"../graph/base.hpp"
+#include"../template.hpp"
 #include"base.hpp"
 #include"../ds/sequence/BIT.hpp"
+namespace ryoku{
 template<class T,class U=unweighted>
 struct contour_add{
     tree<U>&tree;
-    contour_add(::tree<U>&tree):tree(tree){}
+    contour_add(::ryoku::tree<U>&tree):tree(tree){}
     vc<binary_indexed_tree<T>>call_non;
     vc<T>cen1;
     vc<array<binary_indexed_tree<T>,2>>call_v;
@@ -112,3 +115,5 @@ struct contour_add{
         }
     }
 };
+
+}

@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 
+namespace ryoku{
 ull mod_mul(ull a,ull b,ull m){
     return ull(static_cast<u128>(a)*b%m);
 }
@@ -122,4 +124,5 @@ vc<T>divisors(T x){
     };
     dfs(dfs,0,1);
     return res;
+}
 }

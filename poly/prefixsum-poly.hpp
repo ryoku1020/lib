@@ -1,6 +1,8 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
 #include"../math/number_theory/belnui.hpp"
+namespace ryoku{ 
 template<class mint>
 fps<mint>prefixsum_poly(fps<mint>f){
     int n=f.size();
@@ -14,4 +16,5 @@ fps<mint>prefixsum_poly(fps<mint>f){
         ans[i]=fb[i+n-1]*binom<mint>::invfact(i);
     }
     return ans;
+}
 }

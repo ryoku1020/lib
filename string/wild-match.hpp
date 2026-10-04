@@ -1,7 +1,9 @@
 #pragma once
+#include"../template.hpp"
 #include"../poly/base.hpp"
 
 //s[0,|t|) s[1,|t|+1) ... で match するもの
+namespace ryoku{
 template<int TF>
 vc<int>wild_match(string s,string t,char wild){
     assert(s.size()>=t.size());
@@ -38,4 +40,6 @@ vc<int>wild_match(string s,string t,char wild){
     }
     vc<int>pos;rep(i,res.size())if(res[i])pos.pb(i);
     return pos;
+}
+
 }

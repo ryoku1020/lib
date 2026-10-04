@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>
 fps<mint>taylor_shift(fps<mint>f,int c){
     assert(mint::get_mod());
@@ -11,4 +13,6 @@ fps<mint>taylor_shift(fps<mint>f,int c){
     ans=fps<mint>(ans.begin()+f.size()-1,ans.end());
     rep(i,f.size())ans[i]*=bin.invfact(i);
     return ans;
+}
+
 }

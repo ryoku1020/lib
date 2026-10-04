@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 struct sieve{
     inline static int n=1;
     inline static vc<int>mf={0,1};
@@ -124,3 +126,4 @@ struct sieve{
         return res;
     }
 };
+}

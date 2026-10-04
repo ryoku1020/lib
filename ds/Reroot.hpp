@@ -1,4 +1,6 @@
 #pragma  once
+#include"../graph/base.hpp"
+#include"../template.hpp"
 #include "../tree/base.hpp"
 /*
 struct reroot{
@@ -17,6 +19,7 @@ struct reroot{
 
     }
 };*/
+namespace ryoku{
 template<class reroot,class T=unweighted>
 struct redp{
     using E=reroot::E;
@@ -69,3 +72,5 @@ struct redp{
         return ans;
     }
 };
+
+}

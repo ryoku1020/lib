@@ -1,4 +1,7 @@
+#pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>
 vc<fps<mint>>twodmul(vc<fps<mint>>f,vc<fps<mint>>g){
     int N=1;for(auto&x:f)chmax(N,x.size());for(auto&x:g)chmax(N,x.size());
@@ -82,4 +85,5 @@ fps<mint>cinverse(fps<mint>f){
     gfs.resize(f.size());
     gfs=gfs.substitute(c);
     return gfs;
+}
 }

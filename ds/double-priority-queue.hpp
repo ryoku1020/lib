@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class T>
 struct double_priority_queue{
     struct removal_priority_queue_1{
@@ -64,3 +66,5 @@ struct double_priority_queue{
         return left.size();
     }
 };
+
+}

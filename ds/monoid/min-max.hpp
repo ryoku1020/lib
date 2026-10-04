@@ -1,6 +1,7 @@
 #pragma once
 #include "../../template.hpp"
 
+namespace ryoku{
 template<class T,T INF=inf<T>>
 struct Min{
     using value_type=T;
@@ -17,3 +18,5 @@ struct Max{
     static value_type id(){return NEG_INF;}
     static value_type e(){return id();}
 };
+
+}

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T,auto op,int extra>
 struct base_disjoint_set_union{
         vector<int>par;
@@ -53,3 +55,9 @@ int tf323(int a,int b){return a;}
 using disjoint_set_union=base_disjoint_set_union<int,tf323,0>;
 template<class T,auto op>
 using extra_disjoint_set_union=base_disjoint_set_union<T,op,1>;
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--union_find--uf.hpp"
+#endif

@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class mint>
 //second[i] が a_{n-i} -> a_n への係数に対応する
 pair<int,vc<mint>>berlekamp_massey(vc<mint>S){
@@ -26,4 +28,6 @@ pair<int,vc<mint>>berlekamp_massey(vc<mint>S){
     }
     Q*=-1;
     return{L,Q};
+}
+
 }

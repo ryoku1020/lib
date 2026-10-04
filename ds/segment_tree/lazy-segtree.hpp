@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 
+namespace ryoku{
 template<class acted,bool beats=false>
 struct lazy_segtree{
     using info=typename acted::info;
@@ -181,3 +183,8 @@ struct lazy_segtree{
         return R;
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--segment_tree--lazy-segtree.hpp"
+#endif

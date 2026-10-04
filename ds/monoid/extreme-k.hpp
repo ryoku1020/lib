@@ -1,6 +1,7 @@
 #pragma once
 #include "../../template.hpp"
 
+namespace ryoku{
 template<class Key,class Val,int K,Val sentinel,bool is_max>
 struct extreme_k{
     static_assert(K>0);
@@ -106,3 +107,5 @@ template<class Key,class Val,int K,Val NEG_INF=neg_inf<Val>>
 using maxk_info=merge_info<max_k<Key,Val,K,NEG_INF>>;
 template<class Key,class Val,int K,Val INF=inf<Val>>
 using mink_info=merge_info<min_k<Key,Val,K,INF>>;
+
+}

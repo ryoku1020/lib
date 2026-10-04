@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T>
 struct stern_brocot_tree{
     struct st_frac{
@@ -87,3 +89,5 @@ struct stern_brocot_tree{
         return {{f.p,f.q},{f.r,f.s}};
     }
 };
+
+}

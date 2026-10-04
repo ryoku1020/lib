@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include "barrett.hpp"
+namespace ryoku{
 template<int id>
 struct dynamic_modint{
     using u32=uint32_t;
@@ -108,3 +110,5 @@ struct dynamic_modint{
         return b;
     }
 };
+
+}

@@ -1,7 +1,9 @@
 #pragma once
+#include"../../template.hpp"
 #include"../../ds/utility/noninfo.hpp"
 #include"../../ds/utility/node-pool.hpp"
 #include"../../ds/union_find/uf.hpp"
+namespace ryoku{
 template<class T,class DATA=noninfo>
 struct skew_heap{
     struct Node{
@@ -122,4 +124,5 @@ vc<typename Graph::edge>directed_mst(Graph g,int root){
         for(int v=g.get_edge(eid).to;v!=-1&&!done[v];v=par[v])done[v]=1;
     }
     return ans;
+}
 }

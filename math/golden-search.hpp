@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 namespace GOLDENSEARCH{
 vc<ull>fib{1,1};
 template<class T>
@@ -66,4 +68,6 @@ pair<G,T> golden_search(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
 template<class T,class G,class F,class Compare=less<G>>
 auto golden_search(T l,T r,F&get_value,G weakest,Compare Comp=Compare()){
     return GOLDENSEARCH::golden_search<T,G,F,Compare>(l,r,get_value,weakest,Comp);
+}
+
 }

@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 //ax+by=c
 //res.fi.fi*t+res.fi.se, res.se.fi*t+res.se.se という解集合
+namespace ryoku{
 template<class T>
 pair<pair<T,T>,pair<T,T>>extgcdasexp(T a,T b,T c){
     T g=gcd(a,b);
@@ -11,4 +13,5 @@ pair<pair<T,T>,pair<T,T>>extgcdasexp(T a,T b,T c){
     extgcd(a,b,x,y);
     x*=c,y*=c;
     return {{-b,x},{a,y}};
+}
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 optional<vc<pair<int,int>>>havel_hakimi(vc<int>d){
     int n=d.size();
     if(n==0)return vc<pair<int,int>>{};
@@ -29,4 +31,6 @@ optional<vc<pair<int,int>>>havel_hakimi(vc<int>d){
         now_front=need;
     }
     return ans;
+}
+
 }

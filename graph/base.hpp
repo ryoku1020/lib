@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 struct unweighted{
     unweighted()=default;
     unweighted(int){}
@@ -17,7 +19,7 @@ struct edge{
 template<bool is_directed,class T=unweighted>
 struct static_graph{
     constexpr static bool directed(){return is_directed;}
-    using edge=::edge<T>;
+    using edge=::ryoku::edge<T>;
     using cost_t=T;
 private:
     int n;
@@ -156,3 +158,9 @@ public:
         std::sort(csr.begin()+start[i],csr.begin()+start[i+1],f);
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../debug/formatters/graph--base.hpp"
+#endif

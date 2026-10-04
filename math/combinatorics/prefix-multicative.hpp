@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 #ifndef FLOORS_FUNCTION
 #define FLOORS_FUNCTION
 vc<ll>floors(ll n){
@@ -92,3 +94,5 @@ struct data{
     data operator*(ll x)const{return{cnt,sum*mint(x)};}
     operator mint()const{return A*cnt+B*sum;} 
 };*/
+
+}

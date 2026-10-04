@@ -1,4 +1,5 @@
 #pragma once
+#include"../../template.hpp"
 /*
 struct X{
     using value_type=pair<mint,mint>;
@@ -9,6 +10,7 @@ struct X{
         return {1,0};
     }
 };*/
+namespace ryoku{
 template<typename info>
 struct segtree{
     using value_type=typename info::value_type;
@@ -127,3 +129,9 @@ struct segtree{
         return R;
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--segment_tree--segtree.hpp"
+#endif

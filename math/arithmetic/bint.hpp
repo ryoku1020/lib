@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../convolution/conv.hpp"
+namespace ryoku{
 struct bint{
     using u32=uint32_t;
     using u64=uint64_t;
@@ -175,3 +177,5 @@ struct bint{
         return *this;
     }
 };
+
+}

@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class tree>
 struct dsu_on_tree{
     tree&g;
@@ -26,3 +28,5 @@ struct dsu_on_tree{
         dfs(dfs,root,-1,0,1);
     }
 };
+
+}

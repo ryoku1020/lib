@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class graph,class T>
 pair<vc<int>,vc<typename graph::edge>>restore_path(const graph&g,const vc<T>&md,int s,int t){
     int n=g.size();
@@ -31,4 +33,5 @@ pair<vc<int>,vc<typename graph::edge>>restore_path(const graph&g,const vc<T>&md,
     reverse(all(vs));
     reverse(all(es));
     return {vs,es};
+}
 }

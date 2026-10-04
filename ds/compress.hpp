@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class T>
 struct compresser{
     vc<T>x;
@@ -32,3 +34,5 @@ struct compresser{
         return x[i];
     }
 };
+
+}

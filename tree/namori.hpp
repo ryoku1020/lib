@@ -1,6 +1,8 @@
 #pragma once
+#include"../template.hpp"
 #include"../graph/base.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class T>
 struct namori{
     static_graph<0,T>g;
@@ -60,3 +62,4 @@ struct namori{
         return res;
     }
 };
+}

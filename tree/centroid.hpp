@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class F1,class F2>
 void internal_centroid_decomposition13(vvc<int>&g,vc<int>&is_virtual,vc<int>&is_alive,vc<int>&size,int root,vvc<int>&send,vc<int>&col,F1&callnonvirtual,F2&callvirtual){
     assert(0<=root&&root<(int)g.size());
@@ -98,3 +100,5 @@ void centroid_decomposition13(tree&g,F1&callnonvirtual,F2&Callvirutal){
     }
     centroid_decomposition13(G,callnonvirtual,Callvirutal);
 }   
+
+}

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class Graph>
 pair<vc<int>,vc<int>>cycle_detection(const Graph&g){
     int n=g.size();
@@ -43,4 +45,6 @@ pair<vc<int>,vc<int>>cycle_detection(const Graph&g){
         if(res.first.size())return res;
     }
     return {};
+}
+
 }

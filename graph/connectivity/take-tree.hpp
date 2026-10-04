@@ -1,4 +1,8 @@
+#pragma once
+#include"../base.hpp"
+#include"../../template.hpp"
 #include"../../tree/base.hpp"
+namespace ryoku{
 template<class T,class G>
 tree<T>taketree(G g){
     vc<int>seen(g.size());
@@ -12,4 +16,6 @@ tree<T>taketree(G g){
     };
     rep(i,g.size())if(chmax(seen[i],1))dfs(dfs,i,-1);
     return res;
+}
+
 }

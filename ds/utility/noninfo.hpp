@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 struct noninfo{
     using value_type=monostate;
     static value_type op(value_type a,value_type b){return {};}
@@ -12,3 +14,5 @@ struct nontag{
     static lazy_type merge(lazy_type a,lazy_type b){return {};}
     static lazy_type id(){return {};}
 };
+
+}

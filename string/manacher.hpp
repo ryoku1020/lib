@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class String>
 vc<int>manacher(String&s){
     assert(s.size()<=numeric_limits<int>::max()/2);
@@ -25,4 +27,6 @@ vc<int>manacher(String&s){
         dp[i]--;
     }
     return dp;
+}
+
 }

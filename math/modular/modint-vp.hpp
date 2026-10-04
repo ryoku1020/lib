@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class mint>
 struct modint_vp{
     mint x=0;
@@ -13,3 +15,4 @@ struct modint_vp{
     friend modint_vp operator/(modint_vp a,ll b){return a/=b;}
     mint val()const{assert(v>=0);return v?0:x;}
 };
+}

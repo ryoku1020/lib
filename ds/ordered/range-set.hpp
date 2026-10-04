@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T>
 struct range_set{
     T covered;
@@ -180,3 +182,5 @@ struct range_set_info{
 
     void clear(){st.clear();}
 };
+
+}

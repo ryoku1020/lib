@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include <random>
+namespace ryoku{
 template<class T>
 struct set_treap{
     struct Node{
@@ -189,3 +191,5 @@ struct set_treap{
 };
 template<class T>
 mt19937 set_treap<T>::mt(random_device{}());
+
+}

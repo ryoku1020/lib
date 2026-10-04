@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../utility/node-pool.hpp"
+namespace ryoku{
 template<class acted,class sztype=int>
 struct dynamic_lazy_segtree{
     using info=typename acted::info;
@@ -125,3 +127,8 @@ struct dynamic_lazy_segtree{
         return dfs(dfs,0,N,root,LOG);
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--segment_tree--dynamic-lazy-segtree.hpp"
+#endif

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class mint>
 vc<mint>gcd_convolution(vc<mint>a,vc<mint>b){
     int n=max(a.size(),b.size());
@@ -37,4 +39,6 @@ vc<mint>gcd_convolution(vc<mint>a,vc<mint>b){
     }
     rep(i,n)a[i]+=c[i];
     return a;
+}
+
 }

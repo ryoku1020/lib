@@ -3,6 +3,7 @@
 #include "../monoid/extreme-k.hpp"
 #include "../monoid/sum-prod.hpp"
 
+namespace ryoku{
 template<class Key,class Val,int K,Val NEG_INF=neg_inf<Val>>
 struct add_maxk{
     using info=maxk_info<Key,Val,K,NEG_INF>;
@@ -19,3 +20,5 @@ struct add_mink{
     using lazy_type=typename tag::value_type;
     static value_type act(value_type x,lazy_type f,ll){return x+=f;}
 };
+
+}

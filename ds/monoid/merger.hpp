@@ -2,6 +2,7 @@
 #include "../../template.hpp"
 #include "commute.hpp"
 
+namespace ryoku{
 template<class... Infos>
 struct merger{
     using value_type=tuple<typename Infos::value_type...>;
@@ -12,3 +13,5 @@ struct merger{
     static value_type id(){return {Infos::id()...};}
     static value_type e(){return id();}
 };
+
+}

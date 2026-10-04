@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<class T,int depth>
 struct binary_trie{
     struct Node{
@@ -98,3 +100,5 @@ struct binary_trie{
         return dfs(dfs,root,0,T(1)<<depth,depth-1);
     }
 };
+
+}

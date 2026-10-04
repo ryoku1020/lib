@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 #include"../utility/noninfo.hpp"
 #include <random>
+namespace ryoku{
 template<class info=noninfo,class tag=nontag<info>>
 struct treap{
     using value_type=info::value_type;
@@ -189,3 +191,5 @@ struct treap{
     }
     
 };
+
+}

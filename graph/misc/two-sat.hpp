@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 #include"../connectivity/scc.hpp"
 #include"../base.hpp"
+namespace ryoku{
 struct two_satisfiability{
     static_graph<1>g;
     int n;
@@ -72,3 +74,5 @@ struct two_satisfiability{
         }
     }
 };
+
+}

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T=long long>
 struct binary_indexed_tree{
     int n;
@@ -43,3 +45,9 @@ struct binary_indexed_tree{
 };
 template<class T=long long>
 using bit=binary_indexed_tree<T>;
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--sequence--BIT.hpp"
+#endif

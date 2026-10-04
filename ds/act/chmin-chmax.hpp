@@ -2,6 +2,7 @@
 #include "../../template.hpp"
 #include "../monoid/min-max.hpp"
 
+namespace ryoku{
 template<class T>
 struct chmin_min{
     using info=Min<T>;
@@ -34,3 +35,5 @@ struct chmax_max{
     using lazy_type=typename tag::value_type;
     static value_type act(value_type x,lazy_type f,ll){return max(x,f);}
 };
+
+}

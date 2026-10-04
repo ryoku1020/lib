@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class Cap>
 struct flow{
     struct edge{
@@ -86,3 +88,8 @@ struct flow{
         return res;
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/graph--network_flow--flow.hpp"
+#endif

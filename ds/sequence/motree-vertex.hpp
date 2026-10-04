@@ -1,6 +1,9 @@
 #pragma once
+#include"../../graph/base.hpp"
+#include"../../template.hpp"
 #include"../../tree/base.hpp"
 #include"Mo.hpp"
+namespace ryoku{
 struct motree_vertex{
     tree<unweighted>g;
     int q;
@@ -57,3 +60,5 @@ struct motree_vertex{
         mo.run(toggle,toggle,toggle,toggle,an);
     }
 };
+
+}

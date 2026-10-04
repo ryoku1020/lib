@@ -1,6 +1,7 @@
 #pragma once
 #include "../../template.hpp"
 
+namespace ryoku{
 template<class T>
 struct PairSum{
     using value_type=pair<T,T>;
@@ -9,3 +10,5 @@ struct PairSum{
     static value_type id(){return {T(0),T(0)};}
     static value_type e(){return id();}
 };
+
+}

@@ -1,6 +1,9 @@
 #pragma once
+#include"../graph/base.hpp"
+#include"../template.hpp"
 #include"../tree/cartesian-tree.hpp"
 //v[i]=1 or 0 で 1 のみからなる極大長方形
+namespace ryoku{
 template<class F>
 pair<array<int,4>,int>max_rectangle(vvc<int>v,F eval){
     int h=v.size(),w=v[0].size();
@@ -33,4 +36,5 @@ pair<array<int,4>,int>max_rectangle(vvc<int>v){
     return max_rectangle(std::move(v),[](int xl,int xr,int yl,int yr){
         return (xr-xl+1)*(yr-yl+1);
     });
+}
 }

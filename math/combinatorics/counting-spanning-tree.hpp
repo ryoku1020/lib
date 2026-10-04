@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../mat.hpp"
+namespace ryoku{
 template<class mint,class Graph>
 mint counting_spanning_tree(const Graph&g){
     assert(Graph::directed()==false);
@@ -12,4 +14,6 @@ mint counting_spanning_tree(const Graph&g){
         }
     }
     return mt.det();
+}
+
 }

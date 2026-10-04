@@ -1,6 +1,7 @@
 #pragma once
 #include "../../template.hpp"
 
+namespace ryoku{
 template<class T>
 struct BitAnd{
     using value_type=T;
@@ -25,3 +26,5 @@ struct BitXor{
     static value_type id(){return T(0);}
     static value_type e(){return id();}
 };
+
+}

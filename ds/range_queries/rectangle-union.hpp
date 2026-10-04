@@ -1,8 +1,10 @@
 #pragma once
+#include"../../template.hpp"
 #include "../compress.hpp"
 #include "../segment_tree/lazy-segtree.hpp"
 
 //T > 長方形の max T2> ans の max
+namespace ryoku{
 template<class T>
 struct rectangle_union{
     struct m_type{
@@ -73,3 +75,5 @@ struct rectangle_union{
         return ans;
     }
 };
+
+}

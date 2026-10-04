@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 std::vector<int> sa_naive(const std::vector<int>& s) {
     int n = int(s.size());
     std::vector<int> sa(n);
@@ -227,4 +229,6 @@ std::vector<int> lcp_array(const std::string& s, const std::vector<int>& sa) {
         s2[i] = s[i];
     }
     return lcp_array(s2, sa);
+}
+
 }

@@ -1,758 +1,192 @@
 #pragma once
 #include "template.hpp"
 
-#ifndef CP_BUNDLE_HEADER_F30FB22D69200095
-#define CP_BUNDLE_HEADER_F30FB22D69200095
-#include "ds/act/add-extreme-k.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_4167C74A4097E789
-#define CP_BUNDLE_HEADER_4167C74A4097E789
-#include "ds/act/add.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_6DB7364454F992E5
-#define CP_BUNDLE_HEADER_6DB7364454F992E5
-#include "ds/act/assign.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_1120177A3C0EBF31
-#define CP_BUNDLE_HEADER_1120177A3C0EBF31
-#include "ds/act/chmin-chmax.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F5C6B6EBAD72BA4A
-#define CP_BUNDLE_HEADER_F5C6B6EBAD72BA4A
-#include "ds/act/mul-affine.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9A9B919B28A44BCD
-#define CP_BUNDLE_HEADER_9A9B919B28A44BCD
-#include "ds/act/range-linear-range-sum.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F0620C4F24D4C1C1
-#define CP_BUNDLE_HEADER_F0620C4F24D4C1C1
-#include "ds/binary-trie.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A5E5E03499281742
-#define CP_BUNDLE_HEADER_A5E5E03499281742
-#include "ds/compress.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_35AF067E063B3A8F
-#define CP_BUNDLE_HEADER_35AF067E063B3A8F
-#include "ds/double-priority-queue.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_71735FBEF3D53F4F
-#define CP_BUNDLE_HEADER_71735FBEF3D53F4F
-#include "ds/li_chao_tree/compressed-li-chao-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_DB60634ED3DB1F3E
-#define CP_BUNDLE_HEADER_DB60634ED3DB1F3E
-#include "ds/li_chao_tree/dynamic-li-chao-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_7339C970C4B618F0
-#define CP_BUNDLE_HEADER_7339C970C4B618F0
-#include "ds/li_chao_tree/li-chao-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_D26FE83F21D4DB20
-#define CP_BUNDLE_HEADER_D26FE83F21D4DB20
-#include "ds/monoid/assign-affine.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_0A74AED9ABE103EC
-#define CP_BUNDLE_HEADER_0A74AED9ABE103EC
-#include "ds/monoid/bitwise.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_24FB997ECE72B07A
-#define CP_BUNDLE_HEADER_24FB997ECE72B07A
-#include "ds/monoid/commute.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_68E75C3C381BAF46
-#define CP_BUNDLE_HEADER_68E75C3C381BAF46
-#include "ds/monoid/extreme-k.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F1D1D56AE73B6F77
-#define CP_BUNDLE_HEADER_F1D1D56AE73B6F77
-#include "ds/monoid/gcd-lcm.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_51735EEDC6B7EC90
-#define CP_BUNDLE_HEADER_51735EEDC6B7EC90
-#include "ds/monoid/merger.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_79898D0C5CC19C32
-#define CP_BUNDLE_HEADER_79898D0C5CC19C32
-#include "ds/monoid/min-max.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C1E799AEC9540733
-#define CP_BUNDLE_HEADER_C1E799AEC9540733
-#include "ds/monoid/minmax-count.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F12CE3E62B2BB05D
-#define CP_BUNDLE_HEADER_F12CE3E62B2BB05D
-#include "ds/monoid/pair-sum.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_34C1B5AD9FABD27C
-#define CP_BUNDLE_HEADER_34C1B5AD9FABD27C
-#include "ds/monoid/reversed.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_1F800944849DBDC1
-#define CP_BUNDLE_HEADER_1F800944849DBDC1
-#include "ds/monoid/sum-prod.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_623A31C12095663B
-#define CP_BUNDLE_HEADER_623A31C12095663B
-#include "ds/ordered/fastset.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_766009A597E3EDE0
-#define CP_BUNDLE_HEADER_766009A597E3EDE0
-#include "ds/ordered/hashmap.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_43928B84ADA57EB6
-#define CP_BUNDLE_HEADER_43928B84ADA57EB6
-#include "ds/ordered/range-set.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_6661CEF0E4F73CF3
-#define CP_BUNDLE_HEADER_6661CEF0E4F73CF3
-#include "ds/ordered/setreap.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F1E3693EAF6AD5C9
-#define CP_BUNDLE_HEADER_F1E3693EAF6AD5C9
-#include "ds/ordered/treap.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_B77A742D68258563
-#define CP_BUNDLE_HEADER_B77A742D68258563
-#include "ds/persistent-array.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_104F1007A5FDF979
-#define CP_BUNDLE_HEADER_104F1007A5FDF979
-#include "ds/range_queries/RangeSortRangeProduct.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C7D4320A39A52637
-#define CP_BUNDLE_HEADER_C7D4320A39A52637
-#include "ds/range_queries/Rectange.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E067EA5101879C7A
-#define CP_BUNDLE_HEADER_E067EA5101879C7A
-#include "ds/range_queries/point-add-01.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A874C5B62692FFFE
-#define CP_BUNDLE_HEADER_A874C5B62692FFFE
-#include "ds/range_queries/rectangle-union.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C3A1CA3B4FAC1DF7
-#define CP_BUNDLE_HEADER_C3A1CA3B4FAC1DF7
-#include "ds/reroot.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C90ABC4A0AC84404
-#define CP_BUNDLE_HEADER_C90ABC4A0AC84404
-#include "ds/segment_tree/assign-segtree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_35D052310A6A2072
-#define CP_BUNDLE_HEADER_35D052310A6A2072
-#include "ds/segment_tree/dual-segtree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C3A9AAC7FEFE4877
-#define CP_BUNDLE_HEADER_C3A9AAC7FEFE4877
-#include "ds/segment_tree/dynamic-lazy-segtree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_2BB17785EEF09799
-#define CP_BUNDLE_HEADER_2BB17785EEF09799
-#include "ds/segment_tree/dynamic-segtree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A30A293DC2FB4FBF
-#define CP_BUNDLE_HEADER_A30A293DC2FB4FBF
-#include "ds/segment_tree/lazy-segtree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_CDF811D72459E465
-#define CP_BUNDLE_HEADER_CDF811D72459E465
-#include "ds/segment_tree/persistent-lazy-segtree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_03A692C5CA83A903
-#define CP_BUNDLE_HEADER_03A692C5CA83A903
-#include "ds/segment_tree/rangeadd-rangemin.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_172FE70EB24EDAC7
-#define CP_BUNDLE_HEADER_172FE70EB24EDAC7
-#include "ds/segment_tree/segtree-2d.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C4FAB979C82E8B47
-#define CP_BUNDLE_HEADER_C4FAB979C82E8B47
-#include "ds/segment_tree/segtree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_6D8A995C46F4A698
-#define CP_BUNDLE_HEADER_6D8A995C46F4A698
-#include "ds/sequence/BIT.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_100E979D25FBDFB3
-#define CP_BUNDLE_HEADER_100E979D25FBDFB3
-#include "ds/sequence/Mo.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_CC0000033CFB2E46
-#define CP_BUNDLE_HEADER_CC0000033CFB2E46
-#include "ds/sequence/bit-vector.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C0B56072BE2E17FB
-#define CP_BUNDLE_HEADER_C0B56072BE2E17FB
-#include "ds/sequence/motree-edge.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_3A941DFCF100AAFF
-#define CP_BUNDLE_HEADER_3A941DFCF100AAFF
-#include "ds/sequence/motree-vertex.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_04B9EE7ACE3A06A1
-#define CP_BUNDLE_HEADER_04B9EE7ACE3A06A1
-#include "ds/sequence/sparse-table.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C4482EC1FE756C70
-#define CP_BUNDLE_HEADER_C4482EC1FE756C70
-#include "ds/sequence/static-mode.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_3C69CE795C50E7E3
-#define CP_BUNDLE_HEADER_3C69CE795C50E7E3
-#include "ds/sequence/swag.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F73195ABC41B2D0F
-#define CP_BUNDLE_HEADER_F73195ABC41B2D0F
-#include "ds/sequence/wavelet-matrix.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_7C4616297AFB2880
-#define CP_BUNDLE_HEADER_7C4616297AFB2880
-#include "ds/slope-trick.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9B8B4A9187B7B06F
-#define CP_BUNDLE_HEADER_9B8B4A9187B7B06F
-#include "ds/trie.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E003B7DF776EADEA
-#define CP_BUNDLE_HEADER_E003B7DF776EADEA
-#include "ds/union_find/persistent-uf.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_362BB07EFB65F739
-#define CP_BUNDLE_HEADER_362BB07EFB65F739
-#include "ds/union_find/pot-uf.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_D900962237271D26
-#define CP_BUNDLE_HEADER_D900962237271D26
-#include "ds/union_find/range-uf.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_570AC08D4B51BC93
-#define CP_BUNDLE_HEADER_570AC08D4B51BC93
-#include "ds/union_find/super-dsu.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9DAAB5F384944713
-#define CP_BUNDLE_HEADER_9DAAB5F384944713
-#include "ds/union_find/uf.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C53B3AB7D6A6D143
-#define CP_BUNDLE_HEADER_C53B3AB7D6A6D143
-#include "ds/union_find/undo-uf.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_AFD36674ABEBCBBE
-#define CP_BUNDLE_HEADER_AFD36674ABEBCBBE
-#include "ds/utility/Hash.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_7ACDC293AA00BB3A
-#define CP_BUNDLE_HEADER_7ACDC293AA00BB3A
-#include "ds/utility/node-pool.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_413B7E9970E19560
-#define CP_BUNDLE_HEADER_413B7E9970E19560
-#include "ds/utility/noninfo.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_026ABD5E7E40C895
-#define CP_BUNDLE_HEADER_026ABD5E7E40C895
 #include "fast-io.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9B586EE7B79C157E
-#define CP_BUNDLE_HEADER_9B586EE7B79C157E
-#include "geometry/base.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_1177B57DB5FB2CAA
-#define CP_BUNDLE_HEADER_1177B57DB5FB2CAA
-#include "geometry/max-rectangle.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A415336C78CC3AB3
-#define CP_BUNDLE_HEADER_A415336C78CC3AB3
-#include "graph/base.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C37B3C695CAA67D8
-#define CP_BUNDLE_HEADER_C37B3C695CAA67D8
-#include "graph/coloring/bipartite-edge-coloring.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_7B061C2B251C63A3
-#define CP_BUNDLE_HEADER_7B061C2B251C63A3
-#include "graph/coloring/chromatic-number.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_152F1C58BE791C02
-#define CP_BUNDLE_HEADER_152F1C58BE791C02
-#include "graph/coloring/cograph-decomposition.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F1CAD0FC12D87694
-#define CP_BUNDLE_HEADER_F1CAD0FC12D87694
-#include "graph/coloring/havel-hakimini.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_004D50009C0B027D
-#define CP_BUNDLE_HEADER_004D50009C0B027D
-#include "graph/coloring/mis.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E38916FC5261D8EB
-#define CP_BUNDLE_HEADER_E38916FC5261D8EB
-#include "graph/connectivity/all-cycle.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_CC3CE66464FCC321
-#define CP_BUNDLE_HEADER_CC3CE66464FCC321
-#include "graph/connectivity/contraction.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_99B8E4D925F29824
-#define CP_BUNDLE_HEADER_99B8E4D925F29824
-#include "graph/connectivity/cycle-decomposition.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_B0D804947AB50679
-#define CP_BUNDLE_HEADER_B0D804947AB50679
-#include "graph/connectivity/directed-mst.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_DDD622DE739424A5
-#define CP_BUNDLE_HEADER_DDD622DE739424A5
-#include "graph/connectivity/graph-components.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_284F13C0EAC9D1A7
-#define CP_BUNDLE_HEADER_284F13C0EAC9D1A7
-#include "graph/connectivity/incremental-scc.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_314E0460301EB83E
-#define CP_BUNDLE_HEADER_314E0460301EB83E
-#include "graph/connectivity/lowlink.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_0043AB021E76EC29
-#define CP_BUNDLE_HEADER_0043AB021E76EC29
-#include "graph/connectivity/scc.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_780077547522BDEF
-#define CP_BUNDLE_HEADER_780077547522BDEF
-#include "graph/connectivity/st-numbering.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_6D43C1CFA09A891F
-#define CP_BUNDLE_HEADER_6D43C1CFA09A891F
-#include "graph/connectivity/take-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_645C90887B8FB290
-#define CP_BUNDLE_HEADER_645C90887B8FB290
-#include "graph/misc/enumerate-clique.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_B7C68B45FFF92143
-#define CP_BUNDLE_HEADER_B7C68B45FFF92143
-#include "graph/misc/enumerate-tri.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_2D9B588576A6C53F
-#define CP_BUNDLE_HEADER_2D9B588576A6C53F
-#include "graph/misc/two-sat.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_030B44EFAF75B7C6
-#define CP_BUNDLE_HEADER_030B44EFAF75B7C6
-#include "graph/network_flow/biparate-match.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_824E10340725728A
-#define CP_BUNDLE_HEADER_824E10340725728A
-#include "graph/network_flow/flow.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_DC92C7909A18DFE1
-#define CP_BUNDLE_HEADER_DC92C7909A18DFE1
-#include "graph/network_flow/min-cost-flow.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F081F6FD622ED3A8
-#define CP_BUNDLE_HEADER_F081F6FD622ED3A8
-#include "graph/path/cycle-detection.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_CB7C1E1168C22ABE
-#define CP_BUNDLE_HEADER_CB7C1E1168C22ABE
-#include "graph/path/dijkstra.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E32357142C863117
-#define CP_BUNDLE_HEADER_E32357142C863117
-#include "graph/path/eulerian.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_4C8DC64D0EAA2590
-#define CP_BUNDLE_HEADER_4C8DC64D0EAA2590
-#include "graph/path/find-neg-cycle.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_8B0EECE86992266E
-#define CP_BUNDLE_HEADER_8B0EECE86992266E
-#include "graph/path/kth-shortest-walk.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_0931DAFC923DF4A1
-#define CP_BUNDLE_HEADER_0931DAFC923DF4A1
-#include "graph/path/restore-path.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_059E61E0C498B3A2
-#define CP_BUNDLE_HEADER_059E61E0C498B3A2
-#include "graph/path/shortest-path.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9ED67E810391DBC5
-#define CP_BUNDLE_HEADER_9ED67E810391DBC5
-#include "graph/path/slow-dijkstra.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9EAC80DF1143CBB4
-#define CP_BUNDLE_HEADER_9EAC80DF1143CBB4
-#include "math/arithmetic/Number.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_899DD414E8745EA9
-#define CP_BUNDLE_HEADER_899DD414E8745EA9
-#include "math/arithmetic/bint.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_485D95B21DC9F124
-#define CP_BUNDLE_HEADER_485D95B21DC9F124
-#include "math/arithmetic/characteristic.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_43B76F07BDADED20
-#define CP_BUNDLE_HEADER_43B76F07BDADED20
-#include "math/arithmetic/frac.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A1EDCBA6B172CC74
-#define CP_BUNDLE_HEADER_A1EDCBA6B172CC74
-#include "math/arithmetic/sint.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_03807059E926BCB6
-#define CP_BUNDLE_HEADER_03807059E926BCB6
-#include "math/berlekamp-massey.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9131A754B7CFBFBE
-#define CP_BUNDLE_HEADER_9131A754B7CFBFBE
-#include "math/combinatorics/aribitrary-binom.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A6B953E391A1A42F
-#define CP_BUNDLE_HEADER_A6B953E391A1A42F
-#include "math/combinatorics/big-binom.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9595F02778C1F75B
-#define CP_BUNDLE_HEADER_9595F02778C1F75B
-#include "math/combinatorics/binom-as2d.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_728F6D0230158343
-#define CP_BUNDLE_HEADER_728F6D0230158343
-#include "math/combinatorics/convolutionp.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_65D86AB9D5CE5ABF
-#define CP_BUNDLE_HEADER_65D86AB9D5CE5ABF
-#include "math/combinatorics/counting-spanning-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_282FEC9826916F93
-#define CP_BUNDLE_HEADER_282FEC9826916F93
-#include "math/combinatorics/counting.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_57457026F5D2D5DC
-#define CP_BUNDLE_HEADER_57457026F5D2D5DC
-#include "math/combinatorics/detx.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_56763AA41CDE94E9
-#define CP_BUNDLE_HEADER_56763AA41CDE94E9
-#include "math/combinatorics/prefix-multicative.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E847A76086A83878
-#define CP_BUNDLE_HEADER_E847A76086A83878
-#include "math/combinatorics/stirling1-as2d.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_7E20BEDA30607E04
-#define CP_BUNDLE_HEADER_7E20BEDA30607E04
-#include "math/combinatorics/stirling2-as2d.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_39F7574744423B20
-#define CP_BUNDLE_HEADER_39F7574744423B20
-#include "math/combinatorics/super-factorial.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9AB04BBE105216F0
-#define CP_BUNDLE_HEADER_9AB04BBE105216F0
-#include "math/convolution/and-convolution.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_302E2F308B295D16
-#define CP_BUNDLE_HEADER_302E2F308B295D16
-#include "math/convolution/conv.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_13A5123BFF2E911B
-#define CP_BUNDLE_HEADER_13A5123BFF2E911B
-#include "math/convolution/gcd-convolution.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_3679F4371DD09818
-#define CP_BUNDLE_HEADER_3679F4371DD09818
-#include "math/convolution/lcm-convolution.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_09BCE5C9FEDE1313
-#define CP_BUNDLE_HEADER_09BCE5C9FEDE1313
-#include "math/convolution/subset-convolution.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_8315B1FF5515892A
-#define CP_BUNDLE_HEADER_8315B1FF5515892A
-#include "math/convolution/xor-convolution.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_0C30F767A45E09F1
-#define CP_BUNDLE_HEADER_0C30F767A45E09F1
-#include "math/fixed-mat.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E2F40D4AE5461301
-#define CP_BUNDLE_HEADER_E2F40D4AE5461301
-#include "math/golden-search.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_ECFFAD09CB9B85DC
-#define CP_BUNDLE_HEADER_ECFFAD09CB9B85DC
-#include "math/mat.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_479ABBBFBD96A77B
-#define CP_BUNDLE_HEADER_479ABBBFBD96A77B
-#include "math/modular/barrett.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_412FFE9058386D60
-#define CP_BUNDLE_HEADER_412FFE9058386D60
-#include "math/modular/binom.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_517FC9538FC64581
-#define CP_BUNDLE_HEADER_517FC9538FC64581
-#include "math/modular/crt.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_AD5407378ADD496E
-#define CP_BUNDLE_HEADER_AD5407378ADD496E
-#include "math/modular/dynamic-mod-int.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_883199524B4AA7D1
-#define CP_BUNDLE_HEADER_883199524B4AA7D1
-#include "math/modular/dynamic-modint64.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F52D0EB41C0F095D
-#define CP_BUNDLE_HEADER_F52D0EB41C0F095D
-#include "math/modular/findlog.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_084E7F455B05C243
-#define CP_BUNDLE_HEADER_084E7F455B05C243
-#include "math/modular/mod-utillity.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_13BAAC4DBC4C9F42
-#define CP_BUNDLE_HEADER_13BAAC4DBC4C9F42
-#include "math/modular/mod261.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_022236DE780893E9
-#define CP_BUNDLE_HEADER_022236DE780893E9
-#include "math/modular/modint-vp.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_B423E0412FB532D7
-#define CP_BUNDLE_HEADER_B423E0412FB532D7
-#include "math/modular/multi-discrete.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9E287F68E726E580
-#define CP_BUNDLE_HEADER_9E287F68E726E580
-#include "math/modular/nimber.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A0D99FD569358663
-#define CP_BUNDLE_HEADER_A0D99FD569358663
-#include "math/modular/primitive-root.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_8DD6832EF023BDC7
-#define CP_BUNDLE_HEADER_8DD6832EF023BDC7
-#include "math/modular/static-mod-int.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_18810B2DE65C275C
-#define CP_BUNDLE_HEADER_18810B2DE65C275C
-#include "math/number_theory/belnui.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_75AD53D9868A2832
-#define CP_BUNDLE_HEADER_75AD53D9868A2832
-#include "math/number_theory/discrete-log.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E710C2A393E2A0F5
-#define CP_BUNDLE_HEADER_E710C2A393E2A0F5
-#include "math/number_theory/enumerate-floor.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_0DDAD29700D756C6
-#define CP_BUNDLE_HEADER_0DDAD29700D756C6
-#include "math/number_theory/enumerate-pow.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_D73F3EE38D684206
-#define CP_BUNDLE_HEADER_D73F3EE38D684206
-#include "math/number_theory/extgcd-asexp.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_01D6A785D0F4E280
-#define CP_BUNDLE_HEADER_01D6A785D0F4E280
-#include "math/number_theory/factorize.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_ACDA483653E6ACDE
-#define CP_BUNDLE_HEADER_ACDA483653E6ACDE
-#include "math/number_theory/floor-sum.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E105B016491F425B
-#define CP_BUNDLE_HEADER_E105B016491F425B
-#include "math/number_theory/kth-root.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E76B60A37CEF8526
-#define CP_BUNDLE_HEADER_E76B60A37CEF8526
-#include "math/number_theory/multiple-divisor-zeta.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_4A77DBB794AAC6DB
-#define CP_BUNDLE_HEADER_4A77DBB794AAC6DB
-#include "math/number_theory/prime-counting.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_59E07809E5C96626
-#define CP_BUNDLE_HEADER_59E07809E5C96626
-#include "math/number_theory/stern-brocot-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_2124E6E3939420E5
-#define CP_BUNDLE_HEADER_2124E6E3939420E5
-#include "math/number_theory/valid-segment.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_D6374471AA6979BF
-#define CP_BUNDLE_HEADER_D6374471AA6979BF
-#include "math/rand.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_655E0157CB8BFB78
-#define CP_BUNDLE_HEADER_655E0157CB8BFB78
-#include "misc/generator/enumerate-sequence.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_939B79CD51BC2B0A
-#define CP_BUNDLE_HEADER_939B79CD51BC2B0A
-#include "misc/generator/generator.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_D15D78F6AE15112E
-#define CP_BUNDLE_HEADER_D15D78F6AE15112E
-#include "misc/generator/random-graph.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C9D8C99582218FB4
-#define CP_BUNDLE_HEADER_C9D8C99582218FB4
-#include "misc/generator/random-sequence.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9B17FBDB88B6924E
-#define CP_BUNDLE_HEADER_9B17FBDB88B6924E
-#include "misc/generator/random-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_49D0DB6C8C4B3E99
-#define CP_BUNDLE_HEADER_49D0DB6C8C4B3E99
 #include "monge.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_B285D235F2B6CB87
-#define CP_BUNDLE_HEADER_B285D235F2B6CB87
+#include "ds/binary-trie.hpp"
+#include "ds/compress.hpp"
+#include "ds/double-priority-queue.hpp"
+#include "ds/persistent-array.hpp"
+#include "ds/reroot.hpp"
+#include "ds/slope-trick.hpp"
+#include "ds/trie.hpp"
+#include "ds/act/add-extreme-k.hpp"
+#include "ds/act/add.hpp"
+#include "ds/act/assign.hpp"
+#include "ds/act/chmin-chmax.hpp"
+#include "ds/act/mul-affine.hpp"
+#include "ds/act/range-linear-range-sum.hpp"
+#include "ds/li_chao_tree/compressed-li-chao-tree.hpp"
+#include "ds/li_chao_tree/dynamic-li-chao-tree.hpp"
+#include "ds/li_chao_tree/li-chao-tree.hpp"
+#include "ds/monoid/assign-affine.hpp"
+#include "ds/monoid/bitwise.hpp"
+#include "ds/monoid/commute.hpp"
+#include "ds/monoid/extreme-k.hpp"
+#include "ds/monoid/gcd-lcm.hpp"
+#include "ds/monoid/merger.hpp"
+#include "ds/monoid/min-max.hpp"
+#include "ds/monoid/minmax-count.hpp"
+#include "ds/monoid/pair-sum.hpp"
+#include "ds/monoid/reversed.hpp"
+#include "ds/monoid/sum-prod.hpp"
+#include "ds/ordered/fastset.hpp"
+#include "ds/ordered/hashmap.hpp"
+#include "ds/ordered/range-set.hpp"
+#include "ds/ordered/setreap.hpp"
+#include "ds/ordered/treap.hpp"
+#include "ds/range_queries/RangeSortRangeProduct.hpp"
+#include "ds/range_queries/Rectange.hpp"
+#include "ds/range_queries/point-add-01.hpp"
+#include "ds/range_queries/rectangle-union.hpp"
+#include "ds/segment_tree/assign-segtree.hpp"
+#include "ds/segment_tree/dual-segtree.hpp"
+#include "ds/segment_tree/dynamic-lazy-segtree.hpp"
+#include "ds/segment_tree/dynamic-segtree.hpp"
+#include "ds/segment_tree/lazy-segtree.hpp"
+#include "ds/segment_tree/persistent-lazy-segtree.hpp"
+#include "ds/segment_tree/rangeadd-rangemin.hpp"
+#include "ds/segment_tree/segtree-2d.hpp"
+#include "ds/segment_tree/segtree.hpp"
+#include "ds/sequence/BIT.hpp"
+#include "ds/sequence/Mo.hpp"
+#include "ds/sequence/bit-vector.hpp"
+#include "ds/sequence/motree-edge.hpp"
+#include "ds/sequence/motree-vertex.hpp"
+#include "ds/sequence/sparse-table.hpp"
+#include "ds/sequence/static-mode.hpp"
+#include "ds/sequence/swag.hpp"
+#include "ds/sequence/wavelet-matrix.hpp"
+#include "ds/union_find/persistent-uf.hpp"
+#include "ds/union_find/pot-uf.hpp"
+#include "ds/union_find/range-uf.hpp"
+#include "ds/union_find/super-dsu.hpp"
+#include "ds/union_find/uf.hpp"
+#include "ds/union_find/undo-uf.hpp"
+#include "ds/utility/Hash.hpp"
+#include "ds/utility/node-pool.hpp"
+#include "ds/utility/noninfo.hpp"
+#include "geometry/base.hpp"
+#include "geometry/max-rectangle.hpp"
+#include "graph/base.hpp"
+#include "graph/coloring/bipartite-edge-coloring.hpp"
+#include "graph/coloring/chromatic-number.hpp"
+#include "graph/coloring/cograph-decomposition.hpp"
+#include "graph/coloring/havel-hakimini.hpp"
+#include "graph/coloring/mis.hpp"
+#include "graph/connectivity/all-cycle.hpp"
+#include "graph/connectivity/contraction.hpp"
+#include "graph/connectivity/cycle-decomposition.hpp"
+#include "graph/connectivity/directed-mst.hpp"
+#include "graph/connectivity/graph-components.hpp"
+#include "graph/connectivity/incremental-scc.hpp"
+#include "graph/connectivity/lowlink.hpp"
+#include "graph/connectivity/scc.hpp"
+#include "graph/connectivity/st-numbering.hpp"
+#include "graph/connectivity/take-tree.hpp"
+#include "graph/misc/enumerate-clique.hpp"
+#include "graph/misc/enumerate-tri.hpp"
+#include "graph/misc/two-sat.hpp"
+#include "graph/network_flow/biparate-match.hpp"
+#include "graph/network_flow/flow.hpp"
+#include "graph/network_flow/min-cost-flow.hpp"
+#include "graph/path/cycle-detection.hpp"
+#include "graph/path/dijkstra.hpp"
+#include "graph/path/eulerian.hpp"
+#include "graph/path/find-neg-cycle.hpp"
+#include "graph/path/kth-shortest-walk.hpp"
+#include "graph/path/restore-path.hpp"
+#include "graph/path/shortest-path.hpp"
+#include "graph/path/slow-dijkstra.hpp"
+#include "math/berlekamp-massey.hpp"
+#include "math/fixed-mat.hpp"
+#include "math/golden-search.hpp"
+#include "math/mat.hpp"
+#include "math/rand.hpp"
+#include "math/arithmetic/Number.hpp"
+#include "math/arithmetic/bint.hpp"
+#include "math/arithmetic/characteristic.hpp"
+#include "math/arithmetic/frac.hpp"
+#include "math/arithmetic/sint.hpp"
+#include "math/combinatorics/aribitrary-binom.hpp"
+#include "math/combinatorics/big-binom.hpp"
+#include "math/combinatorics/binom-as2d.hpp"
+#include "math/combinatorics/convolutionp.hpp"
+#include "math/combinatorics/counting-spanning-tree.hpp"
+#include "math/combinatorics/counting.hpp"
+#include "math/combinatorics/detx.hpp"
+#include "math/combinatorics/prefix-multicative.hpp"
+#include "math/combinatorics/stirling1-as2d.hpp"
+#include "math/combinatorics/stirling2-as2d.hpp"
+#include "math/combinatorics/super-factorial.hpp"
+#include "math/convolution/and-convolution.hpp"
+#include "math/convolution/conv.hpp"
+#include "math/convolution/gcd-convolution.hpp"
+#include "math/convolution/lcm-convolution.hpp"
+#include "math/convolution/subset-convolution.hpp"
+#include "math/convolution/xor-convolution.hpp"
+#include "math/modular/barrett.hpp"
+#include "math/modular/binom.hpp"
+#include "math/modular/crt.hpp"
+#include "math/modular/dynamic-mod-int.hpp"
+#include "math/modular/dynamic-modint64.hpp"
+#include "math/modular/findlog.hpp"
+#include "math/modular/mod-utillity.hpp"
+#include "math/modular/mod261.hpp"
+#include "math/modular/modint-vp.hpp"
+#include "math/modular/multi-discrete.hpp"
+#include "math/modular/nimber.hpp"
+#include "math/modular/primitive-root.hpp"
+#include "math/modular/static-mod-int.hpp"
+#include "math/number_theory/belnui.hpp"
+#include "math/number_theory/discrete-log.hpp"
+#include "math/number_theory/enumerate-floor.hpp"
+#include "math/number_theory/enumerate-pow.hpp"
+#include "math/number_theory/extgcd-asexp.hpp"
+#include "math/number_theory/factorize.hpp"
+#include "math/number_theory/floor-sum.hpp"
+#include "math/number_theory/kth-root.hpp"
+#include "math/number_theory/multiple-divisor-zeta.hpp"
+#include "math/number_theory/prime-counting.hpp"
+#include "math/number_theory/stern-brocot-tree.hpp"
+#include "math/number_theory/valid-segment.hpp"
+#include "misc/generator/enumerate-sequence.hpp"
+#include "misc/generator/generator.hpp"
+#include "misc/generator/random-graph.hpp"
+#include "misc/generator/random-sequence.hpp"
+#include "misc/generator/random-tree.hpp"
 #include "other/commute-checker.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_EC100D508CAED3E9
-#define CP_BUNDLE_HEADER_EC100D508CAED3E9
 #include "poly/all-prod.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_752CC73BC612CC72
-#define CP_BUNDLE_HEADER_752CC73BC612CC72
 #include "poly/base.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_98ACCE0921F4EB84
-#define CP_BUNDLE_HEADER_98ACCE0921F4EB84
 #include "poly/bostan-mori.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_4344095FB596CE61
-#define CP_BUNDLE_HEADER_4344095FB596CE61
 #include "poly/chirp-z.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A355C2261C72D0A5
-#define CP_BUNDLE_HEADER_A355C2261C72D0A5
 #include "poly/cinverse.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_70DA02D4D35EEE3B
-#define CP_BUNDLE_HEADER_70DA02D4D35EEE3B
 #include "poly/fps-frac.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_17F7263405C1982E
-#define CP_BUNDLE_HEADER_17F7263405C1982E
 #include "poly/geo-interpolate.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_205F3439E8170A57
-#define CP_BUNDLE_HEADER_205F3439E8170A57
 #include "poly/interpolate.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_4D19924C831FCD2A
-#define CP_BUNDLE_HEADER_4D19924C831FCD2A
 #include "poly/linear-interpolate.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_E0B78A4B214A6E7E
-#define CP_BUNDLE_HEADER_E0B78A4B214A6E7E
 #include "poly/multipoint-evaluation.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_F99E3A3B3D77B828
-#define CP_BUNDLE_HEADER_F99E3A3B3D77B828
 #include "poly/naive-div.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C342F2302B36E7E7
-#define CP_BUNDLE_HEADER_C342F2302B36E7E7
 #include "poly/power-sum.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_569C4C558E4D1ECC
-#define CP_BUNDLE_HEADER_569C4C558E4D1ECC
 #include "poly/prefixsum-poly.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_010344BB15E1C242
-#define CP_BUNDLE_HEADER_010344BB15E1C242
 #include "poly/shift-of-sampling-points.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_EA63DB50A457104F
-#define CP_BUNDLE_HEADER_EA63DB50A457104F
 #include "poly/sparse-fps.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_B62B84CFA6F2EE0E
-#define CP_BUNDLE_HEADER_B62B84CFA6F2EE0E
 #include "poly/taylor-shift.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_70CA09B38B5D532E
-#define CP_BUNDLE_HEADER_70CA09B38B5D532E
 #include "string/aho-corasick.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_D41CB82649E294A7
-#define CP_BUNDLE_HEADER_D41CB82649E294A7
 #include "string/eer-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C578D9F7FA893FD2
-#define CP_BUNDLE_HEADER_C578D9F7FA893FD2
 #include "string/kmp.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_DCB9AB8AAAEE99CB
-#define CP_BUNDLE_HEADER_DCB9AB8AAAEE99CB
 #include "string/manacher.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_275BCFE816AD50FF
-#define CP_BUNDLE_HEADER_275BCFE816AD50FF
 #include "string/rolling-hash.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_258D6E370A14B720
-#define CP_BUNDLE_HEADER_258D6E370A14B720
 #include "string/run-enumarate.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_C52B3E04E3307033
-#define CP_BUNDLE_HEADER_C52B3E04E3307033
 #include "string/suffix-array.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_207E5195EBFC5CBC
-#define CP_BUNDLE_HEADER_207E5195EBFC5CBC
 #include "string/suffix-automaton.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_DC50ACC94275406F
-#define CP_BUNDLE_HEADER_DC50ACC94275406F
 #include "string/wild-match.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A1CEC1B7B90E947C
-#define CP_BUNDLE_HEADER_A1CEC1B7B90E947C
 #include "string/z-algorithm.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_FEC8FBC24D8DFC3E
-#define CP_BUNDLE_HEADER_FEC8FBC24D8DFC3E
 #include "tree/base.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_0564E9188FA3C570
-#define CP_BUNDLE_HEADER_0564E9188FA3C570
 #include "tree/cartesian-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_A2D1657D5E1CCC6C
-#define CP_BUNDLE_HEADER_A2D1657D5E1CCC6C
 #include "tree/centroid.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_51665C84FD47D6F6
-#define CP_BUNDLE_HEADER_51665C84FD47D6F6
 #include "tree/contour.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_04A76FCE3329DA82
-#define CP_BUNDLE_HEADER_04A76FCE3329DA82
 #include "tree/dsu-on-tree.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_72F0D879A019BCB2
-#define CP_BUNDLE_HEADER_72F0D879A019BCB2
 #include "tree/namori.hpp"
-#endif
-#ifndef CP_BUNDLE_HEADER_9E8115EFDE128055
-#define CP_BUNDLE_HEADER_9E8115EFDE128055
 #include "tree/virtual-tree.hpp"
-#endif
-#if defined(LOCAL)&&!defined(CP_NO_LOCAL_FORMATTERS)
-#include "debug/local.hpp"
-#endif
+using namespace ryoku;

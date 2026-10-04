@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 //max で eval されるので注意
+namespace ryoku{
 template<class info,bool ismin,class T>
 struct dynamic_li_chao_tree{
     using Line=typename info::value_type;
@@ -68,3 +70,5 @@ struct dynamic_li_chao_tree{
         return ismin?res:-res;
     }
 };
+
+}

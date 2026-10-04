@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>using spfs=vc<pair<int,mint>>;
 template<class mint>
 fps<mint>inv_sparse(int n,spfs<mint>sp){
@@ -137,4 +139,6 @@ optional<fps<mint>>sqrt_sparse(int n,spfs<mint>sp){
         F[i+1]=sm*binom<mint>::inv(i+1);
     }
     return F;
+}
+
 }

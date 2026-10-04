@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../base.hpp"
+namespace ryoku{
 template<class G>
 struct graph_components{
     const G&g;
@@ -88,3 +90,5 @@ struct graph_components{
         return res;
     }
 };
+
+}

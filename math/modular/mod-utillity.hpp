@@ -1,7 +1,9 @@
 
+#include"../../template.hpp"
 #pragma once
 #include"dynamic-mod-int.hpp"
 
+namespace ryoku{
 template< typename T >
 T extgcd(T a, T b, T &x, T &y) {
   T d = a;
@@ -72,4 +74,6 @@ ll mod_sqrt(ll b,ll p){
         e/=2;
     }
     return ans.first.val;
+}
+
 }

@@ -1,9 +1,11 @@
 #pragma once
+#include"../../template.hpp"
 #include <cassert>
 #include <cstddef>
 #include <iterator>
 #include <vector>
 
+namespace ryoku{
 class enumerate_sequence{
     int n,m;
     class iterator{
@@ -47,4 +49,6 @@ inline enumerate_sequence enumeratesequence(int n,int m){
 
 inline enumerate_sequence enumeratesequece(int n,int m){
     return {n,m};
+}
+
 }

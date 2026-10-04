@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 #include"../../poly/taylor-shift.hpp"
 //[x^{0,1,..,size}] (1+x^s[0])(1+x^s[1])... 
+namespace ryoku{
 template<class mint>
 vc<mint>enumarate_prod(vc<int>s,int size){
     using poly=fps<mint>;
@@ -111,4 +113,6 @@ vc<mint>bell_number(int n){
     auto ans=fps(((fps<mint>{0,1}.exp(n+1))-1).exp(n+1));
     drep(i,ans.size())ans[i]*=binom<mint>::fact(i);
     return ans;
+}
+
 }

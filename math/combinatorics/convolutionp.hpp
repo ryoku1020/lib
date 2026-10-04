@@ -1,8 +1,10 @@
 #pragma once
+#include"../../template.hpp"
 #include"../convolution/conv.hpp"
 #include"../modular/multi-discrete.hpp"
 #include"../modular/primitive-root.hpp"
 
+namespace ryoku{
 template<class mint>
 vc<mint>convolutionp(vc<mint>a,vc<mint>b,ll p){
     assert(a.size()==b.size()&&a.size()==p);
@@ -22,4 +24,6 @@ vc<mint>convolutionp(vc<mint>a,vc<mint>b,ll p){
         idx*=g;idx%=p;
     }
     return res;
+}
+
 }

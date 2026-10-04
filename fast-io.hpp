@@ -1,7 +1,9 @@
 #pragma once
+#include"template.hpp"
 #include<filesystem>
 //https://judge.yosupo.jp/submission/296458
 
+namespace ryoku{
 static constexpr int BUF_SIZE = 1 << 17;
 
 struct fast_read {
@@ -254,3 +256,5 @@ public:
     }
     template<class T> fast_write& operator << (T x) { (*this)(x); return *this; }
 };
+
+}

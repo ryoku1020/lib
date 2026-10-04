@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 //0,1,..,M-1
+namespace ryoku{
 template<class mint>
 vc<mint>lcm_convolution(vc<mint>a,vc<mint>b,int M){
     a.resize(M),b.resize(M);
@@ -37,4 +39,6 @@ vc<mint>lcm_convolution(vc<mint>a,vc<mint>b,int M){
     }
     rep(i,M)a[i]+=c[i];
     return a;
+}
+
 }

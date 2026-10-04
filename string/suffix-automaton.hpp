@@ -1,5 +1,8 @@
 #pragma once
+#include"../graph/base.hpp"
+#include"../template.hpp"
 #include"../tree/base.hpp"
+namespace ryoku{
 int give(char c){
     return c-'a';
 }
@@ -171,3 +174,5 @@ struct suffix_automaton{
         return t.substr(nb,nl);
     }
 };
+
+}

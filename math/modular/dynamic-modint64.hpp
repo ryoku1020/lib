@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<int id>
 struct dynamic_modint64{
     using u64=uint64_t;
@@ -86,3 +88,4 @@ struct dynamic_modint64{
         get_mod()=md;
     }
 };
+}

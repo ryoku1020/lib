@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class mint>
 vc<mint>and_convolution(vc<mint>a,vc<mint>b){
     assert(mint::get_mod());
@@ -18,4 +20,6 @@ vc<mint>and_convolution(vc<mint>a,vc<mint>b){
     rep(i,1<<lg)a[i]*=b[i];
     zeta_mobius(a,-1);
     return a;
+}
+
 }

@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../../math/modular/dynamic-mod-int.hpp"
+namespace ryoku{
 template<class Graph>
 int chromatic_number(const Graph&g){
     assert(Graph::directed()==false);
@@ -48,4 +50,6 @@ int chromatic_number(const Graph&g){
         }
     }   
     return ans;
+}
+
 }

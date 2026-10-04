@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include "../persistent-array.hpp"
+namespace ryoku{
 template<int B>
 struct persistent_union_find{
     persistent_array<int,B> par;
@@ -36,3 +38,9 @@ struct persistent_union_find{
         return res;
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--union_find--persistent-uf.hpp"
+#endif

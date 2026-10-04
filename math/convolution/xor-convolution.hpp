@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../../poly/base.hpp"
+namespace ryoku{
 template<class mint>
 void fwht(vc<mint>&a,bool is_inv){
     assert(mint::get_mod());
@@ -30,4 +32,6 @@ vc<mint>xor_convolution(vc<mint>a,vc<mint>b){
     rep(i,1<<lg)a[i]*=b[i];
     fwht(a,1);
     return a;
+}
+
 }

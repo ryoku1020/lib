@@ -23,22 +23,34 @@
 #include "../../ds/segment_tree/persistent-lazy-segtree.hpp"
 #include "../../debug/local.hpp"
 
+using namespace ryoku;
+
 struct unprintable{int value;};
 struct sum_info{
     using value_type=unprintable;
     static value_type op(value_type a,value_type b){return{a.value+b.value};}
-    static value_type e(){return{};}
+    static value_type id(){return{};}
 };
 struct add_info{
     using value_type=ll;
     static value_type op(value_type a,value_type b){return a+b;}
-    static value_type e(){return 0;}
+    static value_type id(){return 0;}
 };
 struct add_tag{
+    using value_type=ll;
     using lazy_type=ll;
+    static constexpr bool commute=true;
     static lazy_type id(){return 0;}
     static ll apply(ll x,lazy_type add){return x+add;}
     static lazy_type merge(lazy_type a,lazy_type b){return a+b;}
+    static lazy_type op(lazy_type a,lazy_type b){return a+b;}
+};
+struct add_acted{
+    using info=add_info;
+    using tag=add_tag;
+    using value_type=ll;
+    using lazy_type=ll;
+    static value_type act(value_type x,lazy_type add,ll len){return x+add*len;}
 };
 
 struct printable_info{ll sum,mx;};
@@ -101,10 +113,10 @@ int main(){
     debug::config.max_tree_nodes=3;assert(debug::to_string(debug::tree(small_seg)).find("…")==string::npos);
     debug::config.max_tree_nodes=2;assert(debug::to_string(debug::tree(small_seg)).find("…")!=string::npos);
     debug::config.max_tree_nodes=tree_nodes;
-    lazy_segtree<add_info,add_tag>lazy(4,vector<ll>{1,2,3,4});
+    lazy_segtree<add_acted>lazy(4,vector<ll>{1,2,3,4});
     lazy.apply(1,4,10);dbg(lazy);dbg(debug::tree(lazy));dbg(debug::raw(lazy));
     assign_segtree<add_info>assigned(4,1);assigned.assign(1,3,5);dbg(assigned);
-    dual_segtree<add_info>dual(4,vector<ll>{1,2,3,4});dual.apply(1,4,10);dbg(dual);
+    dual_segtree<add_acted>dual(4,vector<ll>{1,2,3,4});dual.apply(1,4,10);dbg(dual);
     dynamic_segtree<add_info,int,true>dynamic(8);auto dynamic_root=dynamic.build();
     dynamic_root=dynamic.set(dynamic_root,3,9);dbg(dynamic,debug::version(dynamic,dynamic_root));
     segtree_2d<add_info>two_dimensional(3,4);two_dimensional.set(1,2,7);dbg(two_dimensional);
@@ -117,7 +129,7 @@ int main(){
     auto shortened_graph=debug::to_string(large_graph);debug::config.max_graph_vertices=graph_vertices;
     assert(shortened_graph.find("0 ->")!=string::npos&&shortened_graph.find("99 ->")!=string::npos);
     assert(shortened_graph.find("…")!=string::npos);
-    ::tree<int>tr(4);tr.add_edge(0,1,7);tr.add_edge(1,2,8);tr.add_edge(1,3,9);dbg(tr);
+    ryoku::tree<int>tr(4);tr.add_edge(0,1,7);tr.add_edge(1,2,8);tr.add_edge(1,3,9);dbg(tr);
     lowlink ll(g);dbg(ll);dbg(debug::bcc(ll));
     flow<int>network(3);network.add_edge(0,1,4);network.add_edge(1,2,3);dbg(network);
     persistent_array<int,2>pa;auto root=pa.build(4,0);root=pa.change(2,9,root);dbg(pa,debug::version(pa,root));

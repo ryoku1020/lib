@@ -1,4 +1,6 @@
 #pragma once
+#include"../template.hpp"
+namespace ryoku{
 template<int sigma,auto give_order>
 struct aho_corasick{
     vc<array<int,sigma>>child;
@@ -103,3 +105,5 @@ struct aho_corasick{
         return res;
     }
 };
+
+}

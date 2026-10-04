@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"../number_theory/factorize.hpp"
+namespace ryoku{
 ll primitive_root(ll p){
     assert(p>=2);
     static mt19937 mt(random_device{}());
@@ -12,4 +14,6 @@ ll primitive_root(ll p){
         }
         if(ok)return g;
     }
+}
+
 }

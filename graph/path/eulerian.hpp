@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 //(頂点列,edge 列)
 //euler-路 と euler-閉路の違いに注意すること！ 
+namespace ryoku{
 template<class Graph>
 optional<pair<vc<int>,vc<typename Graph::edge>>>eulerian(const Graph&g){
     int n=g.size();
@@ -65,4 +67,6 @@ optional<pair<vc<int>,vc<typename Graph::edge>>>eulerian(const Graph&g){
             return make_pair(vs,trail);
         }else return nullopt;
     }
+}
+
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 struct mod261_int{
     using u64=uint64_t;
     using u32=uint32_t;
@@ -103,3 +105,5 @@ struct mod261_int{
         return is;
     }
 };
+
+}

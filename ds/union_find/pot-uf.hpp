@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 
+namespace ryoku{
 template<class X>
 struct potentialized_union_find{
     using value_type=X::value_type;
@@ -46,3 +48,9 @@ struct potentialized_union_find{
         return 1;
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--union_find--pot-uf.hpp"
+#endif

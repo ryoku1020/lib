@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class acted>
 struct dual_segtree{
     using info=typename acted::info;
@@ -84,3 +86,8 @@ struct dual_segtree{
         return node[p];
     }
 };
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--segment_tree--dual-segtree.hpp"
+#endif

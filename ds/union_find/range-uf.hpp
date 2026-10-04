@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 #include"uf.hpp"
+namespace ryoku{
 #ifndef SUPER_DISJOINT_SET_UNION_STRUCT
 #define SUPER_DISJOINT_SET_UNION_STRUCT
 struct super_disjoint_set_union{
@@ -41,3 +43,5 @@ struct super_disjoint_set_union{
     }
 };
 #endif
+
+}

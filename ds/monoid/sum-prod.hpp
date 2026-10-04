@@ -1,6 +1,7 @@
 #pragma once
 #include "../../template.hpp"
 
+namespace ryoku{
 template<class T>
 struct Sum{
     using value_type=T;
@@ -17,3 +18,5 @@ struct Prod{
     static value_type id(){return T(1);}
     static value_type e(){return id();}
 };
+
+}

@@ -1,6 +1,7 @@
 #pragma once
 #include "../../template.hpp"
 
+namespace ryoku{
 template<class T,T INF=inf<T>>
 struct MinCount{
     using value_type=pair<T,int>;
@@ -27,3 +28,5 @@ struct MaxCount{
     static value_type e(){return id();}
     static value_type make(T x){return {x,1};}
 };
+
+}

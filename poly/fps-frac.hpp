@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"base.hpp"
+namespace ryoku{
 template<class mint>
 struct fpsfrac{
     using F=fps<mint>;
@@ -51,3 +53,4 @@ struct fpsfrac{
     }
     friend bool operator!=(const fpsfrac&l,const fpsfrac&r){return !(l==r);}
 };
+}

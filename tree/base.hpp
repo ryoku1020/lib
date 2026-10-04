@@ -1,5 +1,8 @@
 #pragma once
+#include"../graph/base.hpp"
+#include"../template.hpp"
 #include"../graph/base.hpp" 
+namespace ryoku{
 template<class T=unweighted>
 struct tree{
     using Graph=static_graph<0,T>;
@@ -230,3 +233,9 @@ struct tree{
         return {v1,v2};
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../debug/formatters/tree--base.hpp"
+#endif

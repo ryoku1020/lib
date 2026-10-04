@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class mint>
 vvc<mint>binom_as2d(int n,int m){
     vvc<mint>res(n+1,vc<mint>(m+1));
@@ -10,4 +12,5 @@ vvc<mint>binom_as2d(int n,int m){
         }
     }
     return res;
+}
 }

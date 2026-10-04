@@ -1,6 +1,7 @@
 #pragma once
 #include "../../template.hpp"
 
+namespace ryoku{
 template<class T>
 struct assign{
     using value_type=optional<T>;
@@ -15,3 +16,5 @@ struct affine{
     static value_type id(){return {T(1),T(0)};}
     static value_type e(){return id();}
 };
+
+}

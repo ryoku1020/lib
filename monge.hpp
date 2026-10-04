@@ -1,4 +1,6 @@
 #pragma once
+#include"template.hpp"
+namespace ryoku{
 template<class T,class F>
 vector<T>monotone_minima(F&a,int h,int w,int ismax=0){//関数Fに対してminを求める
 
@@ -81,4 +83,6 @@ pair<ll,ll> monge_edge_shortest2(F&f,int n){
     };
     auto res=get();
     return res;
+}
+
 }

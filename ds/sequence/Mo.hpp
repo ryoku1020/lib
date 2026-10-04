@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 struct mo{
     int N,Q;
     int B;
@@ -60,3 +62,5 @@ struct mo{
         }
     }
 };
+
+}

@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 //n<=2^32
+namespace ryoku{
 struct bit_vector{
     using u64=uint64_t;
     vc<u64>big_block;
@@ -42,3 +44,9 @@ struct bit_vector{
         return r-l-rank1(l,r);
     }
 };
+
+}
+
+#ifdef LOCAL
+#include"../../debug/formatters/ds--sequence--bit-vector.hpp"
+#endif

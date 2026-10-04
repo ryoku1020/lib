@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 ull splitmix64(ull x){
     x+=0x9e3779b97f4a7c15ULL;
     x=(x^(x>>30))*0xbf58476d1ce4e5b9ULL;
@@ -115,3 +117,5 @@ struct hashmap{
     iterator begin(){return {this,0};}
     iterator end(){return {this,cap};}
 };
+
+}

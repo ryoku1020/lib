@@ -1,4 +1,5 @@
 #pragma once
+#include"../../template.hpp"
 #include <algorithm>
 #include <cassert>
 #include <numeric>
@@ -9,6 +10,7 @@
 
 #include "random-tree.hpp"
 
+namespace ryoku{
 inline std::vector<std::pair<int,int>> randomgraph(int n,int m,bool connected=false){
     assert(n>=0);
     long long max_edges=1LL*n*(n-1)/2;
@@ -50,4 +52,6 @@ inline std::vector<std::pair<int,int>> randomgraph(int n,int m,bool connected=fa
     }
     std::shuffle(res.begin(),res.end(),generator_engine());
     return res;
+}
+
 }

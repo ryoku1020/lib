@@ -1,6 +1,8 @@
 #pragma once
+#include"../../template.hpp"
 #include"../modular/mod-utillity.hpp"
 //coef*x^k ≡ y mod m なる min k 
+namespace ryoku{
 ll discrete_log(ll coef,ll x,ll y,ll m){
     x%=m,y%=m,coef%=m;
     if(m==1)return 0;
@@ -49,4 +51,6 @@ ll discrete_log(ll coef,ll x,ll y,ll m){
     };
     ll mk=bsgs(x,y,m);if(mk<0)return -1;mk+=slide;
     return mk;
+}
+
 }

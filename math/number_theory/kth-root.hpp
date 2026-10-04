@@ -1,5 +1,7 @@
 #pragma once
+#include"../../template.hpp"
 //floor(a^{1/b})
+namespace ryoku{
 ull kth_root(ull a,ull b){
     assert(b>0);
     if(a==0)return 0;
@@ -29,4 +31,6 @@ ull kth_root(ull a,ull b){
         }else wa=wj;
     }
     return ac;
+}
+
 }

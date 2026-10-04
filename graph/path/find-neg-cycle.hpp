@@ -1,4 +1,6 @@
 #pragma once
+#include"../../template.hpp"
+namespace ryoku{
 template<class T,class G>
 vc<int>findnegcycle(G g){
     int n=g.size();
@@ -25,4 +27,5 @@ vc<int>findnegcycle(G g){
     }   
     reverse(all(cycle));
     return cycle;
+}
 }

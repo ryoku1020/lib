@@ -1,5 +1,7 @@
 #pragma once
+#include"../template.hpp"
 #include"../math/modular/binom.hpp"
+namespace ryoku{
 template<class mint>
 //f(i)=y[i] なる deg(f)<n の f について f(v) を求める
 mint linear_interpolate(int n,const vc<mint>&y,mint v){
@@ -16,4 +18,5 @@ mint linear_interpolate(int n,const vc<mint>&y,mint v){
         suf*=(v-i);
     }
     return res;
+}
 }
