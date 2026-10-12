@@ -232,6 +232,25 @@ struct tree{
         int v2=find_farthest(v1);
         return {v1,v2};
     }
+    pair<vc<int>,vc<typename Graph::edge>>get_explicit_path(int u,int v)const{
+        vc<int>res;
+        vc<typename Graph::edge>es;
+        auto dfs=[&](auto&dfs,int now,int pre)->int{
+            res.pb(now);
+            if(now==v){
+                return 1;
+            }
+            for(auto&e:g[now]){
+                if(e.to==pre)continue;
+                es.pb(e);
+                if(dfs(dfs,e.to,now))return 1;
+                es.pop_back();
+            }
+            return 0;
+        };
+        dfs(dfs,u,-1);
+        return{res,es};
+    }
 };
 
 }
