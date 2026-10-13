@@ -13,4 +13,4 @@ keywords: Graph Utility, shortest_path, cycle_detection, graph utility
 - 閉路を検出: [`cycle_detection`](advanced.md#経路) (`graph/path/cycle-detection.hpp`)
 - グラフ型: [`static_graph`](base.md)
 
-`shortest_path<T>(g,s,t)` の実装上の返却予定型は `{{vertices,edges},distance}` ですが、内部でコンパイル不能な `dijkstra<T>(g,s)` 呼び出しを行うため現状そのままでは利用できません。Dijkstra は `dijkstra<T>(g, vc<int>{s})` の形で使えます。詳しくは [追加経路 API](advanced.md#経路) を確認してください。
+`shortest_path<T>(g,s,t)` は `{{vertices,edges},distance}` を返します。Dijkstra は `dijkstra<T>(g,s)` または複数始点を渡す `dijkstra<T>(g,vc<int>{s})` の形で使えます。詳しくは [追加経路 API](advanced.md#経路) を確認してください。

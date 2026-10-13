@@ -12,6 +12,8 @@ title: ライブラリ索引 | 用途・API 名
 |---|---|---|
 | 点更新・区間集約 | [セグメント木](ds/segtree.md)、[遅延セグメント木](ds/lazy-segtree.md) | `segtree`, `lazy_segtree`, `query`, `prod` |
 | 区間更新・一点取得 | [dual segment tree](ds/dual-segtree.md) | `dual_segtree` |
+| 長方形加算・一点取得（オフライン） | [rectadd_pointsum](ds/rectadd-pointsum.md) | `rectadd_pointsum`, `add_rect`, `add_query`, `work` |
+| 長方形加算・長方形内の総和（オフライン） | [rectadd_rectsum](ds/rectadd-rectsum.md) | `rectadd_rectsum`, `add_w`, `add_query`, `work` |
 | 区間代入・区間集約 | [assign segment tree](ds/assign-segtree.md) | `assign_segtree` |
 | 巨大な座標範囲 | [dynamic segment tree](ds/dynamic-segtree.md)、[dynamic lazy segment tree](ds/dynamic-lazy-segtree.md) | `dynamic_segtree`, `dynamic_lazy_segtree` |
 | 静的 RMQ / 変化しない区間集約 | [sparse table](ds/sparse-table.md) | `sparse_table` |

@@ -1,6 +1,7 @@
 #define IGNORE
 #include <cassert>
 #include "../../math/arithmetic/frac.hpp"
+using namespace ryoku;
 
 int main(){
     using F=frac<ll>;

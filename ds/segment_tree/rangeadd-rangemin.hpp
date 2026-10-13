@@ -13,14 +13,14 @@ struct rangeadd_rangemin{
         static S op(S a,S b){
             return S{a.sum+b.sum,min(a.min,a.sum+b.min)};
         }
-        static S e(){
+        static S id(){
             return S{0,inf<T>};
         }
     };
     int n;
     segtree<Info>seg;
     rangeadd_rangemin(){}
-    rangeadd_rangemin(int n):n(n),seg(n){}
+    rangeadd_rangemin(int n):n(n),seg(n,typename Info::S{0,0}){}
     template<class F>rangeadd_rangemin(const vc<F>&v){
         n=v.size();
         vc<typename Info::S>dat(n);
@@ -32,6 +32,7 @@ struct rangeadd_rangemin{
     }
     void add(int l,int r,T x){
         assert(0<=l&&l<=r&&r<=n);
+        if(l==r)return;
         auto s=seg.prod(l,l+1);
         s.sum+=x;
         s.min=s.sum;
@@ -45,6 +46,7 @@ struct rangeadd_rangemin{
     }
     T getmin(int l,int r){
         assert(0<=l&&l<=r&&r<=n);
+        if(l==r)return inf<T>;
         return seg.prod(0,l).sum+seg.prod(l,r).min;
     }
 };

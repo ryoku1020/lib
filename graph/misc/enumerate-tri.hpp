@@ -6,7 +6,7 @@ namespace ryoku{
 template<template<bool,typename...>class G,typename T,typename F>
 void enumerate_triangle(const G<0,T>&g,F f){
     static_assert(G<0,T>::directed()==false);
-    G<1,T> new_graph(g.size(),g.m);
+    G<1,T> new_graph(g.size(),g.edge_size());
     int n=g.size();
     for(auto&e:g.all_edges()){
         if(pii{g.deg(e.from),e.from}>pii{g.deg(e.to),e.to})new_graph.add_edge(e.to,e.from);

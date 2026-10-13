@@ -246,6 +246,7 @@ struct tree{
                 if(dfs(dfs,e.to,now))return 1;
                 es.pop_back();
             }
+            res.pop_back();
             return 0;
         };
         dfs(dfs,u,-1);

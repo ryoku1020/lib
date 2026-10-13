@@ -61,17 +61,17 @@ long long s = rs.query(0, 5, 2, 6); // 0<=x<5, 2<=y<6 の重み和
 - 重みは内部で `long long` に一度格納するため、`T` の値は `long long` に正確に収まること。
 - `build()` 後の `add_point` はサポートされません。点の重みは `T`、座標は `long long`。
 
-## 動的矩形和・矩形加算（実装要修正）
+## 動的矩形和・矩形加算
 
-`dynamic_rectangle_sum<T,D>` は座標を事前登録して構築した後、登録点の重みを変更する設計です。ただし現行実装は `query()` から `wm_base::walk()` を呼びますが、[`wavelet-matrix.hpp`](../../ds/sequence/wavelet-matrix.hpp) にそのメンバがなく、`query()` を使うコードはコンパイルできません。以下はソース上の API 形状であり、現在は利用できません。
+`dynamic_rectangle_sum<T,D>` は座標を事前登録して構築した後、登録点の重みを変更します。`add_point(x,y,w)` の後に `build()` し、`add(x,y,w)` で重みを加算、`query(l,r,d,u)` で `[l,r)×[d,u)` の重み和を取得します。更新は `O(D log n)`、問い合わせは座標の検索を含め `O(D log n)` です。`D>=1` とし、圧縮後の y 座標数が `2^D` 以下になるようにしてください。
 
 この実装は内部に登録座標を複製して保持します。同じ `(x,y)` が重複登録された場合 `add` は lower_bound で最初の一致点だけを更新するため、各座標を一度だけ登録してください。
 
-`dynamic_rectangle_add<T,D>` も `query()` が同じ未定義 `wm_base::walk()` に依存するため、現在は利用できません。設計上は `[l,r)×[d,u)` への加算と原点からの 2D prefix を提供します。
+`dynamic_rectangle_add<T,D>` は四隅の差分を動的矩形和で管理し、`[l,r)×[d,u)` への加算と、非負座標の点 `(x,y)` における値の取得を提供します。
 
 - `add_rec(l,r,d,u,w)` は `build()` 前に四隅を登録し、初期重み `w` を設定します。後の追加更新にも使う全境界を `w=0` で先に登録してください。
 - `build()` 後の `add(l,r,d,u,w)` は登録済み四隅へ差分を加算します。新しい座標は登録できません。負の `w` で減算。
-- 四隅への符号付きイベントによる 2D 差分です。`query(x,y)` は `[0,x+1) × [0,y+1)` の prefix 値を返します。
+- 四隅への符号付きイベントによる 2D 差分です。`query(x,y)` は四隅の差分を `[0,x+1) × [0,y+1)` で集約し、点 `(x,y)` の値を返します。
 
 ## 区間ソートと区間積 (`range_sort_range_product<info,D>`)
 
@@ -97,4 +97,4 @@ ds.set(i, new_rank, value);
 - `getmin(l,r)` は `[l,r)` の最小値。`O(log n)`。
 - `l==r` の場合、空区間の最小値は定義されず、実装は `inf<T>` を返します。
 
-静的点集合の矩形和は `rectangle_sum`、密な小さい格子には `segtree_2d` を選べます。動的矩形和は上記の実装不備が直るまで選択肢に含めないでください。
+静的点集合の矩形和は `rectangle_sum`、登録点の重みを更新する場合は `dynamic_rectangle_sum`、密な小さい格子には `segtree_2d` を選べます。

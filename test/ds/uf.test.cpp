@@ -4,6 +4,7 @@
 #include "../../ds/union_find/uf.hpp"
 
 using namespace std;
+using namespace ryoku;
 
 int main() {
     ios::sync_with_stdio(false);

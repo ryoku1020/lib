@@ -20,6 +20,14 @@ struct binary_indexed_tree{
         assert(i>=0&&i<n);
         for(i++;i<=n;i+=(i&-i))data[i-1]+=x;
     }
+    //[l,r) 
+    void range_add(int l,int r,T x){
+        add(l,x);
+        add(r,-x);
+    }
+    T get(int r){
+        return internal_sum(r+1);
+    }
     T internal_sum(int r)const{
         assert(0<=r&&r<=n);
         T ret=0;

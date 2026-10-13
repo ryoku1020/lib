@@ -1,8 +1,6 @@
 #pragma once
 template<class T>
-vector<array<T,3>>dyadic(T L,T R){
-    T S=1;
-    while(S<R)S<<=1;
+vector<array<T,3>>dyadic(T L,T R,T S){
     vector<array<T,3>>a,b;
     for(T l=L+S,r=R+S,w=1;l<r;l>>=1,r>>=1,w<<=1){
         if(l&1){

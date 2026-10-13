@@ -50,16 +50,19 @@ struct dynamic_rectangle_sum{
 
     T iquery(int l,int r,ll d)const{
         if(d<=0)return 0;
+        typename wm_base<ll,D>::node now{D-1,l,r};
+        if(d>=(ll)ys.size()){
+            auto ch=wm.child(now);
+            return f[D-1].sum(ch.zero.l,ch.zero.r)+f[D-1].sum(ch.one.l,ch.one.r);
+        }
         T ans=0;
-        wm.walk(l,r,[&](auto node,auto child,auto go){
-            if(!child.has)return;
-            if(d>>node.bit&1){
-                ans+=f[node.bit].sum(child.zero.l,child.zero.r);
-                go(child.one);
-            }else{
-                go(child.zero);
-            }
-        });
+        while(now.bit!=-1){
+            auto ch=wm.child(now);
+            if(d>>now.bit&1){
+                ans+=f[now.bit].sum(ch.zero.l,ch.zero.r);
+                now=ch.one;
+            }else now=ch.zero;
+        }
         return ans;
     }
 

@@ -346,7 +346,7 @@ inline int dbging=1;
 
 struct template_setup{
     template_setup(){
-        #ifdef LOCAL
+        #if defined(LOCAL)&&!defined(INTERACTIVE)
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
         

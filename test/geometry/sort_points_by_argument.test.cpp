@@ -2,6 +2,7 @@
 
 #include "../../template.hpp"
 #include "../../geometry/base.hpp"
+using namespace ryoku;
 
 using P=Point<ll>;
 
@@ -9,6 +10,6 @@ int main(){
     INT(n);
     vc<P>p(n);
     rep(i,n)cin>>p[i];
-    ArcTanSort(p);
+    sort(all(p));
     rep(i,n)cout<<p[i].x<<" "<<p[i].y<<"\n";
 }

@@ -116,7 +116,7 @@ int main(){
     lazy_segtree<add_acted>lazy(4,vector<ll>{1,2,3,4});
     lazy.apply(1,4,10);dbg(lazy);dbg(debug::tree(lazy));dbg(debug::raw(lazy));
     assign_segtree<add_info>assigned(4,1);assigned.assign(1,3,5);dbg(assigned);
-    dual_segtree<add_acted>dual(4,vector<ll>{1,2,3,4});dual.apply(1,4,10);dbg(dual);
+    dual_segtree<add_info>dual(4,vector<ll>{1,2,3,4});dual.apply(1,4,10);dbg(dual);
     dynamic_segtree<add_info,int,true>dynamic(8);auto dynamic_root=dynamic.build();
     dynamic_root=dynamic.set(dynamic_root,3,9);dbg(dynamic,debug::version(dynamic,dynamic_root));
     segtree_2d<add_info>two_dimensional(3,4);two_dimensional.set(1,2,7);dbg(two_dimensional);

@@ -1,5 +1,7 @@
 #pragma once
 #include"../../template.hpp"
+#include"dijkstra.hpp"
+#include"restore-path.hpp"
 namespace ryoku{
 template<class T,class Graph>
 pair<pair<vc<int>,vc<typename Graph::edge>>,T>shortest_path(const Graph&g,int s,int t){

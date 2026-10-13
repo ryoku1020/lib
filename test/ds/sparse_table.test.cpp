@@ -6,6 +6,7 @@
 #include "../../ds/sequence/sparse-table.hpp"
 
 using namespace std;
+using namespace ryoku;
 
 struct info {
     using value_type = long long;

@@ -47,11 +47,11 @@ auto dist = dijkstra<long long>(g, vc<int>{s});
 auto [vertices, edges] = restore_path(g, dist, s, t);
 ```
 
-- `dijkstra<T>(g, starts)` は始点 vector の各頂点を距離 0 とした距離 vector を返す。単一始点のつもりで `dijkstra<T>(g,s)` と呼ぶ overload は、実装の template 引数 `F` を推論できずコンパイルできない。単一始点は `dijkstra<T>(g, vc<int>{s})` と書くか、型まで明示して `dijkstra<T, decltype(g), int>(g,s)` と呼ぶ。
+- `dijkstra<T>(g,starts)` は始点 vector の各頂点を距離 0 とした距離 vector を返す。単一始点は `dijkstra<T>(g,s)` と呼ぶ。
 - 全辺の重みが非負であること。到達不能は `inf<T>`。二分ヒープ版の計算量は `O((V+E) log(E+1))`、距離 vector は `O(V)`。
 - `slow_dijkstra<T>(g,starts)` は同じ距離を線形走査で計算する密グラフ向け実装。`O(V^2+E)`。
 - `restore_path(g, dist, s, t)` は距離ラベル `dist` を使って復元し、`{頂点列, 辺列}` を返す。到達不能時は両方空。辺の重みは非負を前提とした緩和判定。
-- `shortest_path<T>(g,s,t)` はソース上 `{ {頂点列, 辺列}, 距離 }` を返す設計だが、現在の内部呼出 `dijkstra<T>(g,s)` が上記 template 推論に失敗するため、そのままではコンパイルできない。
+- `shortest_path<T>(g,s,t)` は `{{頂点列,辺列},距離}` を返す。到達不能時は頂点列・辺列が空で、距離は `inf<T>`。`graph/path/shortest-path.hpp` が必要な経路 API のヘッダも取り込む。
 - `findnegcycle<T>(g)` は全頂点から到達可能な負閉路の頂点列を返す。なければ空。全頂点を初期距離 0 とするため、特定始点に限定しない。`O(VE)`。
 - `cycle_detection(g)` は有向・無向グラフの閉路を 1 つ見つけ、`{頂点列,辺 ID 列}` を返す。閉路なしは空の pair。閉路列では始点を重ねない。
 - `eulerian(g)` は Euler trail を `optional<pair<頂点列,辺列>>` で返す。無向・有向の両方に対応し、辺を使い切る trail がないとき `nullopt`。辺なしでは `{{0}, {}}` を返すため、頂点数 0 のグラフに適用する用途には向かない。辺 ID は `[0,E)` の一意な連番が必要。

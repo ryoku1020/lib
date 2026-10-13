@@ -16,8 +16,8 @@ struct rectangle_union{
                 if(a.first==b.first)return {a.first,a.second+b.second};
                 return min(a,b);
             }
-            static value_type e(){
-                return {2e9,0};
+            static value_type id(){
+                return {2000000000,0};
             }
         };
         struct tag{
@@ -47,6 +47,7 @@ struct rectangle_union{
     }
     template<class T2> 
     T2 calc(){
+        if(rec.empty())return 0;
         compresser<T>x;
         x.x.reserve(rec.size()*2);
         for(auto&[l,r,d,u]:rec){
@@ -62,7 +63,7 @@ struct rectangle_union{
         sort(all(iord));
         vc<pair<int,T>>w(x.size()-1);rep(i,x.size()-1)w[i]={0,x[i+1]-x[i]};
         lazy_segtree<m_type>segtree(x.size()-1,w);
-        T pre=get<2>(iord[0]);
+        T pre=get<0>(iord[0]);
         T2 ans=0;
         for(auto&[ypos,i,diff]:iord){
             auto res=segtree.all_prod();

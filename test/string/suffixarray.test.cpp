@@ -5,6 +5,7 @@
 #include <string>
 
 using namespace std;
+using namespace ryoku;
 
 int main() {
     ios::sync_with_stdio(false);

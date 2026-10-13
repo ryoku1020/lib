@@ -6,6 +6,7 @@
 #include "../../math/modular/static-mod-int.hpp"
 
 using namespace std;
+using namespace ryoku;
 
 using mint = static_modint<998244353>;
 
@@ -15,7 +16,7 @@ struct info {
         // b(a(x)) = b.a * a.a * x + b.a * a.b + b.b
         return {b.first * a.first, b.first * a.second + b.second};
     }
-    static value_type e() {
+    static value_type id(){
         return {1, 0};
     }
 };

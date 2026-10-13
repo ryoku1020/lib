@@ -2,11 +2,12 @@
 #include"../graph/base.hpp"
 #include"../template.hpp"
 #include"base.hpp"
+#include"centroid.hpp"
 #include"../ds/sequence/BIT.hpp"
 namespace ryoku{
 template<class T,class U=unweighted>
 struct contour_add{
-    tree<U>&tree;
+    ::ryoku::tree<U>&tree;
     contour_add(::ryoku::tree<U>&tree):tree(tree){}
     vc<binary_indexed_tree<T>>call_non;
     vc<T>cen1;

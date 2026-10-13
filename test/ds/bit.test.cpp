@@ -4,6 +4,7 @@
 #include "../../ds/sequence/BIT.hpp"
 
 using namespace std;
+using namespace ryoku;
 
 int main() {
     ios::sync_with_stdio(false);

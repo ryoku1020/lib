@@ -3,6 +3,8 @@
 #include"../mat.hpp"
 #include"../../poly/base.hpp"
 #include"../rand.hpp"
+#include"../arithmetic/characteristic.hpp"
+#include"../../poly/taylor-shift.hpp"
 //det(m0+m1x)
 namespace ryoku{
 template<class T>

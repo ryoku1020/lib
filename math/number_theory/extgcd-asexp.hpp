@@ -1,5 +1,6 @@
 #pragma once
 #include"../../template.hpp"
+#include"../modular/mod-utillity.hpp"
 //ax+by=c
 //res.fi.fi*t+res.fi.se, res.se.fi*t+res.se.se という解集合
 namespace ryoku{

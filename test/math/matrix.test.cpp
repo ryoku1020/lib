@@ -2,6 +2,7 @@
 #include <cassert>
 #include "../../template.hpp"
 #include "../../math/mat.hpp"
+using namespace ryoku;
 
 int main(){
     matrix<int>a(vvc<int>{{1,2},{3,4}});

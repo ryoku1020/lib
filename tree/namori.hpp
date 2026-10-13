@@ -1,6 +1,7 @@
 #pragma once
 #include"../template.hpp"
 #include"../graph/base.hpp"
+#include"../graph/connectivity/all-cycle.hpp"
 #include"base.hpp"
 namespace ryoku{
 template<class T>
@@ -8,6 +9,7 @@ struct namori{
     static_graph<0,T>g;
     vc<int>group,comp,incycle,inner_id;
     vc<int>cyc;
+    vc<int>nxt,prv;
     vc<T>cycw;
     vc<tree<T>>t;
     vvc<int>vs,comps;
@@ -34,9 +36,15 @@ struct namori{
             cid++;
         }
         auto res=all_cycle(g);
-        for(auto&x:res.fi)cyc.pb(x);
-        cycw.resize(cyc.size());
-        rep(i,cyc.size())cycw[i]=edgew[res.se[i]];
+        rep(i,res.fi.size()){
+            int l=cyc.size(),r=l+res.fi[i].size();
+            for(auto&x:res.fi[i])cyc.pb(x);
+            for(auto&x:res.se[i])cycw.pb(edgew[x]);
+            REP(j,l,r){
+                nxt.pb(j+1==r?l:j+1);
+                prv.pb(j==l?r-1:j-1);
+            }
+        }
         edgew.clear();
         rep(i,cyc.size())incycle[cyc[i]]=1;
         vs.resize(cyc.size());
@@ -76,10 +84,10 @@ struct namori{
         return cycw[i];
     }
     int cycle_next(int i)const{
-        return (i+1)%cycle_size();
+        return nxt[i];
     }
     int cycle_prev(int i)const{
-        return (i+cycle_size()-1)%cycle_size();
+        return prv[i];
     }
     int tree_id(int v)const{
         return group[v];
@@ -115,6 +123,7 @@ struct namori{
         return vs;
     }
     vc<array<int,3>>path_decomposition(int a,int b){
+        if(!same_component(a,b))return {};
         if(group[a]==group[b]){
             return{{a,b,0}};
         }

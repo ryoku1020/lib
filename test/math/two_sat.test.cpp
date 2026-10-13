@@ -2,9 +2,10 @@
 
 #include <iostream>
 #include <vector>
-#include "../../graph/two-sat.hpp"
+#include "../../graph/misc/two-sat.hpp"
 
 using namespace std;
+using namespace ryoku;
 
 int main() {
     ios::sync_with_stdio(false);
