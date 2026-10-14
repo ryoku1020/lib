@@ -1,4 +1,5 @@
 #pragma once
+namespace ryoku{
 template<class T>
 vector<array<T,3>>dyadic(T L,T R,T S){
     vector<array<T,3>>a,b;
@@ -16,4 +17,5 @@ vector<array<T,3>>dyadic(T L,T R,T S){
     reverse(all(b));
     a.insert(a.end(),b.begin(),b.end());
     return a;
+}
 }

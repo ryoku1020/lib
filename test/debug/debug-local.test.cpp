@@ -21,6 +21,8 @@
 #include "../../graph/network_flow/flow.hpp"
 #include "../../graph/network_flow/min-cost-flow.hpp"
 #include "../../ds/segment_tree/persistent-lazy-segtree.hpp"
+#include "../../math/fixed-mat.hpp"
+#include "../../math/modular/static-mod-int.hpp"
 #include "../../debug/local.hpp"
 
 using namespace ryoku;
@@ -94,6 +96,33 @@ int main(){
     debug::config.max_matrix_rows=matrix_rows;debug::config.max_matrix_columns=matrix_columns;
     assert(shortened_matrix.find(" 0 |")!=string::npos&&shortened_matrix.find("19 |")!=string::npos);
     assert(shortened_matrix.find(" 19")!=string::npos&&shortened_matrix.find("⋮")!=string::npos);
+    fixed_matrix<int,3,4>fixed;
+    for(int y=0;y<3;y++)for(int z=0;z<4;z++)fixed[y][z]=matrix[y][z];
+    ryoku::matrix<int>dynamic_matrix(matrix);
+    assert(debug::to_string(fixed)==debug::to_string(matrix));
+    assert(debug::to_string(dynamic_matrix)==debug::to_string(matrix));
+    using mint=static_modint<998244353>;
+    fixed_matrix<mint,2,2>fixed_mod{{1,2},{3,4}};
+    ryoku::matrix<mint>dynamic_mod(vector<vector<mint>>{{1,2},{3,4}});
+    assert(debug::to_string(fixed_mod)==debug::to_string(vector<vector<int>>{{1,2},{3,4}}));
+    assert(debug::to_string(dynamic_mod)==debug::to_string(fixed_mod));
+    assert(debug::to_string(vector<fixed_matrix<mint,2,2>>{fixed_mod}).find("unprintable")==string::npos);
+    assert(debug::to_string(fixed_matrix<unprintable,1,1>{}).find("<unprintable unprintable>")!=string::npos);
+    assert(debug::to_string(fixed_matrix<int,0,3>{})=="[0 × 3]");
+    assert(debug::to_string(fixed_matrix<int,2,0>{})=="[2 × 0]");
+    assert(debug::to_string(ryoku::matrix<int>(0,3))=="[0 × 3]");
+    assert(debug::to_string(ryoku::matrix<int>(2,0))=="[2 × 0]");
+    ryoku::matrix<int>empty_matrix;
+    assert(debug::to_string(empty_matrix)=="[0 × 0]");
+    fixed_matrix<int,20,20>large_fixed;
+    for(int y=0;y<20;y++)for(int z=0;z<20;z++)large_fixed[y][z]=large_matrix[y][z];
+    ryoku::matrix<int>large_dynamic(large_matrix);
+    debug::config.max_matrix_rows=4;debug::config.max_matrix_columns=4;
+    assert(debug::to_string(large_fixed)==shortened_matrix);
+    assert(debug::to_string(large_dynamic)==shortened_matrix);
+    assert(debug::to_string(debug::full(large_fixed))==debug::to_string(debug::full(large_matrix)));
+    assert(debug::to_string(debug::full(large_dynamic))==debug::to_string(debug::full(large_matrix)));
+    debug::config.max_matrix_rows=matrix_rows;debug::config.max_matrix_columns=matrix_columns;
     int i=12,l=3,r=18;
     dbg(i);dbg(i,l,r);
     dbg(1,"abc",string("abc"),vector<int>{1,2,3},matrix);
@@ -138,12 +167,19 @@ int main(){
     auto error=cerr.rdbuf(errors.rdbuf());
     {int dbging=0;dbg(string("hidden"));}
     dbg(123);
+    dbg(fixed_mod,dynamic_mod);
     debug::internal::log(__FILE__,__LINE__,__func__,"broken(",1,2);
     cout<<"ordinary-output\n";
     cout.rdbuf(output);
     cerr.rdbuf(error);
     assert(captured.str().find("hidden")==string::npos);
     assert(captured.str().find("123")!=string::npos);
+    assert(captured.str().find("fixed_mod")!=string::npos);
+    assert(captured.str().find("dynamic_mod")!=string::npos);
+    assert(captured.str().find("[2 × 2]")!=string::npos);
+    assert(captured.str().find("0 | 1 2")!=string::npos);
+    assert(captured.str().find("1 | 3 4")!=string::npos);
+    assert(captured.str().find("unprintable")==string::npos);
     assert(captured.str().find("arg0 = 1")!=string::npos);
     assert(captured.str().find("arg1 = 2")!=string::npos);
     assert(captured.str().find("ordinary-output")!=string::npos);

@@ -88,6 +88,45 @@ struct stern_brocot_tree{
         auto f=decode_path(encode_path(p,q));
         return {{f.p,f.q},{f.r,f.s}};
     }
+
+    template<class F>
+    static st_frac binary_search(T n,T m,F judge){
+        assert(n>=1&&m>=1);
+        st_frac f=st_frac::root();
+        while(f.p<=n-f.r&&f.q<=m-f.s){
+            bool go_right=judge(f.p+f.r,f.q+f.s);
+            T lim=min(n,m);
+            if(go_right){
+                if(f.r)lim=min(lim,(n-f.p)/f.r);
+                if(f.s)lim=min(lim,(m-f.q)/f.s);
+            }else{
+                if(f.p)lim=min(lim,(n-f.r)/f.p);
+                if(f.q)lim=min(lim,(m-f.s)/f.q);
+            }
+            auto ok=[&](T x){
+                auto nf=f;
+                nf.move(go_right?'R':'L',x);
+                if(go_right)return judge(nf.p,nf.q);
+                return !judge(nf.r,nf.s);
+            };
+            T ac=1,wa=1;
+            while(wa<lim){
+                T nxt=wa+min(wa,lim-wa);
+                if(!ok(nxt)){
+                    wa=nxt;
+                    break;
+                }
+                ac=wa=nxt;
+            }
+            while(wa-ac>1){
+                T mid=ac+(wa-ac)/2;
+                if(ok(mid))ac=mid;
+                else wa=mid;
+            }
+            f.move(go_right?'R':'L',ac);
+        }
+        return f;
+    }
 };
 
 }

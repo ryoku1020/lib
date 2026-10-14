@@ -14,7 +14,7 @@ template<class T>
 struct matrix{
     int n,m;
     vvc<T>a;
-    matrix()=default;
+    matrix():n(0),m(0){}
     matrix(vvc<T>b):a(b),n(b.size()),m(0){
         if(b.size())m=b[0].size();
         for(auto&row:b)assert((int)row.size()==m);
@@ -222,3 +222,7 @@ struct matrix{
 };
 
 }
+
+#ifdef LOCAL
+#include"../debug/formatters/math--mat.hpp"
+#endif

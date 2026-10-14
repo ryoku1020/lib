@@ -11,6 +11,9 @@
 namespace ryoku {
 
 
+
+
+// Enumerate all a in [0,m]^n, in lexicographic order.
 inline vvc<int> enumerate_vec(int n, int m) {
     vvc<int> res;
     if (n < 0 || m < 0) return res;
@@ -29,6 +32,7 @@ inline vvc<int> enumerate_vec(int n, int m) {
     return res;
 }
 
+// Enumerate 0 <= a[0] <= ... <= a[n-1] <= m, in lexicographic order.
 inline vvc<int> enumerate_nondecreasing(int n, int m) {
     vvc<int> res;
     if (n < 0 || m < 0) return res;
@@ -45,6 +49,137 @@ inline vvc<int> enumerate_nondecreasing(int n, int m) {
     };
     dfs(dfs, 0, 0);
     return res;
+}
+
+// All enumeration functions return lexicographically sorted vector<vector<int>>.
+// Bounds are inclusive.
+
+// a[i] in [lo[i],hi[i]]. Negative values are allowed.
+inline vvc<int> enumerate_vec(const vc<int>& lo, const vc<int>& hi) {
+    vvc<int> res;
+    if (lo.size() != hi.size()) throw std::invalid_argument("enumerate_vec: size mismatch");
+    int n = (int)lo.size();
+    for (int i = 0; i < n; ++i) if (lo[i] > hi[i]) return res;
+    vc<int> a(n);
+    auto dfs = [&](auto&& self, int i) -> void {
+        if (i == n) {
+            res.push_back(a);
+            return;
+        }
+        for (int x = lo[i]; ; ++x) {
+            a[i] = x;
+            self(self, i + 1);
+            if (x == hi[i]) break;
+        }
+    };
+    dfs(dfs, 0);
+    return res;
+}
+
+// a[i] in [l,r].
+inline vvc<int> enumerate_vec(int n, int l, int r) {
+    if (n < 0 || l > r) return {};
+    return enumerate_vec(vc<int>(n, l), vc<int>(n, r));
+}
+
+// 0 <= a[0] < ... < a[n-1] <= m.
+inline vvc<int> enumerate_increasing(int n, int m) {
+    vvc<int> res;
+    if (n < 0 || m < 0) return res;
+    vc<int> a(n);
+    auto dfs = [&](auto&& self, int i, int lo) -> void {
+        if (i == n) {
+            res.push_back(a);
+            return;
+        }
+        for (int x = lo; x <= m; ++x) {
+            a[i] = x;
+            self(self, i + 1, x + 1);
+        }
+    };
+    dfs(dfs, 0, 0);
+    return res;
+}
+
+namespace detail {
+// Enumerate 0 <= a[i] <= m with sum == s or sum <= s.
+// sorted=true additionally requires a[0] <= ... <= a[n-1].
+inline vvc<int> enumerate_sum_impl(int n, int m, int s, bool sorted, bool exact) {
+    vvc<int> res;
+    if (n < 0 || m < 0 || s < 0) return res;
+    vc<int> a(n);
+    auto dfs = [&](auto&& self, int i, int lo, int rem) -> void {
+        if (i == n) {
+            if (!exact || rem == 0) res.push_back(a);
+            return;
+        }
+        if (exact && (1LL * (n - i) * lo > rem ||
+                      1LL * (n - i) * m < rem)) return;
+        for (int x = lo; x <= m && x <= rem; ++x) {
+            a[i] = x;
+            self(self, i + 1, sorted ? x : 0, rem - x);
+        }
+    };
+    dfs(dfs, 0, 0, s);
+    return res;
+}
+} // namespace detail
+
+// 0 <= a[i] <= m, sum a[i] == s.
+inline vvc<int> enumerate_sum(int n, int m, int s) {
+    return detail::enumerate_sum_impl(n, m, s, false, true);
+}
+
+// 0 <= a[i] <= m, sum a[i] <= s.
+inline vvc<int> enumerate_sum_le(int n, int m, int s) {
+    return detail::enumerate_sum_impl(n, m, s, false, false);
+}
+
+// Nondecreasing and sum a[i] == s.
+inline vvc<int> enumerate_partition(int n, int m, int s) {
+    return detail::enumerate_sum_impl(n, m, s, true, true);
+}
+
+// Nondecreasing and sum a[i] <= s.
+inline vvc<int> enumerate_partition_le(int n, int m, int s) {
+    return detail::enumerate_sum_impl(n, m, s, true, false);
+}
+
+// Exactly k entries are positive, with 0 <= a[i] <= m.
+inline vvc<int> enumerate_support(int n, int m, int k) {
+    vvc<int> res;
+    if (n < 0 || m < 0 || k < 0 || k > n) return res;
+    vc<int> a(n);
+    auto dfs = [&](auto&& self, int i, int used) -> void {
+        if (used > k || used + n - i < k) return;
+        if (i == n) {
+            if (used == k) res.push_back(a);
+            return;
+        }
+        for (int x = 0; x <= m; ++x) {
+            a[i] = x;
+            self(self, i + 1, used + (x != 0));
+        }
+    };
+    dfs(dfs, 0, 0);
+    return res;
+}
+
+// Distinct permutations of a, in lexicographic order.
+inline vvc<int> enumerate_permutations(vc<int> a) {
+    vvc<int> res;
+    std::sort(a.begin(), a.end());
+    do {
+        res.push_back(a);
+    } while (std::next_permutation(a.begin(), a.end()));
+    return res;
+}
+
+// k distinct indices chosen from {0,...,n-1}, in ascending order.
+inline vvc<int> enumerate_combinations(int n, int k) {
+    if (n < 0 || k < 0 || k > n) return {};
+    if (k == 0) return {vc<int>{}};
+    return enumerate_increasing(k, n - 1);
 }
 
 // Finite, terminating impartial games under normal play.

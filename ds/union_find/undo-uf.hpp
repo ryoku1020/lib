@@ -1,57 +1,61 @@
 #pragma once
-#include"../../template.hpp"
+#include "../../template.hpp"
 namespace ryoku{
-struct undoable_union_find {
-    std::vector<int>par;
-    std::stack<std::pair<int, int>>history;
-    undoable_union_find(int n) {
-        assert(n>=0);
-        par.resize(n, -1);
-    }
-    int root(int x) {
+struct undoable_union_find{
+    vc<int>par;
+    vc<array<int,3>>history;
+    int cnt,t=0;
+    undoable_union_find(int n):par(n,-1),cnt(n){}
+    int root(int x)const{
         assert(0<=x&&x<(int)par.size());
-        if (par[x] < 0)return x;
-        else return root(par[x]);
+        while(par[x]>=0)x=par[x];
+        return x;
     }
-    bool same(int x, int y) {
-        assert(0<=x&&x<(int)par.size());
-        assert(0<=y&&y<(int)par.size());
-        return root(x) == root(y);
+    bool same(int x,int y)const{
+        return root(x)==root(y);
     }
-    bool merge(int x, int y) {
-        assert(0<=x&&x<(int)par.size());
-        assert(0<=y&&y<(int)par.size());
-        x = root(x), y = root(y);
-        history.push({ x,par[x] });
-        history.push({ y,par[y] });
-        if (x == y)return false;
-        else if (par[x] > par[y])std::swap(x, y);
-        par[x] += par[y];
-        par[y] = x;
-        return true;
-    }
-    void save() {
-        while (history.size())history.pop();
-    }
-    void undo() {
-        assert(history.size()>=2);
-        for(int jj=0;jj<2;jj++){
-            par[history.top().first] = history.top().second;
-            history.pop();
-        }
-        return;
-    }
-    void rollback() {
-        while (history.size())undo();
-    }
-    int size(int x){
-        assert(0<=x&&x<(int)par.size());
+    int size(int x)const{
         return -par[root(x)];
     }
+    bool merge(int x,int y){
+        t++;
+        x=root(x),y=root(y);
+        if(x==y)return false;
+        if(par[x]>par[y])swap(x,y);
+        history.pb({t,y,par[y]});
+        par[x]+=par[y];
+        par[y]=x;
+        cnt--;
+        return true;
+    }
+    void undo(){
+        assert(t>0);
+        if(!history.empty()&&history.back()[0]==t){
+            auto [tt,y,py]=history.back();
+            history.pop_back();
+            int x=par[y];
+            par[x]-=py;
+            par[y]=py;
+            cnt++;
+        }
+        t--;
+    }
+    void rollback(int k){
+        assert(0<=k&&k<=t);
+        while(k--)undo();
+    }
+    void rollback(){
+        rollback(t);
+    }
+    void save(){
+        history.clear();
+        t=0;
+    }
+    int count()const{
+        return cnt;
+    }
 };
-
 }
-
 #ifdef LOCAL
-#include"../../debug/formatters/ds--union_find--undo-uf.hpp"
+#include "../../debug/formatters/ds--union_find--undo-uf.hpp"
 #endif

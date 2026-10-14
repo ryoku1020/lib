@@ -13,7 +13,7 @@ struct Sum{
 template<class T>
 struct Prod{
     using value_type=T;
-    static constexpr bool commute=true;
+    static constexpr bool commute=false;
     static value_type op(value_type a,value_type b){return a*b;}
     static value_type id(){return T(1);}
     static value_type e(){return id();}

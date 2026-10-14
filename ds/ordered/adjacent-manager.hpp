@@ -1,4 +1,5 @@
 #pragma once
+namespace ryoku{
 template<class key>
 struct adjacent_manager{
     set<key>sts;
@@ -27,3 +28,4 @@ struct adjacent_manager{
         return true;
     }
 };
+}

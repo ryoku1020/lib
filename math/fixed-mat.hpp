@@ -173,3 +173,7 @@ struct fixed_matrix{
 };
 
 }
+
+#ifdef LOCAL
+#include"../debug/formatters/math--fixed-mat.hpp"
+#endif
