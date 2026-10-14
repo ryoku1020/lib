@@ -2,6 +2,7 @@
 #ifdef TEMPLATE
 #else
 #define TEMPLATE
+//see https://github.com/ryoku1020/lib
 # pragma GCC optimize("O3")
 #include <iostream>
 #include <iomanip>
