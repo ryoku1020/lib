@@ -1,6 +1,7 @@
 #pragma once
 #include "../../template.hpp"
-#include "../monoid/min-max.hpp"
+#include "../monoid/max.hpp"
+#include "../monoid/min.hpp"
 #include "../monoid/sum-prod.hpp"
 #include "../monoid/assign-affine.hpp"
 

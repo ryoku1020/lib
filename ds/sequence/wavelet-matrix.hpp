@@ -87,6 +87,12 @@ struct wm_base{
         return ans;
     }
     ll count_less(int l,int r,T k)const{
+        if constexpr(is_signed_v<T>){
+            if(k<=0)return 0;
+        }
+        if constexpr(D<numeric_limits<U>::digits){
+            if(U(k)>=(U(1)<<D))return r-l;
+        }
         ll ans=0;
         node x={D-1,l,r};
         while(x.bit!=-1){
@@ -103,6 +109,12 @@ struct wm_base{
     template<class L>
     L lower_sum(int l,int r,T u)const{
         auto&pref=lower_pref<L>();
+        if constexpr(is_signed_v<T>){
+            if(u<=0)return L(0);
+        }
+        if constexpr(D<numeric_limits<U>::digits){
+            if(U(u)>=(U(1)<<D))return pref[D][r]-pref[D][l];
+        }
         L ans=0;
         node x={D-1,l,r};
         while(x.bit!=-1){
