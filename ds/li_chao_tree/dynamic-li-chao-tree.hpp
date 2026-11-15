@@ -1,14 +1,13 @@
 #pragma once
 #include"../../template.hpp"
-//max で eval されるので注意
 namespace ryoku{
-template<class info,bool ismin,class T>
+template<class Line,class T,bool ismin=true>
 struct dynamic_li_chao_tree{
-    using Line=typename info::value_type;
     struct Node{
         Line line;
+        bool has_line;
         Node*l,*r;
-        Node():line(info::e()),l(nullptr),r(nullptr){}
+        Node():line(Line::id()),has_line(false),l(nullptr),r(nullptr){}
         ~Node(){
             if(l)delete l;
             if(r)delete r;
@@ -16,23 +15,25 @@ struct dynamic_li_chao_tree{
     };
     Node*root;
     T n,N;
-    int coef;
     dynamic_li_chao_tree(T n_):root(nullptr),n(n_){
         assert(n_>=0);
         N=1;
         while(N<n_)N*=2;
-        if(ismin)coef=1;
-        else coef=-1;
     }
     ~dynamic_li_chao_tree(){if(root)delete root;}
     void add_line_(Line a,Node*&t_ref,T L,T R){
         Node**t=&t_ref;
         while(1){
             if(!(*t))*t=new Node();
+            if(!(*t)->has_line){
+                (*t)->line=a;
+                (*t)->has_line=true;
+                return;
+            }
             T mid=L+R>>1;
-            if(info::eval(a,mid)*coef<info::eval((*t)->line,mid)*coef)swap((*t)->line,a);
+            if(ismin?a.eval(mid)<(*t)->line.eval(mid):a.eval(mid)>(*t)->line.eval(mid))swap((*t)->line,a);
             if(L+1==R)break;
-            if(info::eval(a,L)*coef<info::eval((*t)->line,L)*coef){
+            if(ismin?a.eval(L)<(*t)->line.eval(L):a.eval(L)>(*t)->line.eval(L)){
                 t=&((*t)->l);R=mid;
             }else{
                 t=&((*t)->r);L=mid;
@@ -55,19 +56,21 @@ struct dynamic_li_chao_tree{
         assert(0<=ql&&ql<=qr&&qr<=n);
         add_segment_(a,root,0,N,ql,qr);
     }
-    auto query(T x){
+    T query(T x){
         assert(0<=x&&x<n);
         Node*t=root;
         T L=0,R=N;
-        using R_t=decltype(info::eval(info::e(),x));
-        R_t res=inf<R_t>;
+        T res=ismin?inf<T>:-inf<T>;
         while(t){
-            chmin(res,info::eval(t->line,x));
+            if(t->has_line){
+                if(ismin)chmin(res,t->line.eval(x));
+                else chmax(res,t->line.eval(x));
+            }
             T mid=L+R>>1;
             if(x<mid)t=t->l,R=mid;
             else t=t->r,L=mid;
         }
-        return ismin?res:-res;
+        return res;
     }
 };
 

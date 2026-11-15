@@ -48,6 +48,7 @@ auto [vertices, edges] = restore_path(g, dist, s, t);
 ```
 
 - `dijkstra<T>(g,starts)` は始点 vector の各頂点を距離 0 とした距離 vector を返す。単一始点は `dijkstra<T>(g,s)` と呼ぶ。
+- `bfs<T>(g,starts)` は重みが 1 の辺に対する BFS。`bfs01<T>(g,starts)` は重みが 0 または 1 の辺に対する 0-1 BFS。どちらも距離の更新に `e.cost` を使う。いずれも単一始点を渡せ、到達不能は `inf<T>`、計算量は `O(V+E)`。それぞれ `graph/path/bfs.hpp`、`graph/path/01bfs.hpp` を include する。
 - 全辺の重みが非負であること。到達不能は `inf<T>`。二分ヒープ版の計算量は `O((V+E) log(E+1))`、距離 vector は `O(V)`。
 - `slow_dijkstra<T>(g,starts)` は同じ距離を線形走査で計算する密グラフ向け実装。`O(V^2+E)`。
 - `restore_path(g, dist, s, t)` は距離ラベル `dist` を使って復元し、`{頂点列, 辺列}` を返す。到達不能時は両方空。辺の重みは非負を前提とした緩和判定。

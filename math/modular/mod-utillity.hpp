@@ -4,17 +4,18 @@
 #include"dynamic-mod-int.hpp"
 
 namespace ryoku{
-template< typename T >
-T extgcd(T a, T b, T &x, T &y) {
-  T d = a;
-  if(b != 0) {
-    d = extgcd(b, a % b, y, x);
-    y -= (a / b) * x;
-  } else {
-    x = 1;
-    y = 0;
-  }
-  return d;
+template<typename T>
+T extgcd(T a,T b,T &x,T &y){
+    T d=a;
+    if(b!=0){
+        d=extgcd(b,a%b,y,x);
+        y-=(a/b)*x;
+    }else{
+        x=(a>=0?1:-1);
+        y=0;
+        d=(a>=0?a:-a);
+    }
+    return d;
 }
 template<class T>
 pair<T,T> inv(T x,T m){

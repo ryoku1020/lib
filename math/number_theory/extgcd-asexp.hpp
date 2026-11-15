@@ -1,9 +1,10 @@
 #pragma once
 #include"../../template.hpp"
 #include"../modular/mod-utillity.hpp"
+namespace ryoku{
+
 //ax+by=c
 //res.fi.fi*t+res.fi.se, res.se.fi*t+res.se.se という解集合
-namespace ryoku{
 template<class T>
 pair<pair<T,T>,pair<T,T>>extgcdasexp(T a,T b,T c){
     T g=gcd(a,b);

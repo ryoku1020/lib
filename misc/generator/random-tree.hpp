@@ -8,7 +8,7 @@
 
 namespace ryoku{
 inline std::mt19937_64& generator_engine(){
-    static std::mt19937_64 engine(std::random_device{}());
+    static std::mt19937_64 engine(0);
     return engine;
 }
 

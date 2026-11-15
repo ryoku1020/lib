@@ -30,44 +30,51 @@ struct extreme_k{
         rep(i,K)if(valid(d[i].val)&&d[i].key==key&&d[i].val==val)return true;
         return false;
     }
-    int add_element(Key key,Val val){
+    optional<T> add_element(Key key,Val val){
         if constexpr(K==2){
             if(valid(d[0].val)&&d[0].key==key){
-                if(!better(val,d[0].val))return 0;
+                if(!better(val,d[0].val))return nullopt;
+                T removed=d[0];
                 d[0].val=val;
-                return 1;
+                return removed;
             }
             if(valid(d[1].val)&&d[1].key==key){
-                if(!better(val,d[1].val))return 0;
+                if(!better(val,d[1].val))return nullopt;
+                T removed=d[1];
                 if(better(val,d[0].val)){
                     d[1]=d[0];
                     d[0]={val,key};
                 }else d[1]={val,key};
-                return 1;
+                return removed;
             }
-            if(!better(val,d[1].val))return 0;
+            if(!better(val,d[1].val))return nullopt;
+            optional<T> removed;
+            if(valid(d[1].val))removed=d[1];
             if(better(val,d[0].val)){
                 d[1]=d[0];
                 d[0]={val,key};
             }else d[1]={val,key};
-            return 1;
+            return removed;
         }else{
             int old=-1;
             rep(i,K)if(valid(d[i].val)&&d[i].key==key){
                 old=i;
                 break;
             }
+            optional<T> removed;
             if(old!=-1){
-                if(!better(val,d[old].val))return 0;
+                if(!better(val,d[old].val))return nullopt;
+                removed=d[old];
                 REP(i,old,K-1)d[i]=d[i+1];
                 d[K-1]={sentinel,Key{}};
             }
-            if(!better(val,d[K-1].val))return 0;
+            if(!better(val,d[K-1].val))return removed;
+            if(!removed&&valid(d[K-1].val))removed=d[K-1];
             int pos=0;
             while(pos<K&&!better(val,d[pos].val))pos++;
             DREP(i,K-1,pos+1)d[i]=d[i-1];
             d[pos]={val,key};
-            return 1;
+            return removed;
         }
     }
     extreme_k&merge_data(const extreme_k&x){

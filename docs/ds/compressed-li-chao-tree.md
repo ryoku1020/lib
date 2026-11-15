@@ -10,19 +10,15 @@ documentation_of: ../../ds/li_chao_tree/compressed-li-chao-tree.hpp
 `add_x` で x 座標を登録 → `build` で圧縮 → `add_line` / `query` の順に使います。
 
 x 座標が `[0, n)` の整数なら [li_chao_tree](li-chao-tree.md)、
-座標が事前にわからない大きい整数・実数なら [dynamic_li_chao_tree](dynamic-li-chao-tree.md) を使ってください。
+座標が事前にわからない大きい非負整数なら [dynamic_li_chao_tree](dynamic-li-chao-tree.md) を使ってください。
 
-## 要件: `info`
+## テンプレート引数・直線型
 
-[li_chao_tree](li-chao-tree.md) の `info` と同じ仕様です。
+`compressed_li_chao_tree<Line,T,ismin>` と指定します。`T` は座標・評価値の型、`ismin` は最小値なら `true`（既定）、最大値なら `false` です。
 
-```cpp
-struct info {
-    using value_type = /* 直線を表す型 */;
-    static value_type e();
-    static auto eval(value_type line, auto x);
-};
-```
+`Line` は `T eval(T x)const` と `static Line id()` を持つ型です。
+[li_chao_tree](li-chao-tree.md) の `chtline<T>` をそのまま渡せます。最大値モードでも `id()` を変更する必要はありません。
+`query` は評価値を返し、有効な直線がない座標では最小値モードは `inf<T>`、最大値モードは `-inf<T>` を返します。評価値はこの範囲に収まるようにしてください。
 
 ## コンストラクタ
 
@@ -84,15 +80,9 @@ DP の遷移 `dp[j] = min_{i<j}(a[i]*x[j] + b[i])` を CHT で高速化する例
 ```cpp
 #include "ds/li_chao_tree/compressed-li-chao-tree.hpp"
 
-struct info {
-    using value_type = pair<long long, long long>;
-    static value_type e() { return {0, (long long)4e18}; }
-    static long long eval(value_type f, long long x) {
-        return f.first * x + f.second;
-    }
-};
+// chtline は li_chao_tree のページにある定義を使用
 
-compressed_li_chao_tree<info, true, long long> lct;
+compressed_li_chao_tree<chtline<long long>,long long,true> lct;
 
 // まず全クエリ x 座標を登録
 for (int j = 0; j < N; j++) lct.add_x(X[j]);

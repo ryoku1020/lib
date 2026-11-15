@@ -2,13 +2,12 @@
 namespace ryoku{
 template<class key>
 struct adjacent_manager{
-    set<key>sts;
+    multiset<key>sts;
     using F=function<void(const key&,const key&)>;
     F add,del;
     adjacent_manager(F add,F del):add(add),del(del){}
     bool insert(const key&x){
         auto r=sts.lower_bound(x);
-        if(r!=sts.end()&&*r==x)return false;
         auto l=r==sts.begin()?sts.end():prev(r);
         if(l!=sts.end()&&r!=sts.end())del(*l,*r);
         auto it=sts.insert(r,x);

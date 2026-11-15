@@ -456,9 +456,13 @@ inline expression_parse_result expression_names(string_view source){
 inline ostream&output_stream(){return cout;}
 
 inline bool use_color(){
-    if(!config.color||getenv("NO_COLOR"))return false;
+    if(!config.color)return false;
+#if defined(LOCAL)&&!defined(INTERACTIVE)
+    return true;
+#endif
+    if(getenv("NO_COLOR"))return false;
 #if defined(__unix__)||defined(__APPLE__)
-    if(!isatty(fileno(stdout)))return false;
+    if(!isatty(fileno(stdout))&&!isatty(fileno(stderr)))return false;
 #endif
     const char*term=getenv("TERM");
     return term&&string_view(term)!="dumb";
@@ -466,6 +470,12 @@ inline bool use_color(){
 
 inline string paint(string_view code,string_view text,bool color){
     return color?"\033["+string(code)+"m"+string(text)+"\033[0m":string(text);
+}
+
+inline void mark(debug_color col){
+    auto&output=output_stream();
+    output<<paint(to_string((int)col),string(40,'-'),use_color())<<'\n';
+    output.flush();
 }
 
 inline void styled(ostream&os,string_view value,bool color){
@@ -565,6 +575,7 @@ void log(const char*file,int line,const char*function,string_view source,const T
             styled(output,values[i].text,color);
         }
         output<<'\n';
+        output.flush();
         return;
     }
     vector<string>labels(values.size());
@@ -586,6 +597,7 @@ void log(const char*file,int line,const char*function,string_view source,const T
         }
     }
     output<<paint("2","└─",color)<<'\n';
+    output.flush();
 }
 
 }
@@ -618,6 +630,19 @@ string to_string(const T&x){
     return internal::value_string(x);
 }
 
+}
+
+template<debug_color col,class... Ts>
+void dbg(const Ts&...xs){
+    if(dbging==0)return;
+    auto&output=::debug::internal::output_stream();
+    bool color=::debug::internal::use_color();
+    if(color)output<<"\033["<<(int)col<<"m";
+    size_t i=0;
+    ((output<<(i++?"   ":"")<<::debug::internal::render(xs).text),...);
+    if(color)output<<"\033[0m";
+    output<<'\n';
+    output.flush();
 }
 
 #define dbg(...) do{if(dbging!=0)::debug::internal::log(__FILE__,__LINE__,__func__,#__VA_ARGS__ __VA_OPT__(,) __VA_ARGS__);}while(0)

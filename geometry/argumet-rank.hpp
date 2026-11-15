@@ -1,4 +1,5 @@
 #pragma once
+namespace ryoku{
 template<class T>
 vc<int>argument_rank(const vc<pair<T,T>>&a){
     int n=a.size();
@@ -31,4 +32,5 @@ vc<int>argument_rank(const vc<pair<T,T>>&a){
         l=r;
     }
     return res;
+}
 }
