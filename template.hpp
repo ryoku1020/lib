@@ -4,7 +4,7 @@
 #else
 #define TEMPLATE
 #pragma GCC optimize("O3")
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 namespace ryoku{}
 using uint=unsigned;
@@ -37,7 +37,6 @@ using vvl=vvc<ll>;
 #define bg begin()
 #define ed end()
 #define all(x) x.begin(),x.end()
-#define ref(x,v) for(auto&x:v)
 istream& operator>>(istream&is,i128&x){
     string s;if(!(is>>s))return is;
     u128 y=0;
@@ -56,7 +55,6 @@ ostream& operator<<(ostream&os,i128 x){
     reverse(all(s));
     return os<<s;
 }
-
 void scan(int&a){cin>>a;}
 void scan(ll&a){cin>>a;}
 void scan(i128&a){cin>>a;}
@@ -133,7 +131,7 @@ pair<vc<int>,vc<T>>compress(const vc<T>&a){
     sort(all(xs));
     xs.erase(unique(all(xs)),xs.end());
     vc<int>b(a.size());
-    rep(i,a.size())b[i]=lb(xs,a[i])-xs.begin();
+    rep(i,a.size())b[i]=lower_bound(all(xs),a[i])-xs.begin();
     return{b,xs};
 }
 template<class T>
@@ -285,6 +283,7 @@ temporary(T&,U&&)->temporary<T>;
 #define CAT_(a,b) a##b
 #define CAT(a,b) CAT_(a,b)
 #define WITH(x,y) temporary CAT(_tmp_,__COUNTER__)(x,y)
+constexpr ll two(ll a){return (1ll<<a);}
 constexpr ll ten(ll a){return pow<ll>(10,a);}
 template<typename T>constexpr T inf=numeric_limits<T>::max()/2-1;
 template<>constexpr pll inf<pll> ={inf<ll>,inf<ll>};
@@ -295,7 +294,6 @@ template<class C>C UNIQUE(C&a){
     a.erase(unique(all(a)),a.end());
     return a;
 }
-
 template<class T>
 int tbit(T x){
     using U=make_unsigned_t<T>;
@@ -346,7 +344,7 @@ void dbg(const Ts&...xs){}
 #endif
 struct template_setup{
     template_setup(){
-        #if defined(LOCAL)&&!defined(INTERACTIVE)
+        #if defined(LOCAL)&&!defined(INTERACTIVE)&&!defined(SAMPLE_TEST)
         freopen("input.txt","r",stdin);
         freopen("output.txt","w",stdout);
         #endif

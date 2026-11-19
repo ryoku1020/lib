@@ -37,6 +37,7 @@
 #include "ds/ordered/hashmap.hpp"
 #include "ds/ordered/range-set.hpp"
 #include "ds/ordered/setreap.hpp"
+#include "ds/ordered/topk-manager.hpp"
 #include "ds/ordered/treap.hpp"
 #include "ds/range_queries/RangeSortRangeProduct.hpp"
 #include "ds/range_queries/Rectange.hpp"
