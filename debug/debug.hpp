@@ -639,7 +639,7 @@ void dbg(const Ts&...xs){
     bool color=::debug::internal::use_color();
     if(color)output<<"\033["<<(int)col<<"m";
     size_t i=0;
-    ((output<<(i++?"   ":"")<<::debug::internal::render(xs).text),...);
+    ((output<<(i++?"   ":"")<<::debug::internal::value_string(xs)),...);
     if(color)output<<"\033[0m";
     output<<'\n';
     output.flush();

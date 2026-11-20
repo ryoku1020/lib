@@ -185,4 +185,11 @@ int main(){
     assert(captured.str().find("ordinary-output")!=string::npos);
     assert(captured.str().find("\033[")==string::npos);
     assert(errors.str().empty());
+    ostringstream colored;
+    output=cout.rdbuf(colored.rdbuf());
+    debug::config.color=true;
+    dbg<RED>(vector<vector<int>>{},vector<vector<int>>{{1,2}},i);
+    cout.rdbuf(output);
+    assert(colored.str().find("[0 × 0]   [1 × 2]")!=string::npos);
+    assert(colored.str().find("0 | 1 2   12")!=string::npos);
 }

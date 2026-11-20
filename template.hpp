@@ -332,8 +332,8 @@ enum debug_color{
     BLACK=30,RED,GREEN,YELLOW,BLUE,MAGENTA,CYAN,WHITE,
     BRIGHT_BLACK=90,BRIGHT_RED,BRIGHT_GREEN,BRIGHT_YELLOW,BRIGHT_BLUE,BRIGHT_MAGENTA,BRIGHT_CYAN,BRIGHT_WHITE
 };
-#ifdef LOCAL
 static int dbging=1;
+#ifdef LOCAL
 #include "debug/local.hpp"
 #define mark(col) do{if(dbging!=0)::debug::internal::mark(col);}while(0)
 #else
