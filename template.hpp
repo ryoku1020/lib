@@ -5,6 +5,7 @@
 #define TEMPLATE
 #pragma GCC optimize("O3")
 #include<bits/stdc++.h>
+#include<cassert>
 using namespace std;
 namespace ryoku{}
 using uint=unsigned;
@@ -37,6 +38,7 @@ using vvl=vvc<ll>;
 #define bg begin()
 #define ed end()
 #define all(x) x.begin(),x.end()
+
 istream& operator>>(istream&is,i128&x){
     string s;if(!(is>>s))return is;
     u128 y=0;
@@ -98,10 +100,13 @@ void AliceBob(bool b){cout<<(b?"Alice":"Bob")<<endl;}
 void Yes(){cout<<"Yes"<<endl;}void YES(){cout<<"YES"<<endl;}
 void No(){cout<<"No"<<endl;}void NO(){cout<<"NO"<<endl;}
 #ifdef LOCAL
-#define LOJ(a, b) (a)
+#define LOJ(a,b) (a)
 #else
-#define LOJ(a, b) (b)
+#define LOJ(a,b) (b)
 #endif
+constexpr int is_local=LOJ(1,0);
+#define ifl if constexpr(::is_local)
+
 vc<int>stovi(const string&s,const string&S){
     vc<int>v(s.size());
     rep(i,s.size()){
